@@ -1,0 +1,2764 @@
+ARM GAS  /tmp/ccGTUwJP.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"rainbowshit.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.DMA_TransferError,"ax",%progbits
+  18              		.align	1
+  19              		.global	DMA_TransferError
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	DMA_TransferError:
+  26              	.LFB135:
+  27              		.file 1 "Core/Src/rainbowshit.c"
+   1:Core/Src/rainbowshit.c **** #include "rainbowshit.h"
+   2:Core/Src/rainbowshit.c **** 
+   3:Core/Src/rainbowshit.c **** #include <string.h>
+   4:Core/Src/rainbowshit.c **** 
+   5:Core/Src/rainbowshit.c **** #include "stm32f4xx_hal.h"
+   6:Core/Src/rainbowshit.c **** #include "rainbowshit.h"
+   7:Core/Src/rainbowshit.c **** 
+   8:Core/Src/rainbowshit.c **** extern WS2812_Struct ws2812b;
+   9:Core/Src/rainbowshit.c **** 
+  10:Core/Src/rainbowshit.c **** // Define source arrays for my DMAs
+  11:Core/Src/rainbowshit.c **** uint32_t WS2812_IO_High[] =  { WS2812B_PINS };
+  12:Core/Src/rainbowshit.c **** uint32_t WS2812_IO_Low[] = {WS2812B_PINS << 16};
+  13:Core/Src/rainbowshit.c **** 
+  14:Core/Src/rainbowshit.c **** // WS2812 framebuffer - buffer for 2 LEDs - two times 24 bits
+  15:Core/Src/rainbowshit.c **** uint16_t ws2812bDmaBitBuffer[24 * 2];
+  16:Core/Src/rainbowshit.c **** 
+  17:Core/Src/rainbowshit.c **** // Gamma correction table
+  18:Core/Src/rainbowshit.c **** const uint8_t gammaTable[] = {
+  19:Core/Src/rainbowshit.c ****     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+  20:Core/Src/rainbowshit.c ****     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
+  21:Core/Src/rainbowshit.c ****     1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,
+  22:Core/Src/rainbowshit.c ****     2,  3,  3,  3,  3,  3,  3,  3,  4,  4,  4,  4,  4,  5,  5,  5,
+  23:Core/Src/rainbowshit.c ****     5,  6,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  9,  9,  9, 10,
+  24:Core/Src/rainbowshit.c ****    10, 10, 11, 11, 11, 12, 12, 13, 13, 13, 14, 14, 15, 15, 16, 16,
+  25:Core/Src/rainbowshit.c ****    17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 24, 24, 25,
+  26:Core/Src/rainbowshit.c ****    25, 26, 27, 27, 28, 29, 29, 30, 31, 32, 32, 33, 34, 35, 35, 36,
+  27:Core/Src/rainbowshit.c ****    37, 38, 39, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 50,
+  28:Core/Src/rainbowshit.c ****    51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68,
+  29:Core/Src/rainbowshit.c ****    69, 70, 72, 73, 74, 75, 77, 78, 79, 81, 82, 83, 85, 86, 87, 89,
+  30:Core/Src/rainbowshit.c ****    90, 92, 93, 95, 96, 98, 99,101,102,104,105,107,109,110,112,114,
+  31:Core/Src/rainbowshit.c ****   115,117,119,120,122,124,126,127,129,131,133,135,137,138,140,142,
+ARM GAS  /tmp/ccGTUwJP.s 			page 2
+
+
+  32:Core/Src/rainbowshit.c ****   144,146,148,150,152,154,156,158,160,162,164,167,169,171,173,175,
+  33:Core/Src/rainbowshit.c ****   177,180,182,184,186,189,191,193,196,198,200,203,205,208,210,213,
+  34:Core/Src/rainbowshit.c ****   215,218,220,223,225,228,231,233,236,239,241,244,247,249,252,255 };
+  35:Core/Src/rainbowshit.c **** 
+  36:Core/Src/rainbowshit.c **** static void ws2812b_gpio_init(void)
+  37:Core/Src/rainbowshit.c **** {
+  38:Core/Src/rainbowshit.c **** 	// WS2812B outputs
+  39:Core/Src/rainbowshit.c **** 	WS2812B_GPIO_CLK_ENABLE();
+  40:Core/Src/rainbowshit.c **** 	GPIO_InitTypeDef  GPIO_InitStruct;
+  41:Core/Src/rainbowshit.c **** 	GPIO_InitStruct.Pin       = WS2812B_PINS;
+  42:Core/Src/rainbowshit.c **** 	GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+  43:Core/Src/rainbowshit.c **** 	GPIO_InitStruct.Pull      = GPIO_NOPULL;
+  44:Core/Src/rainbowshit.c **** 	GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+  45:Core/Src/rainbowshit.c **** 	HAL_GPIO_Init(WS2812B_PORT, &GPIO_InitStruct);
+  46:Core/Src/rainbowshit.c **** 
+  47:Core/Src/rainbowshit.c **** 	// Enable output pins for debuging to see DMA Full and Half transfer interrupts
+  48:Core/Src/rainbowshit.c **** 	#if defined(LED_BLUE_PORT) && defined(LED_ORANGE_PORT)
+  49:Core/Src/rainbowshit.c **** 		__HAL_RCC_GPIOD_CLK_ENABLE();
+  50:Core/Src/rainbowshit.c **** 
+  51:Core/Src/rainbowshit.c **** 		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  52:Core/Src/rainbowshit.c **** 		GPIO_InitStruct.Pull = GPIO_NOPULL;
+  53:Core/Src/rainbowshit.c **** 		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  54:Core/Src/rainbowshit.c **** 
+  55:Core/Src/rainbowshit.c **** 		GPIO_InitStruct.Pin = LED_BLUE_PIN;
+  56:Core/Src/rainbowshit.c **** 		HAL_GPIO_Init(LED_BLUE_PORT, &GPIO_InitStruct);
+  57:Core/Src/rainbowshit.c **** 		GPIO_InitStruct.Pin = LED_ORANGE_PIN;
+  58:Core/Src/rainbowshit.c **** 		HAL_GPIO_Init(LED_ORANGE_PORT, &GPIO_InitStruct);
+  59:Core/Src/rainbowshit.c **** 	#endif
+  60:Core/Src/rainbowshit.c **** }
+  61:Core/Src/rainbowshit.c **** 
+  62:Core/Src/rainbowshit.c **** TIM_HandleTypeDef    TIM1_handle;
+  63:Core/Src/rainbowshit.c **** TIM_OC_InitTypeDef tim2OC1;
+  64:Core/Src/rainbowshit.c **** TIM_OC_InitTypeDef tim2OC2;
+  65:Core/Src/rainbowshit.c **** 
+  66:Core/Src/rainbowshit.c **** uint32_t tim_period;
+  67:Core/Src/rainbowshit.c **** uint32_t timer_reset_pulse_period;
+  68:Core/Src/rainbowshit.c **** 
+  69:Core/Src/rainbowshit.c **** static void TIM1_init(void)
+  70:Core/Src/rainbowshit.c **** {
+  71:Core/Src/rainbowshit.c **** 	// TIM2 Periph clock enable
+  72:Core/Src/rainbowshit.c **** 	__HAL_RCC_TIM1_CLK_ENABLE();
+  73:Core/Src/rainbowshit.c **** 
+  74:Core/Src/rainbowshit.c **** 	// This computation of pulse length should work ok,
+  75:Core/Src/rainbowshit.c **** 	// at some slower core speeds it needs some tuning.
+  76:Core/Src/rainbowshit.c **** 	tim_period =  SystemCoreClock / 800000; // 0,125us period (10 times lower the 1,25us period to hav
+  77:Core/Src/rainbowshit.c **** 	timer_reset_pulse_period = (SystemCoreClock / (320 * 60)); // 60us just to be sure
+  78:Core/Src/rainbowshit.c **** 
+  79:Core/Src/rainbowshit.c **** 	uint32_t cc1 = (10 * tim_period) / 36;
+  80:Core/Src/rainbowshit.c **** 	uint32_t cc2 = (10 * tim_period) / 15;
+  81:Core/Src/rainbowshit.c **** 
+  82:Core/Src/rainbowshit.c **** 	TIM1_handle.Instance = TIM1;
+  83:Core/Src/rainbowshit.c **** 
+  84:Core/Src/rainbowshit.c **** 	TIM1_handle.Init.Period            = tim_period;
+  85:Core/Src/rainbowshit.c **** 	TIM1_handle.Init.RepetitionCounter = 0;
+  86:Core/Src/rainbowshit.c **** 	TIM1_handle.Init.Prescaler         = 0;
+  87:Core/Src/rainbowshit.c **** 	TIM1_handle.Init.ClockDivision     = TIM_CLOCKDIVISION_DIV1;
+  88:Core/Src/rainbowshit.c **** 	TIM1_handle.Init.CounterMode       = TIM_COUNTERMODE_UP;
+ARM GAS  /tmp/ccGTUwJP.s 			page 3
+
+
+  89:Core/Src/rainbowshit.c **** 	HAL_TIM_PWM_Init(&TIM1_handle);
+  90:Core/Src/rainbowshit.c **** 
+  91:Core/Src/rainbowshit.c **** 	HAL_NVIC_SetPriority(TIM1_UP_TIM10_IRQn, 0, 0);
+  92:Core/Src/rainbowshit.c **** 	HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+  93:Core/Src/rainbowshit.c **** 
+  94:Core/Src/rainbowshit.c **** 	tim2OC1.OCMode       = TIM_OCMODE_PWM1;
+  95:Core/Src/rainbowshit.c **** 	tim2OC1.OCPolarity   = TIM_OCPOLARITY_HIGH;
+  96:Core/Src/rainbowshit.c **** 	tim2OC1.Pulse        = cc1;
+  97:Core/Src/rainbowshit.c **** 	tim2OC1.OCNPolarity  = TIM_OCNPOLARITY_HIGH;
+  98:Core/Src/rainbowshit.c **** 	tim2OC1.OCFastMode   = TIM_OCFAST_DISABLE;
+  99:Core/Src/rainbowshit.c **** 	HAL_TIM_PWM_ConfigChannel(&TIM1_handle, &tim2OC1, TIM_CHANNEL_1);
+ 100:Core/Src/rainbowshit.c **** 
+ 101:Core/Src/rainbowshit.c **** 	tim2OC2.OCMode       = TIM_OCMODE_PWM1;
+ 102:Core/Src/rainbowshit.c **** 	tim2OC2.OCPolarity   = TIM_OCPOLARITY_HIGH;
+ 103:Core/Src/rainbowshit.c **** 	tim2OC2.Pulse        = cc2;
+ 104:Core/Src/rainbowshit.c **** 	tim2OC2.OCNPolarity  = TIM_OCNPOLARITY_HIGH;
+ 105:Core/Src/rainbowshit.c **** 	tim2OC2.OCFastMode   = TIM_OCFAST_DISABLE;
+ 106:Core/Src/rainbowshit.c **** 	tim2OC2.OCIdleState  = TIM_OCIDLESTATE_RESET;
+ 107:Core/Src/rainbowshit.c **** 	tim2OC2.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+ 108:Core/Src/rainbowshit.c **** 	HAL_TIM_PWM_ConfigChannel(&TIM1_handle, &tim2OC2, TIM_CHANNEL_2);
+ 109:Core/Src/rainbowshit.c **** 
+ 110:Core/Src/rainbowshit.c **** 
+ 111:Core/Src/rainbowshit.c **** 	HAL_TIM_Base_Start(&TIM1_handle);
+ 112:Core/Src/rainbowshit.c **** 	HAL_TIM_PWM_Start(&TIM1_handle, TIM_CHANNEL_1);
+ 113:Core/Src/rainbowshit.c **** 
+ 114:Core/Src/rainbowshit.c **** 	__HAL_TIM_DISABLE(&TIM1_handle);
+ 115:Core/Src/rainbowshit.c **** 
+ 116:Core/Src/rainbowshit.c **** }
+ 117:Core/Src/rainbowshit.c **** 
+ 118:Core/Src/rainbowshit.c **** 
+ 119:Core/Src/rainbowshit.c **** 
+ 120:Core/Src/rainbowshit.c **** DMA_HandleTypeDef     dmaUpdate;
+ 121:Core/Src/rainbowshit.c **** DMA_HandleTypeDef     dmaCC1;
+ 122:Core/Src/rainbowshit.c **** DMA_HandleTypeDef     dmaCC2;
+ 123:Core/Src/rainbowshit.c **** #define BUFFER_SIZE		(sizeof(ws2812bDmaBitBuffer)/sizeof(uint16_t))
+ 124:Core/Src/rainbowshit.c **** 
+ 125:Core/Src/rainbowshit.c **** uint32_t dummy;
+ 126:Core/Src/rainbowshit.c **** 
+ 127:Core/Src/rainbowshit.c **** 
+ 128:Core/Src/rainbowshit.c **** static void DMA2_init(void)
+ 129:Core/Src/rainbowshit.c **** {
+ 130:Core/Src/rainbowshit.c **** 
+ 131:Core/Src/rainbowshit.c **** 	// TIM2 Update event
+ 132:Core/Src/rainbowshit.c **** 	__HAL_RCC_DMA2_CLK_ENABLE();
+ 133:Core/Src/rainbowshit.c **** 
+ 134:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.Direction = DMA_MEMORY_TO_PERIPH;
+ 135:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.PeriphInc = DMA_PINC_DISABLE;
+ 136:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.MemInc = DMA_MINC_DISABLE;
+ 137:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+ 138:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+ 139:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.Mode = DMA_CIRCULAR;
+ 140:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 141:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.Channel = DMA_CHANNEL_6;
+ 142:Core/Src/rainbowshit.c **** 
+ 143:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+ 144:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 145:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.MemBurst = DMA_MBURST_SINGLE;
+ARM GAS  /tmp/ccGTUwJP.s 			page 4
+
+
+ 146:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 147:Core/Src/rainbowshit.c **** 
+ 148:Core/Src/rainbowshit.c **** 	dmaUpdate.Instance = DMA2_Stream5;
+ 149:Core/Src/rainbowshit.c **** 	//dmaUpdate.XferCpltCallback  = TransferComplete;
+ 150:Core/Src/rainbowshit.c **** 	//dmaUpdate.XferErrorCallback = TransferError;
+ 151:Core/Src/rainbowshit.c **** 
+ 152:Core/Src/rainbowshit.c **** 	HAL_DMA_DeInit(&dmaUpdate);
+ 153:Core/Src/rainbowshit.c **** 	HAL_DMA_Init(&dmaUpdate);
+ 154:Core/Src/rainbowshit.c **** 	//HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
+ 155:Core/Src/rainbowshit.c **** 	//HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
+ 156:Core/Src/rainbowshit.c **** 	HAL_DMA_Start(&dmaUpdate, (uint32_t)WS2812_IO_High, (uint32_t)(&WS2812B_PORT->BSRR), BUFFER_SIZE);
+ 157:Core/Src/rainbowshit.c **** 	//HAL_DMA_Start(&dmaUpdate, (uint32_t)WS2812_IO_High, (uint32_t)&dummy, BUFFER_SIZE);
+ 158:Core/Src/rainbowshit.c **** 
+ 159:Core/Src/rainbowshit.c **** 
+ 160:Core/Src/rainbowshit.c **** 	// TIM2 CC1 event
+ 161:Core/Src/rainbowshit.c **** 	dmaCC1.Init.Direction = DMA_MEMORY_TO_PERIPH;
+ 162:Core/Src/rainbowshit.c **** 	dmaCC1.Init.PeriphInc = DMA_PINC_DISABLE;
+ 163:Core/Src/rainbowshit.c **** 	dmaCC1.Init.MemInc = DMA_MINC_ENABLE;
+ 164:Core/Src/rainbowshit.c **** 	dmaCC1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+ 165:Core/Src/rainbowshit.c **** 	dmaCC1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+ 166:Core/Src/rainbowshit.c **** 	dmaCC1.Init.Mode = DMA_CIRCULAR;
+ 167:Core/Src/rainbowshit.c **** 	dmaCC1.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 168:Core/Src/rainbowshit.c **** 	dmaCC1.Init.Channel = DMA_CHANNEL_6;
+ 169:Core/Src/rainbowshit.c **** 
+ 170:Core/Src/rainbowshit.c **** 	dmaCC1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+ 171:Core/Src/rainbowshit.c **** 	dmaCC1.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 172:Core/Src/rainbowshit.c **** 	dmaCC1.Init.MemBurst = DMA_MBURST_SINGLE;
+ 173:Core/Src/rainbowshit.c **** 	dmaCC1.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 174:Core/Src/rainbowshit.c **** 
+ 175:Core/Src/rainbowshit.c **** 	dmaCC1.Instance = DMA2_Stream1;
+ 176:Core/Src/rainbowshit.c **** 	//dmaUpdate.XferCpltCallback  = TransferComplete;
+ 177:Core/Src/rainbowshit.c **** 	//dmaUpdate.XferErrorCallback = TransferError;
+ 178:Core/Src/rainbowshit.c **** 	//dmaUpdate.XferHalfCpltCallback = TransferHalf;
+ 179:Core/Src/rainbowshit.c **** 	//HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
+ 180:Core/Src/rainbowshit.c **** 	//HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+ 181:Core/Src/rainbowshit.c **** 	HAL_DMA_DeInit(&dmaCC1);
+ 182:Core/Src/rainbowshit.c **** 	HAL_DMA_Init(&dmaCC1);
+ 183:Core/Src/rainbowshit.c **** 	HAL_DMA_Start(&dmaCC1, (uint32_t)ws2812bDmaBitBuffer, (uint32_t)(&WS2812B_PORT->BSRR) + 2, BUFFER_
+ 184:Core/Src/rainbowshit.c **** 	//HAL_DMA_Start(&dmaCC1, (uint32_t)ws2812bDmaBitBuffer, (uint32_t)&dummy, BUFFER_SIZE); //BRR
+ 185:Core/Src/rainbowshit.c **** 
+ 186:Core/Src/rainbowshit.c **** 
+ 187:Core/Src/rainbowshit.c **** 	// TIM2 CC2 event
+ 188:Core/Src/rainbowshit.c **** 	dmaCC2.Init.Direction = DMA_MEMORY_TO_PERIPH;
+ 189:Core/Src/rainbowshit.c **** 	dmaCC2.Init.PeriphInc = DMA_PINC_DISABLE;
+ 190:Core/Src/rainbowshit.c **** 	dmaCC2.Init.MemInc = DMA_MINC_DISABLE;
+ 191:Core/Src/rainbowshit.c **** 	dmaCC2.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+ 192:Core/Src/rainbowshit.c **** 	dmaCC2.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+ 193:Core/Src/rainbowshit.c **** 	dmaCC2.Init.Mode = DMA_CIRCULAR;
+ 194:Core/Src/rainbowshit.c **** 	dmaCC2.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 195:Core/Src/rainbowshit.c **** 	dmaCC2.Init.Channel = DMA_CHANNEL_6;
+ 196:Core/Src/rainbowshit.c **** 
+ 197:Core/Src/rainbowshit.c **** 	dmaCC2.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+ 198:Core/Src/rainbowshit.c **** 	dmaCC2.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 199:Core/Src/rainbowshit.c **** 	dmaCC2.Init.MemBurst = DMA_MBURST_SINGLE;
+ 200:Core/Src/rainbowshit.c **** 	dmaCC2.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 201:Core/Src/rainbowshit.c **** 
+ 202:Core/Src/rainbowshit.c **** 	dmaCC2.Instance = DMA2_Stream2;
+ARM GAS  /tmp/ccGTUwJP.s 			page 5
+
+
+ 203:Core/Src/rainbowshit.c **** 
+ 204:Core/Src/rainbowshit.c **** 	HAL_DMA_DeInit(&dmaCC2);
+ 205:Core/Src/rainbowshit.c **** 
+ 206:Core/Src/rainbowshit.c **** 	dmaCC2.XferCpltCallback  = DMA_TransferCompleteHandler;
+ 207:Core/Src/rainbowshit.c **** 	dmaCC2.XferHalfCpltCallback = DMA_TransferHalfHandler;
+ 208:Core/Src/rainbowshit.c **** 	dmaCC2.XferErrorCallback = DMA_TransferError;
+ 209:Core/Src/rainbowshit.c **** 
+ 210:Core/Src/rainbowshit.c **** 	HAL_DMA_Init(&dmaCC2);
+ 211:Core/Src/rainbowshit.c **** 	HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
+ 212:Core/Src/rainbowshit.c **** 	HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+ 213:Core/Src/rainbowshit.c **** 	HAL_DMA_Start_IT(&dmaCC2, (uint32_t)WS2812_IO_Low, (uint32_t)&WS2812B_PORT->BSRR, BUFFER_SIZE);
+ 214:Core/Src/rainbowshit.c **** 	//HAL_DMA_Start_IT(&dmaCC2, (uint32_t)WS2812_IO_Low, (uint32_t)&dummy, BUFFER_SIZE);
+ 215:Core/Src/rainbowshit.c **** 
+ 216:Core/Src/rainbowshit.c **** 	//__HAL_LINKDMA(&Tim2Handle, hdma,  &dmaCC2);
+ 217:Core/Src/rainbowshit.c **** 
+ 218:Core/Src/rainbowshit.c **** }
+ 219:Core/Src/rainbowshit.c **** 
+ 220:Core/Src/rainbowshit.c **** 
+ 221:Core/Src/rainbowshit.c **** 
+ 222:Core/Src/rainbowshit.c **** 
+ 223:Core/Src/rainbowshit.c **** 
+ 224:Core/Src/rainbowshit.c **** 
+ 225:Core/Src/rainbowshit.c **** static void loadNextFramebufferData(WS2812_BufferItem *bItem, uint32_t row)
+ 226:Core/Src/rainbowshit.c **** {
+ 227:Core/Src/rainbowshit.c **** 
+ 228:Core/Src/rainbowshit.c **** 	uint32_t r = bItem->frameBufferPointer[bItem->frameBufferCounter++];
+ 229:Core/Src/rainbowshit.c **** 	uint32_t g = bItem->frameBufferPointer[bItem->frameBufferCounter++];
+ 230:Core/Src/rainbowshit.c **** 	uint32_t b = bItem->frameBufferPointer[bItem->frameBufferCounter++];
+ 231:Core/Src/rainbowshit.c **** 
+ 232:Core/Src/rainbowshit.c **** 	if(bItem->frameBufferCounter == bItem->frameBufferSize)
+ 233:Core/Src/rainbowshit.c **** 		bItem->frameBufferCounter = 0;
+ 234:Core/Src/rainbowshit.c **** 
+ 235:Core/Src/rainbowshit.c **** 	ws2812b_set_pixel(bItem->channel, row, r, g, b);
+ 236:Core/Src/rainbowshit.c **** }
+ 237:Core/Src/rainbowshit.c **** 
+ 238:Core/Src/rainbowshit.c **** 
+ 239:Core/Src/rainbowshit.c **** // Transmit the framebuffer
+ 240:Core/Src/rainbowshit.c **** static void WS2812_sendbuf()
+ 241:Core/Src/rainbowshit.c **** {
+ 242:Core/Src/rainbowshit.c **** 	// transmission complete flag
+ 243:Core/Src/rainbowshit.c **** 	ws2812b.transferComplete = 0;
+ 244:Core/Src/rainbowshit.c **** 
+ 245:Core/Src/rainbowshit.c **** 	uint32_t i;
+ 246:Core/Src/rainbowshit.c **** 
+ 247:Core/Src/rainbowshit.c **** 	for( i = 0; i < WS2812_BUFFER_COUNT; i++ )
+ 248:Core/Src/rainbowshit.c **** 	{
+ 249:Core/Src/rainbowshit.c **** 		ws2812b.item[i].frameBufferCounter = 0;
+ 250:Core/Src/rainbowshit.c **** 
+ 251:Core/Src/rainbowshit.c **** 		loadNextFramebufferData(&ws2812b.item[i], 0); // ROW 0
+ 252:Core/Src/rainbowshit.c **** 		loadNextFramebufferData(&ws2812b.item[i], 1); // ROW 0
+ 253:Core/Src/rainbowshit.c **** 	}
+ 254:Core/Src/rainbowshit.c **** 
+ 255:Core/Src/rainbowshit.c **** 	// clear all DMA flags
+ 256:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaUpdate, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 257:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 258:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 259:Core/Src/rainbowshit.c **** 
+ARM GAS  /tmp/ccGTUwJP.s 			page 6
+
+
+ 260:Core/Src/rainbowshit.c **** 
+ 261:Core/Src/rainbowshit.c **** 
+ 262:Core/Src/rainbowshit.c **** 	// configure the number of bytes to be transferred by the DMA controller
+ 263:Core/Src/rainbowshit.c **** 	dmaUpdate.Instance->NDTR = BUFFER_SIZE;
+ 264:Core/Src/rainbowshit.c **** 	dmaCC1.Instance->NDTR = BUFFER_SIZE;
+ 265:Core/Src/rainbowshit.c **** 	dmaCC2.Instance->NDTR = BUFFER_SIZE;
+ 266:Core/Src/rainbowshit.c **** 
+ 267:Core/Src/rainbowshit.c **** 	// clear all TIM2 flags
+ 268:Core/Src/rainbowshit.c **** 	__HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE | TIM_FLAG_CC1 | TIM_FLAG_CC2 | TIM_FLAG_CC3 | 
+ 269:Core/Src/rainbowshit.c **** 
+ 270:Core/Src/rainbowshit.c **** 	// enable DMA channels
+ 271:Core/Src/rainbowshit.c **** 	__HAL_DMA_ENABLE(&dmaUpdate);
+ 272:Core/Src/rainbowshit.c **** 	__HAL_DMA_ENABLE(&dmaCC1);
+ 273:Core/Src/rainbowshit.c **** 	__HAL_DMA_ENABLE(&dmaCC2);
+ 274:Core/Src/rainbowshit.c **** 
+ 275:Core/Src/rainbowshit.c **** 	// IMPORTANT: enable the TIM2 DMA requests AFTER enabling the DMA channels!
+ 276:Core/Src/rainbowshit.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_UPDATE);
+ 277:Core/Src/rainbowshit.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_CC1);
+ 278:Core/Src/rainbowshit.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_CC2);
+ 279:Core/Src/rainbowshit.c **** 
+ 280:Core/Src/rainbowshit.c **** 	TIM1->CNT = tim_period-1;
+ 281:Core/Src/rainbowshit.c **** 
+ 282:Core/Src/rainbowshit.c **** 	// start TIM2
+ 283:Core/Src/rainbowshit.c **** 	__HAL_TIM_ENABLE(&TIM1_handle);
+ 284:Core/Src/rainbowshit.c **** }
+ 285:Core/Src/rainbowshit.c **** 
+ 286:Core/Src/rainbowshit.c **** 
+ 287:Core/Src/rainbowshit.c **** void DMA_TransferError(DMA_HandleTypeDef *DmaHandle)
+ 288:Core/Src/rainbowshit.c **** {
+  28              		.loc 1 288 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+  34 0000 82B0     		sub	sp, sp, #8
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+ 289:Core/Src/rainbowshit.c **** 	volatile int i = 0;
+  37              		.loc 1 289 0
+  38 0002 0023     		movs	r3, #0
+  39 0004 0193     		str	r3, [sp, #4]
+ 290:Core/Src/rainbowshit.c **** 	i++;
+  40              		.loc 1 290 0
+  41 0006 019B     		ldr	r3, [sp, #4]
+  42 0008 0133     		adds	r3, r3, #1
+  43 000a 0193     		str	r3, [sp, #4]
+ 291:Core/Src/rainbowshit.c **** }
+  44              		.loc 1 291 0
+  45 000c 02B0     		add	sp, sp, #8
+  46              	.LCFI1:
+  47              		.cfi_def_cfa_offset 0
+  48              		@ sp needed
+  49 000e 7047     		bx	lr
+  50              		.cfi_endproc
+  51              	.LFE135:
+  53              		.section	.text.ws2812b_set_pixel,"ax",%progbits
+ARM GAS  /tmp/ccGTUwJP.s 			page 7
+
+
+  54              		.align	1
+  55              		.syntax unified
+  56              		.thumb
+  57              		.thumb_func
+  58              		.fpu fpv4-sp-d16
+  60              	ws2812b_set_pixel:
+  61              	.LFB140:
+ 292:Core/Src/rainbowshit.c **** 
+ 293:Core/Src/rainbowshit.c **** 
+ 294:Core/Src/rainbowshit.c **** void DMA_TransferHalfHandler(DMA_HandleTypeDef *DmaHandle)
+ 295:Core/Src/rainbowshit.c **** {
+ 296:Core/Src/rainbowshit.c **** 
+ 297:Core/Src/rainbowshit.c **** 	// Is this the last LED?
+ 298:Core/Src/rainbowshit.c **** 	if(ws2812b.repeatCounter == WS2812B_NUMBER_OF_LEDS)
+ 299:Core/Src/rainbowshit.c **** 	 {
+ 300:Core/Src/rainbowshit.c **** 
+ 301:Core/Src/rainbowshit.c **** 		// If this is the last pixel, set the next pixel value to zeros, because
+ 302:Core/Src/rainbowshit.c **** 		// the DMA would not stop exactly at the last bit.
+ 303:Core/Src/rainbowshit.c **** 		ws2812b_set_pixel(0, 0, 0, 0, 0);
+ 304:Core/Src/rainbowshit.c **** 
+ 305:Core/Src/rainbowshit.c **** 	} else {
+ 306:Core/Src/rainbowshit.c **** 		uint32_t i;
+ 307:Core/Src/rainbowshit.c **** 
+ 308:Core/Src/rainbowshit.c **** 		for( i = 0; i < WS2812_BUFFER_COUNT; i++ )
+ 309:Core/Src/rainbowshit.c **** 		{
+ 310:Core/Src/rainbowshit.c **** 			loadNextFramebufferData(&ws2812b.item[i], 0);
+ 311:Core/Src/rainbowshit.c **** 		}
+ 312:Core/Src/rainbowshit.c **** 
+ 313:Core/Src/rainbowshit.c **** 		ws2812b.repeatCounter++;
+ 314:Core/Src/rainbowshit.c **** 	}
+ 315:Core/Src/rainbowshit.c **** 
+ 316:Core/Src/rainbowshit.c **** 
+ 317:Core/Src/rainbowshit.c **** 
+ 318:Core/Src/rainbowshit.c **** }
+ 319:Core/Src/rainbowshit.c **** 
+ 320:Core/Src/rainbowshit.c **** void DMA_TransferCompleteHandler(DMA_HandleTypeDef *DmaHandle)
+ 321:Core/Src/rainbowshit.c **** {
+ 322:Core/Src/rainbowshit.c **** 
+ 323:Core/Src/rainbowshit.c **** 	#if defined(LED_ORANGE_PORT)
+ 324:Core/Src/rainbowshit.c **** 		LED_ORANGE_PORT->BSRR = LED_ORANGE_PIN;
+ 325:Core/Src/rainbowshit.c **** 	#endif
+ 326:Core/Src/rainbowshit.c **** 
+ 327:Core/Src/rainbowshit.c **** 	if(ws2812b.repeatCounter == WS2812B_NUMBER_OF_LEDS)
+ 328:Core/Src/rainbowshit.c **** 	{
+ 329:Core/Src/rainbowshit.c **** 		// Transfer of all LEDs is done, disable DMA but enable tiemr update IRQ to stop the 50us pulse
+ 330:Core/Src/rainbowshit.c **** 		ws2812b.repeatCounter = 0;
+ 331:Core/Src/rainbowshit.c **** 
+ 332:Core/Src/rainbowshit.c **** 		// Stop timer
+ 333:Core/Src/rainbowshit.c **** 		TIM1->CR1 &= ~TIM_CR1_CEN;
+ 334:Core/Src/rainbowshit.c **** 
+ 335:Core/Src/rainbowshit.c **** 		// Disable DMA
+ 336:Core/Src/rainbowshit.c **** 		__HAL_DMA_DISABLE(&dmaUpdate);
+ 337:Core/Src/rainbowshit.c **** 		__HAL_DMA_DISABLE(&dmaCC1);
+ 338:Core/Src/rainbowshit.c **** 		__HAL_DMA_DISABLE(&dmaCC2);
+ 339:Core/Src/rainbowshit.c **** 
+ 340:Core/Src/rainbowshit.c **** 		// Disable the DMA requests
+ 341:Core/Src/rainbowshit.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_UPDATE);
+ARM GAS  /tmp/ccGTUwJP.s 			page 8
+
+
+ 342:Core/Src/rainbowshit.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_CC1);
+ 343:Core/Src/rainbowshit.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_CC2);
+ 344:Core/Src/rainbowshit.c **** 
+ 345:Core/Src/rainbowshit.c **** 		// Set 50us period for Treset pulse
+ 346:Core/Src/rainbowshit.c **** 		//TIM2->PSC = 1000; // For this long period we need prescaler 1000
+ 347:Core/Src/rainbowshit.c **** 		TIM1->ARR = timer_reset_pulse_period;
+ 348:Core/Src/rainbowshit.c **** 		// Reset the timer
+ 349:Core/Src/rainbowshit.c **** 		TIM1->CNT = 0;
+ 350:Core/Src/rainbowshit.c **** 
+ 351:Core/Src/rainbowshit.c **** 		// Generate an update event to reload the prescaler value immediately
+ 352:Core/Src/rainbowshit.c **** 		TIM1->EGR = TIM_EGR_UG;
+ 353:Core/Src/rainbowshit.c **** 		__HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE);
+ 354:Core/Src/rainbowshit.c **** 
+ 355:Core/Src/rainbowshit.c **** 		// Enable TIM2 Update interrupt for 50us Treset signal
+ 356:Core/Src/rainbowshit.c **** 		__HAL_TIM_ENABLE_IT(&TIM1_handle, TIM_IT_UPDATE);
+ 357:Core/Src/rainbowshit.c **** 		// Enable timer
+ 358:Core/Src/rainbowshit.c **** 		TIM1->CR1 |= TIM_CR1_CEN;
+ 359:Core/Src/rainbowshit.c **** 
+ 360:Core/Src/rainbowshit.c **** 		// Manually set outputs to low to generate 50us reset impulse
+ 361:Core/Src/rainbowshit.c **** 		WS2812B_PORT->BSRR = WS2812_IO_Low[0];
+ 362:Core/Src/rainbowshit.c **** 	} else {
+ 363:Core/Src/rainbowshit.c **** 
+ 364:Core/Src/rainbowshit.c **** 		// Load bitbuffer with next RGB LED values
+ 365:Core/Src/rainbowshit.c **** 		uint32_t i;
+ 366:Core/Src/rainbowshit.c **** 		for( i = 0; i < WS2812_BUFFER_COUNT; i++ )
+ 367:Core/Src/rainbowshit.c **** 		{
+ 368:Core/Src/rainbowshit.c **** 			loadNextFramebufferData(&ws2812b.item[i], 1);
+ 369:Core/Src/rainbowshit.c **** 		}
+ 370:Core/Src/rainbowshit.c **** 
+ 371:Core/Src/rainbowshit.c **** 		ws2812b.repeatCounter++;
+ 372:Core/Src/rainbowshit.c **** 	}
+ 373:Core/Src/rainbowshit.c **** 
+ 374:Core/Src/rainbowshit.c **** 
+ 375:Core/Src/rainbowshit.c **** 
+ 376:Core/Src/rainbowshit.c **** 	#if defined(LED_ORANGE_PORT)
+ 377:Core/Src/rainbowshit.c **** 		LED_ORANGE_PORT->BSRR = LED_ORANGE_PIN << 16;
+ 378:Core/Src/rainbowshit.c **** 	#endif
+ 379:Core/Src/rainbowshit.c **** 
+ 380:Core/Src/rainbowshit.c **** }
+ 381:Core/Src/rainbowshit.c **** 
+ 382:Core/Src/rainbowshit.c **** void DMA2_Stream2_IRQHandler(void)
+ 383:Core/Src/rainbowshit.c **** {
+ 384:Core/Src/rainbowshit.c **** 
+ 385:Core/Src/rainbowshit.c **** 	#if defined(LED_BLUE_PORT)
+ 386:Core/Src/rainbowshit.c **** 		LED_BLUE_PORT->BSRR = LED_BLUE_PIN;
+ 387:Core/Src/rainbowshit.c **** 	#endif
+ 388:Core/Src/rainbowshit.c **** 
+ 389:Core/Src/rainbowshit.c **** 	// Check the interrupt and clear flag
+ 390:Core/Src/rainbowshit.c **** 	  HAL_DMA_IRQHandler(&dmaCC2);
+ 391:Core/Src/rainbowshit.c **** 
+ 392:Core/Src/rainbowshit.c **** 	#if defined(LED_BLUE_PORT)
+ 393:Core/Src/rainbowshit.c **** 		LED_BLUE_PORT->BSRR = LED_BLUE_PIN << 16;
+ 394:Core/Src/rainbowshit.c **** 	#endif
+ 395:Core/Src/rainbowshit.c **** }
+ 396:Core/Src/rainbowshit.c **** 
+ 397:Core/Src/rainbowshit.c **** void TIM1_UP_TIM10_IRQHandler(void)
+ 398:Core/Src/rainbowshit.c **** {
+ARM GAS  /tmp/ccGTUwJP.s 			page 9
+
+
+ 399:Core/Src/rainbowshit.c **** 	#if defined(LED_ORANGE_PORT)
+ 400:Core/Src/rainbowshit.c **** 		LED_ORANGE_PORT->BSRR = LED_ORANGE_PIN;
+ 401:Core/Src/rainbowshit.c **** 	#endif
+ 402:Core/Src/rainbowshit.c **** 
+ 403:Core/Src/rainbowshit.c **** 	HAL_TIM_IRQHandler(&TIM1_handle);
+ 404:Core/Src/rainbowshit.c **** 
+ 405:Core/Src/rainbowshit.c **** 	#if defined(LED_ORANGE_PORT)
+ 406:Core/Src/rainbowshit.c **** 		LED_ORANGE_PORT->BSRR = LED_ORANGE_PIN << 16;
+ 407:Core/Src/rainbowshit.c **** 	#endif
+ 408:Core/Src/rainbowshit.c **** }
+ 409:Core/Src/rainbowshit.c **** 
+ 410:Core/Src/rainbowshit.c **** // TIM2 Interrupt Handler gets executed on every TIM2 Update if enabled
+ 411:Core/Src/rainbowshit.c **** /*
+ 412:Core/Src/rainbowshit.c **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+ 413:Core/Src/rainbowshit.c **** {
+ 414:Core/Src/rainbowshit.c **** 	/*
+ 415:Core/Src/rainbowshit.c **** 	// I have to wait 50us to generate Treset signal
+ 416:Core/Src/rainbowshit.c **** 	if (ws2812b.timerPeriodCounter < (uint8_t)WS2812_RESET_PERIOD)
+ 417:Core/Src/rainbowshit.c **** 	{
+ 418:Core/Src/rainbowshit.c **** 		// count the number of timer periods
+ 419:Core/Src/rainbowshit.c **** 		ws2812b.timerPeriodCounter++;
+ 420:Core/Src/rainbowshit.c **** 	}
+ 421:Core/Src/rainbowshit.c **** 	else
+ 422:Core/Src/rainbowshit.c **** 	{
+ 423:Core/Src/rainbowshit.c **** 		ws2812b.timerPeriodCounter = 0;
+ 424:Core/Src/rainbowshit.c **** 		__HAL_TIM_DISABLE(&TIM1_handle);
+ 425:Core/Src/rainbowshit.c **** 		TIM1->CR1 = 0; // disable timer
+ 426:Core/Src/rainbowshit.c **** 		// disable the TIM2 Update
+ 427:Core/Src/rainbowshit.c **** 		__HAL_TIM_DISABLE_IT(&TIM1_handle, TIM_IT_UPDATE);
+ 428:Core/Src/rainbowshit.c **** 		// set TransferComplete flag
+ 429:Core/Src/rainbowshit.c **** 		ws2812b.transferComplete = 1;
+ 430:Core/Src/rainbowshit.c **** 	}*/
+ 431:Core/Src/rainbowshit.c **** 
+ 432:Core/Src/rainbowshit.c **** /*
+ 433:Core/Src/rainbowshit.c ****     ws2812b.timerPeriodCounter = 0;
+ 434:Core/Src/rainbowshit.c ****     TIM1->CR1 = 0; // disable timer
+ 435:Core/Src/rainbowshit.c **** 
+ 436:Core/Src/rainbowshit.c ****     // disable the TIM2 Update IRQ
+ 437:Core/Src/rainbowshit.c ****     __HAL_TIM_DISABLE_IT(&TIM1_handle, TIM_IT_UPDATE);
+ 438:Core/Src/rainbowshit.c **** 
+ 439:Core/Src/rainbowshit.c ****     // Set back 1,25us period
+ 440:Core/Src/rainbowshit.c ****     TIM1->ARR = tim_period;
+ 441:Core/Src/rainbowshit.c **** 
+ 442:Core/Src/rainbowshit.c ****     // Generate an update event to reload the Prescaler value immediatly
+ 443:Core/Src/rainbowshit.c ****     TIM1->EGR = TIM_EGR_UG;
+ 444:Core/Src/rainbowshit.c ****     __HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE);
+ 445:Core/Src/rainbowshit.c **** 
+ 446:Core/Src/rainbowshit.c ****     // set transfer_complete flag
+ 447:Core/Src/rainbowshit.c ****     ws2812b.transferComplete = 1;
+ 448:Core/Src/rainbowshit.c ****     
+ 449:Core/Src/rainbowshit.c **** 
+ 450:Core/Src/rainbowshit.c **** }
+ 451:Core/Src/rainbowshit.c **** */
+ 452:Core/Src/rainbowshit.c **** 
+ 453:Core/Src/rainbowshit.c **** 
+ 454:Core/Src/rainbowshit.c **** 
+ 455:Core/Src/rainbowshit.c **** 
+ARM GAS  /tmp/ccGTUwJP.s 			page 10
+
+
+ 456:Core/Src/rainbowshit.c **** static void ws2812b_set_pixel(uint8_t row, uint16_t column, uint8_t red, uint8_t green, uint8_t blu
+ 457:Core/Src/rainbowshit.c **** {
+  62              		.loc 1 457 0
+  63              		.cfi_startproc
+  64              		@ args = 4, pretend = 0, frame = 0
+  65              		@ frame_needed = 0, uses_anonymous_args = 0
+  66              		@ link register save eliminated.
+  67              	.LVL1:
+  68 0000 70B4     		push	{r4, r5, r6}
+  69              	.LCFI2:
+  70              		.cfi_def_cfa_offset 12
+  71              		.cfi_offset 4, -12
+  72              		.cfi_offset 5, -8
+  73              		.cfi_offset 6, -4
+ 458:Core/Src/rainbowshit.c **** 
+ 459:Core/Src/rainbowshit.c **** 	// Apply gamma
+ 460:Core/Src/rainbowshit.c **** 	red = gammaTable[red];
+  74              		.loc 1 460 0
+  75 0002 2D4D     		ldr	r5, .L5
+  76 0004 AE5C     		ldrb	r6, [r5, r2]	@ zero_extendqisi2
+  77              	.LVL2:
+ 461:Core/Src/rainbowshit.c **** 	green = gammaTable[green];
+  78              		.loc 1 461 0
+  79 0006 EC5C     		ldrb	r4, [r5, r3]	@ zero_extendqisi2
+  80              	.LVL3:
+ 462:Core/Src/rainbowshit.c **** 	blue = gammaTable[blue];
+  81              		.loc 1 462 0
+  82 0008 9DF80C30 		ldrb	r3, [sp, #12]	@ zero_extendqisi2
+  83 000c EA5C     		ldrb	r2, [r5, r3]	@ zero_extendqisi2
+  84              	.LVL4:
+ 463:Core/Src/rainbowshit.c **** 
+ 464:Core/Src/rainbowshit.c **** 
+ 465:Core/Src/rainbowshit.c **** 	uint32_t calcCol = (column*24);
+  85              		.loc 1 465 0
+  86 000e 01EB4101 		add	r1, r1, r1, lsl #1
+  87              	.LVL5:
+  88 0012 CB00     		lsls	r3, r1, #3
+  89              	.LVL6:
+ 466:Core/Src/rainbowshit.c **** 	uint32_t invRed = ~red;
+  90              		.loc 1 466 0
+  91 0014 F143     		mvns	r1, r6
+  92              	.LVL7:
+ 467:Core/Src/rainbowshit.c **** 	uint32_t invGreen = ~green;
+  93              		.loc 1 467 0
+  94 0016 E443     		mvns	r4, r4
+  95              	.LVL8:
+ 468:Core/Src/rainbowshit.c **** 	uint32_t invBlue = ~blue;
+  96              		.loc 1 468 0
+  97 0018 D243     		mvns	r2, r2
+  98              	.LVL9:
+ 469:Core/Src/rainbowshit.c **** 
+ 470:Core/Src/rainbowshit.c **** 
+ 471:Core/Src/rainbowshit.c **** #if defined(SETPIX_1)
+ 472:Core/Src/rainbowshit.c **** 	uint8_t i;
+ 473:Core/Src/rainbowshit.c **** 	uint32_t calcClearRow = ~((0x01<<row) << 0);
+ 474:Core/Src/rainbowshit.c **** 	for (i = 0; i < 8; i++)
+ 475:Core/Src/rainbowshit.c **** 	{
+ARM GAS  /tmp/ccGTUwJP.s 			page 11
+
+
+ 476:Core/Src/rainbowshit.c **** 		// clear the data for pixel
+ 477:Core/Src/rainbowshit.c **** 
+ 478:Core/Src/rainbowshit.c **** 		ws2812bDmaBitBuffer[(calcCol+i)] &= calcClearRow;
+ 479:Core/Src/rainbowshit.c **** 		ws2812bDmaBitBuffer[(calcCol+8+i)] &= calcClearRow;
+ 480:Core/Src/rainbowshit.c **** 		ws2812bDmaBitBuffer[(calcCol+16+i)] &= calcClearRow;
+ 481:Core/Src/rainbowshit.c **** 
+ 482:Core/Src/rainbowshit.c **** 		// write new data for pixel
+ 483:Core/Src/rainbowshit.c **** 		ws2812bDmaBitBuffer[(calcCol+i)] |= (((((invGreen)<<i) & 0x80)>>7)<<(row+0));
+ 484:Core/Src/rainbowshit.c **** 		ws2812bDmaBitBuffer[(calcCol+8+i)] |= (((((invRed)<<i) & 0x80)>>7)<<(row+0));
+ 485:Core/Src/rainbowshit.c **** 		ws2812bDmaBitBuffer[(calcCol+16+i)] |= (((((invBlue)<<i) & 0x80)>>7)<<(row+0));
+ 486:Core/Src/rainbowshit.c **** 	}
+ 487:Core/Src/rainbowshit.c **** #elif defined(SETPIX_2)
+ 488:Core/Src/rainbowshit.c **** 	uint8_t i;
+ 489:Core/Src/rainbowshit.c **** 	for (i = 0; i < 8; i++)
+ 490:Core/Src/rainbowshit.c **** 	{
+ 491:Core/Src/rainbowshit.c **** 		// Set or clear the data for the pixel
+ 492:Core/Src/rainbowshit.c **** 
+ 493:Core/Src/rainbowshit.c **** 		if(((invGreen)<<i) & 0x80)
+ 494:Core/Src/rainbowshit.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+i)], row);
+ 495:Core/Src/rainbowshit.c **** 		else
+ 496:Core/Src/rainbowshit.c **** 			varResetBit(ws2812bDmaBitBuffer[(calcCol+i)], row);
+ 497:Core/Src/rainbowshit.c **** 
+ 498:Core/Src/rainbowshit.c **** 		if(((invRed)<<i) & 0x80)
+ 499:Core/Src/rainbowshit.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+8+i)], row);
+ 500:Core/Src/rainbowshit.c **** 		else
+ 501:Core/Src/rainbowshit.c **** 			varResetBit(ws2812bDmaBitBuffer[(calcCol+8+i)], row);
+ 502:Core/Src/rainbowshit.c **** 
+ 503:Core/Src/rainbowshit.c **** 		if(((invBlue)<<i) & 0x80)
+ 504:Core/Src/rainbowshit.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+16+i)], row);
+ 505:Core/Src/rainbowshit.c **** 		else
+ 506:Core/Src/rainbowshit.c **** 			varResetBit(ws2812bDmaBitBuffer[(calcCol+16+i)], row);
+ 507:Core/Src/rainbowshit.c **** 
+ 508:Core/Src/rainbowshit.c **** 	}
+ 509:Core/Src/rainbowshit.c **** #elif defined(SETPIX_3)
+ 510:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+0)] |= (((((invGreen)<<0) & 0x80)>>7)<<row);
+ 511:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+8+0)] |= (((((invRed)<<0) & 0x80)>>7)<<row);
+ 512:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+16+0)] |= (((((invBlue)<<0) & 0x80)>>7)<<row);
+ 513:Core/Src/rainbowshit.c **** 
+ 514:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+1)] |= (((((invGreen)<<1) & 0x80)>>7)<<row);
+ 515:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+8+1)] |= (((((invRed)<<1) & 0x80)>>7)<<row);
+ 516:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+16+1)] |= (((((invBlue)<<1) & 0x80)>>7)<<row);
+ 517:Core/Src/rainbowshit.c **** 
+ 518:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+2)] |= (((((invGreen)<<2) & 0x80)>>7)<<row);
+ 519:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+8+2)] |= (((((invRed)<<2) & 0x80)>>7)<<row);
+ 520:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+16+2)] |= (((((invBlue)<<2) & 0x80)>>7)<<row);
+ 521:Core/Src/rainbowshit.c **** 
+ 522:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+3)] |= (((((invGreen)<<3) & 0x80)>>7)<<row);
+ 523:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+8+3)] |= (((((invRed)<<3) & 0x80)>>7)<<row);
+ 524:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+16+3)] |= (((((invBlue)<<3) & 0x80)>>7)<<row);
+ 525:Core/Src/rainbowshit.c **** 
+ 526:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+4)] |= (((((invGreen)<<4) & 0x80)>>7)<<row);
+ 527:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+8+4)] |= (((((invRed)<<4) & 0x80)>>7)<<row);
+ 528:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+16+4)] |= (((((invBlue)<<4) & 0x80)>>7)<<row);
+ 529:Core/Src/rainbowshit.c **** 
+ 530:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+5)] |= (((((invGreen)<<5) & 0x80)>>7)<<row);
+ 531:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+8+5)] |= (((((invRed)<<5) & 0x80)>>7)<<row);
+ 532:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+16+5)] |= (((((invBlue)<<5) & 0x80)>>7)<<row);
+ARM GAS  /tmp/ccGTUwJP.s 			page 12
+
+
+ 533:Core/Src/rainbowshit.c **** 
+ 534:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+6)] |= (((((invGreen)<<6) & 0x80)>>7)<<row);
+ 535:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+8+6)] |= (((((invRed)<<6) & 0x80)>>7)<<row);
+ 536:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+16+6)] |= (((((invBlue)<<6) & 0x80)>>7)<<row);
+ 537:Core/Src/rainbowshit.c **** 
+ 538:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+7)] |= (((((invGreen)<<7) & 0x80)>>7)<<row);
+ 539:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+8+7)] |= (((((invRed)<<7) & 0x80)>>7)<<row);
+ 540:Core/Src/rainbowshit.c **** 	ws2812bDmaBitBuffer[(calcCol+16+7)] |= (((((invBlue)<<7) & 0x80)>>7)<<row);
+ 541:Core/Src/rainbowshit.c **** #elif defined(SETPIX_4)
+ 542:Core/Src/rainbowshit.c **** 
+ 543:Core/Src/rainbowshit.c **** 	// Bitband optimizations with pure increments, 5us interrupts
+ 544:Core/Src/rainbowshit.c **** 	uint32_t *bitBand = BITBAND_SRAM(&ws2812bDmaBitBuffer[(calcCol)], row);
+  99              		.loc 1 544 0
+ 100 001a 284D     		ldr	r5, .L5+4
+ 101 001c 05EB4305 		add	r5, r5, r3, lsl #1
+ 102 0020 05F18875 		add	r5, r5, #17825792
+ 103 0024 6D01     		lsls	r5, r5, #5
+ 104 0026 05EB8003 		add	r3, r5, r0, lsl #2
+ 105              	.LVL10:
+ 545:Core/Src/rainbowshit.c **** 
+ 546:Core/Src/rainbowshit.c **** 	*bitBand =  (invGreen >> 7);
+ 106              		.loc 1 546 0
+ 107 002a E609     		lsrs	r6, r4, #7
+ 108              	.LVL11:
+ 109 002c 45F82060 		str	r6, [r5, r0, lsl #2]
+ 110              	.LVL12:
+ 547:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 548:Core/Src/rainbowshit.c **** 
+ 549:Core/Src/rainbowshit.c **** 	*bitBand = (invGreen >> 6);
+ 111              		.loc 1 549 0
+ 112 0030 A009     		lsrs	r0, r4, #6
+ 113              	.LVL13:
+ 114 0032 1864     		str	r0, [r3, #64]
+ 115              	.LVL14:
+ 550:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 551:Core/Src/rainbowshit.c **** 
+ 552:Core/Src/rainbowshit.c **** 	*bitBand = (invGreen >> 5);
+ 116              		.loc 1 552 0
+ 117 0034 6009     		lsrs	r0, r4, #5
+ 118 0036 C3F88000 		str	r0, [r3, #128]
+ 119              	.LVL15:
+ 553:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 554:Core/Src/rainbowshit.c **** 
+ 555:Core/Src/rainbowshit.c **** 	*bitBand = (invGreen >> 4);
+ 120              		.loc 1 555 0
+ 121 003a 2009     		lsrs	r0, r4, #4
+ 122 003c C3F8C000 		str	r0, [r3, #192]
+ 123              	.LVL16:
+ 556:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 557:Core/Src/rainbowshit.c **** 
+ 558:Core/Src/rainbowshit.c **** 	*bitBand = (invGreen >> 3);
+ 124              		.loc 1 558 0
+ 125 0040 E008     		lsrs	r0, r4, #3
+ 126 0042 C3F80001 		str	r0, [r3, #256]
+ 127              	.LVL17:
+ 559:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 560:Core/Src/rainbowshit.c **** 
+ARM GAS  /tmp/ccGTUwJP.s 			page 13
+
+
+ 561:Core/Src/rainbowshit.c **** 	*bitBand = (invGreen >> 2);
+ 128              		.loc 1 561 0
+ 129 0046 A008     		lsrs	r0, r4, #2
+ 130 0048 C3F84001 		str	r0, [r3, #320]
+ 131              	.LVL18:
+ 562:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 563:Core/Src/rainbowshit.c **** 
+ 564:Core/Src/rainbowshit.c **** 	*bitBand = (invGreen >> 1);
+ 132              		.loc 1 564 0
+ 133 004c 6008     		lsrs	r0, r4, #1
+ 134 004e C3F88001 		str	r0, [r3, #384]
+ 135              	.LVL19:
+ 565:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 566:Core/Src/rainbowshit.c **** 
+ 567:Core/Src/rainbowshit.c **** 	*bitBand = (invGreen >> 0);
+ 136              		.loc 1 567 0
+ 137 0052 C3F8C041 		str	r4, [r3, #448]
+ 138              	.LVL20:
+ 568:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 569:Core/Src/rainbowshit.c **** 
+ 570:Core/Src/rainbowshit.c **** 	// RED
+ 571:Core/Src/rainbowshit.c **** 	*bitBand =  (invRed >> 7);
+ 139              		.loc 1 571 0
+ 140 0056 C809     		lsrs	r0, r1, #7
+ 141 0058 C3F80002 		str	r0, [r3, #512]
+ 142              	.LVL21:
+ 572:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 573:Core/Src/rainbowshit.c **** 
+ 574:Core/Src/rainbowshit.c **** 	*bitBand = (invRed >> 6);
+ 143              		.loc 1 574 0
+ 144 005c 8809     		lsrs	r0, r1, #6
+ 145 005e C3F84002 		str	r0, [r3, #576]
+ 146              	.LVL22:
+ 575:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 576:Core/Src/rainbowshit.c **** 
+ 577:Core/Src/rainbowshit.c **** 	*bitBand = (invRed >> 5);
+ 147              		.loc 1 577 0
+ 148 0062 4809     		lsrs	r0, r1, #5
+ 149 0064 C3F88002 		str	r0, [r3, #640]
+ 150              	.LVL23:
+ 578:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 579:Core/Src/rainbowshit.c **** 
+ 580:Core/Src/rainbowshit.c **** 	*bitBand = (invRed >> 4);
+ 151              		.loc 1 580 0
+ 152 0068 0809     		lsrs	r0, r1, #4
+ 153 006a C3F8C002 		str	r0, [r3, #704]
+ 154              	.LVL24:
+ 581:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 582:Core/Src/rainbowshit.c **** 
+ 583:Core/Src/rainbowshit.c **** 	*bitBand = (invRed >> 3);
+ 155              		.loc 1 583 0
+ 156 006e C808     		lsrs	r0, r1, #3
+ 157 0070 C3F80003 		str	r0, [r3, #768]
+ 158              	.LVL25:
+ 584:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 585:Core/Src/rainbowshit.c **** 
+ 586:Core/Src/rainbowshit.c **** 	*bitBand = (invRed >> 2);
+ARM GAS  /tmp/ccGTUwJP.s 			page 14
+
+
+ 159              		.loc 1 586 0
+ 160 0074 8808     		lsrs	r0, r1, #2
+ 161 0076 C3F84003 		str	r0, [r3, #832]
+ 162              	.LVL26:
+ 587:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 588:Core/Src/rainbowshit.c **** 
+ 589:Core/Src/rainbowshit.c **** 	*bitBand = (invRed >> 1);
+ 163              		.loc 1 589 0
+ 164 007a 4808     		lsrs	r0, r1, #1
+ 165 007c C3F88003 		str	r0, [r3, #896]
+ 166              	.LVL27:
+ 590:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 591:Core/Src/rainbowshit.c **** 
+ 592:Core/Src/rainbowshit.c **** 	*bitBand = (invRed >> 0);
+ 167              		.loc 1 592 0
+ 168 0080 C3F8C013 		str	r1, [r3, #960]
+ 169              	.LVL28:
+ 593:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 594:Core/Src/rainbowshit.c **** 
+ 595:Core/Src/rainbowshit.c **** 	// BLUE
+ 596:Core/Src/rainbowshit.c **** 	*bitBand =  (invBlue >> 7);
+ 170              		.loc 1 596 0
+ 171 0084 D109     		lsrs	r1, r2, #7
+ 172              	.LVL29:
+ 173 0086 C3F80014 		str	r1, [r3, #1024]
+ 174              	.LVL30:
+ 597:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 598:Core/Src/rainbowshit.c **** 
+ 599:Core/Src/rainbowshit.c **** 	*bitBand = (invBlue >> 6);
+ 175              		.loc 1 599 0
+ 176 008a 9109     		lsrs	r1, r2, #6
+ 177 008c C3F84014 		str	r1, [r3, #1088]
+ 178              	.LVL31:
+ 600:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 601:Core/Src/rainbowshit.c **** 
+ 602:Core/Src/rainbowshit.c **** 	*bitBand = (invBlue >> 5);
+ 179              		.loc 1 602 0
+ 180 0090 5109     		lsrs	r1, r2, #5
+ 181 0092 C3F88014 		str	r1, [r3, #1152]
+ 182              	.LVL32:
+ 603:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 604:Core/Src/rainbowshit.c **** 
+ 605:Core/Src/rainbowshit.c **** 	*bitBand = (invBlue >> 4);
+ 183              		.loc 1 605 0
+ 184 0096 1109     		lsrs	r1, r2, #4
+ 185 0098 C3F8C014 		str	r1, [r3, #1216]
+ 186              	.LVL33:
+ 606:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 607:Core/Src/rainbowshit.c **** 
+ 608:Core/Src/rainbowshit.c **** 	*bitBand = (invBlue >> 3);
+ 187              		.loc 1 608 0
+ 188 009c D108     		lsrs	r1, r2, #3
+ 189 009e C3F80015 		str	r1, [r3, #1280]
+ 190              	.LVL34:
+ 609:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 610:Core/Src/rainbowshit.c **** 
+ 611:Core/Src/rainbowshit.c **** 	*bitBand = (invBlue >> 2);
+ARM GAS  /tmp/ccGTUwJP.s 			page 15
+
+
+ 191              		.loc 1 611 0
+ 192 00a2 9108     		lsrs	r1, r2, #2
+ 193 00a4 C3F84015 		str	r1, [r3, #1344]
+ 194              	.LVL35:
+ 612:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 613:Core/Src/rainbowshit.c **** 
+ 614:Core/Src/rainbowshit.c **** 	*bitBand = (invBlue >> 1);
+ 195              		.loc 1 614 0
+ 196 00a8 5108     		lsrs	r1, r2, #1
+ 197 00aa C3F88015 		str	r1, [r3, #1408]
+ 198              	.LVL36:
+ 615:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 616:Core/Src/rainbowshit.c **** 
+ 617:Core/Src/rainbowshit.c **** 	*bitBand = (invBlue >> 0);
+ 199              		.loc 1 617 0
+ 200 00ae C3F8C025 		str	r2, [r3, #1472]
+ 201              	.LVL37:
+ 618:Core/Src/rainbowshit.c **** 	bitBand+=16;
+ 619:Core/Src/rainbowshit.c **** 
+ 620:Core/Src/rainbowshit.c **** #endif
+ 621:Core/Src/rainbowshit.c **** }
+ 202              		.loc 1 621 0
+ 203 00b2 70BC     		pop	{r4, r5, r6}
+ 204              	.LCFI3:
+ 205              		.cfi_restore 6
+ 206              		.cfi_restore 5
+ 207              		.cfi_restore 4
+ 208              		.cfi_def_cfa_offset 0
+ 209              	.LVL38:
+ 210 00b4 7047     		bx	lr
+ 211              	.L6:
+ 212 00b6 00BF     		.align	2
+ 213              	.L5:
+ 214 00b8 00000000 		.word	.LANCHOR0
+ 215 00bc 00000000 		.word	ws2812bDmaBitBuffer
+ 216              		.cfi_endproc
+ 217              	.LFE140:
+ 219              		.section	.text.loadNextFramebufferData,"ax",%progbits
+ 220              		.align	1
+ 221              		.syntax unified
+ 222              		.thumb
+ 223              		.thumb_func
+ 224              		.fpu fpv4-sp-d16
+ 226              	loadNextFramebufferData:
+ 227              	.LFB133:
+ 226:Core/Src/rainbowshit.c **** 
+ 228              		.loc 1 226 0
+ 229              		.cfi_startproc
+ 230              		@ args = 0, pretend = 0, frame = 0
+ 231              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232              	.LVL39:
+ 233 0000 70B5     		push	{r4, r5, r6, lr}
+ 234              	.LCFI4:
+ 235              		.cfi_def_cfa_offset 16
+ 236              		.cfi_offset 4, -16
+ 237              		.cfi_offset 5, -12
+ 238              		.cfi_offset 6, -8
+ARM GAS  /tmp/ccGTUwJP.s 			page 16
+
+
+ 239              		.cfi_offset 14, -4
+ 240 0002 82B0     		sub	sp, sp, #8
+ 241              	.LCFI5:
+ 242              		.cfi_def_cfa_offset 24
+ 228:Core/Src/rainbowshit.c **** 	uint32_t g = bItem->frameBufferPointer[bItem->frameBufferCounter++];
+ 243              		.loc 1 228 0
+ 244 0004 0568     		ldr	r5, [r0]
+ 245 0006 8268     		ldr	r2, [r0, #8]
+ 246 0008 531C     		adds	r3, r2, #1
+ 247 000a 8360     		str	r3, [r0, #8]
+ 248 000c AA5C     		ldrb	r2, [r5, r2]	@ zero_extendqisi2
+ 249              	.LVL40:
+ 229:Core/Src/rainbowshit.c **** 	uint32_t b = bItem->frameBufferPointer[bItem->frameBufferCounter++];
+ 250              		.loc 1 229 0
+ 251 000e 5C1C     		adds	r4, r3, #1
+ 252 0010 8460     		str	r4, [r0, #8]
+ 253 0012 EB5C     		ldrb	r3, [r5, r3]	@ zero_extendqisi2
+ 254              	.LVL41:
+ 230:Core/Src/rainbowshit.c **** 
+ 255              		.loc 1 230 0
+ 256 0014 661C     		adds	r6, r4, #1
+ 257 0016 8660     		str	r6, [r0, #8]
+ 258 0018 2C5D     		ldrb	r4, [r5, r4]	@ zero_extendqisi2
+ 259              	.LVL42:
+ 232:Core/Src/rainbowshit.c **** 		bItem->frameBufferCounter = 0;
+ 260              		.loc 1 232 0
+ 261 001a 4568     		ldr	r5, [r0, #4]
+ 262 001c AE42     		cmp	r6, r5
+ 263 001e 06D0     		beq	.L10
+ 264              	.L8:
+ 235:Core/Src/rainbowshit.c **** }
+ 265              		.loc 1 235 0
+ 266 0020 007B     		ldrb	r0, [r0, #12]	@ zero_extendqisi2
+ 267              	.LVL43:
+ 268 0022 0094     		str	r4, [sp]
+ 269 0024 89B2     		uxth	r1, r1
+ 270              	.LVL44:
+ 271 0026 FFF7FEFF 		bl	ws2812b_set_pixel
+ 272              	.LVL45:
+ 236:Core/Src/rainbowshit.c **** 
+ 273              		.loc 1 236 0
+ 274 002a 02B0     		add	sp, sp, #8
+ 275              	.LCFI6:
+ 276              		.cfi_remember_state
+ 277              		.cfi_def_cfa_offset 16
+ 278              		@ sp needed
+ 279 002c 70BD     		pop	{r4, r5, r6, pc}
+ 280              	.LVL46:
+ 281              	.L10:
+ 282              	.LCFI7:
+ 283              		.cfi_restore_state
+ 233:Core/Src/rainbowshit.c **** 
+ 284              		.loc 1 233 0
+ 285 002e 0025     		movs	r5, #0
+ 286 0030 8560     		str	r5, [r0, #8]
+ 287 0032 F5E7     		b	.L8
+ 288              		.cfi_endproc
+ARM GAS  /tmp/ccGTUwJP.s 			page 17
+
+
+ 289              	.LFE133:
+ 291              		.section	.text.DMA_TransferCompleteHandler,"ax",%progbits
+ 292              		.align	1
+ 293              		.global	DMA_TransferCompleteHandler
+ 294              		.syntax unified
+ 295              		.thumb
+ 296              		.thumb_func
+ 297              		.fpu fpv4-sp-d16
+ 299              	DMA_TransferCompleteHandler:
+ 300              	.LFB137:
+ 321:Core/Src/rainbowshit.c **** 
+ 301              		.loc 1 321 0
+ 302              		.cfi_startproc
+ 303              		@ args = 0, pretend = 0, frame = 0
+ 304              		@ frame_needed = 0, uses_anonymous_args = 0
+ 305              	.LVL47:
+ 324:Core/Src/rainbowshit.c **** 	#endif
+ 306              		.loc 1 324 0
+ 307 0000 4FF40052 		mov	r2, #8192
+ 308 0004 2E4B     		ldr	r3, .L20
+ 309 0006 9A61     		str	r2, [r3, #24]
+ 327:Core/Src/rainbowshit.c **** 	{
+ 310              		.loc 1 327 0
+ 311 0008 2E4B     		ldr	r3, .L20+4
+ 312 000a 9B6C     		ldr	r3, [r3, #72]
+ 313 000c 3C2B     		cmp	r3, #60
+ 314 000e 02D0     		beq	.L19
+ 321:Core/Src/rainbowshit.c **** 
+ 315              		.loc 1 321 0
+ 316 0010 10B5     		push	{r4, lr}
+ 317              	.LCFI8:
+ 318              		.cfi_def_cfa_offset 8
+ 319              		.cfi_offset 4, -8
+ 320              		.cfi_offset 14, -4
+ 321 0012 0024     		movs	r4, #0
+ 322 0014 48E0     		b	.L12
+ 323              	.L19:
+ 324              	.LCFI9:
+ 325              		.cfi_def_cfa_offset 0
+ 326              		.cfi_restore 4
+ 327              		.cfi_restore 14
+ 330:Core/Src/rainbowshit.c **** 
+ 328              		.loc 1 330 0
+ 329 0016 0020     		movs	r0, #0
+ 330              	.LVL48:
+ 331 0018 2A4B     		ldr	r3, .L20+4
+ 332 001a 9864     		str	r0, [r3, #72]
+ 333:Core/Src/rainbowshit.c **** 
+ 333              		.loc 1 333 0
+ 334 001c 2A4A     		ldr	r2, .L20+8
+ 335 001e 1368     		ldr	r3, [r2]
+ 336 0020 23F00103 		bic	r3, r3, #1
+ 337 0024 1360     		str	r3, [r2]
+ 336:Core/Src/rainbowshit.c **** 		__HAL_DMA_DISABLE(&dmaCC1);
+ 338              		.loc 1 336 0
+ 339 0026 294B     		ldr	r3, .L20+12
+ 340 0028 1968     		ldr	r1, [r3]
+ARM GAS  /tmp/ccGTUwJP.s 			page 18
+
+
+ 341 002a 0B68     		ldr	r3, [r1]
+ 342 002c 23F00103 		bic	r3, r3, #1
+ 343 0030 0B60     		str	r3, [r1]
+ 337:Core/Src/rainbowshit.c **** 		__HAL_DMA_DISABLE(&dmaCC2);
+ 344              		.loc 1 337 0
+ 345 0032 274B     		ldr	r3, .L20+16
+ 346 0034 1968     		ldr	r1, [r3]
+ 347 0036 0B68     		ldr	r3, [r1]
+ 348 0038 23F00103 		bic	r3, r3, #1
+ 349 003c 0B60     		str	r3, [r1]
+ 338:Core/Src/rainbowshit.c **** 
+ 350              		.loc 1 338 0
+ 351 003e 254B     		ldr	r3, .L20+20
+ 352 0040 1968     		ldr	r1, [r3]
+ 353 0042 0B68     		ldr	r3, [r1]
+ 354 0044 23F00103 		bic	r3, r3, #1
+ 355 0048 0B60     		str	r3, [r1]
+ 341:Core/Src/rainbowshit.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_CC1);
+ 356              		.loc 1 341 0
+ 357 004a 234B     		ldr	r3, .L20+24
+ 358 004c 1B68     		ldr	r3, [r3]
+ 359 004e D968     		ldr	r1, [r3, #12]
+ 360 0050 21F48071 		bic	r1, r1, #256
+ 361 0054 D960     		str	r1, [r3, #12]
+ 342:Core/Src/rainbowshit.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_CC2);
+ 362              		.loc 1 342 0
+ 363 0056 D968     		ldr	r1, [r3, #12]
+ 364 0058 21F40071 		bic	r1, r1, #512
+ 365 005c D960     		str	r1, [r3, #12]
+ 343:Core/Src/rainbowshit.c **** 
+ 366              		.loc 1 343 0
+ 367 005e D968     		ldr	r1, [r3, #12]
+ 368 0060 21F48061 		bic	r1, r1, #1024
+ 369 0064 D960     		str	r1, [r3, #12]
+ 347:Core/Src/rainbowshit.c **** 		// Reset the timer
+ 370              		.loc 1 347 0
+ 371 0066 1D49     		ldr	r1, .L20+28
+ 372 0068 0968     		ldr	r1, [r1]
+ 373 006a D162     		str	r1, [r2, #44]
+ 349:Core/Src/rainbowshit.c **** 
+ 374              		.loc 1 349 0
+ 375 006c 5062     		str	r0, [r2, #36]
+ 352:Core/Src/rainbowshit.c **** 		__HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE);
+ 376              		.loc 1 352 0
+ 377 006e 0121     		movs	r1, #1
+ 378 0070 5161     		str	r1, [r2, #20]
+ 353:Core/Src/rainbowshit.c **** 
+ 379              		.loc 1 353 0
+ 380 0072 6FF00101 		mvn	r1, #1
+ 381 0076 1961     		str	r1, [r3, #16]
+ 356:Core/Src/rainbowshit.c **** 		// Enable timer
+ 382              		.loc 1 356 0
+ 383 0078 D968     		ldr	r1, [r3, #12]
+ 384 007a 41F00101 		orr	r1, r1, #1
+ 385 007e D960     		str	r1, [r3, #12]
+ 358:Core/Src/rainbowshit.c **** 
+ 386              		.loc 1 358 0
+ARM GAS  /tmp/ccGTUwJP.s 			page 19
+
+
+ 387 0080 1368     		ldr	r3, [r2]
+ 388 0082 43F00103 		orr	r3, r3, #1
+ 389 0086 1360     		str	r3, [r2]
+ 361:Core/Src/rainbowshit.c **** 	} else {
+ 390              		.loc 1 361 0
+ 391 0088 154B     		ldr	r3, .L20+32
+ 392 008a 1A68     		ldr	r2, [r3]
+ 393 008c 154B     		ldr	r3, .L20+36
+ 394 008e 9A61     		str	r2, [r3, #24]
+ 377:Core/Src/rainbowshit.c **** 	#endif
+ 395              		.loc 1 377 0
+ 396 0090 4FF00052 		mov	r2, #536870912
+ 397 0094 0A4B     		ldr	r3, .L20
+ 398 0096 9A61     		str	r2, [r3, #24]
+ 399 0098 7047     		bx	lr
+ 400              	.LVL49:
+ 401              	.L14:
+ 402              	.LCFI10:
+ 403              		.cfi_def_cfa_offset 8
+ 404              		.cfi_offset 4, -8
+ 405              		.cfi_offset 14, -4
+ 406              	.LBB2:
+ 368:Core/Src/rainbowshit.c **** 		}
+ 407              		.loc 1 368 0 discriminator 3
+ 408 009a 0121     		movs	r1, #1
+ 409 009c 0948     		ldr	r0, .L20+4
+ 410 009e 00EB0410 		add	r0, r0, r4, lsl #4
+ 411 00a2 FFF7FEFF 		bl	loadNextFramebufferData
+ 412              	.LVL50:
+ 366:Core/Src/rainbowshit.c **** 		{
+ 413              		.loc 1 366 0 discriminator 3
+ 414 00a6 0134     		adds	r4, r4, #1
+ 415              	.LVL51:
+ 416              	.L12:
+ 366:Core/Src/rainbowshit.c **** 		{
+ 417              		.loc 1 366 0 is_stmt 0 discriminator 1
+ 418 00a8 032C     		cmp	r4, #3
+ 419 00aa F6D9     		bls	.L14
+ 371:Core/Src/rainbowshit.c **** 	}
+ 420              		.loc 1 371 0 is_stmt 1
+ 421 00ac 054A     		ldr	r2, .L20+4
+ 422 00ae 936C     		ldr	r3, [r2, #72]
+ 423 00b0 0133     		adds	r3, r3, #1
+ 424 00b2 9364     		str	r3, [r2, #72]
+ 425              	.LBE2:
+ 377:Core/Src/rainbowshit.c **** 	#endif
+ 426              		.loc 1 377 0
+ 427 00b4 4FF00052 		mov	r2, #536870912
+ 428 00b8 014B     		ldr	r3, .L20
+ 429 00ba 9A61     		str	r2, [r3, #24]
+ 430 00bc 10BD     		pop	{r4, pc}
+ 431              	.LVL52:
+ 432              	.L21:
+ 433 00be 00BF     		.align	2
+ 434              	.L20:
+ 435 00c0 000C0240 		.word	1073875968
+ 436 00c4 00000000 		.word	ws2812b
+ARM GAS  /tmp/ccGTUwJP.s 			page 20
+
+
+ 437 00c8 00000140 		.word	1073807360
+ 438 00cc 00000000 		.word	dmaUpdate
+ 439 00d0 00000000 		.word	dmaCC1
+ 440 00d4 00000000 		.word	dmaCC2
+ 441 00d8 00000000 		.word	TIM1_handle
+ 442 00dc 00000000 		.word	timer_reset_pulse_period
+ 443 00e0 00000000 		.word	.LANCHOR1
+ 444 00e4 00080240 		.word	1073874944
+ 445              		.cfi_endproc
+ 446              	.LFE137:
+ 448              		.section	.text.WS2812_sendbuf,"ax",%progbits
+ 449              		.align	1
+ 450              		.syntax unified
+ 451              		.thumb
+ 452              		.thumb_func
+ 453              		.fpu fpv4-sp-d16
+ 455              	WS2812_sendbuf:
+ 456              	.LFB134:
+ 241:Core/Src/rainbowshit.c **** 	// transmission complete flag
+ 457              		.loc 1 241 0
+ 458              		.cfi_startproc
+ 459              		@ args = 0, pretend = 0, frame = 0
+ 460              		@ frame_needed = 0, uses_anonymous_args = 0
+ 461 0000 38B5     		push	{r3, r4, r5, lr}
+ 462              	.LCFI11:
+ 463              		.cfi_def_cfa_offset 16
+ 464              		.cfi_offset 3, -16
+ 465              		.cfi_offset 4, -12
+ 466              		.cfi_offset 5, -8
+ 467              		.cfi_offset 14, -4
+ 243:Core/Src/rainbowshit.c **** 
+ 468              		.loc 1 243 0
+ 469 0002 0025     		movs	r5, #0
+ 470 0004 504B     		ldr	r3, .L41
+ 471 0006 83F84050 		strb	r5, [r3, #64]
+ 472              	.LVL53:
+ 247:Core/Src/rainbowshit.c **** 	{
+ 473              		.loc 1 247 0
+ 474 000a 0CE0     		b	.L23
+ 475              	.LVL54:
+ 476              	.L24:
+ 249:Core/Src/rainbowshit.c **** 
+ 477              		.loc 1 249 0 discriminator 3
+ 478 000c 4E4C     		ldr	r4, .L41
+ 479 000e 04EB0514 		add	r4, r4, r5, lsl #4
+ 480 0012 0021     		movs	r1, #0
+ 481 0014 A160     		str	r1, [r4, #8]
+ 251:Core/Src/rainbowshit.c **** 		loadNextFramebufferData(&ws2812b.item[i], 1); // ROW 0
+ 482              		.loc 1 251 0 discriminator 3
+ 483 0016 2046     		mov	r0, r4
+ 484 0018 FFF7FEFF 		bl	loadNextFramebufferData
+ 485              	.LVL55:
+ 252:Core/Src/rainbowshit.c **** 	}
+ 486              		.loc 1 252 0 discriminator 3
+ 487 001c 0121     		movs	r1, #1
+ 488 001e 2046     		mov	r0, r4
+ 489 0020 FFF7FEFF 		bl	loadNextFramebufferData
+ARM GAS  /tmp/ccGTUwJP.s 			page 21
+
+
+ 490              	.LVL56:
+ 247:Core/Src/rainbowshit.c **** 	{
+ 491              		.loc 1 247 0 discriminator 3
+ 492 0024 0135     		adds	r5, r5, #1
+ 493              	.LVL57:
+ 494              	.L23:
+ 247:Core/Src/rainbowshit.c **** 	{
+ 495              		.loc 1 247 0 is_stmt 0 discriminator 1
+ 496 0026 032D     		cmp	r5, #3
+ 497 0028 F0D9     		bls	.L24
+ 256:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 498              		.loc 1 256 0 is_stmt 1
+ 499 002a 484B     		ldr	r3, .L41+4
+ 500 002c 1B68     		ldr	r3, [r3]
+ 501 002e 484A     		ldr	r2, .L41+8
+ 502 0030 9342     		cmp	r3, r2
+ 503 0032 1CD9     		bls	.L25
+ 256:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 504              		.loc 1 256 0 is_stmt 0 discriminator 1
+ 505 0034 4FF46062 		mov	r2, #3584
+ 506 0038 464B     		ldr	r3, .L41+12
+ 507 003a DA60     		str	r2, [r3, #12]
+ 508              	.L26:
+ 257:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 509              		.loc 1 257 0 is_stmt 1
+ 510 003c 464B     		ldr	r3, .L41+16
+ 511 003e 1B68     		ldr	r3, [r3]
+ 512 0040 434A     		ldr	r2, .L41+8
+ 513 0042 9342     		cmp	r3, r2
+ 514 0044 28D9     		bls	.L29
+ 257:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 515              		.loc 1 257 0 is_stmt 0 discriminator 1
+ 516 0046 4FF46062 		mov	r2, #3584
+ 517 004a 424B     		ldr	r3, .L41+12
+ 518 004c DA60     		str	r2, [r3, #12]
+ 519              	.L30:
+ 258:Core/Src/rainbowshit.c **** 
+ 520              		.loc 1 258 0 is_stmt 1
+ 521 004e 434B     		ldr	r3, .L41+20
+ 522 0050 1B68     		ldr	r3, [r3]
+ 523 0052 3F4A     		ldr	r2, .L41+8
+ 524 0054 9342     		cmp	r3, r2
+ 525 0056 34D8     		bhi	.L38
+ 258:Core/Src/rainbowshit.c **** 
+ 526              		.loc 1 258 0 is_stmt 0 discriminator 2
+ 527 0058 414A     		ldr	r2, .L41+24
+ 528 005a 9342     		cmp	r3, r2
+ 529 005c 69D8     		bhi	.L39
+ 258:Core/Src/rainbowshit.c **** 
+ 530              		.loc 1 258 0 discriminator 4
+ 531 005e 414A     		ldr	r2, .L41+28
+ 532 0060 9342     		cmp	r3, r2
+ 533 0062 6BD8     		bhi	.L40
+ 258:Core/Src/rainbowshit.c **** 
+ 534              		.loc 1 258 0 discriminator 7
+ 535 0064 4FF46012 		mov	r2, #3670016
+ 536 0068 3F4B     		ldr	r3, .L41+32
+ARM GAS  /tmp/ccGTUwJP.s 			page 22
+
+
+ 537 006a 9A60     		str	r2, [r3, #8]
+ 538 006c 2DE0     		b	.L34
+ 539              	.L25:
+ 256:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 540              		.loc 1 256 0 is_stmt 1 discriminator 2
+ 541 006e 3C4A     		ldr	r2, .L41+24
+ 542 0070 9342     		cmp	r3, r2
+ 543 0072 04D9     		bls	.L27
+ 256:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 544              		.loc 1 256 0 is_stmt 0 discriminator 3
+ 545 0074 4FF46062 		mov	r2, #3584
+ 546 0078 364B     		ldr	r3, .L41+12
+ 547 007a 9A60     		str	r2, [r3, #8]
+ 548 007c DEE7     		b	.L26
+ 549              	.L27:
+ 256:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 550              		.loc 1 256 0 discriminator 4
+ 551 007e 394A     		ldr	r2, .L41+28
+ 552 0080 9342     		cmp	r3, r2
+ 553 0082 04D9     		bls	.L28
+ 256:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 554              		.loc 1 256 0 discriminator 6
+ 555 0084 4FF46062 		mov	r2, #3584
+ 556 0088 374B     		ldr	r3, .L41+32
+ 557 008a DA60     		str	r2, [r3, #12]
+ 558 008c D6E7     		b	.L26
+ 559              	.L28:
+ 256:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 560              		.loc 1 256 0 discriminator 7
+ 561 008e 4FF46062 		mov	r2, #3584
+ 562 0092 354B     		ldr	r3, .L41+32
+ 563 0094 9A60     		str	r2, [r3, #8]
+ 564 0096 D1E7     		b	.L26
+ 565              	.L29:
+ 257:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 566              		.loc 1 257 0 is_stmt 1 discriminator 2
+ 567 0098 314A     		ldr	r2, .L41+24
+ 568 009a 9342     		cmp	r3, r2
+ 569 009c 04D9     		bls	.L31
+ 257:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 570              		.loc 1 257 0 is_stmt 0 discriminator 3
+ 571 009e 4FF46062 		mov	r2, #3584
+ 572 00a2 2C4B     		ldr	r3, .L41+12
+ 573 00a4 9A60     		str	r2, [r3, #8]
+ 574 00a6 D2E7     		b	.L30
+ 575              	.L31:
+ 257:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 576              		.loc 1 257 0 discriminator 4
+ 577 00a8 2E4A     		ldr	r2, .L41+28
+ 578 00aa 9342     		cmp	r3, r2
+ 579 00ac 04D9     		bls	.L32
+ 257:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 580              		.loc 1 257 0 discriminator 6
+ 581 00ae 4FF46062 		mov	r2, #3584
+ 582 00b2 2D4B     		ldr	r3, .L41+32
+ 583 00b4 DA60     		str	r2, [r3, #12]
+ 584 00b6 CAE7     		b	.L30
+ARM GAS  /tmp/ccGTUwJP.s 			page 23
+
+
+ 585              	.L32:
+ 257:Core/Src/rainbowshit.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 586              		.loc 1 257 0 discriminator 7
+ 587 00b8 4FF46062 		mov	r2, #3584
+ 588 00bc 2A4B     		ldr	r3, .L41+32
+ 589 00be 9A60     		str	r2, [r3, #8]
+ 590 00c0 C5E7     		b	.L30
+ 591              	.L38:
+ 258:Core/Src/rainbowshit.c **** 
+ 592              		.loc 1 258 0 is_stmt 1 discriminator 1
+ 593 00c2 4FF46012 		mov	r2, #3670016
+ 594 00c6 234B     		ldr	r3, .L41+12
+ 595 00c8 DA60     		str	r2, [r3, #12]
+ 596              	.L34:
+ 263:Core/Src/rainbowshit.c **** 	dmaCC1.Instance->NDTR = BUFFER_SIZE;
+ 597              		.loc 1 263 0
+ 598 00ca 204B     		ldr	r3, .L41+4
+ 599 00cc 1B68     		ldr	r3, [r3]
+ 600 00ce 3022     		movs	r2, #48
+ 601 00d0 5A60     		str	r2, [r3, #4]
+ 264:Core/Src/rainbowshit.c **** 	dmaCC2.Instance->NDTR = BUFFER_SIZE;
+ 602              		.loc 1 264 0
+ 603 00d2 214C     		ldr	r4, .L41+16
+ 604 00d4 2168     		ldr	r1, [r4]
+ 605 00d6 4A60     		str	r2, [r1, #4]
+ 265:Core/Src/rainbowshit.c **** 
+ 606              		.loc 1 265 0
+ 607 00d8 2048     		ldr	r0, .L41+20
+ 608 00da 0168     		ldr	r1, [r0]
+ 609 00dc 4A60     		str	r2, [r1, #4]
+ 268:Core/Src/rainbowshit.c **** 
+ 610              		.loc 1 268 0
+ 611 00de 2349     		ldr	r1, .L41+36
+ 612 00e0 0A68     		ldr	r2, [r1]
+ 613 00e2 6FF01F05 		mvn	r5, #31
+ 614              	.LVL58:
+ 615 00e6 1561     		str	r5, [r2, #16]
+ 271:Core/Src/rainbowshit.c **** 	__HAL_DMA_ENABLE(&dmaCC1);
+ 616              		.loc 1 271 0
+ 617 00e8 1A68     		ldr	r2, [r3]
+ 618 00ea 42F00102 		orr	r2, r2, #1
+ 619 00ee 1A60     		str	r2, [r3]
+ 272:Core/Src/rainbowshit.c **** 	__HAL_DMA_ENABLE(&dmaCC2);
+ 620              		.loc 1 272 0
+ 621 00f0 2268     		ldr	r2, [r4]
+ 622 00f2 1368     		ldr	r3, [r2]
+ 623 00f4 43F00103 		orr	r3, r3, #1
+ 624 00f8 1360     		str	r3, [r2]
+ 273:Core/Src/rainbowshit.c **** 
+ 625              		.loc 1 273 0
+ 626 00fa 0268     		ldr	r2, [r0]
+ 627 00fc 1368     		ldr	r3, [r2]
+ 628 00fe 43F00103 		orr	r3, r3, #1
+ 629 0102 1360     		str	r3, [r2]
+ 276:Core/Src/rainbowshit.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_CC1);
+ 630              		.loc 1 276 0
+ 631 0104 0B68     		ldr	r3, [r1]
+ARM GAS  /tmp/ccGTUwJP.s 			page 24
+
+
+ 632 0106 DA68     		ldr	r2, [r3, #12]
+ 633 0108 42F48072 		orr	r2, r2, #256
+ 634 010c DA60     		str	r2, [r3, #12]
+ 277:Core/Src/rainbowshit.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_CC2);
+ 635              		.loc 1 277 0
+ 636 010e DA68     		ldr	r2, [r3, #12]
+ 637 0110 42F40072 		orr	r2, r2, #512
+ 638 0114 DA60     		str	r2, [r3, #12]
+ 278:Core/Src/rainbowshit.c **** 
+ 639              		.loc 1 278 0
+ 640 0116 DA68     		ldr	r2, [r3, #12]
+ 641 0118 42F48062 		orr	r2, r2, #1024
+ 642 011c DA60     		str	r2, [r3, #12]
+ 280:Core/Src/rainbowshit.c **** 
+ 643              		.loc 1 280 0
+ 644 011e 144A     		ldr	r2, .L41+40
+ 645 0120 1268     		ldr	r2, [r2]
+ 646 0122 013A     		subs	r2, r2, #1
+ 647 0124 1349     		ldr	r1, .L41+44
+ 648 0126 4A62     		str	r2, [r1, #36]
+ 283:Core/Src/rainbowshit.c **** }
+ 649              		.loc 1 283 0
+ 650 0128 1A68     		ldr	r2, [r3]
+ 651 012a 42F00102 		orr	r2, r2, #1
+ 652 012e 1A60     		str	r2, [r3]
+ 653 0130 38BD     		pop	{r3, r4, r5, pc}
+ 654              	.LVL59:
+ 655              	.L39:
+ 258:Core/Src/rainbowshit.c **** 
+ 656              		.loc 1 258 0 discriminator 3
+ 657 0132 4FF46012 		mov	r2, #3670016
+ 658 0136 074B     		ldr	r3, .L41+12
+ 659 0138 9A60     		str	r2, [r3, #8]
+ 660 013a C6E7     		b	.L34
+ 661              	.L40:
+ 258:Core/Src/rainbowshit.c **** 
+ 662              		.loc 1 258 0 is_stmt 0 discriminator 6
+ 663 013c 4FF46012 		mov	r2, #3670016
+ 664 0140 094B     		ldr	r3, .L41+32
+ 665 0142 DA60     		str	r2, [r3, #12]
+ 666 0144 C1E7     		b	.L34
+ 667              	.L42:
+ 668 0146 00BF     		.align	2
+ 669              	.L41:
+ 670 0148 00000000 		.word	ws2812b
+ 671 014c 00000000 		.word	dmaUpdate
+ 672 0150 58640240 		.word	1073898584
+ 673 0154 00640240 		.word	1073898496
+ 674 0158 00000000 		.word	dmaCC1
+ 675 015c 00000000 		.word	dmaCC2
+ 676 0160 B8600240 		.word	1073897656
+ 677 0164 58600240 		.word	1073897560
+ 678 0168 00600240 		.word	1073897472
+ 679 016c 00000000 		.word	TIM1_handle
+ 680 0170 00000000 		.word	tim_period
+ 681 0174 00000140 		.word	1073807360
+ 682              		.cfi_endproc
+ARM GAS  /tmp/ccGTUwJP.s 			page 25
+
+
+ 683              	.LFE134:
+ 685              		.section	.text.DMA_TransferHalfHandler,"ax",%progbits
+ 686              		.align	1
+ 687              		.global	DMA_TransferHalfHandler
+ 688              		.syntax unified
+ 689              		.thumb
+ 690              		.thumb_func
+ 691              		.fpu fpv4-sp-d16
+ 693              	DMA_TransferHalfHandler:
+ 694              	.LFB136:
+ 295:Core/Src/rainbowshit.c **** 
+ 695              		.loc 1 295 0 is_stmt 1
+ 696              		.cfi_startproc
+ 697              		@ args = 0, pretend = 0, frame = 0
+ 698              		@ frame_needed = 0, uses_anonymous_args = 0
+ 699              	.LVL60:
+ 700 0000 10B5     		push	{r4, lr}
+ 701              	.LCFI12:
+ 702              		.cfi_def_cfa_offset 8
+ 703              		.cfi_offset 4, -8
+ 704              		.cfi_offset 14, -4
+ 705 0002 82B0     		sub	sp, sp, #8
+ 706              	.LCFI13:
+ 707              		.cfi_def_cfa_offset 16
+ 298:Core/Src/rainbowshit.c **** 	 {
+ 708              		.loc 1 298 0
+ 709 0004 0E4B     		ldr	r3, .L50
+ 710 0006 9B6C     		ldr	r3, [r3, #72]
+ 711 0008 3C2B     		cmp	r3, #60
+ 712 000a 01D0     		beq	.L49
+ 713 000c 0024     		movs	r4, #0
+ 714 000e 0EE0     		b	.L44
+ 715              	.L49:
+ 303:Core/Src/rainbowshit.c **** 
+ 716              		.loc 1 303 0
+ 717 0010 0020     		movs	r0, #0
+ 718              	.LVL61:
+ 719 0012 0090     		str	r0, [sp]
+ 720 0014 0346     		mov	r3, r0
+ 721 0016 0246     		mov	r2, r0
+ 722 0018 0146     		mov	r1, r0
+ 723 001a FFF7FEFF 		bl	ws2812b_set_pixel
+ 724              	.LVL62:
+ 725 001e 0CE0     		b	.L43
+ 726              	.LVL63:
+ 727              	.L46:
+ 728              	.LBB3:
+ 310:Core/Src/rainbowshit.c **** 		}
+ 729              		.loc 1 310 0 discriminator 3
+ 730 0020 0021     		movs	r1, #0
+ 731 0022 0748     		ldr	r0, .L50
+ 732 0024 00EB0410 		add	r0, r0, r4, lsl #4
+ 733 0028 FFF7FEFF 		bl	loadNextFramebufferData
+ 734              	.LVL64:
+ 308:Core/Src/rainbowshit.c **** 		{
+ 735              		.loc 1 308 0 discriminator 3
+ 736 002c 0134     		adds	r4, r4, #1
+ARM GAS  /tmp/ccGTUwJP.s 			page 26
+
+
+ 737              	.LVL65:
+ 738              	.L44:
+ 308:Core/Src/rainbowshit.c **** 		{
+ 739              		.loc 1 308 0 is_stmt 0 discriminator 1
+ 740 002e 032C     		cmp	r4, #3
+ 741 0030 F6D9     		bls	.L46
+ 313:Core/Src/rainbowshit.c **** 	}
+ 742              		.loc 1 313 0 is_stmt 1
+ 743 0032 034A     		ldr	r2, .L50
+ 744 0034 936C     		ldr	r3, [r2, #72]
+ 745 0036 0133     		adds	r3, r3, #1
+ 746 0038 9364     		str	r3, [r2, #72]
+ 747              	.LVL66:
+ 748              	.L43:
+ 749              	.LBE3:
+ 318:Core/Src/rainbowshit.c **** 
+ 750              		.loc 1 318 0
+ 751 003a 02B0     		add	sp, sp, #8
+ 752              	.LCFI14:
+ 753              		.cfi_def_cfa_offset 8
+ 754              		@ sp needed
+ 755 003c 10BD     		pop	{r4, pc}
+ 756              	.L51:
+ 757 003e 00BF     		.align	2
+ 758              	.L50:
+ 759 0040 00000000 		.word	ws2812b
+ 760              		.cfi_endproc
+ 761              	.LFE136:
+ 763              		.section	.text.ws2812b_gpio_init,"ax",%progbits
+ 764              		.align	1
+ 765              		.syntax unified
+ 766              		.thumb
+ 767              		.thumb_func
+ 768              		.fpu fpv4-sp-d16
+ 770              	ws2812b_gpio_init:
+ 771              	.LFB130:
+  37:Core/Src/rainbowshit.c **** 	// WS2812B outputs
+ 772              		.loc 1 37 0
+ 773              		.cfi_startproc
+ 774              		@ args = 0, pretend = 0, frame = 32
+ 775              		@ frame_needed = 0, uses_anonymous_args = 0
+ 776 0000 70B5     		push	{r4, r5, r6, lr}
+ 777              	.LCFI15:
+ 778              		.cfi_def_cfa_offset 16
+ 779              		.cfi_offset 4, -16
+ 780              		.cfi_offset 5, -12
+ 781              		.cfi_offset 6, -8
+ 782              		.cfi_offset 14, -4
+ 783 0002 88B0     		sub	sp, sp, #32
+ 784              	.LCFI16:
+ 785              		.cfi_def_cfa_offset 48
+ 786              	.LBB4:
+  39:Core/Src/rainbowshit.c **** 	GPIO_InitTypeDef  GPIO_InitStruct;
+ 787              		.loc 1 39 0
+ 788 0004 0025     		movs	r5, #0
+ 789 0006 0195     		str	r5, [sp, #4]
+ 790 0008 194C     		ldr	r4, .L54
+ARM GAS  /tmp/ccGTUwJP.s 			page 27
+
+
+ 791 000a 236B     		ldr	r3, [r4, #48]
+ 792 000c 43F00403 		orr	r3, r3, #4
+ 793 0010 2363     		str	r3, [r4, #48]
+ 794 0012 236B     		ldr	r3, [r4, #48]
+ 795 0014 03F00403 		and	r3, r3, #4
+ 796 0018 0193     		str	r3, [sp, #4]
+ 797 001a 019B     		ldr	r3, [sp, #4]
+ 798              	.LBE4:
+  41:Core/Src/rainbowshit.c **** 	GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+ 799              		.loc 1 41 0
+ 800 001c 0F23     		movs	r3, #15
+ 801 001e 0393     		str	r3, [sp, #12]
+  42:Core/Src/rainbowshit.c **** 	GPIO_InitStruct.Pull      = GPIO_NOPULL;
+ 802              		.loc 1 42 0
+ 803 0020 0126     		movs	r6, #1
+ 804 0022 0496     		str	r6, [sp, #16]
+  43:Core/Src/rainbowshit.c **** 	GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+ 805              		.loc 1 43 0
+ 806 0024 0595     		str	r5, [sp, #20]
+  44:Core/Src/rainbowshit.c **** 	HAL_GPIO_Init(WS2812B_PORT, &GPIO_InitStruct);
+ 807              		.loc 1 44 0
+ 808 0026 0695     		str	r5, [sp, #24]
+  45:Core/Src/rainbowshit.c **** 
+ 809              		.loc 1 45 0
+ 810 0028 03A9     		add	r1, sp, #12
+ 811 002a 1248     		ldr	r0, .L54+4
+ 812 002c FFF7FEFF 		bl	HAL_GPIO_Init
+ 813              	.LVL67:
+ 814              	.LBB5:
+  49:Core/Src/rainbowshit.c **** 
+ 815              		.loc 1 49 0
+ 816 0030 0295     		str	r5, [sp, #8]
+ 817 0032 236B     		ldr	r3, [r4, #48]
+ 818 0034 43F00803 		orr	r3, r3, #8
+ 819 0038 2363     		str	r3, [r4, #48]
+ 820 003a 236B     		ldr	r3, [r4, #48]
+ 821 003c 03F00803 		and	r3, r3, #8
+ 822 0040 0293     		str	r3, [sp, #8]
+ 823 0042 029B     		ldr	r3, [sp, #8]
+ 824              	.LBE5:
+  51:Core/Src/rainbowshit.c **** 		GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 825              		.loc 1 51 0
+ 826 0044 0496     		str	r6, [sp, #16]
+  52:Core/Src/rainbowshit.c **** 		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+ 827              		.loc 1 52 0
+ 828 0046 0595     		str	r5, [sp, #20]
+  53:Core/Src/rainbowshit.c **** 
+ 829              		.loc 1 53 0
+ 830 0048 0223     		movs	r3, #2
+ 831 004a 0693     		str	r3, [sp, #24]
+  55:Core/Src/rainbowshit.c **** 		HAL_GPIO_Init(LED_BLUE_PORT, &GPIO_InitStruct);
+ 832              		.loc 1 55 0
+ 833 004c 4FF40043 		mov	r3, #32768
+ 834 0050 0393     		str	r3, [sp, #12]
+  56:Core/Src/rainbowshit.c **** 		GPIO_InitStruct.Pin = LED_ORANGE_PIN;
+ 835              		.loc 1 56 0
+ 836 0052 A4F53054 		sub	r4, r4, #11264
+ARM GAS  /tmp/ccGTUwJP.s 			page 28
+
+
+ 837 0056 03A9     		add	r1, sp, #12
+ 838 0058 2046     		mov	r0, r4
+ 839 005a FFF7FEFF 		bl	HAL_GPIO_Init
+ 840              	.LVL68:
+  57:Core/Src/rainbowshit.c **** 		HAL_GPIO_Init(LED_ORANGE_PORT, &GPIO_InitStruct);
+ 841              		.loc 1 57 0
+ 842 005e 4FF40053 		mov	r3, #8192
+ 843 0062 0393     		str	r3, [sp, #12]
+  58:Core/Src/rainbowshit.c **** 	#endif
+ 844              		.loc 1 58 0
+ 845 0064 03A9     		add	r1, sp, #12
+ 846 0066 2046     		mov	r0, r4
+ 847 0068 FFF7FEFF 		bl	HAL_GPIO_Init
+ 848              	.LVL69:
+  60:Core/Src/rainbowshit.c **** 
+ 849              		.loc 1 60 0
+ 850 006c 08B0     		add	sp, sp, #32
+ 851              	.LCFI17:
+ 852              		.cfi_def_cfa_offset 16
+ 853              		@ sp needed
+ 854 006e 70BD     		pop	{r4, r5, r6, pc}
+ 855              	.L55:
+ 856              		.align	2
+ 857              	.L54:
+ 858 0070 00380240 		.word	1073887232
+ 859 0074 00080240 		.word	1073874944
+ 860              		.cfi_endproc
+ 861              	.LFE130:
+ 863              		.section	.text.DMA2_init,"ax",%progbits
+ 864              		.align	1
+ 865              		.syntax unified
+ 866              		.thumb
+ 867              		.thumb_func
+ 868              		.fpu fpv4-sp-d16
+ 870              	DMA2_init:
+ 871              	.LFB132:
+ 129:Core/Src/rainbowshit.c **** 
+ 872              		.loc 1 129 0
+ 873              		.cfi_startproc
+ 874              		@ args = 0, pretend = 0, frame = 8
+ 875              		@ frame_needed = 0, uses_anonymous_args = 0
+ 876 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 877              	.LCFI18:
+ 878              		.cfi_def_cfa_offset 36
+ 879              		.cfi_offset 4, -36
+ 880              		.cfi_offset 5, -32
+ 881              		.cfi_offset 6, -28
+ 882              		.cfi_offset 7, -24
+ 883              		.cfi_offset 8, -20
+ 884              		.cfi_offset 9, -16
+ 885              		.cfi_offset 10, -12
+ 886              		.cfi_offset 11, -8
+ 887              		.cfi_offset 14, -4
+ 888 0004 83B0     		sub	sp, sp, #12
+ 889              	.LCFI19:
+ 890              		.cfi_def_cfa_offset 48
+ 891              	.LBB6:
+ARM GAS  /tmp/ccGTUwJP.s 			page 29
+
+
+ 132:Core/Src/rainbowshit.c **** 
+ 892              		.loc 1 132 0
+ 893 0006 0025     		movs	r5, #0
+ 894 0008 0195     		str	r5, [sp, #4]
+ 895 000a 464B     		ldr	r3, .L58
+ 896 000c 1A6B     		ldr	r2, [r3, #48]
+ 897 000e 42F48002 		orr	r2, r2, #4194304
+ 898 0012 1A63     		str	r2, [r3, #48]
+ 899 0014 1B6B     		ldr	r3, [r3, #48]
+ 900 0016 03F48003 		and	r3, r3, #4194304
+ 901 001a 0193     		str	r3, [sp, #4]
+ 902 001c 019B     		ldr	r3, [sp, #4]
+ 903              	.LBE6:
+ 134:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.PeriphInc = DMA_PINC_DISABLE;
+ 904              		.loc 1 134 0
+ 905 001e 424C     		ldr	r4, .L58+4
+ 906 0020 4FF0400A 		mov	r10, #64
+ 907 0024 C4F808A0 		str	r10, [r4, #8]
+ 135:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.MemInc = DMA_MINC_DISABLE;
+ 908              		.loc 1 135 0
+ 909 0028 E560     		str	r5, [r4, #12]
+ 136:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+ 910              		.loc 1 136 0
+ 911 002a 2561     		str	r5, [r4, #16]
+ 137:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+ 912              		.loc 1 137 0
+ 913 002c 4FF4805B 		mov	fp, #4096
+ 914 0030 C4F814B0 		str	fp, [r4, #20]
+ 138:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.Mode = DMA_CIRCULAR;
+ 915              		.loc 1 138 0
+ 916 0034 4FF48043 		mov	r3, #16384
+ 917 0038 A361     		str	r3, [r4, #24]
+ 139:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 918              		.loc 1 139 0
+ 919 003a 4FF48079 		mov	r9, #256
+ 920 003e C4F81C90 		str	r9, [r4, #28]
+ 140:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.Channel = DMA_CHANNEL_6;
+ 921              		.loc 1 140 0
+ 922 0042 4FF44038 		mov	r8, #196608
+ 923 0046 C4F82080 		str	r8, [r4, #32]
+ 141:Core/Src/rainbowshit.c **** 
+ 924              		.loc 1 141 0
+ 925 004a 4FF04067 		mov	r7, #201326592
+ 926 004e 6760     		str	r7, [r4, #4]
+ 143:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 927              		.loc 1 143 0
+ 928 0050 6562     		str	r5, [r4, #36]
+ 144:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.MemBurst = DMA_MBURST_SINGLE;
+ 929              		.loc 1 144 0
+ 930 0052 0326     		movs	r6, #3
+ 931 0054 A662     		str	r6, [r4, #40]
+ 145:Core/Src/rainbowshit.c **** 	dmaUpdate.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 932              		.loc 1 145 0
+ 933 0056 E562     		str	r5, [r4, #44]
+ 146:Core/Src/rainbowshit.c **** 
+ 934              		.loc 1 146 0
+ 935 0058 2563     		str	r5, [r4, #48]
+ARM GAS  /tmp/ccGTUwJP.s 			page 30
+
+
+ 148:Core/Src/rainbowshit.c **** 	//dmaUpdate.XferCpltCallback  = TransferComplete;
+ 936              		.loc 1 148 0
+ 937 005a 344B     		ldr	r3, .L58+8
+ 938 005c 2360     		str	r3, [r4]
+ 152:Core/Src/rainbowshit.c **** 	HAL_DMA_Init(&dmaUpdate);
+ 939              		.loc 1 152 0
+ 940 005e 2046     		mov	r0, r4
+ 941 0060 FFF7FEFF 		bl	HAL_DMA_DeInit
+ 942              	.LVL70:
+ 153:Core/Src/rainbowshit.c **** 	//HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
+ 943              		.loc 1 153 0
+ 944 0064 2046     		mov	r0, r4
+ 945 0066 FFF7FEFF 		bl	HAL_DMA_Init
+ 946              	.LVL71:
+ 156:Core/Src/rainbowshit.c **** 	//HAL_DMA_Start(&dmaUpdate, (uint32_t)WS2812_IO_High, (uint32_t)&dummy, BUFFER_SIZE);
+ 947              		.loc 1 156 0
+ 948 006a 3023     		movs	r3, #48
+ 949 006c 304A     		ldr	r2, .L58+12
+ 950 006e 3149     		ldr	r1, .L58+16
+ 951 0070 2046     		mov	r0, r4
+ 952 0072 FFF7FEFF 		bl	HAL_DMA_Start
+ 953              	.LVL72:
+ 161:Core/Src/rainbowshit.c **** 	dmaCC1.Init.PeriphInc = DMA_PINC_DISABLE;
+ 954              		.loc 1 161 0
+ 955 0076 304C     		ldr	r4, .L58+20
+ 956 0078 C4F808A0 		str	r10, [r4, #8]
+ 162:Core/Src/rainbowshit.c **** 	dmaCC1.Init.MemInc = DMA_MINC_ENABLE;
+ 957              		.loc 1 162 0
+ 958 007c E560     		str	r5, [r4, #12]
+ 163:Core/Src/rainbowshit.c **** 	dmaCC1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+ 959              		.loc 1 163 0
+ 960 007e 4FF48063 		mov	r3, #1024
+ 961 0082 2361     		str	r3, [r4, #16]
+ 164:Core/Src/rainbowshit.c **** 	dmaCC1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+ 962              		.loc 1 164 0
+ 963 0084 4FF40063 		mov	r3, #2048
+ 964 0088 6361     		str	r3, [r4, #20]
+ 165:Core/Src/rainbowshit.c **** 	dmaCC1.Init.Mode = DMA_CIRCULAR;
+ 965              		.loc 1 165 0
+ 966 008a 4FF40053 		mov	r3, #8192
+ 967 008e A361     		str	r3, [r4, #24]
+ 166:Core/Src/rainbowshit.c **** 	dmaCC1.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 968              		.loc 1 166 0
+ 969 0090 C4F81C90 		str	r9, [r4, #28]
+ 167:Core/Src/rainbowshit.c **** 	dmaCC1.Init.Channel = DMA_CHANNEL_6;
+ 970              		.loc 1 167 0
+ 971 0094 C4F82080 		str	r8, [r4, #32]
+ 168:Core/Src/rainbowshit.c **** 
+ 972              		.loc 1 168 0
+ 973 0098 6760     		str	r7, [r4, #4]
+ 170:Core/Src/rainbowshit.c **** 	dmaCC1.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 974              		.loc 1 170 0
+ 975 009a 6562     		str	r5, [r4, #36]
+ 171:Core/Src/rainbowshit.c **** 	dmaCC1.Init.MemBurst = DMA_MBURST_SINGLE;
+ 976              		.loc 1 171 0
+ 977 009c A662     		str	r6, [r4, #40]
+ 172:Core/Src/rainbowshit.c **** 	dmaCC1.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ARM GAS  /tmp/ccGTUwJP.s 			page 31
+
+
+ 978              		.loc 1 172 0
+ 979 009e E562     		str	r5, [r4, #44]
+ 173:Core/Src/rainbowshit.c **** 
+ 980              		.loc 1 173 0
+ 981 00a0 2563     		str	r5, [r4, #48]
+ 175:Core/Src/rainbowshit.c **** 	//dmaUpdate.XferCpltCallback  = TransferComplete;
+ 982              		.loc 1 175 0
+ 983 00a2 264B     		ldr	r3, .L58+24
+ 984 00a4 2360     		str	r3, [r4]
+ 181:Core/Src/rainbowshit.c **** 	HAL_DMA_Init(&dmaCC1);
+ 985              		.loc 1 181 0
+ 986 00a6 2046     		mov	r0, r4
+ 987 00a8 FFF7FEFF 		bl	HAL_DMA_DeInit
+ 988              	.LVL73:
+ 182:Core/Src/rainbowshit.c **** 	HAL_DMA_Start(&dmaCC1, (uint32_t)ws2812bDmaBitBuffer, (uint32_t)(&WS2812B_PORT->BSRR) + 2, BUFFER_
+ 989              		.loc 1 182 0
+ 990 00ac 2046     		mov	r0, r4
+ 991 00ae FFF7FEFF 		bl	HAL_DMA_Init
+ 992              	.LVL74:
+ 183:Core/Src/rainbowshit.c **** 	//HAL_DMA_Start(&dmaCC1, (uint32_t)ws2812bDmaBitBuffer, (uint32_t)&dummy, BUFFER_SIZE); //BRR
+ 993              		.loc 1 183 0
+ 994 00b2 3023     		movs	r3, #48
+ 995 00b4 224A     		ldr	r2, .L58+28
+ 996 00b6 2349     		ldr	r1, .L58+32
+ 997 00b8 2046     		mov	r0, r4
+ 998 00ba FFF7FEFF 		bl	HAL_DMA_Start
+ 999              	.LVL75:
+ 188:Core/Src/rainbowshit.c **** 	dmaCC2.Init.PeriphInc = DMA_PINC_DISABLE;
+ 1000              		.loc 1 188 0
+ 1001 00be 224C     		ldr	r4, .L58+36
+ 1002 00c0 C4F808A0 		str	r10, [r4, #8]
+ 189:Core/Src/rainbowshit.c **** 	dmaCC2.Init.MemInc = DMA_MINC_DISABLE;
+ 1003              		.loc 1 189 0
+ 1004 00c4 E560     		str	r5, [r4, #12]
+ 190:Core/Src/rainbowshit.c **** 	dmaCC2.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+ 1005              		.loc 1 190 0
+ 1006 00c6 2561     		str	r5, [r4, #16]
+ 191:Core/Src/rainbowshit.c **** 	dmaCC2.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+ 1007              		.loc 1 191 0
+ 1008 00c8 C4F814B0 		str	fp, [r4, #20]
+ 192:Core/Src/rainbowshit.c **** 	dmaCC2.Init.Mode = DMA_CIRCULAR;
+ 1009              		.loc 1 192 0
+ 1010 00cc 4FF48043 		mov	r3, #16384
+ 1011 00d0 A361     		str	r3, [r4, #24]
+ 193:Core/Src/rainbowshit.c **** 	dmaCC2.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 1012              		.loc 1 193 0
+ 1013 00d2 C4F81C90 		str	r9, [r4, #28]
+ 194:Core/Src/rainbowshit.c **** 	dmaCC2.Init.Channel = DMA_CHANNEL_6;
+ 1014              		.loc 1 194 0
+ 1015 00d6 C4F82080 		str	r8, [r4, #32]
+ 195:Core/Src/rainbowshit.c **** 
+ 1016              		.loc 1 195 0
+ 1017 00da 6760     		str	r7, [r4, #4]
+ 197:Core/Src/rainbowshit.c **** 	dmaCC2.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 1018              		.loc 1 197 0
+ 1019 00dc 6562     		str	r5, [r4, #36]
+ 198:Core/Src/rainbowshit.c **** 	dmaCC2.Init.MemBurst = DMA_MBURST_SINGLE;
+ARM GAS  /tmp/ccGTUwJP.s 			page 32
+
+
+ 1020              		.loc 1 198 0
+ 1021 00de A662     		str	r6, [r4, #40]
+ 199:Core/Src/rainbowshit.c **** 	dmaCC2.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 1022              		.loc 1 199 0
+ 1023 00e0 E562     		str	r5, [r4, #44]
+ 200:Core/Src/rainbowshit.c **** 
+ 1024              		.loc 1 200 0
+ 1025 00e2 2563     		str	r5, [r4, #48]
+ 202:Core/Src/rainbowshit.c **** 
+ 1026              		.loc 1 202 0
+ 1027 00e4 194B     		ldr	r3, .L58+40
+ 1028 00e6 2360     		str	r3, [r4]
+ 204:Core/Src/rainbowshit.c **** 
+ 1029              		.loc 1 204 0
+ 1030 00e8 2046     		mov	r0, r4
+ 1031 00ea FFF7FEFF 		bl	HAL_DMA_DeInit
+ 1032              	.LVL76:
+ 206:Core/Src/rainbowshit.c **** 	dmaCC2.XferHalfCpltCallback = DMA_TransferHalfHandler;
+ 1033              		.loc 1 206 0
+ 1034 00ee 184B     		ldr	r3, .L58+44
+ 1035 00f0 E363     		str	r3, [r4, #60]
+ 207:Core/Src/rainbowshit.c **** 	dmaCC2.XferErrorCallback = DMA_TransferError;
+ 1036              		.loc 1 207 0
+ 1037 00f2 184B     		ldr	r3, .L58+48
+ 1038 00f4 2364     		str	r3, [r4, #64]
+ 208:Core/Src/rainbowshit.c **** 
+ 1039              		.loc 1 208 0
+ 1040 00f6 184B     		ldr	r3, .L58+52
+ 1041 00f8 E364     		str	r3, [r4, #76]
+ 210:Core/Src/rainbowshit.c **** 	HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
+ 1042              		.loc 1 210 0
+ 1043 00fa 2046     		mov	r0, r4
+ 1044 00fc FFF7FEFF 		bl	HAL_DMA_Init
+ 1045              	.LVL77:
+ 211:Core/Src/rainbowshit.c **** 	HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+ 1046              		.loc 1 211 0
+ 1047 0100 2A46     		mov	r2, r5
+ 1048 0102 2946     		mov	r1, r5
+ 1049 0104 3A20     		movs	r0, #58
+ 1050 0106 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 1051              	.LVL78:
+ 212:Core/Src/rainbowshit.c **** 	HAL_DMA_Start_IT(&dmaCC2, (uint32_t)WS2812_IO_Low, (uint32_t)&WS2812B_PORT->BSRR, BUFFER_SIZE);
+ 1052              		.loc 1 212 0
+ 1053 010a 3A20     		movs	r0, #58
+ 1054 010c FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 1055              	.LVL79:
+ 213:Core/Src/rainbowshit.c **** 	//HAL_DMA_Start_IT(&dmaCC2, (uint32_t)WS2812_IO_Low, (uint32_t)&dummy, BUFFER_SIZE);
+ 1056              		.loc 1 213 0
+ 1057 0110 3023     		movs	r3, #48
+ 1058 0112 074A     		ldr	r2, .L58+12
+ 1059 0114 1149     		ldr	r1, .L58+56
+ 1060 0116 2046     		mov	r0, r4
+ 1061 0118 FFF7FEFF 		bl	HAL_DMA_Start_IT
+ 1062              	.LVL80:
+ 218:Core/Src/rainbowshit.c **** 
+ 1063              		.loc 1 218 0
+ 1064 011c 03B0     		add	sp, sp, #12
+ARM GAS  /tmp/ccGTUwJP.s 			page 33
+
+
+ 1065              	.LCFI20:
+ 1066              		.cfi_def_cfa_offset 36
+ 1067              		@ sp needed
+ 1068 011e BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1069              	.L59:
+ 1070 0122 00BF     		.align	2
+ 1071              	.L58:
+ 1072 0124 00380240 		.word	1073887232
+ 1073 0128 00000000 		.word	dmaUpdate
+ 1074 012c 88640240 		.word	1073898632
+ 1075 0130 18080240 		.word	1073874968
+ 1076 0134 00000000 		.word	.LANCHOR2
+ 1077 0138 00000000 		.word	dmaCC1
+ 1078 013c 28640240 		.word	1073898536
+ 1079 0140 1A080240 		.word	1073874970
+ 1080 0144 00000000 		.word	ws2812bDmaBitBuffer
+ 1081 0148 00000000 		.word	dmaCC2
+ 1082 014c 40640240 		.word	1073898560
+ 1083 0150 00000000 		.word	DMA_TransferCompleteHandler
+ 1084 0154 00000000 		.word	DMA_TransferHalfHandler
+ 1085 0158 00000000 		.word	DMA_TransferError
+ 1086 015c 00000000 		.word	.LANCHOR1
+ 1087              		.cfi_endproc
+ 1088              	.LFE132:
+ 1090              		.section	.text.TIM1_init,"ax",%progbits
+ 1091              		.align	1
+ 1092              		.syntax unified
+ 1093              		.thumb
+ 1094              		.thumb_func
+ 1095              		.fpu fpv4-sp-d16
+ 1097              	TIM1_init:
+ 1098              	.LFB131:
+  70:Core/Src/rainbowshit.c **** 	// TIM2 Periph clock enable
+ 1099              		.loc 1 70 0
+ 1100              		.cfi_startproc
+ 1101              		@ args = 0, pretend = 0, frame = 8
+ 1102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1103 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1104              	.LCFI21:
+ 1105              		.cfi_def_cfa_offset 24
+ 1106              		.cfi_offset 4, -24
+ 1107              		.cfi_offset 5, -20
+ 1108              		.cfi_offset 6, -16
+ 1109              		.cfi_offset 7, -12
+ 1110              		.cfi_offset 8, -8
+ 1111              		.cfi_offset 14, -4
+ 1112 0004 82B0     		sub	sp, sp, #8
+ 1113              	.LCFI22:
+ 1114              		.cfi_def_cfa_offset 32
+ 1115              	.LBB7:
+  72:Core/Src/rainbowshit.c **** 
+ 1116              		.loc 1 72 0
+ 1117 0006 0024     		movs	r4, #0
+ 1118 0008 0194     		str	r4, [sp, #4]
+ 1119 000a 354B     		ldr	r3, .L63
+ 1120 000c 5A6C     		ldr	r2, [r3, #68]
+ 1121 000e 42F00102 		orr	r2, r2, #1
+ARM GAS  /tmp/ccGTUwJP.s 			page 34
+
+
+ 1122 0012 5A64     		str	r2, [r3, #68]
+ 1123 0014 5B6C     		ldr	r3, [r3, #68]
+ 1124 0016 03F00103 		and	r3, r3, #1
+ 1125 001a 0193     		str	r3, [sp, #4]
+ 1126 001c 019B     		ldr	r3, [sp, #4]
+ 1127              	.LBE7:
+  76:Core/Src/rainbowshit.c **** 	timer_reset_pulse_period = (SystemCoreClock / (320 * 60)); // 60us just to be sure
+ 1128              		.loc 1 76 0
+ 1129 001e 314B     		ldr	r3, .L63+4
+ 1130 0020 1A68     		ldr	r2, [r3]
+ 1131 0022 130A     		lsrs	r3, r2, #8
+ 1132 0024 3049     		ldr	r1, .L63+8
+ 1133 0026 A1FB0313 		umull	r1, r3, r1, r3
+ 1134 002a 1B09     		lsrs	r3, r3, #4
+ 1135 002c 2F49     		ldr	r1, .L63+12
+ 1136 002e 0B60     		str	r3, [r1]
+  77:Core/Src/rainbowshit.c **** 
+ 1137              		.loc 1 77 0
+ 1138 0030 2F49     		ldr	r1, .L63+16
+ 1139 0032 A1FB0212 		umull	r1, r2, r1, r2
+ 1140 0036 D20A     		lsrs	r2, r2, #11
+ 1141 0038 2E49     		ldr	r1, .L63+20
+ 1142 003a 0A60     		str	r2, [r1]
+  79:Core/Src/rainbowshit.c **** 	uint32_t cc2 = (10 * tim_period) / 15;
+ 1143              		.loc 1 79 0
+ 1144 003c 03EB8301 		add	r1, r3, r3, lsl #2
+ 1145 0040 4A00     		lsls	r2, r1, #1
+ 1146 0042 2D49     		ldr	r1, .L63+24
+ 1147 0044 A1FB0201 		umull	r0, r1, r1, r2
+ 1148 0048 CF08     		lsrs	r7, r1, #3
+ 1149              	.LVL81:
+  80:Core/Src/rainbowshit.c **** 
+ 1150              		.loc 1 80 0
+ 1151 004a 2C49     		ldr	r1, .L63+28
+ 1152 004c A1FB0212 		umull	r1, r2, r1, r2
+ 1153 0050 D608     		lsrs	r6, r2, #3
+ 1154              	.LVL82:
+  82:Core/Src/rainbowshit.c **** 
+ 1155              		.loc 1 82 0
+ 1156 0052 2B4D     		ldr	r5, .L63+32
+ 1157 0054 2B4A     		ldr	r2, .L63+36
+ 1158 0056 2A60     		str	r2, [r5]
+  84:Core/Src/rainbowshit.c **** 	TIM1_handle.Init.RepetitionCounter = 0;
+ 1159              		.loc 1 84 0
+ 1160 0058 EB60     		str	r3, [r5, #12]
+  85:Core/Src/rainbowshit.c **** 	TIM1_handle.Init.Prescaler         = 0;
+ 1161              		.loc 1 85 0
+ 1162 005a 6C61     		str	r4, [r5, #20]
+  86:Core/Src/rainbowshit.c **** 	TIM1_handle.Init.ClockDivision     = TIM_CLOCKDIVISION_DIV1;
+ 1163              		.loc 1 86 0
+ 1164 005c 6C60     		str	r4, [r5, #4]
+  87:Core/Src/rainbowshit.c **** 	TIM1_handle.Init.CounterMode       = TIM_COUNTERMODE_UP;
+ 1165              		.loc 1 87 0
+ 1166 005e 2C61     		str	r4, [r5, #16]
+  88:Core/Src/rainbowshit.c **** 	HAL_TIM_PWM_Init(&TIM1_handle);
+ 1167              		.loc 1 88 0
+ 1168 0060 AC60     		str	r4, [r5, #8]
+ARM GAS  /tmp/ccGTUwJP.s 			page 35
+
+
+  89:Core/Src/rainbowshit.c **** 
+ 1169              		.loc 1 89 0
+ 1170 0062 2846     		mov	r0, r5
+ 1171 0064 FFF7FEFF 		bl	HAL_TIM_PWM_Init
+ 1172              	.LVL83:
+  91:Core/Src/rainbowshit.c **** 	HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+ 1173              		.loc 1 91 0
+ 1174 0068 2246     		mov	r2, r4
+ 1175 006a 2146     		mov	r1, r4
+ 1176 006c 1920     		movs	r0, #25
+ 1177 006e FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 1178              	.LVL84:
+  92:Core/Src/rainbowshit.c **** 
+ 1179              		.loc 1 92 0
+ 1180 0072 1920     		movs	r0, #25
+ 1181 0074 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 1182              	.LVL85:
+  94:Core/Src/rainbowshit.c **** 	tim2OC1.OCPolarity   = TIM_OCPOLARITY_HIGH;
+ 1183              		.loc 1 94 0
+ 1184 0078 2349     		ldr	r1, .L63+40
+ 1185 007a 4FF06008 		mov	r8, #96
+ 1186 007e C1F80080 		str	r8, [r1]
+  95:Core/Src/rainbowshit.c **** 	tim2OC1.Pulse        = cc1;
+ 1187              		.loc 1 95 0
+ 1188 0082 8C60     		str	r4, [r1, #8]
+  96:Core/Src/rainbowshit.c **** 	tim2OC1.OCNPolarity  = TIM_OCNPOLARITY_HIGH;
+ 1189              		.loc 1 96 0
+ 1190 0084 4F60     		str	r7, [r1, #4]
+  97:Core/Src/rainbowshit.c **** 	tim2OC1.OCFastMode   = TIM_OCFAST_DISABLE;
+ 1191              		.loc 1 97 0
+ 1192 0086 CC60     		str	r4, [r1, #12]
+  98:Core/Src/rainbowshit.c **** 	HAL_TIM_PWM_ConfigChannel(&TIM1_handle, &tim2OC1, TIM_CHANNEL_1);
+ 1193              		.loc 1 98 0
+ 1194 0088 0C61     		str	r4, [r1, #16]
+  99:Core/Src/rainbowshit.c **** 
+ 1195              		.loc 1 99 0
+ 1196 008a 2246     		mov	r2, r4
+ 1197 008c 2846     		mov	r0, r5
+ 1198 008e FFF7FEFF 		bl	HAL_TIM_PWM_ConfigChannel
+ 1199              	.LVL86:
+ 101:Core/Src/rainbowshit.c **** 	tim2OC2.OCPolarity   = TIM_OCPOLARITY_HIGH;
+ 1200              		.loc 1 101 0
+ 1201 0092 1E49     		ldr	r1, .L63+44
+ 1202 0094 C1F80080 		str	r8, [r1]
+ 102:Core/Src/rainbowshit.c **** 	tim2OC2.Pulse        = cc2;
+ 1203              		.loc 1 102 0
+ 1204 0098 8C60     		str	r4, [r1, #8]
+ 103:Core/Src/rainbowshit.c **** 	tim2OC2.OCNPolarity  = TIM_OCNPOLARITY_HIGH;
+ 1205              		.loc 1 103 0
+ 1206 009a 4E60     		str	r6, [r1, #4]
+ 104:Core/Src/rainbowshit.c **** 	tim2OC2.OCFastMode   = TIM_OCFAST_DISABLE;
+ 1207              		.loc 1 104 0
+ 1208 009c CC60     		str	r4, [r1, #12]
+ 105:Core/Src/rainbowshit.c **** 	tim2OC2.OCIdleState  = TIM_OCIDLESTATE_RESET;
+ 1209              		.loc 1 105 0
+ 1210 009e 0C61     		str	r4, [r1, #16]
+ 106:Core/Src/rainbowshit.c **** 	tim2OC2.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+ARM GAS  /tmp/ccGTUwJP.s 			page 36
+
+
+ 1211              		.loc 1 106 0
+ 1212 00a0 4C61     		str	r4, [r1, #20]
+ 107:Core/Src/rainbowshit.c **** 	HAL_TIM_PWM_ConfigChannel(&TIM1_handle, &tim2OC2, TIM_CHANNEL_2);
+ 1213              		.loc 1 107 0
+ 1214 00a2 8C61     		str	r4, [r1, #24]
+ 108:Core/Src/rainbowshit.c **** 
+ 1215              		.loc 1 108 0
+ 1216 00a4 0422     		movs	r2, #4
+ 1217 00a6 2846     		mov	r0, r5
+ 1218 00a8 FFF7FEFF 		bl	HAL_TIM_PWM_ConfigChannel
+ 1219              	.LVL87:
+ 111:Core/Src/rainbowshit.c **** 	HAL_TIM_PWM_Start(&TIM1_handle, TIM_CHANNEL_1);
+ 1220              		.loc 1 111 0
+ 1221 00ac 2846     		mov	r0, r5
+ 1222 00ae FFF7FEFF 		bl	HAL_TIM_Base_Start
+ 1223              	.LVL88:
+ 112:Core/Src/rainbowshit.c **** 
+ 1224              		.loc 1 112 0
+ 1225 00b2 2146     		mov	r1, r4
+ 1226 00b4 2846     		mov	r0, r5
+ 1227 00b6 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+ 1228              	.LVL89:
+ 114:Core/Src/rainbowshit.c **** 
+ 1229              		.loc 1 114 0
+ 1230 00ba 2B68     		ldr	r3, [r5]
+ 1231 00bc 196A     		ldr	r1, [r3, #32]
+ 1232 00be 41F21112 		movw	r2, #4369
+ 1233 00c2 1142     		tst	r1, r2
+ 1234 00c4 08D1     		bne	.L60
+ 114:Core/Src/rainbowshit.c **** 
+ 1235              		.loc 1 114 0 is_stmt 0 discriminator 1
+ 1236 00c6 196A     		ldr	r1, [r3, #32]
+ 1237 00c8 40F24442 		movw	r2, #1092
+ 1238 00cc 1142     		tst	r1, r2
+ 1239 00ce 03D1     		bne	.L60
+ 114:Core/Src/rainbowshit.c **** 
+ 1240              		.loc 1 114 0 discriminator 2
+ 1241 00d0 1A68     		ldr	r2, [r3]
+ 1242 00d2 22F00102 		bic	r2, r2, #1
+ 1243 00d6 1A60     		str	r2, [r3]
+ 1244              	.L60:
+ 116:Core/Src/rainbowshit.c **** 
+ 1245              		.loc 1 116 0 is_stmt 1
+ 1246 00d8 02B0     		add	sp, sp, #8
+ 1247              	.LCFI23:
+ 1248              		.cfi_def_cfa_offset 24
+ 1249              		@ sp needed
+ 1250 00da BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1251              	.LVL90:
+ 1252              	.L64:
+ 1253 00de 00BF     		.align	2
+ 1254              	.L63:
+ 1255 00e0 00380240 		.word	1073887232
+ 1256 00e4 00000000 		.word	SystemCoreClock
+ 1257 00e8 598B4F01 		.word	21990233
+ 1258 00ec 00000000 		.word	tim_period
+ 1259 00f0 B5814E1B 		.word	458129845
+ARM GAS  /tmp/ccGTUwJP.s 			page 37
+
+
+ 1260 00f4 00000000 		.word	timer_reset_pulse_period
+ 1261 00f8 398EE338 		.word	954437177
+ 1262 00fc 89888888 		.word	-2004318071
+ 1263 0100 00000000 		.word	TIM1_handle
+ 1264 0104 00000140 		.word	1073807360
+ 1265 0108 00000000 		.word	tim2OC1
+ 1266 010c 00000000 		.word	tim2OC2
+ 1267              		.cfi_endproc
+ 1268              	.LFE131:
+ 1270              		.section	.text.DMA2_Stream2_IRQHandler,"ax",%progbits
+ 1271              		.align	1
+ 1272              		.global	DMA2_Stream2_IRQHandler
+ 1273              		.syntax unified
+ 1274              		.thumb
+ 1275              		.thumb_func
+ 1276              		.fpu fpv4-sp-d16
+ 1278              	DMA2_Stream2_IRQHandler:
+ 1279              	.LFB138:
+ 383:Core/Src/rainbowshit.c **** 
+ 1280              		.loc 1 383 0
+ 1281              		.cfi_startproc
+ 1282              		@ args = 0, pretend = 0, frame = 0
+ 1283              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1284 0000 10B5     		push	{r4, lr}
+ 1285              	.LCFI24:
+ 1286              		.cfi_def_cfa_offset 8
+ 1287              		.cfi_offset 4, -8
+ 1288              		.cfi_offset 14, -4
+ 386:Core/Src/rainbowshit.c **** 	#endif
+ 1289              		.loc 1 386 0
+ 1290 0002 054C     		ldr	r4, .L67
+ 1291 0004 4FF40043 		mov	r3, #32768
+ 1292 0008 A361     		str	r3, [r4, #24]
+ 390:Core/Src/rainbowshit.c **** 
+ 1293              		.loc 1 390 0
+ 1294 000a 0448     		ldr	r0, .L67+4
+ 1295 000c FFF7FEFF 		bl	HAL_DMA_IRQHandler
+ 1296              	.LVL91:
+ 393:Core/Src/rainbowshit.c **** 	#endif
+ 1297              		.loc 1 393 0
+ 1298 0010 4FF00043 		mov	r3, #-2147483648
+ 1299 0014 A361     		str	r3, [r4, #24]
+ 1300 0016 10BD     		pop	{r4, pc}
+ 1301              	.L68:
+ 1302              		.align	2
+ 1303              	.L67:
+ 1304 0018 000C0240 		.word	1073875968
+ 1305 001c 00000000 		.word	dmaCC2
+ 1306              		.cfi_endproc
+ 1307              	.LFE138:
+ 1309              		.section	.text.TIM1_UP_TIM10_IRQHandler,"ax",%progbits
+ 1310              		.align	1
+ 1311              		.global	TIM1_UP_TIM10_IRQHandler
+ 1312              		.syntax unified
+ 1313              		.thumb
+ 1314              		.thumb_func
+ 1315              		.fpu fpv4-sp-d16
+ARM GAS  /tmp/ccGTUwJP.s 			page 38
+
+
+ 1317              	TIM1_UP_TIM10_IRQHandler:
+ 1318              	.LFB139:
+ 398:Core/Src/rainbowshit.c **** 	#if defined(LED_ORANGE_PORT)
+ 1319              		.loc 1 398 0
+ 1320              		.cfi_startproc
+ 1321              		@ args = 0, pretend = 0, frame = 0
+ 1322              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1323 0000 10B5     		push	{r4, lr}
+ 1324              	.LCFI25:
+ 1325              		.cfi_def_cfa_offset 8
+ 1326              		.cfi_offset 4, -8
+ 1327              		.cfi_offset 14, -4
+ 400:Core/Src/rainbowshit.c **** 	#endif
+ 1328              		.loc 1 400 0
+ 1329 0002 054C     		ldr	r4, .L71
+ 1330 0004 4FF40053 		mov	r3, #8192
+ 1331 0008 A361     		str	r3, [r4, #24]
+ 403:Core/Src/rainbowshit.c **** 
+ 1332              		.loc 1 403 0
+ 1333 000a 0448     		ldr	r0, .L71+4
+ 1334 000c FFF7FEFF 		bl	HAL_TIM_IRQHandler
+ 1335              	.LVL92:
+ 406:Core/Src/rainbowshit.c **** 	#endif
+ 1336              		.loc 1 406 0
+ 1337 0010 4FF00053 		mov	r3, #536870912
+ 1338 0014 A361     		str	r3, [r4, #24]
+ 1339 0016 10BD     		pop	{r4, pc}
+ 1340              	.L72:
+ 1341              		.align	2
+ 1342              	.L71:
+ 1343 0018 000C0240 		.word	1073875968
+ 1344 001c 00000000 		.word	TIM1_handle
+ 1345              		.cfi_endproc
+ 1346              	.LFE139:
+ 1348              		.section	.text.ws2812b_init,"ax",%progbits
+ 1349              		.align	1
+ 1350              		.global	ws2812b_init
+ 1351              		.syntax unified
+ 1352              		.thumb
+ 1353              		.thumb_func
+ 1354              		.fpu fpv4-sp-d16
+ 1356              	ws2812b_init:
+ 1357              	.LFB141:
+ 622:Core/Src/rainbowshit.c **** 
+ 623:Core/Src/rainbowshit.c **** 
+ 624:Core/Src/rainbowshit.c **** void ws2812b_init()
+ 625:Core/Src/rainbowshit.c **** {
+ 1358              		.loc 1 625 0
+ 1359              		.cfi_startproc
+ 1360              		@ args = 0, pretend = 0, frame = 0
+ 1361              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1362 0000 08B5     		push	{r3, lr}
+ 1363              	.LCFI26:
+ 1364              		.cfi_def_cfa_offset 8
+ 1365              		.cfi_offset 3, -8
+ 1366              		.cfi_offset 14, -4
+ 626:Core/Src/rainbowshit.c **** 	ws2812b_gpio_init();
+ARM GAS  /tmp/ccGTUwJP.s 			page 39
+
+
+ 1367              		.loc 1 626 0
+ 1368 0002 FFF7FEFF 		bl	ws2812b_gpio_init
+ 1369              	.LVL93:
+ 627:Core/Src/rainbowshit.c **** 
+ 628:Core/Src/rainbowshit.c **** 	/*TIM2_init();
+ 629:Core/Src/rainbowshit.c **** 	DMA_init();*/
+ 630:Core/Src/rainbowshit.c **** 
+ 631:Core/Src/rainbowshit.c **** 
+ 632:Core/Src/rainbowshit.c **** 	DMA2_init();
+ 1370              		.loc 1 632 0
+ 1371 0006 FFF7FEFF 		bl	DMA2_init
+ 1372              	.LVL94:
+ 633:Core/Src/rainbowshit.c **** 	TIM1_init();
+ 1373              		.loc 1 633 0
+ 1374 000a FFF7FEFF 		bl	TIM1_init
+ 1375              	.LVL95:
+ 634:Core/Src/rainbowshit.c **** 
+ 635:Core/Src/rainbowshit.c **** 
+ 636:Core/Src/rainbowshit.c **** 	// Need to start the first transfer
+ 637:Core/Src/rainbowshit.c **** 	ws2812b.transferComplete = 1;
+ 1376              		.loc 1 637 0
+ 1377 000e 0122     		movs	r2, #1
+ 1378 0010 014B     		ldr	r3, .L75
+ 1379 0012 83F84020 		strb	r2, [r3, #64]
+ 1380 0016 08BD     		pop	{r3, pc}
+ 1381              	.L76:
+ 1382              		.align	2
+ 1383              	.L75:
+ 1384 0018 00000000 		.word	ws2812b
+ 1385              		.cfi_endproc
+ 1386              	.LFE141:
+ 1388              		.section	.text.ws2812b_handle,"ax",%progbits
+ 1389              		.align	1
+ 1390              		.global	ws2812b_handle
+ 1391              		.syntax unified
+ 1392              		.thumb
+ 1393              		.thumb_func
+ 1394              		.fpu fpv4-sp-d16
+ 1396              	ws2812b_handle:
+ 1397              	.LFB142:
+ 638:Core/Src/rainbowshit.c **** }
+ 639:Core/Src/rainbowshit.c **** 
+ 640:Core/Src/rainbowshit.c **** 
+ 641:Core/Src/rainbowshit.c **** void ws2812b_handle()
+ 642:Core/Src/rainbowshit.c **** {
+ 1398              		.loc 1 642 0
+ 1399              		.cfi_startproc
+ 1400              		@ args = 0, pretend = 0, frame = 0
+ 1401              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1402 0000 08B5     		push	{r3, lr}
+ 1403              	.LCFI27:
+ 1404              		.cfi_def_cfa_offset 8
+ 1405              		.cfi_offset 3, -8
+ 1406              		.cfi_offset 14, -4
+ 643:Core/Src/rainbowshit.c **** 	if(ws2812b.startTransfer) {
+ 1407              		.loc 1 643 0
+ 1408 0002 064B     		ldr	r3, .L81
+ARM GAS  /tmp/ccGTUwJP.s 			page 40
+
+
+ 1409 0004 93F84130 		ldrb	r3, [r3, #65]	@ zero_extendqisi2
+ 1410 0008 03B9     		cbnz	r3, .L80
+ 1411              	.L77:
+ 1412 000a 08BD     		pop	{r3, pc}
+ 1413              	.L80:
+ 644:Core/Src/rainbowshit.c **** 		ws2812b.startTransfer = 0;
+ 1414              		.loc 1 644 0
+ 1415 000c 0022     		movs	r2, #0
+ 1416 000e 034B     		ldr	r3, .L81
+ 1417 0010 83F84120 		strb	r2, [r3, #65]
+ 645:Core/Src/rainbowshit.c **** 		WS2812_sendbuf();
+ 1418              		.loc 1 645 0
+ 1419 0014 FFF7FEFF 		bl	WS2812_sendbuf
+ 1420              	.LVL96:
+ 646:Core/Src/rainbowshit.c **** 	}
+ 647:Core/Src/rainbowshit.c **** 
+ 648:Core/Src/rainbowshit.c **** }...
+ 1421              		.loc 1 648 0
+ 1422 0018 F7E7     		b	.L77
+ 1423              	.L82:
+ 1424 001a 00BF     		.align	2
+ 1425              	.L81:
+ 1426 001c 00000000 		.word	ws2812b
+ 1427              		.cfi_endproc
+ 1428              	.LFE142:
+ 1430              		.comm	dummy,4,4
+ 1431              		.comm	dmaCC2,96,4
+ 1432              		.comm	dmaCC1,96,4
+ 1433              		.comm	dmaUpdate,96,4
+ 1434              		.comm	timer_reset_pulse_period,4,4
+ 1435              		.comm	tim_period,4,4
+ 1436              		.comm	tim2OC2,28,4
+ 1437              		.comm	tim2OC1,28,4
+ 1438              		.comm	TIM1_handle,64,4
+ 1439              		.global	gammaTable
+ 1440              		.comm	ws2812bDmaBitBuffer,96,4
+ 1441              		.global	WS2812_IO_Low
+ 1442              		.global	WS2812_IO_High
+ 1443              		.comm	ws2812b,76,4
+ 1444              		.section	.data.WS2812_IO_High,"aw",%progbits
+ 1445              		.align	2
+ 1446              		.set	.LANCHOR2,. + 0
+ 1449              	WS2812_IO_High:
+ 1450 0000 0F000000 		.word	15
+ 1451              		.section	.data.WS2812_IO_Low,"aw",%progbits
+ 1452              		.align	2
+ 1453              		.set	.LANCHOR1,. + 0
+ 1456              	WS2812_IO_Low:
+ 1457 0000 00000F00 		.word	983040
+ 1458              		.section	.rodata.gammaTable,"a",%progbits
+ 1459              		.align	2
+ 1460              		.set	.LANCHOR0,. + 0
+ 1463              	gammaTable:
+ 1464 0000 00       		.byte	0
+ 1465 0001 00       		.byte	0
+ 1466 0002 00       		.byte	0
+ 1467 0003 00       		.byte	0
+ARM GAS  /tmp/ccGTUwJP.s 			page 41
+
+
+ 1468 0004 00       		.byte	0
+ 1469 0005 00       		.byte	0
+ 1470 0006 00       		.byte	0
+ 1471 0007 00       		.byte	0
+ 1472 0008 00       		.byte	0
+ 1473 0009 00       		.byte	0
+ 1474 000a 00       		.byte	0
+ 1475 000b 00       		.byte	0
+ 1476 000c 00       		.byte	0
+ 1477 000d 00       		.byte	0
+ 1478 000e 00       		.byte	0
+ 1479 000f 00       		.byte	0
+ 1480 0010 00       		.byte	0
+ 1481 0011 00       		.byte	0
+ 1482 0012 00       		.byte	0
+ 1483 0013 00       		.byte	0
+ 1484 0014 00       		.byte	0
+ 1485 0015 00       		.byte	0
+ 1486 0016 00       		.byte	0
+ 1487 0017 00       		.byte	0
+ 1488 0018 00       		.byte	0
+ 1489 0019 00       		.byte	0
+ 1490 001a 00       		.byte	0
+ 1491 001b 00       		.byte	0
+ 1492 001c 01       		.byte	1
+ 1493 001d 01       		.byte	1
+ 1494 001e 01       		.byte	1
+ 1495 001f 01       		.byte	1
+ 1496 0020 01       		.byte	1
+ 1497 0021 01       		.byte	1
+ 1498 0022 01       		.byte	1
+ 1499 0023 01       		.byte	1
+ 1500 0024 01       		.byte	1
+ 1501 0025 01       		.byte	1
+ 1502 0026 01       		.byte	1
+ 1503 0027 01       		.byte	1
+ 1504 0028 01       		.byte	1
+ 1505 0029 02       		.byte	2
+ 1506 002a 02       		.byte	2
+ 1507 002b 02       		.byte	2
+ 1508 002c 02       		.byte	2
+ 1509 002d 02       		.byte	2
+ 1510 002e 02       		.byte	2
+ 1511 002f 02       		.byte	2
+ 1512 0030 02       		.byte	2
+ 1513 0031 03       		.byte	3
+ 1514 0032 03       		.byte	3
+ 1515 0033 03       		.byte	3
+ 1516 0034 03       		.byte	3
+ 1517 0035 03       		.byte	3
+ 1518 0036 03       		.byte	3
+ 1519 0037 03       		.byte	3
+ 1520 0038 04       		.byte	4
+ 1521 0039 04       		.byte	4
+ 1522 003a 04       		.byte	4
+ 1523 003b 04       		.byte	4
+ 1524 003c 04       		.byte	4
+ARM GAS  /tmp/ccGTUwJP.s 			page 42
+
+
+ 1525 003d 05       		.byte	5
+ 1526 003e 05       		.byte	5
+ 1527 003f 05       		.byte	5
+ 1528 0040 05       		.byte	5
+ 1529 0041 06       		.byte	6
+ 1530 0042 06       		.byte	6
+ 1531 0043 06       		.byte	6
+ 1532 0044 06       		.byte	6
+ 1533 0045 07       		.byte	7
+ 1534 0046 07       		.byte	7
+ 1535 0047 07       		.byte	7
+ 1536 0048 07       		.byte	7
+ 1537 0049 08       		.byte	8
+ 1538 004a 08       		.byte	8
+ 1539 004b 08       		.byte	8
+ 1540 004c 09       		.byte	9
+ 1541 004d 09       		.byte	9
+ 1542 004e 09       		.byte	9
+ 1543 004f 0A       		.byte	10
+ 1544 0050 0A       		.byte	10
+ 1545 0051 0A       		.byte	10
+ 1546 0052 0B       		.byte	11
+ 1547 0053 0B       		.byte	11
+ 1548 0054 0B       		.byte	11
+ 1549 0055 0C       		.byte	12
+ 1550 0056 0C       		.byte	12
+ 1551 0057 0D       		.byte	13
+ 1552 0058 0D       		.byte	13
+ 1553 0059 0D       		.byte	13
+ 1554 005a 0E       		.byte	14
+ 1555 005b 0E       		.byte	14
+ 1556 005c 0F       		.byte	15
+ 1557 005d 0F       		.byte	15
+ 1558 005e 10       		.byte	16
+ 1559 005f 10       		.byte	16
+ 1560 0060 11       		.byte	17
+ 1561 0061 11       		.byte	17
+ 1562 0062 12       		.byte	18
+ 1563 0063 12       		.byte	18
+ 1564 0064 13       		.byte	19
+ 1565 0065 13       		.byte	19
+ 1566 0066 14       		.byte	20
+ 1567 0067 14       		.byte	20
+ 1568 0068 15       		.byte	21
+ 1569 0069 15       		.byte	21
+ 1570 006a 16       		.byte	22
+ 1571 006b 16       		.byte	22
+ 1572 006c 17       		.byte	23
+ 1573 006d 18       		.byte	24
+ 1574 006e 18       		.byte	24
+ 1575 006f 19       		.byte	25
+ 1576 0070 19       		.byte	25
+ 1577 0071 1A       		.byte	26
+ 1578 0072 1B       		.byte	27
+ 1579 0073 1B       		.byte	27
+ 1580 0074 1C       		.byte	28
+ 1581 0075 1D       		.byte	29
+ARM GAS  /tmp/ccGTUwJP.s 			page 43
+
+
+ 1582 0076 1D       		.byte	29
+ 1583 0077 1E       		.byte	30
+ 1584 0078 1F       		.byte	31
+ 1585 0079 20       		.byte	32
+ 1586 007a 20       		.byte	32
+ 1587 007b 21       		.byte	33
+ 1588 007c 22       		.byte	34
+ 1589 007d 23       		.byte	35
+ 1590 007e 23       		.byte	35
+ 1591 007f 24       		.byte	36
+ 1592 0080 25       		.byte	37
+ 1593 0081 26       		.byte	38
+ 1594 0082 27       		.byte	39
+ 1595 0083 27       		.byte	39
+ 1596 0084 28       		.byte	40
+ 1597 0085 29       		.byte	41
+ 1598 0086 2A       		.byte	42
+ 1599 0087 2B       		.byte	43
+ 1600 0088 2C       		.byte	44
+ 1601 0089 2D       		.byte	45
+ 1602 008a 2E       		.byte	46
+ 1603 008b 2F       		.byte	47
+ 1604 008c 30       		.byte	48
+ 1605 008d 31       		.byte	49
+ 1606 008e 32       		.byte	50
+ 1607 008f 32       		.byte	50
+ 1608 0090 33       		.byte	51
+ 1609 0091 34       		.byte	52
+ 1610 0092 36       		.byte	54
+ 1611 0093 37       		.byte	55
+ 1612 0094 38       		.byte	56
+ 1613 0095 39       		.byte	57
+ 1614 0096 3A       		.byte	58
+ 1615 0097 3B       		.byte	59
+ 1616 0098 3C       		.byte	60
+ 1617 0099 3D       		.byte	61
+ 1618 009a 3E       		.byte	62
+ 1619 009b 3F       		.byte	63
+ 1620 009c 40       		.byte	64
+ 1621 009d 42       		.byte	66
+ 1622 009e 43       		.byte	67
+ 1623 009f 44       		.byte	68
+ 1624 00a0 45       		.byte	69
+ 1625 00a1 46       		.byte	70
+ 1626 00a2 48       		.byte	72
+ 1627 00a3 49       		.byte	73
+ 1628 00a4 4A       		.byte	74
+ 1629 00a5 4B       		.byte	75
+ 1630 00a6 4D       		.byte	77
+ 1631 00a7 4E       		.byte	78
+ 1632 00a8 4F       		.byte	79
+ 1633 00a9 51       		.byte	81
+ 1634 00aa 52       		.byte	82
+ 1635 00ab 53       		.byte	83
+ 1636 00ac 55       		.byte	85
+ 1637 00ad 56       		.byte	86
+ 1638 00ae 57       		.byte	87
+ARM GAS  /tmp/ccGTUwJP.s 			page 44
+
+
+ 1639 00af 59       		.byte	89
+ 1640 00b0 5A       		.byte	90
+ 1641 00b1 5C       		.byte	92
+ 1642 00b2 5D       		.byte	93
+ 1643 00b3 5F       		.byte	95
+ 1644 00b4 60       		.byte	96
+ 1645 00b5 62       		.byte	98
+ 1646 00b6 63       		.byte	99
+ 1647 00b7 65       		.byte	101
+ 1648 00b8 66       		.byte	102
+ 1649 00b9 68       		.byte	104
+ 1650 00ba 69       		.byte	105
+ 1651 00bb 6B       		.byte	107
+ 1652 00bc 6D       		.byte	109
+ 1653 00bd 6E       		.byte	110
+ 1654 00be 70       		.byte	112
+ 1655 00bf 72       		.byte	114
+ 1656 00c0 73       		.byte	115
+ 1657 00c1 75       		.byte	117
+ 1658 00c2 77       		.byte	119
+ 1659 00c3 78       		.byte	120
+ 1660 00c4 7A       		.byte	122
+ 1661 00c5 7C       		.byte	124
+ 1662 00c6 7E       		.byte	126
+ 1663 00c7 7F       		.byte	127
+ 1664 00c8 81       		.byte	-127
+ 1665 00c9 83       		.byte	-125
+ 1666 00ca 85       		.byte	-123
+ 1667 00cb 87       		.byte	-121
+ 1668 00cc 89       		.byte	-119
+ 1669 00cd 8A       		.byte	-118
+ 1670 00ce 8C       		.byte	-116
+ 1671 00cf 8E       		.byte	-114
+ 1672 00d0 90       		.byte	-112
+ 1673 00d1 92       		.byte	-110
+ 1674 00d2 94       		.byte	-108
+ 1675 00d3 96       		.byte	-106
+ 1676 00d4 98       		.byte	-104
+ 1677 00d5 9A       		.byte	-102
+ 1678 00d6 9C       		.byte	-100
+ 1679 00d7 9E       		.byte	-98
+ 1680 00d8 A0       		.byte	-96
+ 1681 00d9 A2       		.byte	-94
+ 1682 00da A4       		.byte	-92
+ 1683 00db A7       		.byte	-89
+ 1684 00dc A9       		.byte	-87
+ 1685 00dd AB       		.byte	-85
+ 1686 00de AD       		.byte	-83
+ 1687 00df AF       		.byte	-81
+ 1688 00e0 B1       		.byte	-79
+ 1689 00e1 B4       		.byte	-76
+ 1690 00e2 B6       		.byte	-74
+ 1691 00e3 B8       		.byte	-72
+ 1692 00e4 BA       		.byte	-70
+ 1693 00e5 BD       		.byte	-67
+ 1694 00e6 BF       		.byte	-65
+ 1695 00e7 C1       		.byte	-63
+ARM GAS  /tmp/ccGTUwJP.s 			page 45
+
+
+ 1696 00e8 C4       		.byte	-60
+ 1697 00e9 C6       		.byte	-58
+ 1698 00ea C8       		.byte	-56
+ 1699 00eb CB       		.byte	-53
+ 1700 00ec CD       		.byte	-51
+ 1701 00ed D0       		.byte	-48
+ 1702 00ee D2       		.byte	-46
+ 1703 00ef D5       		.byte	-43
+ 1704 00f0 D7       		.byte	-41
+ 1705 00f1 DA       		.byte	-38
+ 1706 00f2 DC       		.byte	-36
+ 1707 00f3 DF       		.byte	-33
+ 1708 00f4 E1       		.byte	-31
+ 1709 00f5 E4       		.byte	-28
+ 1710 00f6 E7       		.byte	-25
+ 1711 00f7 E9       		.byte	-23
+ 1712 00f8 EC       		.byte	-20
+ 1713 00f9 EF       		.byte	-17
+ 1714 00fa F1       		.byte	-15
+ 1715 00fb F4       		.byte	-12
+ 1716 00fc F7       		.byte	-9
+ 1717 00fd F9       		.byte	-7
+ 1718 00fe FC       		.byte	-4
+ 1719 00ff FF       		.byte	-1
+ 1720              		.text
+ 1721              	.Letext0:
+ 1722              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 1723              		.file 3 "/usr/include/newlib/sys/_stdint.h"
+ 1724              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 1725              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 1726              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
+ 1727              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 1728              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 1729              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 1730              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 1731              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 1732              		.file 12 "Core/Inc/rainbowshit.h"
+ 1733              		.file 13 "/usr/include/newlib/sys/lock.h"
+ 1734              		.file 14 "/usr/include/newlib/sys/_types.h"
+ 1735              		.file 15 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
+ 1736              		.file 16 "/usr/include/newlib/sys/reent.h"
+ 1737              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
+ARM GAS  /tmp/ccGTUwJP.s 			page 46
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 rainbowshit.c
+     /tmp/ccGTUwJP.s:18     .text.DMA_TransferError:0000000000000000 $t
+     /tmp/ccGTUwJP.s:25     .text.DMA_TransferError:0000000000000000 DMA_TransferError
+     /tmp/ccGTUwJP.s:54     .text.ws2812b_set_pixel:0000000000000000 $t
+     /tmp/ccGTUwJP.s:60     .text.ws2812b_set_pixel:0000000000000000 ws2812b_set_pixel
+     /tmp/ccGTUwJP.s:214    .text.ws2812b_set_pixel:00000000000000b8 $d
+                            *COM*:0000000000000060 ws2812bDmaBitBuffer
+     /tmp/ccGTUwJP.s:220    .text.loadNextFramebufferData:0000000000000000 $t
+     /tmp/ccGTUwJP.s:226    .text.loadNextFramebufferData:0000000000000000 loadNextFramebufferData
+     /tmp/ccGTUwJP.s:292    .text.DMA_TransferCompleteHandler:0000000000000000 $t
+     /tmp/ccGTUwJP.s:299    .text.DMA_TransferCompleteHandler:0000000000000000 DMA_TransferCompleteHandler
+     /tmp/ccGTUwJP.s:435    .text.DMA_TransferCompleteHandler:00000000000000c0 $d
+                            *COM*:000000000000004c ws2812b
+                            *COM*:0000000000000060 dmaUpdate
+                            *COM*:0000000000000060 dmaCC1
+                            *COM*:0000000000000060 dmaCC2
+                            *COM*:0000000000000040 TIM1_handle
+                            *COM*:0000000000000004 timer_reset_pulse_period
+     /tmp/ccGTUwJP.s:449    .text.WS2812_sendbuf:0000000000000000 $t
+     /tmp/ccGTUwJP.s:455    .text.WS2812_sendbuf:0000000000000000 WS2812_sendbuf
+     /tmp/ccGTUwJP.s:670    .text.WS2812_sendbuf:0000000000000148 $d
+                            *COM*:0000000000000004 tim_period
+     /tmp/ccGTUwJP.s:686    .text.DMA_TransferHalfHandler:0000000000000000 $t
+     /tmp/ccGTUwJP.s:693    .text.DMA_TransferHalfHandler:0000000000000000 DMA_TransferHalfHandler
+     /tmp/ccGTUwJP.s:759    .text.DMA_TransferHalfHandler:0000000000000040 $d
+     /tmp/ccGTUwJP.s:764    .text.ws2812b_gpio_init:0000000000000000 $t
+     /tmp/ccGTUwJP.s:770    .text.ws2812b_gpio_init:0000000000000000 ws2812b_gpio_init
+     /tmp/ccGTUwJP.s:858    .text.ws2812b_gpio_init:0000000000000070 $d
+     /tmp/ccGTUwJP.s:864    .text.DMA2_init:0000000000000000 $t
+     /tmp/ccGTUwJP.s:870    .text.DMA2_init:0000000000000000 DMA2_init
+     /tmp/ccGTUwJP.s:1072   .text.DMA2_init:0000000000000124 $d
+     /tmp/ccGTUwJP.s:1091   .text.TIM1_init:0000000000000000 $t
+     /tmp/ccGTUwJP.s:1097   .text.TIM1_init:0000000000000000 TIM1_init
+     /tmp/ccGTUwJP.s:1255   .text.TIM1_init:00000000000000e0 $d
+                            *COM*:000000000000001c tim2OC1
+                            *COM*:000000000000001c tim2OC2
+     /tmp/ccGTUwJP.s:1271   .text.DMA2_Stream2_IRQHandler:0000000000000000 $t
+     /tmp/ccGTUwJP.s:1278   .text.DMA2_Stream2_IRQHandler:0000000000000000 DMA2_Stream2_IRQHandler
+     /tmp/ccGTUwJP.s:1304   .text.DMA2_Stream2_IRQHandler:0000000000000018 $d
+     /tmp/ccGTUwJP.s:1310   .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 $t
+     /tmp/ccGTUwJP.s:1317   .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 TIM1_UP_TIM10_IRQHandler
+     /tmp/ccGTUwJP.s:1343   .text.TIM1_UP_TIM10_IRQHandler:0000000000000018 $d
+     /tmp/ccGTUwJP.s:1349   .text.ws2812b_init:0000000000000000 $t
+     /tmp/ccGTUwJP.s:1356   .text.ws2812b_init:0000000000000000 ws2812b_init
+     /tmp/ccGTUwJP.s:1384   .text.ws2812b_init:0000000000000018 $d
+     /tmp/ccGTUwJP.s:1389   .text.ws2812b_handle:0000000000000000 $t
+     /tmp/ccGTUwJP.s:1396   .text.ws2812b_handle:0000000000000000 ws2812b_handle
+     /tmp/ccGTUwJP.s:1426   .text.ws2812b_handle:000000000000001c $d
+                            *COM*:0000000000000004 dummy
+     /tmp/ccGTUwJP.s:1463   .rodata.gammaTable:0000000000000000 gammaTable
+     /tmp/ccGTUwJP.s:1456   .data.WS2812_IO_Low:0000000000000000 WS2812_IO_Low
+     /tmp/ccGTUwJP.s:1449   .data.WS2812_IO_High:0000000000000000 WS2812_IO_High
+     /tmp/ccGTUwJP.s:1445   .data.WS2812_IO_High:0000000000000000 $d
+     /tmp/ccGTUwJP.s:1452   .data.WS2812_IO_Low:0000000000000000 $d
+     /tmp/ccGTUwJP.s:1459   .rodata.gammaTable:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
+ARM GAS  /tmp/ccGTUwJP.s 			page 47
+
+
+
+UNDEFINED SYMBOLS
+HAL_GPIO_Init
+HAL_DMA_DeInit
+HAL_DMA_Init
+HAL_DMA_Start
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ
+HAL_DMA_Start_IT
+HAL_TIM_PWM_Init
+HAL_TIM_PWM_ConfigChannel
+HAL_TIM_Base_Start
+HAL_TIM_PWM_Start
+SystemCoreClock
+HAL_DMA_IRQHandler
+HAL_TIM_IRQHandler

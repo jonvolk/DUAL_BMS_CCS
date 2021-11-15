@@ -1,0 +1,3834 @@
+ARM GAS  /tmp/ccV7j3kz.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"bms.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.getHighCellVolt,"ax",%progbits
+  18              		.align	1
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu fpv4-sp-d16
+  24              	getHighCellVolt:
+  25              	.LFB136:
+  26              		.file 1 "Core/Src/bms.c"
+   1:Core/Src/bms.c **** #include "bms.h"
+   2:Core/Src/bms.c **** 
+   3:Core/Src/bms.c **** static uint16_t getPackVolt(bms_t *bms);
+   4:Core/Src/bms.c **** static uint16_t getAvgCellVolt(bms_t *bms);
+   5:Core/Src/bms.c **** static uint16_t getLowCellVolt(bms_t *bms);
+   6:Core/Src/bms.c **** static uint16_t getHighCellVolt(bms_t *bms);
+   7:Core/Src/bms.c **** static uint16_t getCellDelta(bms_t *bms);
+   8:Core/Src/bms.c **** static uint16_t getLowCellTemp(bms_t *bms);
+   9:Core/Src/bms.c **** static uint16_t getHighCellTemp(bms_t *bms);
+  10:Core/Src/bms.c **** static uint16_t getAvgCellTemp(bms_t *bms);
+  11:Core/Src/bms.c **** static uint16_t getTempDelta(bms_t *bms);
+  12:Core/Src/bms.c **** 
+  13:Core/Src/bms.c **** static const uint8_t balanceByte[96] =
+  14:Core/Src/bms.c ****     {0, 0, 0, 0, 0, 0,
+  15:Core/Src/bms.c ****      1, 1, 1, 1, 1, 1, 1, 1,
+  16:Core/Src/bms.c ****      2, 2, 2, 2, 2, 2, 2, 2,
+  17:Core/Src/bms.c ****      3, 3, 3, 3, 3, 3, 3, 3,
+  18:Core/Src/bms.c ****      4, 4, 4, 4, 4, 4, 4, 4,
+  19:Core/Src/bms.c ****      5, 5, 5, 5, 5, 5, 5, 5,
+  20:Core/Src/bms.c ****      6, 6, 6, 6, 6, 6, 6, 6,
+  21:Core/Src/bms.c ****      7, 7, 7, 7, 7, 7, 7, 7,
+  22:Core/Src/bms.c ****      0, 0, 0, 0, 0, 0, 0, 0,
+  23:Core/Src/bms.c ****      1, 1, 1, 1, 1, 1, 1, 1,
+  24:Core/Src/bms.c ****      2, 2, 2, 2, 2, 2,
+  25:Core/Src/bms.c ****      3, 3, 3, 3, 3, 3,
+  26:Core/Src/bms.c ****      4, 4, 4, 4, 4, 4};
+  27:Core/Src/bms.c **** 
+  28:Core/Src/bms.c **** static const uint8_t balanceShift[96] =
+  29:Core/Src/bms.c ****     {1, 2, 4, 8, 10, 20,
+  30:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20, 40, 80,
+  31:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20, 40, 80,
+  32:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20, 40, 80,
+ARM GAS  /tmp/ccV7j3kz.s 			page 2
+
+
+  33:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20, 40, 80,
+  34:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20, 40, 80,
+  35:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20, 40, 80,
+  36:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20, 40, 80,
+  37:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20, 40, 80,
+  38:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20, 40, 80,
+  39:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20,
+  40:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20,
+  41:Core/Src/bms.c ****      1, 2, 4, 8, 10, 20};
+  42:Core/Src/bms.c **** 
+  43:Core/Src/bms.c **** // Primary State Machine ///////////////////////////////////////////////////////////////
+  44:Core/Src/bms.c **** void bmsStateHandler(void)
+  45:Core/Src/bms.c **** {
+  46:Core/Src/bms.c **** }
+  47:Core/Src/bms.c **** 
+  48:Core/Src/bms.c **** // Send CAN Data /////////////////////////////////////////////////////////////////////
+  49:Core/Src/bms.c **** void tx500kData(void)
+  50:Core/Src/bms.c **** {
+  51:Core/Src/bms.c **** 
+  52:Core/Src/bms.c ****     txMsg2.StdId = 0x138; //BMS1
+  53:Core/Src/bms.c ****     txMsg2.DLC = 8;
+  54:Core/Src/bms.c ****     canTx2[0] = BMS[0].packVolt & 0xFF;
+  55:Core/Src/bms.c ****     canTx2[1] = (BMS[0].packVolt >> 8) & 0xFF;
+  56:Core/Src/bms.c ****     canTx2[2] = BMS[0].avgCellTemp & 0XFF;
+  57:Core/Src/bms.c ****     canTx2[3] = (BMS[0].avgCellTemp >> 8) & 0XFF;
+  58:Core/Src/bms.c ****     canTx2[4] = BMS[0].cellDelta & 0XFF;
+  59:Core/Src/bms.c ****     canTx2[5] = (BMS[0].cellDelta >> 8) & 0XFF;
+  60:Core/Src/bms.c ****     canTx2[6] = 0;
+  61:Core/Src/bms.c ****     canTx2[7] = 0;
+  62:Core/Src/bms.c ****     c2tx(&txMsg2, canTx2);
+  63:Core/Src/bms.c **** 
+  64:Core/Src/bms.c ****     txMsg2.StdId = 0x139; //BMS2
+  65:Core/Src/bms.c ****     txMsg2.DLC = 8;
+  66:Core/Src/bms.c ****     canTx2[0] = BMS[1].packVolt & 0xFF;
+  67:Core/Src/bms.c ****     canTx2[1] = (BMS[1].packVolt >> 8) & 0xFF;
+  68:Core/Src/bms.c ****     canTx2[2] = BMS[1].avgCellTemp & 0XFF;
+  69:Core/Src/bms.c ****     canTx2[3] = (BMS[1].avgCellTemp >> 8) & 0XFF;
+  70:Core/Src/bms.c ****     canTx2[4] = BMS[1].cellDelta & 0XFF;
+  71:Core/Src/bms.c ****     canTx2[5] = (BMS[1].cellDelta >> 8) & 0XFF;
+  72:Core/Src/bms.c ****     canTx2[6] = 0;
+  73:Core/Src/bms.c ****     canTx2[7] = 0;
+  74:Core/Src/bms.c ****     c2tx(&txMsg2, canTx2);
+  75:Core/Src/bms.c **** }
+  76:Core/Src/bms.c **** 
+  77:Core/Src/bms.c **** void refreshData(void)
+  78:Core/Src/bms.c **** {
+  79:Core/Src/bms.c ****     for (size_t i = 0; i < 2; i++)
+  80:Core/Src/bms.c ****     {
+  81:Core/Src/bms.c ****         getPackVolt(&BMS[i]);
+  82:Core/Src/bms.c ****         getAvgCellVolt(&BMS[i]);
+  83:Core/Src/bms.c ****         getLowCellVolt(&BMS[i]);
+  84:Core/Src/bms.c ****         getHighCellVolt(&BMS[i]);
+  85:Core/Src/bms.c ****         getCellDelta(&BMS[i]);
+  86:Core/Src/bms.c ****         getLowCellTemp(&BMS[i]);
+  87:Core/Src/bms.c ****         getHighCellTemp(&BMS[i]);
+  88:Core/Src/bms.c ****         getAvgCellTemp(&BMS[i]);
+  89:Core/Src/bms.c ****         getTempDelta(&BMS[i]);
+ARM GAS  /tmp/ccV7j3kz.s 			page 3
+
+
+  90:Core/Src/bms.c ****     }
+  91:Core/Src/bms.c **** }
+  92:Core/Src/bms.c **** 
+  93:Core/Src/bms.c **** // send every 200ms //////////////////////////////////////////////////////////////////
+  94:Core/Src/bms.c **** void sendCommand(void)
+  95:Core/Src/bms.c **** {
+  96:Core/Src/bms.c ****     txMsg.StdId = 0x200;
+  97:Core/Src/bms.c ****     txMsg.DLC = 3;
+  98:Core/Src/bms.c ****     canTx[0] = 0x02;
+  99:Core/Src/bms.c ****     canTx[1] = 0x00;
+ 100:Core/Src/bms.c ****     canTx[2] = 0x00;
+ 101:Core/Src/bms.c ****     c1tx(&txMsg, canTx); //pack 1
+ 102:Core/Src/bms.c ****     txMsg3.StdId = 0x200;
+ 103:Core/Src/bms.c ****     txMsg3.DLC = 3;
+ 104:Core/Src/bms.c ****     canTx3[0] = 0x02;
+ 105:Core/Src/bms.c ****     canTx3[1] = 0x00;
+ 106:Core/Src/bms.c ****     canTx3[2] = 0x00;
+ 107:Core/Src/bms.c ****     c3tx(&txMsg3, canTx3); // pack 2
+ 108:Core/Src/bms.c **** }
+ 109:Core/Src/bms.c **** 
+ 110:Core/Src/bms.c **** // send every 200ms //////////////////////////////////////////////////////////////////
+ 111:Core/Src/bms.c **** void balanceCommand(bms_t *bms)
+ 112:Core/Src/bms.c **** {
+ 113:Core/Src/bms.c ****     txMsg.StdId = 0x300;
+ 114:Core/Src/bms.c ****     txMsg.DLC = 8;
+ 115:Core/Src/bms.c ****     for (size_t i = 0; i < 62; i++)
+ 116:Core/Src/bms.c ****     {
+ 117:Core/Src/bms.c ****         if (bms->avgCellVolt < bms->cellVolt[i])
+ 118:Core/Src/bms.c ****         {
+ 119:Core/Src/bms.c ****             canTx[balanceByte[i]] |= balanceShift[i];
+ 120:Core/Src/bms.c ****         }
+ 121:Core/Src/bms.c ****     }
+ 122:Core/Src/bms.c ****     c1tx(&txMsg, canTx);
+ 123:Core/Src/bms.c **** 
+ 124:Core/Src/bms.c ****     txMsg.StdId = 0x310;
+ 125:Core/Src/bms.c ****     txMsg.DLC = 5;
+ 126:Core/Src/bms.c ****     for (size_t i = 62; i < 96; i++)
+ 127:Core/Src/bms.c ****     {
+ 128:Core/Src/bms.c ****         if (bms->avgCellVolt < bms->cellVolt[i])
+ 129:Core/Src/bms.c ****         {
+ 130:Core/Src/bms.c ****             canTx[balanceByte[i]] |= balanceShift[i];
+ 131:Core/Src/bms.c ****         }
+ 132:Core/Src/bms.c ****     }
+ 133:Core/Src/bms.c ****     c1tx(&txMsg, canTx);
+ 134:Core/Src/bms.c **** }
+ 135:Core/Src/bms.c **** 
+ 136:Core/Src/bms.c **** ///////////////////////////////////////////////////////////////////////////////////////
+ 137:Core/Src/bms.c **** uint16_t getHighCellVolt(bms_t *bms)
+ 138:Core/Src/bms.c **** {
+  27              		.loc 1 138 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.LVL0:
+ 139:Core/Src/bms.c ****     bms->highCellVolt = 0;
+  33              		.loc 1 139 0
+ARM GAS  /tmp/ccV7j3kz.s 			page 4
+
+
+  34 0000 0023     		movs	r3, #0
+  35 0002 A0F8E430 		strh	r3, [r0, #228]	@ movhi
+  36              	.LVL1:
+  37              	.LBB2:
+ 140:Core/Src/bms.c ****     for (size_t i = 0; i < 96; i++)
+  38              		.loc 1 140 0
+  39 0006 00E0     		b	.L2
+  40              	.LVL2:
+  41              	.L3:
+  42              		.loc 1 140 0 is_stmt 0 discriminator 2
+  43 0008 0133     		adds	r3, r3, #1
+  44              	.LVL3:
+  45              	.L2:
+  46              		.loc 1 140 0 discriminator 1
+  47 000a 5F2B     		cmp	r3, #95
+  48 000c 08D8     		bhi	.L5
+ 141:Core/Src/bms.c ****     {
+ 142:Core/Src/bms.c ****         if (bms->cellVolt[i] > bms->highCellVolt)
+  49              		.loc 1 142 0 is_stmt 1
+  50 000e 30F81320 		ldrh	r2, [r0, r3, lsl #1]
+  51 0012 B0F8E410 		ldrh	r1, [r0, #228]
+  52 0016 8A42     		cmp	r2, r1
+  53 0018 F6D9     		bls	.L3
+ 143:Core/Src/bms.c ****         {
+ 144:Core/Src/bms.c ****             bms->highCellVolt = bms->cellVolt[i];
+  54              		.loc 1 144 0
+  55 001a A0F8E420 		strh	r2, [r0, #228]	@ movhi
+  56 001e F3E7     		b	.L3
+  57              	.L5:
+  58              	.LBE2:
+ 145:Core/Src/bms.c ****         }
+ 146:Core/Src/bms.c ****     }
+ 147:Core/Src/bms.c ****     return bms->highCellVolt;
+ 148:Core/Src/bms.c **** }
+  59              		.loc 1 148 0
+  60 0020 B0F8E400 		ldrh	r0, [r0, #228]
+  61              	.LVL4:
+  62 0024 7047     		bx	lr
+  63              		.cfi_endproc
+  64              	.LFE136:
+  66              		.section	.text.getHighCellTemp,"ax",%progbits
+  67              		.align	1
+  68              		.syntax unified
+  69              		.thumb
+  70              		.thumb_func
+  71              		.fpu fpv4-sp-d16
+  73              	getHighCellTemp:
+  74              	.LFB137:
+ 149:Core/Src/bms.c **** 
+ 150:Core/Src/bms.c **** ///////////////////////////////////////////////////////////////////////////////////////
+ 151:Core/Src/bms.c **** uint16_t getHighCellTemp(bms_t *bms)
+ 152:Core/Src/bms.c **** {
+  75              		.loc 1 152 0
+  76              		.cfi_startproc
+  77              		@ args = 0, pretend = 0, frame = 0
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79              		@ link register save eliminated.
+ARM GAS  /tmp/ccV7j3kz.s 			page 5
+
+
+  80              	.LVL5:
+ 153:Core/Src/bms.c ****     bms->highCellTemp = 0;
+  81              		.loc 1 153 0
+  82 0000 0023     		movs	r3, #0
+  83 0002 A0F8EA30 		strh	r3, [r0, #234]	@ movhi
+  84              	.LVL6:
+  85              	.LBB3:
+ 154:Core/Src/bms.c ****     for (size_t i = 0; i < 16; i++)
+  86              		.loc 1 154 0
+  87 0006 00E0     		b	.L7
+  88              	.LVL7:
+  89              	.L8:
+  90              		.loc 1 154 0 is_stmt 0 discriminator 2
+  91 0008 0133     		adds	r3, r3, #1
+  92              	.LVL8:
+  93              	.L7:
+  94              		.loc 1 154 0 discriminator 1
+  95 000a 0F2B     		cmp	r3, #15
+  96 000c 0CD8     		bhi	.L10
+ 155:Core/Src/bms.c ****     {
+ 156:Core/Src/bms.c ****         if ((bms->tempSensor[i] > bms->highCellTemp) && (bms->tempSensor[i] > 0))
+  97              		.loc 1 156 0 is_stmt 1
+  98 000e 03F16002 		add	r2, r3, #96
+  99 0012 30F81220 		ldrh	r2, [r0, r2, lsl #1]
+ 100 0016 B0F8EA10 		ldrh	r1, [r0, #234]
+ 101 001a 8A42     		cmp	r2, r1
+ 102 001c F4D9     		bls	.L8
+ 103              		.loc 1 156 0 is_stmt 0 discriminator 1
+ 104 001e 002A     		cmp	r2, #0
+ 105 0020 F2D0     		beq	.L8
+ 157:Core/Src/bms.c ****         {
+ 158:Core/Src/bms.c ****             bms->highCellTemp = bms->tempSensor[i];
+ 106              		.loc 1 158 0 is_stmt 1
+ 107 0022 A0F8EA20 		strh	r2, [r0, #234]	@ movhi
+ 108 0026 EFE7     		b	.L8
+ 109              	.L10:
+ 110              	.LBE3:
+ 159:Core/Src/bms.c ****         }
+ 160:Core/Src/bms.c ****     }
+ 161:Core/Src/bms.c ****     return bms->highCellTemp;
+ 162:Core/Src/bms.c **** }
+ 111              		.loc 1 162 0
+ 112 0028 B0F8EA00 		ldrh	r0, [r0, #234]
+ 113              	.LVL9:
+ 114 002c 7047     		bx	lr
+ 115              		.cfi_endproc
+ 116              	.LFE137:
+ 118              		.section	.text.getLowCellTemp,"ax",%progbits
+ 119              		.align	1
+ 120              		.syntax unified
+ 121              		.thumb
+ 122              		.thumb_func
+ 123              		.fpu fpv4-sp-d16
+ 125              	getLowCellTemp:
+ 126              	.LFB138:
+ 163:Core/Src/bms.c **** 
+ 164:Core/Src/bms.c **** ///////////////////////////////////////////////////////////////////////////////////////
+ARM GAS  /tmp/ccV7j3kz.s 			page 6
+
+
+ 165:Core/Src/bms.c **** uint16_t getLowCellTemp(bms_t *bms)
+ 166:Core/Src/bms.c **** {
+ 127              		.loc 1 166 0
+ 128              		.cfi_startproc
+ 129              		@ args = 0, pretend = 0, frame = 0
+ 130              		@ frame_needed = 0, uses_anonymous_args = 0
+ 131              		@ link register save eliminated.
+ 132              	.LVL10:
+ 167:Core/Src/bms.c ****     bms->lowCellTemp = 0;
+ 133              		.loc 1 167 0
+ 134 0000 0023     		movs	r3, #0
+ 135 0002 A0F8EC30 		strh	r3, [r0, #236]	@ movhi
+ 136              	.LVL11:
+ 137              	.LBB4:
+ 168:Core/Src/bms.c ****     for (size_t i = 0; i < 16; i++)
+ 138              		.loc 1 168 0
+ 139 0006 00E0     		b	.L12
+ 140              	.LVL12:
+ 141              	.L13:
+ 142              		.loc 1 168 0 is_stmt 0 discriminator 2
+ 143 0008 0133     		adds	r3, r3, #1
+ 144              	.LVL13:
+ 145              	.L12:
+ 146              		.loc 1 168 0 discriminator 1
+ 147 000a 0F2B     		cmp	r3, #15
+ 148 000c 0AD8     		bhi	.L15
+ 169:Core/Src/bms.c ****     {
+ 170:Core/Src/bms.c ****         if (bms->tempSensor[i] > bms->lowCellTemp)
+ 149              		.loc 1 170 0 is_stmt 1
+ 150 000e 03F16002 		add	r2, r3, #96
+ 151 0012 30F81220 		ldrh	r2, [r0, r2, lsl #1]
+ 152 0016 B0F8EC10 		ldrh	r1, [r0, #236]
+ 153 001a 8A42     		cmp	r2, r1
+ 154 001c F4D9     		bls	.L13
+ 171:Core/Src/bms.c ****         {
+ 172:Core/Src/bms.c ****             bms->lowCellTemp = bms->tempSensor[i];
+ 155              		.loc 1 172 0
+ 156 001e A0F8EC20 		strh	r2, [r0, #236]	@ movhi
+ 157 0022 F1E7     		b	.L13
+ 158              	.L15:
+ 159              	.LBE4:
+ 173:Core/Src/bms.c ****         }
+ 174:Core/Src/bms.c ****     }
+ 175:Core/Src/bms.c ****     return bms->lowCellVolt;
+ 176:Core/Src/bms.c **** }
+ 160              		.loc 1 176 0
+ 161 0024 B0F8E200 		ldrh	r0, [r0, #226]
+ 162              	.LVL14:
+ 163 0028 7047     		bx	lr
+ 164              		.cfi_endproc
+ 165              	.LFE138:
+ 167              		.section	.text.getAvgCellTemp,"ax",%progbits
+ 168              		.align	1
+ 169              		.syntax unified
+ 170              		.thumb
+ 171              		.thumb_func
+ 172              		.fpu fpv4-sp-d16
+ARM GAS  /tmp/ccV7j3kz.s 			page 7
+
+
+ 174              	getAvgCellTemp:
+ 175              	.LFB139:
+ 177:Core/Src/bms.c **** 
+ 178:Core/Src/bms.c **** ///////////////////////////////////////////////////////////////////////////////////////
+ 179:Core/Src/bms.c **** uint16_t getAvgCellTemp(bms_t *bms)
+ 180:Core/Src/bms.c **** {
+ 176              		.loc 1 180 0
+ 177              		.cfi_startproc
+ 178              		@ args = 0, pretend = 0, frame = 0
+ 179              		@ frame_needed = 0, uses_anonymous_args = 0
+ 180              		@ link register save eliminated.
+ 181              	.LVL15:
+ 182 0000 10B4     		push	{r4}
+ 183              	.LCFI0:
+ 184              		.cfi_def_cfa_offset 4
+ 185              		.cfi_offset 4, -4
+ 186              	.LVL16:
+ 187              	.LBB5:
+ 181:Core/Src/bms.c ****     int zeroCounter = 0;
+ 182:Core/Src/bms.c ****     int avgTemp = 0;
+ 183:Core/Src/bms.c ****     for (size_t i = 0; i < 16; i++)
+ 188              		.loc 1 183 0
+ 189 0002 0023     		movs	r3, #0
+ 190              	.LBE5:
+ 182:Core/Src/bms.c ****     for (size_t i = 0; i < 16; i++)
+ 191              		.loc 1 182 0
+ 192 0004 1946     		mov	r1, r3
+ 181:Core/Src/bms.c ****     int zeroCounter = 0;
+ 193              		.loc 1 181 0
+ 194 0006 1C46     		mov	r4, r3
+ 195              	.LBB6:
+ 196              		.loc 1 183 0
+ 197 0008 01E0     		b	.L17
+ 198              	.LVL17:
+ 199              	.L18:
+ 184:Core/Src/bms.c ****     {
+ 185:Core/Src/bms.c ****         if (bms->tempSensor[i] == 0)
+ 186:Core/Src/bms.c ****         {
+ 187:Core/Src/bms.c ****             zeroCounter++;
+ 188:Core/Src/bms.c ****         }
+ 189:Core/Src/bms.c **** 
+ 190:Core/Src/bms.c ****         avgTemp += bms->tempSensor[i];
+ 200              		.loc 1 190 0 discriminator 2
+ 201 000a 1144     		add	r1, r1, r2
+ 202              	.LVL18:
+ 183:Core/Src/bms.c ****     {
+ 203              		.loc 1 183 0 discriminator 2
+ 204 000c 0133     		adds	r3, r3, #1
+ 205              	.LVL19:
+ 206              	.L17:
+ 183:Core/Src/bms.c ****     {
+ 207              		.loc 1 183 0 is_stmt 0 discriminator 1
+ 208 000e 0F2B     		cmp	r3, #15
+ 209 0010 07D8     		bhi	.L21
+ 185:Core/Src/bms.c ****         {
+ 210              		.loc 1 185 0 is_stmt 1
+ 211 0012 03F16002 		add	r2, r3, #96
+ARM GAS  /tmp/ccV7j3kz.s 			page 8
+
+
+ 212 0016 30F81220 		ldrh	r2, [r0, r2, lsl #1]
+ 213 001a 002A     		cmp	r2, #0
+ 214 001c F5D1     		bne	.L18
+ 187:Core/Src/bms.c ****         }
+ 215              		.loc 1 187 0
+ 216 001e 0134     		adds	r4, r4, #1
+ 217              	.LVL20:
+ 218 0020 F3E7     		b	.L18
+ 219              	.L21:
+ 220              	.LBE6:
+ 191:Core/Src/bms.c ****     }
+ 192:Core/Src/bms.c ****     bms->avgCellTemp = avgTemp / (16 - zeroCounter);
+ 221              		.loc 1 192 0
+ 222 0022 C4F11004 		rsb	r4, r4, #16
+ 223              	.LVL21:
+ 224 0026 91FBF4F1 		sdiv	r1, r1, r4
+ 225              	.LVL22:
+ 226 002a 89B2     		uxth	r1, r1
+ 227 002c A0F8EE10 		strh	r1, [r0, #238]	@ movhi
+ 193:Core/Src/bms.c ****     return bms->avgCellTemp;
+ 194:Core/Src/bms.c **** }
+ 228              		.loc 1 194 0
+ 229 0030 0846     		mov	r0, r1
+ 230              	.LVL23:
+ 231 0032 5DF8044B 		ldr	r4, [sp], #4
+ 232              	.LCFI1:
+ 233              		.cfi_restore 4
+ 234              		.cfi_def_cfa_offset 0
+ 235 0036 7047     		bx	lr
+ 236              		.cfi_endproc
+ 237              	.LFE139:
+ 239              		.section	.text.getTempDelta,"ax",%progbits
+ 240              		.align	1
+ 241              		.syntax unified
+ 242              		.thumb
+ 243              		.thumb_func
+ 244              		.fpu fpv4-sp-d16
+ 246              	getTempDelta:
+ 247              	.LFB140:
+ 195:Core/Src/bms.c **** 
+ 196:Core/Src/bms.c **** ///////////////////////////////////////////////////////////////////////////////////////
+ 197:Core/Src/bms.c **** uint16_t getTempDelta(bms_t *bms)
+ 198:Core/Src/bms.c **** {
+ 248              		.loc 1 198 0
+ 249              		.cfi_startproc
+ 250              		@ args = 0, pretend = 0, frame = 0
+ 251              		@ frame_needed = 0, uses_anonymous_args = 0
+ 252              		@ link register save eliminated.
+ 253              	.LVL24:
+ 199:Core/Src/bms.c ****     bms->tempDelta = bms->highCellTemp - bms->lowCellTemp;
+ 254              		.loc 1 199 0
+ 255 0000 B0F8EA30 		ldrh	r3, [r0, #234]
+ 256 0004 B0F8EC20 		ldrh	r2, [r0, #236]
+ 257 0008 9B1A     		subs	r3, r3, r2
+ 258 000a 9BB2     		uxth	r3, r3
+ 259 000c A0F8F030 		strh	r3, [r0, #240]	@ movhi
+ 200:Core/Src/bms.c ****     return bms->tempDelta;
+ARM GAS  /tmp/ccV7j3kz.s 			page 9
+
+
+ 201:Core/Src/bms.c **** }
+ 260              		.loc 1 201 0
+ 261 0010 1846     		mov	r0, r3
+ 262              	.LVL25:
+ 263 0012 7047     		bx	lr
+ 264              		.cfi_endproc
+ 265              	.LFE140:
+ 267              		.section	.text.getCellDelta,"ax",%progbits
+ 268              		.align	1
+ 269              		.syntax unified
+ 270              		.thumb
+ 271              		.thumb_func
+ 272              		.fpu fpv4-sp-d16
+ 274              	getCellDelta:
+ 275              	.LFB141:
+ 202:Core/Src/bms.c **** 
+ 203:Core/Src/bms.c **** ///////////////////////////////////////////////////////////////////////////////////////
+ 204:Core/Src/bms.c **** uint16_t getCellDelta(bms_t *bms)
+ 205:Core/Src/bms.c **** {
+ 276              		.loc 1 205 0
+ 277              		.cfi_startproc
+ 278              		@ args = 0, pretend = 0, frame = 0
+ 279              		@ frame_needed = 0, uses_anonymous_args = 0
+ 280              		@ link register save eliminated.
+ 281              	.LVL26:
+ 206:Core/Src/bms.c ****     bms->cellDelta = bms->highCellVolt - bms->lowCellVolt;
+ 282              		.loc 1 206 0
+ 283 0000 B0F8E430 		ldrh	r3, [r0, #228]
+ 284 0004 B0F8E220 		ldrh	r2, [r0, #226]
+ 285 0008 9B1A     		subs	r3, r3, r2
+ 286 000a 9BB2     		uxth	r3, r3
+ 287 000c A0F8E830 		strh	r3, [r0, #232]	@ movhi
+ 207:Core/Src/bms.c **** 
+ 208:Core/Src/bms.c ****     return bms->cellDelta;
+ 209:Core/Src/bms.c **** }
+ 288              		.loc 1 209 0
+ 289 0010 1846     		mov	r0, r3
+ 290              	.LVL27:
+ 291 0012 7047     		bx	lr
+ 292              		.cfi_endproc
+ 293              	.LFE141:
+ 295              		.section	.text.getLowCellVolt,"ax",%progbits
+ 296              		.align	1
+ 297              		.syntax unified
+ 298              		.thumb
+ 299              		.thumb_func
+ 300              		.fpu fpv4-sp-d16
+ 302              	getLowCellVolt:
+ 303              	.LFB142:
+ 210:Core/Src/bms.c **** 
+ 211:Core/Src/bms.c **** ///////////////////////////////////////////////////////////////////////////////////////
+ 212:Core/Src/bms.c **** uint16_t getLowCellVolt(bms_t *bms)
+ 213:Core/Src/bms.c **** {
+ 304              		.loc 1 213 0
+ 305              		.cfi_startproc
+ 306              		@ args = 0, pretend = 0, frame = 0
+ 307              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccV7j3kz.s 			page 10
+
+
+ 308              		@ link register save eliminated.
+ 309              	.LVL28:
+ 214:Core/Src/bms.c ****     bms->lowCellVolt = 5000;
+ 310              		.loc 1 214 0
+ 311 0000 41F28833 		movw	r3, #5000
+ 312 0004 A0F8E230 		strh	r3, [r0, #226]	@ movhi
+ 313              	.LVL29:
+ 314              	.LBB7:
+ 215:Core/Src/bms.c ****     for (size_t i = 0; i < 96; i++)
+ 315              		.loc 1 215 0
+ 316 0008 0023     		movs	r3, #0
+ 317 000a 00E0     		b	.L25
+ 318              	.LVL30:
+ 319              	.L26:
+ 320              		.loc 1 215 0 is_stmt 0 discriminator 2
+ 321 000c 0133     		adds	r3, r3, #1
+ 322              	.LVL31:
+ 323              	.L25:
+ 324              		.loc 1 215 0 discriminator 1
+ 325 000e 5F2B     		cmp	r3, #95
+ 326 0010 08D8     		bhi	.L28
+ 216:Core/Src/bms.c ****     {
+ 217:Core/Src/bms.c ****         if (bms->cellVolt[i] < bms->lowCellVolt)
+ 327              		.loc 1 217 0 is_stmt 1
+ 328 0012 30F81320 		ldrh	r2, [r0, r3, lsl #1]
+ 329 0016 B0F8E210 		ldrh	r1, [r0, #226]
+ 330 001a 8A42     		cmp	r2, r1
+ 331 001c F6D2     		bcs	.L26
+ 218:Core/Src/bms.c ****         {
+ 219:Core/Src/bms.c ****             bms->lowCellVolt = bms->cellVolt[i];
+ 332              		.loc 1 219 0
+ 333 001e A0F8E220 		strh	r2, [r0, #226]	@ movhi
+ 334 0022 F3E7     		b	.L26
+ 335              	.L28:
+ 336              	.LBE7:
+ 220:Core/Src/bms.c ****         }
+ 221:Core/Src/bms.c ****     }
+ 222:Core/Src/bms.c ****     return bms->lowCellVolt;
+ 223:Core/Src/bms.c **** }
+ 337              		.loc 1 223 0
+ 338 0024 B0F8E200 		ldrh	r0, [r0, #226]
+ 339              	.LVL32:
+ 340 0028 7047     		bx	lr
+ 341              		.cfi_endproc
+ 342              	.LFE142:
+ 344              		.section	.text.getAvgCellVolt,"ax",%progbits
+ 345              		.align	1
+ 346              		.syntax unified
+ 347              		.thumb
+ 348              		.thumb_func
+ 349              		.fpu fpv4-sp-d16
+ 351              	getAvgCellVolt:
+ 352              	.LFB143:
+ 224:Core/Src/bms.c **** 
+ 225:Core/Src/bms.c **** ///////////////////////////////////////////////////////////////////////////////////////
+ 226:Core/Src/bms.c **** uint16_t getAvgCellVolt(bms_t *bms)
+ 227:Core/Src/bms.c **** {
+ARM GAS  /tmp/ccV7j3kz.s 			page 11
+
+
+ 353              		.loc 1 227 0
+ 354              		.cfi_startproc
+ 355              		@ args = 0, pretend = 0, frame = 0
+ 356              		@ frame_needed = 0, uses_anonymous_args = 0
+ 357              		@ link register save eliminated.
+ 358              	.LVL33:
+ 359              	.LBB8:
+ 228:Core/Src/bms.c **** 
+ 229:Core/Src/bms.c ****     int cellSum = 0;
+ 230:Core/Src/bms.c ****     for (size_t i = 0; i < 96; i++)
+ 360              		.loc 1 230 0
+ 361 0000 0023     		movs	r3, #0
+ 362              	.LBE8:
+ 229:Core/Src/bms.c ****     for (size_t i = 0; i < 96; i++)
+ 363              		.loc 1 229 0
+ 364 0002 1A46     		mov	r2, r3
+ 365              	.LBB9:
+ 366              		.loc 1 230 0
+ 367 0004 03E0     		b	.L30
+ 368              	.LVL34:
+ 369              	.L31:
+ 231:Core/Src/bms.c ****     {
+ 232:Core/Src/bms.c **** 
+ 233:Core/Src/bms.c ****         cellSum += bms->cellVolt[i];
+ 370              		.loc 1 233 0 discriminator 3
+ 371 0006 30F81310 		ldrh	r1, [r0, r3, lsl #1]
+ 372 000a 0A44     		add	r2, r2, r1
+ 373              	.LVL35:
+ 230:Core/Src/bms.c ****     {
+ 374              		.loc 1 230 0 discriminator 3
+ 375 000c 0133     		adds	r3, r3, #1
+ 376              	.LVL36:
+ 377              	.L30:
+ 230:Core/Src/bms.c ****     {
+ 378              		.loc 1 230 0 is_stmt 0 discriminator 1
+ 379 000e 5F2B     		cmp	r3, #95
+ 380 0010 F9D9     		bls	.L31
+ 381              	.LBE9:
+ 234:Core/Src/bms.c ****     }
+ 235:Core/Src/bms.c ****     bms->avgCellTemp = cellSum / 96;
+ 382              		.loc 1 235 0 is_stmt 1
+ 383 0012 0549     		ldr	r1, .L32
+ 384 0014 81FB0231 		smull	r3, r1, r1, r2
+ 385              	.LVL37:
+ 386 0018 D317     		asrs	r3, r2, #31
+ 387 001a C3EB2113 		rsb	r3, r3, r1, asr #4
+ 388 001e A0F8EE30 		strh	r3, [r0, #238]	@ movhi
+ 236:Core/Src/bms.c ****     return bms->avgCellVolt;
+ 237:Core/Src/bms.c **** }
+ 389              		.loc 1 237 0
+ 390 0022 B0F8E600 		ldrh	r0, [r0, #230]
+ 391              	.LVL38:
+ 392 0026 7047     		bx	lr
+ 393              	.L33:
+ 394              		.align	2
+ 395              	.L32:
+ 396 0028 ABAAAA2A 		.word	715827883
+ARM GAS  /tmp/ccV7j3kz.s 			page 12
+
+
+ 397              		.cfi_endproc
+ 398              	.LFE143:
+ 400              		.section	.text.getPackVolt,"ax",%progbits
+ 401              		.align	1
+ 402              		.syntax unified
+ 403              		.thumb
+ 404              		.thumb_func
+ 405              		.fpu fpv4-sp-d16
+ 407              	getPackVolt:
+ 408              	.LFB144:
+ 238:Core/Src/bms.c **** 
+ 239:Core/Src/bms.c **** ///////////////////////////////////////////////////////////////////////////////////////
+ 240:Core/Src/bms.c **** uint16_t getPackVolt(bms_t *bms)
+ 241:Core/Src/bms.c **** {
+ 409              		.loc 1 241 0
+ 410              		.cfi_startproc
+ 411              		@ args = 0, pretend = 0, frame = 0
+ 412              		@ frame_needed = 0, uses_anonymous_args = 0
+ 413              		@ link register save eliminated.
+ 414              	.LVL39:
+ 415              	.LBB10:
+ 242:Core/Src/bms.c ****     uint32_t packSum = 0;
+ 243:Core/Src/bms.c ****     for (size_t i = 0; i < 96; i++)
+ 416              		.loc 1 243 0
+ 417 0000 0023     		movs	r3, #0
+ 418              	.LBE10:
+ 242:Core/Src/bms.c ****     uint32_t packSum = 0;
+ 419              		.loc 1 242 0
+ 420 0002 1A46     		mov	r2, r3
+ 421              	.LBB11:
+ 422              		.loc 1 243 0
+ 423 0004 03E0     		b	.L35
+ 424              	.LVL40:
+ 425              	.L36:
+ 244:Core/Src/bms.c ****     {
+ 245:Core/Src/bms.c ****         packSum += bms->cellVolt[i];
+ 426              		.loc 1 245 0 discriminator 3
+ 427 0006 30F81310 		ldrh	r1, [r0, r3, lsl #1]
+ 428 000a 0A44     		add	r2, r2, r1
+ 429              	.LVL41:
+ 243:Core/Src/bms.c ****     {
+ 430              		.loc 1 243 0 discriminator 3
+ 431 000c 0133     		adds	r3, r3, #1
+ 432              	.LVL42:
+ 433              	.L35:
+ 243:Core/Src/bms.c ****     {
+ 434              		.loc 1 243 0 is_stmt 0 discriminator 1
+ 435 000e 5F2B     		cmp	r3, #95
+ 436 0010 F9D9     		bls	.L36
+ 437              	.LBE11:
+ 246:Core/Src/bms.c ****     }
+ 247:Core/Src/bms.c ****     bms->packVolt = packSum / 10;
+ 438              		.loc 1 247 0 is_stmt 1
+ 439 0012 044B     		ldr	r3, .L37
+ 440              	.LVL43:
+ 441 0014 A3FB0223 		umull	r2, r3, r3, r2
+ 442              	.LVL44:
+ARM GAS  /tmp/ccV7j3kz.s 			page 13
+
+
+ 443 0018 C3F3CF03 		ubfx	r3, r3, #3, #16
+ 444 001c A0F8E030 		strh	r3, [r0, #224]	@ movhi
+ 248:Core/Src/bms.c ****     return bms->packVolt;
+ 249:Core/Src/bms.c **** }
+ 445              		.loc 1 249 0
+ 446 0020 1846     		mov	r0, r3
+ 447              	.LVL45:
+ 448 0022 7047     		bx	lr
+ 449              	.L38:
+ 450              		.align	2
+ 451              	.L37:
+ 452 0024 CDCCCCCC 		.word	-858993459
+ 453              		.cfi_endproc
+ 454              	.LFE144:
+ 456              		.section	.text.bmsStateHandler,"ax",%progbits
+ 457              		.align	1
+ 458              		.global	bmsStateHandler
+ 459              		.syntax unified
+ 460              		.thumb
+ 461              		.thumb_func
+ 462              		.fpu fpv4-sp-d16
+ 464              	bmsStateHandler:
+ 465              	.LFB131:
+  45:Core/Src/bms.c **** }
+ 466              		.loc 1 45 0
+ 467              		.cfi_startproc
+ 468              		@ args = 0, pretend = 0, frame = 0
+ 469              		@ frame_needed = 0, uses_anonymous_args = 0
+ 470              		@ link register save eliminated.
+ 471 0000 7047     		bx	lr
+ 472              		.cfi_endproc
+ 473              	.LFE131:
+ 475              		.section	.text.tx500kData,"ax",%progbits
+ 476              		.align	1
+ 477              		.global	tx500kData
+ 478              		.syntax unified
+ 479              		.thumb
+ 480              		.thumb_func
+ 481              		.fpu fpv4-sp-d16
+ 483              	tx500kData:
+ 484              	.LFB132:
+  50:Core/Src/bms.c **** 
+ 485              		.loc 1 50 0
+ 486              		.cfi_startproc
+ 487              		@ args = 0, pretend = 0, frame = 0
+ 488              		@ frame_needed = 0, uses_anonymous_args = 0
+  50:Core/Src/bms.c **** 
+ 489              		.loc 1 50 0
+ 490 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 491              	.LCFI2:
+ 492              		.cfi_def_cfa_offset 24
+ 493              		.cfi_offset 4, -24
+ 494              		.cfi_offset 5, -20
+ 495              		.cfi_offset 6, -16
+ 496              		.cfi_offset 7, -12
+ 497              		.cfi_offset 8, -8
+ 498              		.cfi_offset 14, -4
+ARM GAS  /tmp/ccV7j3kz.s 			page 14
+
+
+  52:Core/Src/bms.c ****     txMsg2.DLC = 8;
+ 499              		.loc 1 52 0
+ 500 0004 204D     		ldr	r5, .L42
+ 501 0006 4FF49C73 		mov	r3, #312
+ 502 000a 2B60     		str	r3, [r5]
+  53:Core/Src/bms.c ****     canTx2[0] = BMS[0].packVolt & 0xFF;
+ 503              		.loc 1 53 0
+ 504 000c 4FF00808 		mov	r8, #8
+ 505 0010 C5F81080 		str	r8, [r5, #16]
+  54:Core/Src/bms.c ****     canTx2[1] = (BMS[0].packVolt >> 8) & 0xFF;
+ 506              		.loc 1 54 0
+ 507 0014 1D4E     		ldr	r6, .L42+4
+ 508 0016 B6F8E030 		ldrh	r3, [r6, #224]
+ 509 001a 1D4C     		ldr	r4, .L42+8
+ 510 001c 2370     		strb	r3, [r4]
+  55:Core/Src/bms.c ****     canTx2[2] = BMS[0].avgCellTemp & 0XFF;
+ 511              		.loc 1 55 0
+ 512 001e 23FA08F3 		lsr	r3, r3, r8
+ 513 0022 6370     		strb	r3, [r4, #1]
+  56:Core/Src/bms.c ****     canTx2[3] = (BMS[0].avgCellTemp >> 8) & 0XFF;
+ 514              		.loc 1 56 0
+ 515 0024 B6F8EE30 		ldrh	r3, [r6, #238]
+ 516 0028 A370     		strb	r3, [r4, #2]
+  57:Core/Src/bms.c ****     canTx2[4] = BMS[0].cellDelta & 0XFF;
+ 517              		.loc 1 57 0
+ 518 002a 23FA08F3 		lsr	r3, r3, r8
+ 519 002e E370     		strb	r3, [r4, #3]
+  58:Core/Src/bms.c ****     canTx2[5] = (BMS[0].cellDelta >> 8) & 0XFF;
+ 520              		.loc 1 58 0
+ 521 0030 B6F8E830 		ldrh	r3, [r6, #232]
+ 522 0034 2371     		strb	r3, [r4, #4]
+  59:Core/Src/bms.c ****     canTx2[6] = 0;
+ 523              		.loc 1 59 0
+ 524 0036 23FA08F3 		lsr	r3, r3, r8
+ 525 003a 6371     		strb	r3, [r4, #5]
+  60:Core/Src/bms.c ****     canTx2[7] = 0;
+ 526              		.loc 1 60 0
+ 527 003c 0027     		movs	r7, #0
+ 528 003e A771     		strb	r7, [r4, #6]
+  61:Core/Src/bms.c ****     c2tx(&txMsg2, canTx2);
+ 529              		.loc 1 61 0
+ 530 0040 E771     		strb	r7, [r4, #7]
+  62:Core/Src/bms.c **** 
+ 531              		.loc 1 62 0
+ 532 0042 2146     		mov	r1, r4
+ 533 0044 2846     		mov	r0, r5
+ 534 0046 FFF7FEFF 		bl	c2tx
+ 535              	.LVL46:
+  64:Core/Src/bms.c ****     txMsg2.DLC = 8;
+ 536              		.loc 1 64 0
+ 537 004a 40F23913 		movw	r3, #313
+ 538 004e 2B60     		str	r3, [r5]
+  65:Core/Src/bms.c ****     canTx2[0] = BMS[1].packVolt & 0xFF;
+ 539              		.loc 1 65 0
+ 540 0050 C5F81080 		str	r8, [r5, #16]
+  66:Core/Src/bms.c ****     canTx2[1] = (BMS[1].packVolt >> 8) & 0xFF;
+ 541              		.loc 1 66 0
+ARM GAS  /tmp/ccV7j3kz.s 			page 15
+
+
+ 542 0054 B6F8D231 		ldrh	r3, [r6, #466]
+ 543 0058 2370     		strb	r3, [r4]
+  67:Core/Src/bms.c ****     canTx2[2] = BMS[1].avgCellTemp & 0XFF;
+ 544              		.loc 1 67 0
+ 545 005a 23FA08F3 		lsr	r3, r3, r8
+ 546 005e 6370     		strb	r3, [r4, #1]
+  68:Core/Src/bms.c ****     canTx2[3] = (BMS[1].avgCellTemp >> 8) & 0XFF;
+ 547              		.loc 1 68 0
+ 548 0060 B6F8E031 		ldrh	r3, [r6, #480]
+ 549 0064 A370     		strb	r3, [r4, #2]
+  69:Core/Src/bms.c ****     canTx2[4] = BMS[1].cellDelta & 0XFF;
+ 550              		.loc 1 69 0
+ 551 0066 23FA08F3 		lsr	r3, r3, r8
+ 552 006a E370     		strb	r3, [r4, #3]
+  70:Core/Src/bms.c ****     canTx2[5] = (BMS[1].cellDelta >> 8) & 0XFF;
+ 553              		.loc 1 70 0
+ 554 006c B6F8DA31 		ldrh	r3, [r6, #474]
+ 555 0070 2371     		strb	r3, [r4, #4]
+  71:Core/Src/bms.c ****     canTx2[6] = 0;
+ 556              		.loc 1 71 0
+ 557 0072 23FA08F3 		lsr	r3, r3, r8
+ 558 0076 6371     		strb	r3, [r4, #5]
+  72:Core/Src/bms.c ****     canTx2[7] = 0;
+ 559              		.loc 1 72 0
+ 560 0078 A771     		strb	r7, [r4, #6]
+  73:Core/Src/bms.c ****     c2tx(&txMsg2, canTx2);
+ 561              		.loc 1 73 0
+ 562 007a E771     		strb	r7, [r4, #7]
+  74:Core/Src/bms.c **** }
+ 563              		.loc 1 74 0
+ 564 007c 2146     		mov	r1, r4
+ 565 007e 2846     		mov	r0, r5
+ 566 0080 FFF7FEFF 		bl	c2tx
+ 567              	.LVL47:
+ 568 0084 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 569              	.L43:
+ 570              		.align	2
+ 571              	.L42:
+ 572 0088 00000000 		.word	txMsg2
+ 573 008c 00000000 		.word	BMS
+ 574 0090 00000000 		.word	canTx2
+ 575              		.cfi_endproc
+ 576              	.LFE132:
+ 578              		.section	.text.refreshData,"ax",%progbits
+ 579              		.align	1
+ 580              		.global	refreshData
+ 581              		.syntax unified
+ 582              		.thumb
+ 583              		.thumb_func
+ 584              		.fpu fpv4-sp-d16
+ 586              	refreshData:
+ 587              	.LFB133:
+  78:Core/Src/bms.c ****     for (size_t i = 0; i < 2; i++)
+ 588              		.loc 1 78 0
+ 589              		.cfi_startproc
+ 590              		@ args = 0, pretend = 0, frame = 0
+ 591              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccV7j3kz.s 			page 16
+
+
+ 592 0000 38B5     		push	{r3, r4, r5, lr}
+ 593              	.LCFI3:
+ 594              		.cfi_def_cfa_offset 16
+ 595              		.cfi_offset 3, -16
+ 596              		.cfi_offset 4, -12
+ 597              		.cfi_offset 5, -8
+ 598              		.cfi_offset 14, -4
+ 599              	.LVL48:
+ 600              	.LBB12:
+  79:Core/Src/bms.c ****     {
+ 601              		.loc 1 79 0
+ 602 0002 0025     		movs	r5, #0
+ 603 0004 1FE0     		b	.L45
+ 604              	.LVL49:
+ 605              	.L46:
+  81:Core/Src/bms.c ****         getAvgCellVolt(&BMS[i]);
+ 606              		.loc 1 81 0 discriminator 3
+ 607 0006 114B     		ldr	r3, .L48
+ 608 0008 F224     		movs	r4, #242
+ 609 000a 04FB0534 		mla	r4, r4, r5, r3
+ 610 000e 2046     		mov	r0, r4
+ 611 0010 FFF7FEFF 		bl	getPackVolt
+ 612              	.LVL50:
+  82:Core/Src/bms.c ****         getLowCellVolt(&BMS[i]);
+ 613              		.loc 1 82 0 discriminator 3
+ 614 0014 2046     		mov	r0, r4
+ 615 0016 FFF7FEFF 		bl	getAvgCellVolt
+ 616              	.LVL51:
+  83:Core/Src/bms.c ****         getHighCellVolt(&BMS[i]);
+ 617              		.loc 1 83 0 discriminator 3
+ 618 001a 2046     		mov	r0, r4
+ 619 001c FFF7FEFF 		bl	getLowCellVolt
+ 620              	.LVL52:
+  84:Core/Src/bms.c ****         getCellDelta(&BMS[i]);
+ 621              		.loc 1 84 0 discriminator 3
+ 622 0020 2046     		mov	r0, r4
+ 623 0022 FFF7FEFF 		bl	getHighCellVolt
+ 624              	.LVL53:
+  85:Core/Src/bms.c ****         getLowCellTemp(&BMS[i]);
+ 625              		.loc 1 85 0 discriminator 3
+ 626 0026 2046     		mov	r0, r4
+ 627 0028 FFF7FEFF 		bl	getCellDelta
+ 628              	.LVL54:
+  86:Core/Src/bms.c ****         getHighCellTemp(&BMS[i]);
+ 629              		.loc 1 86 0 discriminator 3
+ 630 002c 2046     		mov	r0, r4
+ 631 002e FFF7FEFF 		bl	getLowCellTemp
+ 632              	.LVL55:
+  87:Core/Src/bms.c ****         getAvgCellTemp(&BMS[i]);
+ 633              		.loc 1 87 0 discriminator 3
+ 634 0032 2046     		mov	r0, r4
+ 635 0034 FFF7FEFF 		bl	getHighCellTemp
+ 636              	.LVL56:
+  88:Core/Src/bms.c ****         getTempDelta(&BMS[i]);
+ 637              		.loc 1 88 0 discriminator 3
+ 638 0038 2046     		mov	r0, r4
+ 639 003a FFF7FEFF 		bl	getAvgCellTemp
+ARM GAS  /tmp/ccV7j3kz.s 			page 17
+
+
+ 640              	.LVL57:
+  89:Core/Src/bms.c ****     }
+ 641              		.loc 1 89 0 discriminator 3
+ 642 003e 2046     		mov	r0, r4
+ 643 0040 FFF7FEFF 		bl	getTempDelta
+ 644              	.LVL58:
+  79:Core/Src/bms.c ****     {
+ 645              		.loc 1 79 0 discriminator 3
+ 646 0044 0135     		adds	r5, r5, #1
+ 647              	.LVL59:
+ 648              	.L45:
+  79:Core/Src/bms.c ****     {
+ 649              		.loc 1 79 0 is_stmt 0 discriminator 1
+ 650 0046 012D     		cmp	r5, #1
+ 651 0048 DDD9     		bls	.L46
+ 652              	.LBE12:
+  91:Core/Src/bms.c **** 
+ 653              		.loc 1 91 0 is_stmt 1
+ 654 004a 38BD     		pop	{r3, r4, r5, pc}
+ 655              	.LVL60:
+ 656              	.L49:
+ 657              		.align	2
+ 658              	.L48:
+ 659 004c 00000000 		.word	BMS
+ 660              		.cfi_endproc
+ 661              	.LFE133:
+ 663              		.section	.text.sendCommand,"ax",%progbits
+ 664              		.align	1
+ 665              		.global	sendCommand
+ 666              		.syntax unified
+ 667              		.thumb
+ 668              		.thumb_func
+ 669              		.fpu fpv4-sp-d16
+ 671              	sendCommand:
+ 672              	.LFB134:
+  95:Core/Src/bms.c ****     txMsg.StdId = 0x200;
+ 673              		.loc 1 95 0
+ 674              		.cfi_startproc
+ 675              		@ args = 0, pretend = 0, frame = 0
+ 676              		@ frame_needed = 0, uses_anonymous_args = 0
+ 677 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 678              	.LCFI4:
+ 679              		.cfi_def_cfa_offset 24
+ 680              		.cfi_offset 3, -24
+ 681              		.cfi_offset 4, -20
+ 682              		.cfi_offset 5, -16
+ 683              		.cfi_offset 6, -12
+ 684              		.cfi_offset 7, -8
+ 685              		.cfi_offset 14, -4
+  96:Core/Src/bms.c ****     txMsg.DLC = 3;
+ 686              		.loc 1 96 0
+ 687 0002 0C48     		ldr	r0, .L52
+ 688 0004 4FF40077 		mov	r7, #512
+ 689 0008 0760     		str	r7, [r0]
+  97:Core/Src/bms.c ****     canTx[0] = 0x02;
+ 690              		.loc 1 97 0
+ 691 000a 0326     		movs	r6, #3
+ARM GAS  /tmp/ccV7j3kz.s 			page 18
+
+
+ 692 000c 0661     		str	r6, [r0, #16]
+  98:Core/Src/bms.c ****     canTx[1] = 0x00;
+ 693              		.loc 1 98 0
+ 694 000e 0A49     		ldr	r1, .L52+4
+ 695 0010 0225     		movs	r5, #2
+ 696 0012 0D70     		strb	r5, [r1]
+  99:Core/Src/bms.c ****     canTx[2] = 0x00;
+ 697              		.loc 1 99 0
+ 698 0014 0024     		movs	r4, #0
+ 699 0016 4C70     		strb	r4, [r1, #1]
+ 100:Core/Src/bms.c ****     c1tx(&txMsg, canTx); //pack 1
+ 700              		.loc 1 100 0
+ 701 0018 8C70     		strb	r4, [r1, #2]
+ 101:Core/Src/bms.c ****     txMsg3.StdId = 0x200;
+ 702              		.loc 1 101 0
+ 703 001a FFF7FEFF 		bl	c1tx
+ 704              	.LVL61:
+ 102:Core/Src/bms.c ****     txMsg3.DLC = 3;
+ 705              		.loc 1 102 0
+ 706 001e 0748     		ldr	r0, .L52+8
+ 707 0020 0760     		str	r7, [r0]
+ 103:Core/Src/bms.c ****     canTx3[0] = 0x02;
+ 708              		.loc 1 103 0
+ 709 0022 0661     		str	r6, [r0, #16]
+ 104:Core/Src/bms.c ****     canTx3[1] = 0x00;
+ 710              		.loc 1 104 0
+ 711 0024 0649     		ldr	r1, .L52+12
+ 712 0026 0D70     		strb	r5, [r1]
+ 105:Core/Src/bms.c ****     canTx3[2] = 0x00;
+ 713              		.loc 1 105 0
+ 714 0028 4C70     		strb	r4, [r1, #1]
+ 106:Core/Src/bms.c ****     c3tx(&txMsg3, canTx3); // pack 2
+ 715              		.loc 1 106 0
+ 716 002a 8C70     		strb	r4, [r1, #2]
+ 107:Core/Src/bms.c **** }
+ 717              		.loc 1 107 0
+ 718 002c FFF7FEFF 		bl	c3tx
+ 719              	.LVL62:
+ 720 0030 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 721              	.L53:
+ 722 0032 00BF     		.align	2
+ 723              	.L52:
+ 724 0034 00000000 		.word	txMsg
+ 725 0038 00000000 		.word	canTx
+ 726 003c 00000000 		.word	txMsg3
+ 727 0040 00000000 		.word	canTx3
+ 728              		.cfi_endproc
+ 729              	.LFE134:
+ 731              		.section	.text.balanceCommand,"ax",%progbits
+ 732              		.align	1
+ 733              		.global	balanceCommand
+ 734              		.syntax unified
+ 735              		.thumb
+ 736              		.thumb_func
+ 737              		.fpu fpv4-sp-d16
+ 739              	balanceCommand:
+ 740              	.LFB135:
+ARM GAS  /tmp/ccV7j3kz.s 			page 19
+
+
+ 112:Core/Src/bms.c ****     txMsg.StdId = 0x300;
+ 741              		.loc 1 112 0
+ 742              		.cfi_startproc
+ 743              		@ args = 0, pretend = 0, frame = 0
+ 744              		@ frame_needed = 0, uses_anonymous_args = 0
+ 745              	.LVL63:
+ 746 0000 38B5     		push	{r3, r4, r5, lr}
+ 747              	.LCFI5:
+ 748              		.cfi_def_cfa_offset 16
+ 749              		.cfi_offset 3, -16
+ 750              		.cfi_offset 4, -12
+ 751              		.cfi_offset 5, -8
+ 752              		.cfi_offset 14, -4
+ 753 0002 0446     		mov	r4, r0
+ 113:Core/Src/bms.c ****     txMsg.DLC = 8;
+ 754              		.loc 1 113 0
+ 755 0004 1E4B     		ldr	r3, .L64
+ 756 0006 4FF44072 		mov	r2, #768
+ 757 000a 1A60     		str	r2, [r3]
+ 114:Core/Src/bms.c ****     for (size_t i = 0; i < 62; i++)
+ 758              		.loc 1 114 0
+ 759 000c 0822     		movs	r2, #8
+ 760 000e 1A61     		str	r2, [r3, #16]
+ 761              	.LVL64:
+ 762              	.LBB13:
+ 115:Core/Src/bms.c ****     {
+ 763              		.loc 1 115 0
+ 764 0010 0023     		movs	r3, #0
+ 765 0012 00E0     		b	.L55
+ 766              	.LVL65:
+ 767              	.L56:
+ 115:Core/Src/bms.c ****     {
+ 768              		.loc 1 115 0 is_stmt 0 discriminator 2
+ 769 0014 0133     		adds	r3, r3, #1
+ 770              	.LVL66:
+ 771              	.L55:
+ 115:Core/Src/bms.c ****     {
+ 772              		.loc 1 115 0 discriminator 1
+ 773 0016 3D2B     		cmp	r3, #61
+ 774 0018 0ED8     		bhi	.L62
+ 117:Core/Src/bms.c ****         {
+ 775              		.loc 1 117 0 is_stmt 1
+ 776 001a B4F8E610 		ldrh	r1, [r4, #230]
+ 777 001e 34F81320 		ldrh	r2, [r4, r3, lsl #1]
+ 778 0022 9142     		cmp	r1, r2
+ 779 0024 F6D2     		bcs	.L56
+ 119:Core/Src/bms.c ****         }
+ 780              		.loc 1 119 0
+ 781 0026 174A     		ldr	r2, .L64+4
+ 782 0028 D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 783 002a 174A     		ldr	r2, .L64+8
+ 784 002c D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+ 785 002e 1748     		ldr	r0, .L64+12
+ 786 0030 455C     		ldrb	r5, [r0, r1]	@ zero_extendqisi2
+ 787 0032 2A43     		orrs	r2, r2, r5
+ 788 0034 4254     		strb	r2, [r0, r1]
+ 789 0036 EDE7     		b	.L56
+ARM GAS  /tmp/ccV7j3kz.s 			page 20
+
+
+ 790              	.L62:
+ 791              	.LBE13:
+ 122:Core/Src/bms.c **** 
+ 792              		.loc 1 122 0
+ 793 0038 114D     		ldr	r5, .L64
+ 794 003a 1449     		ldr	r1, .L64+12
+ 795 003c 2846     		mov	r0, r5
+ 796 003e FFF7FEFF 		bl	c1tx
+ 797              	.LVL67:
+ 124:Core/Src/bms.c ****     txMsg.DLC = 5;
+ 798              		.loc 1 124 0
+ 799 0042 4FF44473 		mov	r3, #784
+ 800 0046 2B60     		str	r3, [r5]
+ 125:Core/Src/bms.c ****     for (size_t i = 62; i < 96; i++)
+ 801              		.loc 1 125 0
+ 802 0048 0523     		movs	r3, #5
+ 803 004a 2B61     		str	r3, [r5, #16]
+ 804              	.LVL68:
+ 805              	.LBB14:
+ 126:Core/Src/bms.c ****     {
+ 806              		.loc 1 126 0
+ 807 004c 3E23     		movs	r3, #62
+ 808 004e 00E0     		b	.L58
+ 809              	.LVL69:
+ 810              	.L59:
+ 126:Core/Src/bms.c ****     {
+ 811              		.loc 1 126 0 is_stmt 0 discriminator 2
+ 812 0050 0133     		adds	r3, r3, #1
+ 813              	.LVL70:
+ 814              	.L58:
+ 126:Core/Src/bms.c ****     {
+ 815              		.loc 1 126 0 discriminator 1
+ 816 0052 5F2B     		cmp	r3, #95
+ 817 0054 0ED8     		bhi	.L63
+ 128:Core/Src/bms.c ****         {
+ 818              		.loc 1 128 0 is_stmt 1
+ 819 0056 B4F8E610 		ldrh	r1, [r4, #230]
+ 820 005a 34F81320 		ldrh	r2, [r4, r3, lsl #1]
+ 821 005e 9142     		cmp	r1, r2
+ 822 0060 F6D2     		bcs	.L59
+ 130:Core/Src/bms.c ****         }
+ 823              		.loc 1 130 0
+ 824 0062 084A     		ldr	r2, .L64+4
+ 825 0064 D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 826 0066 084A     		ldr	r2, .L64+8
+ 827 0068 D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+ 828 006a 0848     		ldr	r0, .L64+12
+ 829 006c 455C     		ldrb	r5, [r0, r1]	@ zero_extendqisi2
+ 830 006e 2A43     		orrs	r2, r2, r5
+ 831 0070 4254     		strb	r2, [r0, r1]
+ 832 0072 EDE7     		b	.L59
+ 833              	.L63:
+ 834              	.LBE14:
+ 133:Core/Src/bms.c **** }
+ 835              		.loc 1 133 0
+ 836 0074 0549     		ldr	r1, .L64+12
+ 837 0076 0248     		ldr	r0, .L64
+ARM GAS  /tmp/ccV7j3kz.s 			page 21
+
+
+ 838 0078 FFF7FEFF 		bl	c1tx
+ 839              	.LVL71:
+ 840 007c 38BD     		pop	{r3, r4, r5, pc}
+ 841              	.LVL72:
+ 842              	.L65:
+ 843 007e 00BF     		.align	2
+ 844              	.L64:
+ 845 0080 00000000 		.word	txMsg
+ 846 0084 00000000 		.word	.LANCHOR0
+ 847 0088 00000000 		.word	.LANCHOR1
+ 848 008c 00000000 		.word	canTx
+ 849              		.cfi_endproc
+ 850              	.LFE135:
+ 852              		.global	__aeabi_i2d
+ 853              		.global	__aeabi_dmul
+ 854              		.global	__aeabi_d2uiz
+ 855              		.section	.text.decodeVolt,"ax",%progbits
+ 856              		.align	1
+ 857              		.global	decodeVolt
+ 858              		.syntax unified
+ 859              		.thumb
+ 860              		.thumb_func
+ 861              		.fpu fpv4-sp-d16
+ 863              	decodeVolt:
+ 864              	.LFB145:
+ 250:Core/Src/bms.c **** 
+ 251:Core/Src/bms.c **** ///////////////////////////////////////////////////////////////////////////////////////
+ 252:Core/Src/bms.c **** void decodeVolt(bms_t *bms, CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx) // cell voltage in millivol
+ 253:Core/Src/bms.c **** {
+ 865              		.loc 1 253 0
+ 866              		.cfi_startproc
+ 867              		@ args = 0, pretend = 0, frame = 0
+ 868              		@ frame_needed = 0, uses_anonymous_args = 0
+ 869              	.LVL73:
+ 870 0000 38B5     		push	{r3, r4, r5, lr}
+ 871              	.LCFI6:
+ 872              		.cfi_def_cfa_offset 16
+ 873              		.cfi_offset 3, -16
+ 874              		.cfi_offset 4, -12
+ 875              		.cfi_offset 5, -8
+ 876              		.cfi_offset 14, -4
+ 877 0002 0546     		mov	r5, r0
+ 878 0004 1446     		mov	r4, r2
+ 254:Core/Src/bms.c ****     switch (rxMsg->StdId)
+ 879              		.loc 1 254 0
+ 880 0006 0B68     		ldr	r3, [r1]
+ 881 0008 A3F58C63 		sub	r3, r3, #1120
+ 882 000c 1E2B     		cmp	r3, #30
+ 883 000e 00F22186 		bhi	.L66
+ 884 0012 DFE813F0 		tbh	[pc, r3, lsl #1]
+ 885              	.LVL74:
+ 886              	.L69:
+ 887 0016 1F00     		.2byte	(.L68-.L69)/2
+ 888 0018 7B00     		.2byte	(.L70-.L69)/2
+ 889 001a F500     		.2byte	(.L71-.L69)/2
+ 890 001c 6F01     		.2byte	(.L72-.L69)/2
+ 891 001e EC01     		.2byte	(.L73-.L69)/2
+ARM GAS  /tmp/ccV7j3kz.s 			page 22
+
+
+ 892 0020 6C02     		.2byte	(.L74-.L69)/2
+ 893 0022 EE02     		.2byte	(.L75-.L69)/2
+ 894 0024 1F06     		.2byte	(.L66-.L69)/2
+ 895 0026 7203     		.2byte	(.L76-.L69)/2
+ 896 0028 F403     		.2byte	(.L77-.L69)/2
+ 897 002a 7604     		.2byte	(.L78-.L69)/2
+ 898 002c 1F06     		.2byte	(.L66-.L69)/2
+ 899 002e FA04     		.2byte	(.L79-.L69)/2
+ 900 0030 5C05     		.2byte	(.L80-.L69)/2
+ 901 0032 BE05     		.2byte	(.L81-.L69)/2
+ 902 0034 1F06     		.2byte	(.L66-.L69)/2
+ 903 0036 4D00     		.2byte	(.L82-.L69)/2
+ 904 0038 B800     		.2byte	(.L83-.L69)/2
+ 905 003a 3201     		.2byte	(.L84-.L69)/2
+ 906 003c AF01     		.2byte	(.L85-.L69)/2
+ 907 003e 2B02     		.2byte	(.L86-.L69)/2
+ 908 0040 AD02     		.2byte	(.L87-.L69)/2
+ 909 0042 3103     		.2byte	(.L88-.L69)/2
+ 910 0044 1F06     		.2byte	(.L66-.L69)/2
+ 911 0046 B303     		.2byte	(.L89-.L69)/2
+ 912 0048 3504     		.2byte	(.L90-.L69)/2
+ 913 004a B904     		.2byte	(.L91-.L69)/2
+ 914 004c 1F06     		.2byte	(.L66-.L69)/2
+ 915 004e 2B05     		.2byte	(.L92-.L69)/2
+ 916 0050 8D05     		.2byte	(.L93-.L69)/2
+ 917 0052 EF05     		.2byte	(.L94-.L69)/2
+ 918              		.p2align 1
+ 919              	.L68:
+ 255:Core/Src/bms.c ****     {
+ 256:Core/Src/bms.c ****     case 0x460: // Begin module 1
+ 257:Core/Src/bms.c ****         bms->cellVolt[0] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 920              		.loc 1 257 0
+ 921 0054 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 922 0056 1B02     		lsls	r3, r3, #8
+ 923 0058 03F47063 		and	r3, r3, #3840
+ 924 005c 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 925              	.LVL75:
+ 926 005e 1844     		add	r0, r0, r3
+ 927 0060 FFF7FEFF 		bl	__aeabi_i2d
+ 928              	.LVL76:
+ 929 0064 0022     		movs	r2, #0
+ 930 0066 C24B     		ldr	r3, .L96
+ 931 0068 FFF7FEFF 		bl	__aeabi_dmul
+ 932              	.LVL77:
+ 933 006c FFF7FEFF 		bl	__aeabi_d2uiz
+ 934              	.LVL78:
+ 935 0070 2880     		strh	r0, [r5]	@ movhi
+ 258:Core/Src/bms.c ****         bms->cellVolt[1] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 936              		.loc 1 258 0
+ 937 0072 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 938 0074 1B02     		lsls	r3, r3, #8
+ 939 0076 03F47063 		and	r3, r3, #3840
+ 940 007a E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 941 007c 1844     		add	r0, r0, r3
+ 942 007e FFF7FEFF 		bl	__aeabi_i2d
+ 943              	.LVL79:
+ 944 0082 0022     		movs	r2, #0
+ARM GAS  /tmp/ccV7j3kz.s 			page 23
+
+
+ 945 0084 BA4B     		ldr	r3, .L96
+ 946 0086 FFF7FEFF 		bl	__aeabi_dmul
+ 947              	.LVL80:
+ 948 008a FFF7FEFF 		bl	__aeabi_d2uiz
+ 949              	.LVL81:
+ 950 008e 6880     		strh	r0, [r5, #2]	@ movhi
+ 259:Core/Src/bms.c ****         bms->cellVolt[2] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 951              		.loc 1 259 0
+ 952 0090 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 953 0092 1B02     		lsls	r3, r3, #8
+ 954 0094 03F47063 		and	r3, r3, #3840
+ 955 0098 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 956 009a 1844     		add	r0, r0, r3
+ 957 009c FFF7FEFF 		bl	__aeabi_i2d
+ 958              	.LVL82:
+ 959 00a0 0022     		movs	r2, #0
+ 960 00a2 B34B     		ldr	r3, .L96
+ 961 00a4 FFF7FEFF 		bl	__aeabi_dmul
+ 962              	.LVL83:
+ 963 00a8 FFF7FEFF 		bl	__aeabi_d2uiz
+ 964              	.LVL84:
+ 965 00ac A880     		strh	r0, [r5, #4]	@ movhi
+ 260:Core/Src/bms.c ****         break;
+ 966              		.loc 1 260 0
+ 967 00ae 38BD     		pop	{r3, r4, r5, pc}
+ 968              	.LVL85:
+ 969              	.L82:
+ 261:Core/Src/bms.c **** 
+ 262:Core/Src/bms.c ****     case 0x470:
+ 263:Core/Src/bms.c ****         bms->cellVolt[3] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 970              		.loc 1 263 0
+ 971 00b0 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 972 00b2 1B02     		lsls	r3, r3, #8
+ 973 00b4 03F47063 		and	r3, r3, #3840
+ 974 00b8 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 975              	.LVL86:
+ 976 00ba 1844     		add	r0, r0, r3
+ 977 00bc FFF7FEFF 		bl	__aeabi_i2d
+ 978              	.LVL87:
+ 979 00c0 0022     		movs	r2, #0
+ 980 00c2 AB4B     		ldr	r3, .L96
+ 981 00c4 FFF7FEFF 		bl	__aeabi_dmul
+ 982              	.LVL88:
+ 983 00c8 FFF7FEFF 		bl	__aeabi_d2uiz
+ 984              	.LVL89:
+ 985 00cc E880     		strh	r0, [r5, #6]	@ movhi
+ 264:Core/Src/bms.c ****         bms->cellVolt[4] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 986              		.loc 1 264 0
+ 987 00ce A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 988 00d0 1B02     		lsls	r3, r3, #8
+ 989 00d2 03F47063 		and	r3, r3, #3840
+ 990 00d6 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 991 00d8 1844     		add	r0, r0, r3
+ 992 00da FFF7FEFF 		bl	__aeabi_i2d
+ 993              	.LVL90:
+ 994 00de 0022     		movs	r2, #0
+ 995 00e0 A34B     		ldr	r3, .L96
+ARM GAS  /tmp/ccV7j3kz.s 			page 24
+
+
+ 996 00e2 FFF7FEFF 		bl	__aeabi_dmul
+ 997              	.LVL91:
+ 998 00e6 FFF7FEFF 		bl	__aeabi_d2uiz
+ 999              	.LVL92:
+ 1000 00ea 2881     		strh	r0, [r5, #8]	@ movhi
+ 265:Core/Src/bms.c ****         bms->cellVolt[5] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1001              		.loc 1 265 0
+ 1002 00ec 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1003 00ee 1B02     		lsls	r3, r3, #8
+ 1004 00f0 03F47063 		and	r3, r3, #3840
+ 1005 00f4 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1006 00f6 1844     		add	r0, r0, r3
+ 1007 00f8 FFF7FEFF 		bl	__aeabi_i2d
+ 1008              	.LVL93:
+ 1009 00fc 0022     		movs	r2, #0
+ 1010 00fe 9C4B     		ldr	r3, .L96
+ 1011 0100 FFF7FEFF 		bl	__aeabi_dmul
+ 1012              	.LVL94:
+ 1013 0104 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1014              	.LVL95:
+ 1015 0108 6881     		strh	r0, [r5, #10]	@ movhi
+ 266:Core/Src/bms.c ****         break;
+ 1016              		.loc 1 266 0
+ 1017 010a 38BD     		pop	{r3, r4, r5, pc}
+ 1018              	.LVL96:
+ 1019              	.L70:
+ 267:Core/Src/bms.c **** 
+ 268:Core/Src/bms.c ****     case 0x461:
+ 269:Core/Src/bms.c ****         bms->cellVolt[6] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1020              		.loc 1 269 0
+ 1021 010c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1022 010e 1B02     		lsls	r3, r3, #8
+ 1023 0110 03F47063 		and	r3, r3, #3840
+ 1024 0114 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1025              	.LVL97:
+ 1026 0116 1844     		add	r0, r0, r3
+ 1027 0118 FFF7FEFF 		bl	__aeabi_i2d
+ 1028              	.LVL98:
+ 1029 011c 0022     		movs	r2, #0
+ 1030 011e 944B     		ldr	r3, .L96
+ 1031 0120 FFF7FEFF 		bl	__aeabi_dmul
+ 1032              	.LVL99:
+ 1033 0124 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1034              	.LVL100:
+ 1035 0128 A881     		strh	r0, [r5, #12]	@ movhi
+ 270:Core/Src/bms.c ****         bms->cellVolt[7] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1036              		.loc 1 270 0
+ 1037 012a A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1038 012c 1B02     		lsls	r3, r3, #8
+ 1039 012e 03F47063 		and	r3, r3, #3840
+ 1040 0132 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1041 0134 1844     		add	r0, r0, r3
+ 1042 0136 FFF7FEFF 		bl	__aeabi_i2d
+ 1043              	.LVL101:
+ 1044 013a 0022     		movs	r2, #0
+ 1045 013c 8C4B     		ldr	r3, .L96
+ 1046 013e FFF7FEFF 		bl	__aeabi_dmul
+ARM GAS  /tmp/ccV7j3kz.s 			page 25
+
+
+ 1047              	.LVL102:
+ 1048 0142 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1049              	.LVL103:
+ 1050 0146 E881     		strh	r0, [r5, #14]	@ movhi
+ 271:Core/Src/bms.c ****         bms->cellVolt[8] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1051              		.loc 1 271 0
+ 1052 0148 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1053 014a 1B02     		lsls	r3, r3, #8
+ 1054 014c 03F47063 		and	r3, r3, #3840
+ 1055 0150 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1056 0152 1844     		add	r0, r0, r3
+ 1057 0154 FFF7FEFF 		bl	__aeabi_i2d
+ 1058              	.LVL104:
+ 1059 0158 0022     		movs	r2, #0
+ 1060 015a 854B     		ldr	r3, .L96
+ 1061 015c FFF7FEFF 		bl	__aeabi_dmul
+ 1062              	.LVL105:
+ 1063 0160 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1064              	.LVL106:
+ 1065 0164 2882     		strh	r0, [r5, #16]	@ movhi
+ 272:Core/Src/bms.c ****         bms->cellVolt[9] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1066              		.loc 1 272 0
+ 1067 0166 A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1068 0168 1B02     		lsls	r3, r3, #8
+ 1069 016a 03F47063 		and	r3, r3, #3840
+ 1070 016e E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1071 0170 1844     		add	r0, r0, r3
+ 1072 0172 FFF7FEFF 		bl	__aeabi_i2d
+ 1073              	.LVL107:
+ 1074 0176 0022     		movs	r2, #0
+ 1075 0178 7D4B     		ldr	r3, .L96
+ 1076 017a FFF7FEFF 		bl	__aeabi_dmul
+ 1077              	.LVL108:
+ 1078 017e FFF7FEFF 		bl	__aeabi_d2uiz
+ 1079              	.LVL109:
+ 1080 0182 6882     		strh	r0, [r5, #18]	@ movhi
+ 273:Core/Src/bms.c ****         break;
+ 1081              		.loc 1 273 0
+ 1082 0184 38BD     		pop	{r3, r4, r5, pc}
+ 1083              	.LVL110:
+ 1084              	.L83:
+ 274:Core/Src/bms.c **** 
+ 275:Core/Src/bms.c ****     case 0x471:
+ 276:Core/Src/bms.c ****         bms->cellVolt[10] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1085              		.loc 1 276 0
+ 1086 0186 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1087 0188 1B02     		lsls	r3, r3, #8
+ 1088 018a 03F47063 		and	r3, r3, #3840
+ 1089 018e 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1090              	.LVL111:
+ 1091 0190 1844     		add	r0, r0, r3
+ 1092 0192 FFF7FEFF 		bl	__aeabi_i2d
+ 1093              	.LVL112:
+ 1094 0196 0022     		movs	r2, #0
+ 1095 0198 754B     		ldr	r3, .L96
+ 1096 019a FFF7FEFF 		bl	__aeabi_dmul
+ 1097              	.LVL113:
+ARM GAS  /tmp/ccV7j3kz.s 			page 26
+
+
+ 1098 019e FFF7FEFF 		bl	__aeabi_d2uiz
+ 1099              	.LVL114:
+ 1100 01a2 A882     		strh	r0, [r5, #20]	@ movhi
+ 277:Core/Src/bms.c ****         bms->cellVolt[11] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1101              		.loc 1 277 0
+ 1102 01a4 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1103 01a6 1B02     		lsls	r3, r3, #8
+ 1104 01a8 03F47063 		and	r3, r3, #3840
+ 1105 01ac E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1106 01ae 1844     		add	r0, r0, r3
+ 1107 01b0 FFF7FEFF 		bl	__aeabi_i2d
+ 1108              	.LVL115:
+ 1109 01b4 0022     		movs	r2, #0
+ 1110 01b6 6E4B     		ldr	r3, .L96
+ 1111 01b8 FFF7FEFF 		bl	__aeabi_dmul
+ 1112              	.LVL116:
+ 1113 01bc FFF7FEFF 		bl	__aeabi_d2uiz
+ 1114              	.LVL117:
+ 1115 01c0 E882     		strh	r0, [r5, #22]	@ movhi
+ 278:Core/Src/bms.c ****         bms->cellVolt[12] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1116              		.loc 1 278 0
+ 1117 01c2 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1118 01c4 1B02     		lsls	r3, r3, #8
+ 1119 01c6 03F47063 		and	r3, r3, #3840
+ 1120 01ca 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1121 01cc 1844     		add	r0, r0, r3
+ 1122 01ce FFF7FEFF 		bl	__aeabi_i2d
+ 1123              	.LVL118:
+ 1124 01d2 0022     		movs	r2, #0
+ 1125 01d4 664B     		ldr	r3, .L96
+ 1126 01d6 FFF7FEFF 		bl	__aeabi_dmul
+ 1127              	.LVL119:
+ 1128 01da FFF7FEFF 		bl	__aeabi_d2uiz
+ 1129              	.LVL120:
+ 1130 01de 2883     		strh	r0, [r5, #24]	@ movhi
+ 279:Core/Src/bms.c ****         bms->cellVolt[13] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1131              		.loc 1 279 0
+ 1132 01e0 A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1133 01e2 1B02     		lsls	r3, r3, #8
+ 1134 01e4 03F47063 		and	r3, r3, #3840
+ 1135 01e8 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1136 01ea 1844     		add	r0, r0, r3
+ 1137 01ec FFF7FEFF 		bl	__aeabi_i2d
+ 1138              	.LVL121:
+ 1139 01f0 0022     		movs	r2, #0
+ 1140 01f2 5F4B     		ldr	r3, .L96
+ 1141 01f4 FFF7FEFF 		bl	__aeabi_dmul
+ 1142              	.LVL122:
+ 1143 01f8 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1144              	.LVL123:
+ 1145 01fc 6883     		strh	r0, [r5, #26]	@ movhi
+ 280:Core/Src/bms.c ****         break;
+ 1146              		.loc 1 280 0
+ 1147 01fe 38BD     		pop	{r3, r4, r5, pc}
+ 1148              	.LVL124:
+ 1149              	.L71:
+ 281:Core/Src/bms.c **** 
+ARM GAS  /tmp/ccV7j3kz.s 			page 27
+
+
+ 282:Core/Src/bms.c ****     case 0x462:
+ 283:Core/Src/bms.c ****         bms->cellVolt[14] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1150              		.loc 1 283 0
+ 1151 0200 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1152 0202 1B02     		lsls	r3, r3, #8
+ 1153 0204 03F47063 		and	r3, r3, #3840
+ 1154 0208 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1155              	.LVL125:
+ 1156 020a 1844     		add	r0, r0, r3
+ 1157 020c FFF7FEFF 		bl	__aeabi_i2d
+ 1158              	.LVL126:
+ 1159 0210 0022     		movs	r2, #0
+ 1160 0212 574B     		ldr	r3, .L96
+ 1161 0214 FFF7FEFF 		bl	__aeabi_dmul
+ 1162              	.LVL127:
+ 1163 0218 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1164              	.LVL128:
+ 1165 021c A883     		strh	r0, [r5, #28]	@ movhi
+ 284:Core/Src/bms.c ****         bms->cellVolt[15] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1166              		.loc 1 284 0
+ 1167 021e A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1168 0220 1B02     		lsls	r3, r3, #8
+ 1169 0222 03F47063 		and	r3, r3, #3840
+ 1170 0226 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1171 0228 1844     		add	r0, r0, r3
+ 1172 022a FFF7FEFF 		bl	__aeabi_i2d
+ 1173              	.LVL129:
+ 1174 022e 0022     		movs	r2, #0
+ 1175 0230 4F4B     		ldr	r3, .L96
+ 1176 0232 FFF7FEFF 		bl	__aeabi_dmul
+ 1177              	.LVL130:
+ 1178 0236 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1179              	.LVL131:
+ 1180 023a E883     		strh	r0, [r5, #30]	@ movhi
+ 285:Core/Src/bms.c ****         bms->cellVolt[16] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1181              		.loc 1 285 0
+ 1182 023c 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1183 023e 1B02     		lsls	r3, r3, #8
+ 1184 0240 03F47063 		and	r3, r3, #3840
+ 1185 0244 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1186 0246 1844     		add	r0, r0, r3
+ 1187 0248 FFF7FEFF 		bl	__aeabi_i2d
+ 1188              	.LVL132:
+ 1189 024c 0022     		movs	r2, #0
+ 1190 024e 484B     		ldr	r3, .L96
+ 1191 0250 FFF7FEFF 		bl	__aeabi_dmul
+ 1192              	.LVL133:
+ 1193 0254 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1194              	.LVL134:
+ 1195 0258 2884     		strh	r0, [r5, #32]	@ movhi
+ 286:Core/Src/bms.c ****         bms->cellVolt[17] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1196              		.loc 1 286 0
+ 1197 025a A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1198 025c 1B02     		lsls	r3, r3, #8
+ 1199 025e 03F47063 		and	r3, r3, #3840
+ 1200 0262 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1201 0264 1844     		add	r0, r0, r3
+ARM GAS  /tmp/ccV7j3kz.s 			page 28
+
+
+ 1202 0266 FFF7FEFF 		bl	__aeabi_i2d
+ 1203              	.LVL135:
+ 1204 026a 0022     		movs	r2, #0
+ 1205 026c 404B     		ldr	r3, .L96
+ 1206 026e FFF7FEFF 		bl	__aeabi_dmul
+ 1207              	.LVL136:
+ 1208 0272 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1209              	.LVL137:
+ 1210 0276 6884     		strh	r0, [r5, #34]	@ movhi
+ 287:Core/Src/bms.c ****         break;
+ 1211              		.loc 1 287 0
+ 1212 0278 38BD     		pop	{r3, r4, r5, pc}
+ 1213              	.LVL138:
+ 1214              	.L84:
+ 288:Core/Src/bms.c **** 
+ 289:Core/Src/bms.c ****     case 0x472:
+ 290:Core/Src/bms.c ****         bms->cellVolt[18] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1215              		.loc 1 290 0
+ 1216 027a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1217 027c 1B02     		lsls	r3, r3, #8
+ 1218 027e 03F47063 		and	r3, r3, #3840
+ 1219 0282 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1220              	.LVL139:
+ 1221 0284 1844     		add	r0, r0, r3
+ 1222 0286 FFF7FEFF 		bl	__aeabi_i2d
+ 1223              	.LVL140:
+ 1224 028a 0022     		movs	r2, #0
+ 1225 028c 384B     		ldr	r3, .L96
+ 1226 028e FFF7FEFF 		bl	__aeabi_dmul
+ 1227              	.LVL141:
+ 1228 0292 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1229              	.LVL142:
+ 1230 0296 A884     		strh	r0, [r5, #36]	@ movhi
+ 291:Core/Src/bms.c ****         bms->cellVolt[19] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1231              		.loc 1 291 0
+ 1232 0298 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1233 029a 1B02     		lsls	r3, r3, #8
+ 1234 029c 03F47063 		and	r3, r3, #3840
+ 1235 02a0 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1236 02a2 1844     		add	r0, r0, r3
+ 1237 02a4 FFF7FEFF 		bl	__aeabi_i2d
+ 1238              	.LVL143:
+ 1239 02a8 0022     		movs	r2, #0
+ 1240 02aa 314B     		ldr	r3, .L96
+ 1241 02ac FFF7FEFF 		bl	__aeabi_dmul
+ 1242              	.LVL144:
+ 1243 02b0 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1244              	.LVL145:
+ 1245 02b4 E884     		strh	r0, [r5, #38]	@ movhi
+ 292:Core/Src/bms.c ****         bms->cellVolt[20] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1246              		.loc 1 292 0
+ 1247 02b6 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1248 02b8 1B02     		lsls	r3, r3, #8
+ 1249 02ba 03F47063 		and	r3, r3, #3840
+ 1250 02be 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1251 02c0 1844     		add	r0, r0, r3
+ 1252 02c2 FFF7FEFF 		bl	__aeabi_i2d
+ARM GAS  /tmp/ccV7j3kz.s 			page 29
+
+
+ 1253              	.LVL146:
+ 1254 02c6 0022     		movs	r2, #0
+ 1255 02c8 294B     		ldr	r3, .L96
+ 1256 02ca FFF7FEFF 		bl	__aeabi_dmul
+ 1257              	.LVL147:
+ 1258 02ce FFF7FEFF 		bl	__aeabi_d2uiz
+ 1259              	.LVL148:
+ 1260 02d2 2885     		strh	r0, [r5, #40]	@ movhi
+ 293:Core/Src/bms.c ****         bms->cellVolt[21] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1261              		.loc 1 293 0
+ 1262 02d4 A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1263 02d6 1B02     		lsls	r3, r3, #8
+ 1264 02d8 03F47063 		and	r3, r3, #3840
+ 1265 02dc E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1266 02de 1844     		add	r0, r0, r3
+ 1267 02e0 FFF7FEFF 		bl	__aeabi_i2d
+ 1268              	.LVL149:
+ 1269 02e4 0022     		movs	r2, #0
+ 1270 02e6 224B     		ldr	r3, .L96
+ 1271 02e8 FFF7FEFF 		bl	__aeabi_dmul
+ 1272              	.LVL150:
+ 1273 02ec FFF7FEFF 		bl	__aeabi_d2uiz
+ 1274              	.LVL151:
+ 1275 02f0 6885     		strh	r0, [r5, #42]	@ movhi
+ 294:Core/Src/bms.c ****         break;
+ 1276              		.loc 1 294 0
+ 1277 02f2 38BD     		pop	{r3, r4, r5, pc}
+ 1278              	.LVL152:
+ 1279              	.L72:
+ 295:Core/Src/bms.c ****     case 0x463:
+ 296:Core/Src/bms.c ****         bms->cellVolt[22] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1280              		.loc 1 296 0
+ 1281 02f4 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1282 02f6 1B02     		lsls	r3, r3, #8
+ 1283 02f8 03F47063 		and	r3, r3, #3840
+ 1284 02fc 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1285              	.LVL153:
+ 1286 02fe 1844     		add	r0, r0, r3
+ 1287 0300 FFF7FEFF 		bl	__aeabi_i2d
+ 1288              	.LVL154:
+ 1289 0304 0022     		movs	r2, #0
+ 1290 0306 1A4B     		ldr	r3, .L96
+ 1291 0308 FFF7FEFF 		bl	__aeabi_dmul
+ 1292              	.LVL155:
+ 1293 030c FFF7FEFF 		bl	__aeabi_d2uiz
+ 1294              	.LVL156:
+ 1295 0310 A885     		strh	r0, [r5, #44]	@ movhi
+ 297:Core/Src/bms.c ****         bms->cellVolt[23] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1296              		.loc 1 297 0
+ 1297 0312 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1298 0314 1B02     		lsls	r3, r3, #8
+ 1299 0316 03F47063 		and	r3, r3, #3840
+ 1300 031a E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1301 031c 1844     		add	r0, r0, r3
+ 1302 031e FFF7FEFF 		bl	__aeabi_i2d
+ 1303              	.LVL157:
+ 1304 0322 0022     		movs	r2, #0
+ARM GAS  /tmp/ccV7j3kz.s 			page 30
+
+
+ 1305 0324 124B     		ldr	r3, .L96
+ 1306 0326 FFF7FEFF 		bl	__aeabi_dmul
+ 1307              	.LVL158:
+ 1308 032a FFF7FEFF 		bl	__aeabi_d2uiz
+ 1309              	.LVL159:
+ 1310 032e E885     		strh	r0, [r5, #46]	@ movhi
+ 298:Core/Src/bms.c ****         bms->cellVolt[24] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1311              		.loc 1 298 0
+ 1312 0330 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1313 0332 1B02     		lsls	r3, r3, #8
+ 1314 0334 03F47063 		and	r3, r3, #3840
+ 1315 0338 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1316 033a 1844     		add	r0, r0, r3
+ 1317 033c FFF7FEFF 		bl	__aeabi_i2d
+ 1318              	.LVL160:
+ 1319 0340 0022     		movs	r2, #0
+ 1320 0342 0B4B     		ldr	r3, .L96
+ 1321 0344 FFF7FEFF 		bl	__aeabi_dmul
+ 1322              	.LVL161:
+ 1323 0348 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1324              	.LVL162:
+ 1325 034c 2886     		strh	r0, [r5, #48]	@ movhi
+ 299:Core/Src/bms.c ****         bms->cellVolt[25] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1326              		.loc 1 299 0
+ 1327 034e A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1328 0350 1B02     		lsls	r3, r3, #8
+ 1329 0352 03F47063 		and	r3, r3, #3840
+ 1330 0356 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1331 0358 1844     		add	r0, r0, r3
+ 1332 035a FFF7FEFF 		bl	__aeabi_i2d
+ 1333              	.LVL163:
+ 1334 035e 0022     		movs	r2, #0
+ 1335 0360 034B     		ldr	r3, .L96
+ 1336 0362 FFF7FEFF 		bl	__aeabi_dmul
+ 1337              	.LVL164:
+ 1338 0366 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1339              	.LVL165:
+ 1340 036a 6886     		strh	r0, [r5, #50]	@ movhi
+ 300:Core/Src/bms.c ****         break;
+ 1341              		.loc 1 300 0
+ 1342 036c 38BD     		pop	{r3, r4, r5, pc}
+ 1343              	.LVL166:
+ 1344              	.L97:
+ 1345 036e 00BF     		.align	2
+ 1346              	.L96:
+ 1347 0370 0000F43F 		.word	1072955392
+ 1348              	.LVL167:
+ 1349              	.L85:
+ 301:Core/Src/bms.c **** 
+ 302:Core/Src/bms.c ****     case 0x473:
+ 303:Core/Src/bms.c ****         bms->cellVolt[26] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1350              		.loc 1 303 0
+ 1351 0374 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1352 0376 1B02     		lsls	r3, r3, #8
+ 1353 0378 03F47063 		and	r3, r3, #3840
+ 1354 037c 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1355              	.LVL168:
+ARM GAS  /tmp/ccV7j3kz.s 			page 31
+
+
+ 1356 037e 1844     		add	r0, r0, r3
+ 1357 0380 FFF7FEFF 		bl	__aeabi_i2d
+ 1358              	.LVL169:
+ 1359 0384 0022     		movs	r2, #0
+ 1360 0386 BB4B     		ldr	r3, .L98
+ 1361 0388 FFF7FEFF 		bl	__aeabi_dmul
+ 1362              	.LVL170:
+ 1363 038c FFF7FEFF 		bl	__aeabi_d2uiz
+ 1364              	.LVL171:
+ 1365 0390 A886     		strh	r0, [r5, #52]	@ movhi
+ 304:Core/Src/bms.c ****         bms->cellVolt[27] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1366              		.loc 1 304 0
+ 1367 0392 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1368 0394 1B02     		lsls	r3, r3, #8
+ 1369 0396 03F47063 		and	r3, r3, #3840
+ 1370 039a E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1371 039c 1844     		add	r0, r0, r3
+ 1372 039e FFF7FEFF 		bl	__aeabi_i2d
+ 1373              	.LVL172:
+ 1374 03a2 0022     		movs	r2, #0
+ 1375 03a4 B34B     		ldr	r3, .L98
+ 1376 03a6 FFF7FEFF 		bl	__aeabi_dmul
+ 1377              	.LVL173:
+ 1378 03aa FFF7FEFF 		bl	__aeabi_d2uiz
+ 1379              	.LVL174:
+ 1380 03ae E886     		strh	r0, [r5, #54]	@ movhi
+ 305:Core/Src/bms.c ****         bms->cellVolt[28] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1381              		.loc 1 305 0
+ 1382 03b0 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1383 03b2 1B02     		lsls	r3, r3, #8
+ 1384 03b4 03F47063 		and	r3, r3, #3840
+ 1385 03b8 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1386 03ba 1844     		add	r0, r0, r3
+ 1387 03bc FFF7FEFF 		bl	__aeabi_i2d
+ 1388              	.LVL175:
+ 1389 03c0 0022     		movs	r2, #0
+ 1390 03c2 AC4B     		ldr	r3, .L98
+ 1391 03c4 FFF7FEFF 		bl	__aeabi_dmul
+ 1392              	.LVL176:
+ 1393 03c8 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1394              	.LVL177:
+ 1395 03cc 2887     		strh	r0, [r5, #56]	@ movhi
+ 306:Core/Src/bms.c ****         bms->cellVolt[29] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1396              		.loc 1 306 0
+ 1397 03ce A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1398 03d0 1B02     		lsls	r3, r3, #8
+ 1399 03d2 03F47063 		and	r3, r3, #3840
+ 1400 03d6 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1401 03d8 1844     		add	r0, r0, r3
+ 1402 03da FFF7FEFF 		bl	__aeabi_i2d
+ 1403              	.LVL178:
+ 1404 03de 0022     		movs	r2, #0
+ 1405 03e0 A44B     		ldr	r3, .L98
+ 1406 03e2 FFF7FEFF 		bl	__aeabi_dmul
+ 1407              	.LVL179:
+ 1408 03e6 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1409              	.LVL180:
+ARM GAS  /tmp/ccV7j3kz.s 			page 32
+
+
+ 1410 03ea 6887     		strh	r0, [r5, #58]	@ movhi
+ 307:Core/Src/bms.c ****         break;
+ 1411              		.loc 1 307 0
+ 1412 03ec 38BD     		pop	{r3, r4, r5, pc}
+ 1413              	.LVL181:
+ 1414              	.L73:
+ 308:Core/Src/bms.c **** 
+ 309:Core/Src/bms.c ****     case 0x464:
+ 310:Core/Src/bms.c ****         bms->cellVolt[30] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25); // Begin module 2
+ 1415              		.loc 1 310 0
+ 1416 03ee 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1417 03f0 1B02     		lsls	r3, r3, #8
+ 1418 03f2 03F47063 		and	r3, r3, #3840
+ 1419 03f6 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1420              	.LVL182:
+ 1421 03f8 1844     		add	r0, r0, r3
+ 1422 03fa FFF7FEFF 		bl	__aeabi_i2d
+ 1423              	.LVL183:
+ 1424 03fe 0022     		movs	r2, #0
+ 1425 0400 9C4B     		ldr	r3, .L98
+ 1426 0402 FFF7FEFF 		bl	__aeabi_dmul
+ 1427              	.LVL184:
+ 1428 0406 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1429              	.LVL185:
+ 1430 040a A887     		strh	r0, [r5, #60]	@ movhi
+ 311:Core/Src/bms.c ****         bms->cellVolt[31] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1431              		.loc 1 311 0
+ 1432 040c A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1433 040e 1B02     		lsls	r3, r3, #8
+ 1434 0410 03F47063 		and	r3, r3, #3840
+ 1435 0414 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1436 0416 1844     		add	r0, r0, r3
+ 1437 0418 FFF7FEFF 		bl	__aeabi_i2d
+ 1438              	.LVL186:
+ 1439 041c 0022     		movs	r2, #0
+ 1440 041e 954B     		ldr	r3, .L98
+ 1441 0420 FFF7FEFF 		bl	__aeabi_dmul
+ 1442              	.LVL187:
+ 1443 0424 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1444              	.LVL188:
+ 1445 0428 E887     		strh	r0, [r5, #62]	@ movhi
+ 312:Core/Src/bms.c ****         bms->cellVolt[32] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1446              		.loc 1 312 0
+ 1447 042a 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1448 042c 1B02     		lsls	r3, r3, #8
+ 1449 042e 03F47063 		and	r3, r3, #3840
+ 1450 0432 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1451 0434 1844     		add	r0, r0, r3
+ 1452 0436 FFF7FEFF 		bl	__aeabi_i2d
+ 1453              	.LVL189:
+ 1454 043a 0022     		movs	r2, #0
+ 1455 043c 8D4B     		ldr	r3, .L98
+ 1456 043e FFF7FEFF 		bl	__aeabi_dmul
+ 1457              	.LVL190:
+ 1458 0442 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1459              	.LVL191:
+ 1460 0446 A5F84000 		strh	r0, [r5, #64]	@ movhi
+ARM GAS  /tmp/ccV7j3kz.s 			page 33
+
+
+ 313:Core/Src/bms.c ****         bms->cellVolt[33] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1461              		.loc 1 313 0
+ 1462 044a A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1463 044c 1B02     		lsls	r3, r3, #8
+ 1464 044e 03F47063 		and	r3, r3, #3840
+ 1465 0452 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1466 0454 1844     		add	r0, r0, r3
+ 1467 0456 FFF7FEFF 		bl	__aeabi_i2d
+ 1468              	.LVL192:
+ 1469 045a 0022     		movs	r2, #0
+ 1470 045c 854B     		ldr	r3, .L98
+ 1471 045e FFF7FEFF 		bl	__aeabi_dmul
+ 1472              	.LVL193:
+ 1473 0462 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1474              	.LVL194:
+ 1475 0466 A5F84200 		strh	r0, [r5, #66]	@ movhi
+ 314:Core/Src/bms.c ****         break;
+ 1476              		.loc 1 314 0
+ 1477 046a 38BD     		pop	{r3, r4, r5, pc}
+ 1478              	.LVL195:
+ 1479              	.L86:
+ 315:Core/Src/bms.c **** 
+ 316:Core/Src/bms.c ****     case 0x474:
+ 317:Core/Src/bms.c ****         bms->cellVolt[34] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1480              		.loc 1 317 0
+ 1481 046c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1482 046e 1B02     		lsls	r3, r3, #8
+ 1483 0470 03F47063 		and	r3, r3, #3840
+ 1484 0474 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1485              	.LVL196:
+ 1486 0476 1844     		add	r0, r0, r3
+ 1487 0478 FFF7FEFF 		bl	__aeabi_i2d
+ 1488              	.LVL197:
+ 1489 047c 0022     		movs	r2, #0
+ 1490 047e 7D4B     		ldr	r3, .L98
+ 1491 0480 FFF7FEFF 		bl	__aeabi_dmul
+ 1492              	.LVL198:
+ 1493 0484 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1494              	.LVL199:
+ 1495 0488 A5F84400 		strh	r0, [r5, #68]	@ movhi
+ 318:Core/Src/bms.c ****         bms->cellVolt[35] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1496              		.loc 1 318 0
+ 1497 048c A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1498 048e 1B02     		lsls	r3, r3, #8
+ 1499 0490 03F47063 		and	r3, r3, #3840
+ 1500 0494 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1501 0496 1844     		add	r0, r0, r3
+ 1502 0498 FFF7FEFF 		bl	__aeabi_i2d
+ 1503              	.LVL200:
+ 1504 049c 0022     		movs	r2, #0
+ 1505 049e 754B     		ldr	r3, .L98
+ 1506 04a0 FFF7FEFF 		bl	__aeabi_dmul
+ 1507              	.LVL201:
+ 1508 04a4 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1509              	.LVL202:
+ 1510 04a8 A5F84600 		strh	r0, [r5, #70]	@ movhi
+ 319:Core/Src/bms.c ****         bms->cellVolt[36] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ARM GAS  /tmp/ccV7j3kz.s 			page 34
+
+
+ 1511              		.loc 1 319 0
+ 1512 04ac 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1513 04ae 1B02     		lsls	r3, r3, #8
+ 1514 04b0 03F47063 		and	r3, r3, #3840
+ 1515 04b4 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1516 04b6 1844     		add	r0, r0, r3
+ 1517 04b8 FFF7FEFF 		bl	__aeabi_i2d
+ 1518              	.LVL203:
+ 1519 04bc 0022     		movs	r2, #0
+ 1520 04be 6D4B     		ldr	r3, .L98
+ 1521 04c0 FFF7FEFF 		bl	__aeabi_dmul
+ 1522              	.LVL204:
+ 1523 04c4 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1524              	.LVL205:
+ 1525 04c8 A5F84800 		strh	r0, [r5, #72]	@ movhi
+ 320:Core/Src/bms.c ****         bms->cellVolt[37] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1526              		.loc 1 320 0
+ 1527 04cc A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1528 04ce 1B02     		lsls	r3, r3, #8
+ 1529 04d0 03F47063 		and	r3, r3, #3840
+ 1530 04d4 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1531 04d6 1844     		add	r0, r0, r3
+ 1532 04d8 FFF7FEFF 		bl	__aeabi_i2d
+ 1533              	.LVL206:
+ 1534 04dc 0022     		movs	r2, #0
+ 1535 04de 654B     		ldr	r3, .L98
+ 1536 04e0 FFF7FEFF 		bl	__aeabi_dmul
+ 1537              	.LVL207:
+ 1538 04e4 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1539              	.LVL208:
+ 1540 04e8 A5F84A00 		strh	r0, [r5, #74]	@ movhi
+ 321:Core/Src/bms.c ****         break;
+ 1541              		.loc 1 321 0
+ 1542 04ec 38BD     		pop	{r3, r4, r5, pc}
+ 1543              	.LVL209:
+ 1544              	.L74:
+ 322:Core/Src/bms.c **** 
+ 323:Core/Src/bms.c ****     case 0x465:
+ 324:Core/Src/bms.c ****         bms->cellVolt[38] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1545              		.loc 1 324 0
+ 1546 04ee 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1547 04f0 1B02     		lsls	r3, r3, #8
+ 1548 04f2 03F47063 		and	r3, r3, #3840
+ 1549 04f6 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1550              	.LVL210:
+ 1551 04f8 1844     		add	r0, r0, r3
+ 1552 04fa FFF7FEFF 		bl	__aeabi_i2d
+ 1553              	.LVL211:
+ 1554 04fe 0022     		movs	r2, #0
+ 1555 0500 5C4B     		ldr	r3, .L98
+ 1556 0502 FFF7FEFF 		bl	__aeabi_dmul
+ 1557              	.LVL212:
+ 1558 0506 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1559              	.LVL213:
+ 1560 050a A5F84C00 		strh	r0, [r5, #76]	@ movhi
+ 325:Core/Src/bms.c ****         bms->cellVolt[39] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1561              		.loc 1 325 0
+ARM GAS  /tmp/ccV7j3kz.s 			page 35
+
+
+ 1562 050e A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1563 0510 1B02     		lsls	r3, r3, #8
+ 1564 0512 03F47063 		and	r3, r3, #3840
+ 1565 0516 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1566 0518 1844     		add	r0, r0, r3
+ 1567 051a FFF7FEFF 		bl	__aeabi_i2d
+ 1568              	.LVL214:
+ 1569 051e 0022     		movs	r2, #0
+ 1570 0520 544B     		ldr	r3, .L98
+ 1571 0522 FFF7FEFF 		bl	__aeabi_dmul
+ 1572              	.LVL215:
+ 1573 0526 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1574              	.LVL216:
+ 1575 052a A5F84E00 		strh	r0, [r5, #78]	@ movhi
+ 326:Core/Src/bms.c ****         bms->cellVolt[40] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1576              		.loc 1 326 0
+ 1577 052e 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1578 0530 1B02     		lsls	r3, r3, #8
+ 1579 0532 03F47063 		and	r3, r3, #3840
+ 1580 0536 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1581 0538 1844     		add	r0, r0, r3
+ 1582 053a FFF7FEFF 		bl	__aeabi_i2d
+ 1583              	.LVL217:
+ 1584 053e 0022     		movs	r2, #0
+ 1585 0540 4C4B     		ldr	r3, .L98
+ 1586 0542 FFF7FEFF 		bl	__aeabi_dmul
+ 1587              	.LVL218:
+ 1588 0546 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1589              	.LVL219:
+ 1590 054a A5F85000 		strh	r0, [r5, #80]	@ movhi
+ 327:Core/Src/bms.c ****         bms->cellVolt[41] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1591              		.loc 1 327 0
+ 1592 054e A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1593 0550 1B02     		lsls	r3, r3, #8
+ 1594 0552 03F47063 		and	r3, r3, #3840
+ 1595 0556 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1596 0558 1844     		add	r0, r0, r3
+ 1597 055a FFF7FEFF 		bl	__aeabi_i2d
+ 1598              	.LVL220:
+ 1599 055e 0022     		movs	r2, #0
+ 1600 0560 444B     		ldr	r3, .L98
+ 1601 0562 FFF7FEFF 		bl	__aeabi_dmul
+ 1602              	.LVL221:
+ 1603 0566 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1604              	.LVL222:
+ 1605 056a A5F85200 		strh	r0, [r5, #82]	@ movhi
+ 328:Core/Src/bms.c ****         break;
+ 1606              		.loc 1 328 0
+ 1607 056e 38BD     		pop	{r3, r4, r5, pc}
+ 1608              	.LVL223:
+ 1609              	.L87:
+ 329:Core/Src/bms.c **** 
+ 330:Core/Src/bms.c ****     case 0x475:
+ 331:Core/Src/bms.c ****         bms->cellVolt[42] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1610              		.loc 1 331 0
+ 1611 0570 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1612 0572 1B02     		lsls	r3, r3, #8
+ARM GAS  /tmp/ccV7j3kz.s 			page 36
+
+
+ 1613 0574 03F47063 		and	r3, r3, #3840
+ 1614 0578 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1615              	.LVL224:
+ 1616 057a 1844     		add	r0, r0, r3
+ 1617 057c FFF7FEFF 		bl	__aeabi_i2d
+ 1618              	.LVL225:
+ 1619 0580 0022     		movs	r2, #0
+ 1620 0582 3C4B     		ldr	r3, .L98
+ 1621 0584 FFF7FEFF 		bl	__aeabi_dmul
+ 1622              	.LVL226:
+ 1623 0588 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1624              	.LVL227:
+ 1625 058c A5F85400 		strh	r0, [r5, #84]	@ movhi
+ 332:Core/Src/bms.c ****         bms->cellVolt[43] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1626              		.loc 1 332 0
+ 1627 0590 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1628 0592 1B02     		lsls	r3, r3, #8
+ 1629 0594 03F47063 		and	r3, r3, #3840
+ 1630 0598 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1631 059a 1844     		add	r0, r0, r3
+ 1632 059c FFF7FEFF 		bl	__aeabi_i2d
+ 1633              	.LVL228:
+ 1634 05a0 0022     		movs	r2, #0
+ 1635 05a2 344B     		ldr	r3, .L98
+ 1636 05a4 FFF7FEFF 		bl	__aeabi_dmul
+ 1637              	.LVL229:
+ 1638 05a8 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1639              	.LVL230:
+ 1640 05ac A5F85600 		strh	r0, [r5, #86]	@ movhi
+ 333:Core/Src/bms.c ****         bms->cellVolt[44] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1641              		.loc 1 333 0
+ 1642 05b0 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1643 05b2 1B02     		lsls	r3, r3, #8
+ 1644 05b4 03F47063 		and	r3, r3, #3840
+ 1645 05b8 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1646 05ba 1844     		add	r0, r0, r3
+ 1647 05bc FFF7FEFF 		bl	__aeabi_i2d
+ 1648              	.LVL231:
+ 1649 05c0 0022     		movs	r2, #0
+ 1650 05c2 2C4B     		ldr	r3, .L98
+ 1651 05c4 FFF7FEFF 		bl	__aeabi_dmul
+ 1652              	.LVL232:
+ 1653 05c8 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1654              	.LVL233:
+ 1655 05cc A5F85800 		strh	r0, [r5, #88]	@ movhi
+ 334:Core/Src/bms.c ****         bms->cellVolt[45] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1656              		.loc 1 334 0
+ 1657 05d0 A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1658 05d2 1B02     		lsls	r3, r3, #8
+ 1659 05d4 03F47063 		and	r3, r3, #3840
+ 1660 05d8 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1661 05da 1844     		add	r0, r0, r3
+ 1662 05dc FFF7FEFF 		bl	__aeabi_i2d
+ 1663              	.LVL234:
+ 1664 05e0 0022     		movs	r2, #0
+ 1665 05e2 244B     		ldr	r3, .L98
+ 1666 05e4 FFF7FEFF 		bl	__aeabi_dmul
+ARM GAS  /tmp/ccV7j3kz.s 			page 37
+
+
+ 1667              	.LVL235:
+ 1668 05e8 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1669              	.LVL236:
+ 1670 05ec A5F85A00 		strh	r0, [r5, #90]	@ movhi
+ 335:Core/Src/bms.c ****         break;
+ 1671              		.loc 1 335 0
+ 1672 05f0 38BD     		pop	{r3, r4, r5, pc}
+ 1673              	.LVL237:
+ 1674              	.L75:
+ 336:Core/Src/bms.c **** 
+ 337:Core/Src/bms.c ****     case 0x466:
+ 338:Core/Src/bms.c ****         bms->cellVolt[46] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1675              		.loc 1 338 0
+ 1676 05f2 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1677 05f4 1B02     		lsls	r3, r3, #8
+ 1678 05f6 03F47063 		and	r3, r3, #3840
+ 1679 05fa 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1680              	.LVL238:
+ 1681 05fc 1844     		add	r0, r0, r3
+ 1682 05fe FFF7FEFF 		bl	__aeabi_i2d
+ 1683              	.LVL239:
+ 1684 0602 0022     		movs	r2, #0
+ 1685 0604 1B4B     		ldr	r3, .L98
+ 1686 0606 FFF7FEFF 		bl	__aeabi_dmul
+ 1687              	.LVL240:
+ 1688 060a FFF7FEFF 		bl	__aeabi_d2uiz
+ 1689              	.LVL241:
+ 1690 060e A5F85C00 		strh	r0, [r5, #92]	@ movhi
+ 339:Core/Src/bms.c ****         bms->cellVolt[47] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1691              		.loc 1 339 0
+ 1692 0612 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1693 0614 1B02     		lsls	r3, r3, #8
+ 1694 0616 03F47063 		and	r3, r3, #3840
+ 1695 061a E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1696 061c 1844     		add	r0, r0, r3
+ 1697 061e FFF7FEFF 		bl	__aeabi_i2d
+ 1698              	.LVL242:
+ 1699 0622 0022     		movs	r2, #0
+ 1700 0624 134B     		ldr	r3, .L98
+ 1701 0626 FFF7FEFF 		bl	__aeabi_dmul
+ 1702              	.LVL243:
+ 1703 062a FFF7FEFF 		bl	__aeabi_d2uiz
+ 1704              	.LVL244:
+ 1705 062e A5F85E00 		strh	r0, [r5, #94]	@ movhi
+ 340:Core/Src/bms.c ****         bms->cellVolt[48] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1706              		.loc 1 340 0
+ 1707 0632 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1708 0634 1B02     		lsls	r3, r3, #8
+ 1709 0636 03F47063 		and	r3, r3, #3840
+ 1710 063a 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1711 063c 1844     		add	r0, r0, r3
+ 1712 063e FFF7FEFF 		bl	__aeabi_i2d
+ 1713              	.LVL245:
+ 1714 0642 0022     		movs	r2, #0
+ 1715 0644 0B4B     		ldr	r3, .L98
+ 1716 0646 FFF7FEFF 		bl	__aeabi_dmul
+ 1717              	.LVL246:
+ARM GAS  /tmp/ccV7j3kz.s 			page 38
+
+
+ 1718 064a FFF7FEFF 		bl	__aeabi_d2uiz
+ 1719              	.LVL247:
+ 1720 064e A5F86000 		strh	r0, [r5, #96]	@ movhi
+ 341:Core/Src/bms.c ****         bms->cellVolt[49] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1721              		.loc 1 341 0
+ 1722 0652 A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1723 0654 1B02     		lsls	r3, r3, #8
+ 1724 0656 03F47063 		and	r3, r3, #3840
+ 1725 065a E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1726 065c 1844     		add	r0, r0, r3
+ 1727 065e FFF7FEFF 		bl	__aeabi_i2d
+ 1728              	.LVL248:
+ 1729 0662 0022     		movs	r2, #0
+ 1730 0664 034B     		ldr	r3, .L98
+ 1731 0666 FFF7FEFF 		bl	__aeabi_dmul
+ 1732              	.LVL249:
+ 1733 066a FFF7FEFF 		bl	__aeabi_d2uiz
+ 1734              	.LVL250:
+ 1735 066e A5F86200 		strh	r0, [r5, #98]	@ movhi
+ 342:Core/Src/bms.c ****         break;
+ 1736              		.loc 1 342 0
+ 1737 0672 38BD     		pop	{r3, r4, r5, pc}
+ 1738              	.LVL251:
+ 1739              	.L99:
+ 1740              		.align	2
+ 1741              	.L98:
+ 1742 0674 0000F43F 		.word	1072955392
+ 1743              	.LVL252:
+ 1744              	.L88:
+ 343:Core/Src/bms.c **** 
+ 344:Core/Src/bms.c ****     case 0x476:
+ 345:Core/Src/bms.c ****         bms->cellVolt[50] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1745              		.loc 1 345 0
+ 1746 0678 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1747 067a 1B02     		lsls	r3, r3, #8
+ 1748 067c 03F47063 		and	r3, r3, #3840
+ 1749 0680 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1750              	.LVL253:
+ 1751 0682 1844     		add	r0, r0, r3
+ 1752 0684 FFF7FEFF 		bl	__aeabi_i2d
+ 1753              	.LVL254:
+ 1754 0688 0022     		movs	r2, #0
+ 1755 068a BE4B     		ldr	r3, .L100
+ 1756 068c FFF7FEFF 		bl	__aeabi_dmul
+ 1757              	.LVL255:
+ 1758 0690 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1759              	.LVL256:
+ 1760 0694 A5F86400 		strh	r0, [r5, #100]	@ movhi
+ 346:Core/Src/bms.c ****         bms->cellVolt[51] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1761              		.loc 1 346 0
+ 1762 0698 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1763 069a 1B02     		lsls	r3, r3, #8
+ 1764 069c 03F47063 		and	r3, r3, #3840
+ 1765 06a0 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1766 06a2 1844     		add	r0, r0, r3
+ 1767 06a4 FFF7FEFF 		bl	__aeabi_i2d
+ 1768              	.LVL257:
+ARM GAS  /tmp/ccV7j3kz.s 			page 39
+
+
+ 1769 06a8 0022     		movs	r2, #0
+ 1770 06aa B64B     		ldr	r3, .L100
+ 1771 06ac FFF7FEFF 		bl	__aeabi_dmul
+ 1772              	.LVL258:
+ 1773 06b0 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1774              	.LVL259:
+ 1775 06b4 A5F86600 		strh	r0, [r5, #102]	@ movhi
+ 347:Core/Src/bms.c ****         bms->cellVolt[52] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1776              		.loc 1 347 0
+ 1777 06b8 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1778 06ba 1B02     		lsls	r3, r3, #8
+ 1779 06bc 03F47063 		and	r3, r3, #3840
+ 1780 06c0 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1781 06c2 1844     		add	r0, r0, r3
+ 1782 06c4 FFF7FEFF 		bl	__aeabi_i2d
+ 1783              	.LVL260:
+ 1784 06c8 0022     		movs	r2, #0
+ 1785 06ca AE4B     		ldr	r3, .L100
+ 1786 06cc FFF7FEFF 		bl	__aeabi_dmul
+ 1787              	.LVL261:
+ 1788 06d0 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1789              	.LVL262:
+ 1790 06d4 A5F86800 		strh	r0, [r5, #104]	@ movhi
+ 348:Core/Src/bms.c ****         bms->cellVolt[53] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1791              		.loc 1 348 0
+ 1792 06d8 A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1793 06da 1B02     		lsls	r3, r3, #8
+ 1794 06dc 03F47063 		and	r3, r3, #3840
+ 1795 06e0 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1796 06e2 1844     		add	r0, r0, r3
+ 1797 06e4 FFF7FEFF 		bl	__aeabi_i2d
+ 1798              	.LVL263:
+ 1799 06e8 0022     		movs	r2, #0
+ 1800 06ea A64B     		ldr	r3, .L100
+ 1801 06ec FFF7FEFF 		bl	__aeabi_dmul
+ 1802              	.LVL264:
+ 1803 06f0 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1804              	.LVL265:
+ 1805 06f4 A5F86A00 		strh	r0, [r5, #106]	@ movhi
+ 349:Core/Src/bms.c ****         break;
+ 1806              		.loc 1 349 0
+ 1807 06f8 38BD     		pop	{r3, r4, r5, pc}
+ 1808              	.LVL266:
+ 1809              	.L76:
+ 350:Core/Src/bms.c **** 
+ 351:Core/Src/bms.c ****     case 0x468:
+ 352:Core/Src/bms.c ****         bms->cellVolt[54] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25); //Begin module 3
+ 1810              		.loc 1 352 0
+ 1811 06fa 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1812 06fc 1B02     		lsls	r3, r3, #8
+ 1813 06fe 03F47063 		and	r3, r3, #3840
+ 1814 0702 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1815              	.LVL267:
+ 1816 0704 1844     		add	r0, r0, r3
+ 1817 0706 FFF7FEFF 		bl	__aeabi_i2d
+ 1818              	.LVL268:
+ 1819 070a 0022     		movs	r2, #0
+ARM GAS  /tmp/ccV7j3kz.s 			page 40
+
+
+ 1820 070c 9D4B     		ldr	r3, .L100
+ 1821 070e FFF7FEFF 		bl	__aeabi_dmul
+ 1822              	.LVL269:
+ 1823 0712 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1824              	.LVL270:
+ 1825 0716 A5F86C00 		strh	r0, [r5, #108]	@ movhi
+ 353:Core/Src/bms.c ****         bms->cellVolt[55] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1826              		.loc 1 353 0
+ 1827 071a A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1828 071c 1B02     		lsls	r3, r3, #8
+ 1829 071e 03F47063 		and	r3, r3, #3840
+ 1830 0722 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1831 0724 1844     		add	r0, r0, r3
+ 1832 0726 FFF7FEFF 		bl	__aeabi_i2d
+ 1833              	.LVL271:
+ 1834 072a 0022     		movs	r2, #0
+ 1835 072c 954B     		ldr	r3, .L100
+ 1836 072e FFF7FEFF 		bl	__aeabi_dmul
+ 1837              	.LVL272:
+ 1838 0732 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1839              	.LVL273:
+ 1840 0736 A5F86E00 		strh	r0, [r5, #110]	@ movhi
+ 354:Core/Src/bms.c ****         bms->cellVolt[56] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1841              		.loc 1 354 0
+ 1842 073a 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1843 073c 1B02     		lsls	r3, r3, #8
+ 1844 073e 03F47063 		and	r3, r3, #3840
+ 1845 0742 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1846 0744 1844     		add	r0, r0, r3
+ 1847 0746 FFF7FEFF 		bl	__aeabi_i2d
+ 1848              	.LVL274:
+ 1849 074a 0022     		movs	r2, #0
+ 1850 074c 8D4B     		ldr	r3, .L100
+ 1851 074e FFF7FEFF 		bl	__aeabi_dmul
+ 1852              	.LVL275:
+ 1853 0752 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1854              	.LVL276:
+ 1855 0756 A5F87000 		strh	r0, [r5, #112]	@ movhi
+ 355:Core/Src/bms.c ****         bms->cellVolt[57] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1856              		.loc 1 355 0
+ 1857 075a A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1858 075c 1B02     		lsls	r3, r3, #8
+ 1859 075e 03F47063 		and	r3, r3, #3840
+ 1860 0762 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1861 0764 1844     		add	r0, r0, r3
+ 1862 0766 FFF7FEFF 		bl	__aeabi_i2d
+ 1863              	.LVL277:
+ 1864 076a 0022     		movs	r2, #0
+ 1865 076c 854B     		ldr	r3, .L100
+ 1866 076e FFF7FEFF 		bl	__aeabi_dmul
+ 1867              	.LVL278:
+ 1868 0772 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1869              	.LVL279:
+ 1870 0776 A5F87200 		strh	r0, [r5, #114]	@ movhi
+ 356:Core/Src/bms.c ****         break;
+ 1871              		.loc 1 356 0
+ 1872 077a 38BD     		pop	{r3, r4, r5, pc}
+ARM GAS  /tmp/ccV7j3kz.s 			page 41
+
+
+ 1873              	.LVL280:
+ 1874              	.L89:
+ 357:Core/Src/bms.c **** 
+ 358:Core/Src/bms.c ****     case 0x478:
+ 359:Core/Src/bms.c ****         bms->cellVolt[58] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1875              		.loc 1 359 0
+ 1876 077c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1877 077e 1B02     		lsls	r3, r3, #8
+ 1878 0780 03F47063 		and	r3, r3, #3840
+ 1879 0784 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1880              	.LVL281:
+ 1881 0786 1844     		add	r0, r0, r3
+ 1882 0788 FFF7FEFF 		bl	__aeabi_i2d
+ 1883              	.LVL282:
+ 1884 078c 0022     		movs	r2, #0
+ 1885 078e 7D4B     		ldr	r3, .L100
+ 1886 0790 FFF7FEFF 		bl	__aeabi_dmul
+ 1887              	.LVL283:
+ 1888 0794 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1889              	.LVL284:
+ 1890 0798 A5F87400 		strh	r0, [r5, #116]	@ movhi
+ 360:Core/Src/bms.c ****         bms->cellVolt[59] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1891              		.loc 1 360 0
+ 1892 079c A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1893 079e 1B02     		lsls	r3, r3, #8
+ 1894 07a0 03F47063 		and	r3, r3, #3840
+ 1895 07a4 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1896 07a6 1844     		add	r0, r0, r3
+ 1897 07a8 FFF7FEFF 		bl	__aeabi_i2d
+ 1898              	.LVL285:
+ 1899 07ac 0022     		movs	r2, #0
+ 1900 07ae 754B     		ldr	r3, .L100
+ 1901 07b0 FFF7FEFF 		bl	__aeabi_dmul
+ 1902              	.LVL286:
+ 1903 07b4 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1904              	.LVL287:
+ 1905 07b8 A5F87600 		strh	r0, [r5, #118]	@ movhi
+ 361:Core/Src/bms.c ****         bms->cellVolt[60] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1906              		.loc 1 361 0
+ 1907 07bc 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1908 07be 1B02     		lsls	r3, r3, #8
+ 1909 07c0 03F47063 		and	r3, r3, #3840
+ 1910 07c4 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1911 07c6 1844     		add	r0, r0, r3
+ 1912 07c8 FFF7FEFF 		bl	__aeabi_i2d
+ 1913              	.LVL288:
+ 1914 07cc 0022     		movs	r2, #0
+ 1915 07ce 6D4B     		ldr	r3, .L100
+ 1916 07d0 FFF7FEFF 		bl	__aeabi_dmul
+ 1917              	.LVL289:
+ 1918 07d4 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1919              	.LVL290:
+ 1920 07d8 A5F87800 		strh	r0, [r5, #120]	@ movhi
+ 362:Core/Src/bms.c ****         bms->cellVolt[61] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1921              		.loc 1 362 0
+ 1922 07dc A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1923 07de 1B02     		lsls	r3, r3, #8
+ARM GAS  /tmp/ccV7j3kz.s 			page 42
+
+
+ 1924 07e0 03F47063 		and	r3, r3, #3840
+ 1925 07e4 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1926 07e6 1844     		add	r0, r0, r3
+ 1927 07e8 FFF7FEFF 		bl	__aeabi_i2d
+ 1928              	.LVL291:
+ 1929 07ec 0022     		movs	r2, #0
+ 1930 07ee 654B     		ldr	r3, .L100
+ 1931 07f0 FFF7FEFF 		bl	__aeabi_dmul
+ 1932              	.LVL292:
+ 1933 07f4 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1934              	.LVL293:
+ 1935 07f8 A5F87A00 		strh	r0, [r5, #122]	@ movhi
+ 363:Core/Src/bms.c ****         break;
+ 1936              		.loc 1 363 0
+ 1937 07fc 38BD     		pop	{r3, r4, r5, pc}
+ 1938              	.LVL294:
+ 1939              	.L77:
+ 364:Core/Src/bms.c **** 
+ 365:Core/Src/bms.c ****     case 0x469:
+ 366:Core/Src/bms.c ****         bms->cellVolt[62] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 1940              		.loc 1 366 0
+ 1941 07fe 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1942 0800 1B02     		lsls	r3, r3, #8
+ 1943 0802 03F47063 		and	r3, r3, #3840
+ 1944 0806 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 1945              	.LVL295:
+ 1946 0808 1844     		add	r0, r0, r3
+ 1947 080a FFF7FEFF 		bl	__aeabi_i2d
+ 1948              	.LVL296:
+ 1949 080e 0022     		movs	r2, #0
+ 1950 0810 5C4B     		ldr	r3, .L100
+ 1951 0812 FFF7FEFF 		bl	__aeabi_dmul
+ 1952              	.LVL297:
+ 1953 0816 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1954              	.LVL298:
+ 1955 081a A5F87C00 		strh	r0, [r5, #124]	@ movhi
+ 367:Core/Src/bms.c ****         bms->cellVolt[63] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 1956              		.loc 1 367 0
+ 1957 081e A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 1958 0820 1B02     		lsls	r3, r3, #8
+ 1959 0822 03F47063 		and	r3, r3, #3840
+ 1960 0826 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 1961 0828 1844     		add	r0, r0, r3
+ 1962 082a FFF7FEFF 		bl	__aeabi_i2d
+ 1963              	.LVL299:
+ 1964 082e 0022     		movs	r2, #0
+ 1965 0830 544B     		ldr	r3, .L100
+ 1966 0832 FFF7FEFF 		bl	__aeabi_dmul
+ 1967              	.LVL300:
+ 1968 0836 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1969              	.LVL301:
+ 1970 083a A5F87E00 		strh	r0, [r5, #126]	@ movhi
+ 368:Core/Src/bms.c ****         bms->cellVolt[64] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 1971              		.loc 1 368 0
+ 1972 083e 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 1973 0840 1B02     		lsls	r3, r3, #8
+ 1974 0842 03F47063 		and	r3, r3, #3840
+ARM GAS  /tmp/ccV7j3kz.s 			page 43
+
+
+ 1975 0846 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 1976 0848 1844     		add	r0, r0, r3
+ 1977 084a FFF7FEFF 		bl	__aeabi_i2d
+ 1978              	.LVL302:
+ 1979 084e 0022     		movs	r2, #0
+ 1980 0850 4C4B     		ldr	r3, .L100
+ 1981 0852 FFF7FEFF 		bl	__aeabi_dmul
+ 1982              	.LVL303:
+ 1983 0856 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1984              	.LVL304:
+ 1985 085a A5F88000 		strh	r0, [r5, #128]	@ movhi
+ 369:Core/Src/bms.c ****         bms->cellVolt[65] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 1986              		.loc 1 369 0
+ 1987 085e A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 1988 0860 1B02     		lsls	r3, r3, #8
+ 1989 0862 03F47063 		and	r3, r3, #3840
+ 1990 0866 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 1991 0868 1844     		add	r0, r0, r3
+ 1992 086a FFF7FEFF 		bl	__aeabi_i2d
+ 1993              	.LVL305:
+ 1994 086e 0022     		movs	r2, #0
+ 1995 0870 444B     		ldr	r3, .L100
+ 1996 0872 FFF7FEFF 		bl	__aeabi_dmul
+ 1997              	.LVL306:
+ 1998 0876 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1999              	.LVL307:
+ 2000 087a A5F88200 		strh	r0, [r5, #130]	@ movhi
+ 370:Core/Src/bms.c ****         break;
+ 2001              		.loc 1 370 0
+ 2002 087e 38BD     		pop	{r3, r4, r5, pc}
+ 2003              	.LVL308:
+ 2004              	.L90:
+ 371:Core/Src/bms.c **** 
+ 372:Core/Src/bms.c ****     case 0x479:
+ 373:Core/Src/bms.c ****         bms->cellVolt[66] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 2005              		.loc 1 373 0
+ 2006 0880 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2007 0882 1B02     		lsls	r3, r3, #8
+ 2008 0884 03F47063 		and	r3, r3, #3840
+ 2009 0888 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 2010              	.LVL309:
+ 2011 088a 1844     		add	r0, r0, r3
+ 2012 088c FFF7FEFF 		bl	__aeabi_i2d
+ 2013              	.LVL310:
+ 2014 0890 0022     		movs	r2, #0
+ 2015 0892 3C4B     		ldr	r3, .L100
+ 2016 0894 FFF7FEFF 		bl	__aeabi_dmul
+ 2017              	.LVL311:
+ 2018 0898 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2019              	.LVL312:
+ 2020 089c A5F88400 		strh	r0, [r5, #132]	@ movhi
+ 374:Core/Src/bms.c ****         bms->cellVolt[67] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 2021              		.loc 1 374 0
+ 2022 08a0 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 2023 08a2 1B02     		lsls	r3, r3, #8
+ 2024 08a4 03F47063 		and	r3, r3, #3840
+ 2025 08a8 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ARM GAS  /tmp/ccV7j3kz.s 			page 44
+
+
+ 2026 08aa 1844     		add	r0, r0, r3
+ 2027 08ac FFF7FEFF 		bl	__aeabi_i2d
+ 2028              	.LVL313:
+ 2029 08b0 0022     		movs	r2, #0
+ 2030 08b2 344B     		ldr	r3, .L100
+ 2031 08b4 FFF7FEFF 		bl	__aeabi_dmul
+ 2032              	.LVL314:
+ 2033 08b8 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2034              	.LVL315:
+ 2035 08bc A5F88600 		strh	r0, [r5, #134]	@ movhi
+ 375:Core/Src/bms.c ****         bms->cellVolt[68] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 2036              		.loc 1 375 0
+ 2037 08c0 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 2038 08c2 1B02     		lsls	r3, r3, #8
+ 2039 08c4 03F47063 		and	r3, r3, #3840
+ 2040 08c8 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 2041 08ca 1844     		add	r0, r0, r3
+ 2042 08cc FFF7FEFF 		bl	__aeabi_i2d
+ 2043              	.LVL316:
+ 2044 08d0 0022     		movs	r2, #0
+ 2045 08d2 2C4B     		ldr	r3, .L100
+ 2046 08d4 FFF7FEFF 		bl	__aeabi_dmul
+ 2047              	.LVL317:
+ 2048 08d8 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2049              	.LVL318:
+ 2050 08dc A5F88800 		strh	r0, [r5, #136]	@ movhi
+ 376:Core/Src/bms.c ****         bms->cellVolt[69] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 2051              		.loc 1 376 0
+ 2052 08e0 A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 2053 08e2 1B02     		lsls	r3, r3, #8
+ 2054 08e4 03F47063 		and	r3, r3, #3840
+ 2055 08e8 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 2056 08ea 1844     		add	r0, r0, r3
+ 2057 08ec FFF7FEFF 		bl	__aeabi_i2d
+ 2058              	.LVL319:
+ 2059 08f0 0022     		movs	r2, #0
+ 2060 08f2 244B     		ldr	r3, .L100
+ 2061 08f4 FFF7FEFF 		bl	__aeabi_dmul
+ 2062              	.LVL320:
+ 2063 08f8 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2064              	.LVL321:
+ 2065 08fc A5F88A00 		strh	r0, [r5, #138]	@ movhi
+ 377:Core/Src/bms.c ****         break;
+ 2066              		.loc 1 377 0
+ 2067 0900 38BD     		pop	{r3, r4, r5, pc}
+ 2068              	.LVL322:
+ 2069              	.L78:
+ 378:Core/Src/bms.c **** 
+ 379:Core/Src/bms.c ****     case 0x46A:
+ 380:Core/Src/bms.c ****         bms->cellVolt[70] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 2070              		.loc 1 380 0
+ 2071 0902 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2072 0904 1B02     		lsls	r3, r3, #8
+ 2073 0906 03F47063 		and	r3, r3, #3840
+ 2074 090a 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 2075              	.LVL323:
+ 2076 090c 1844     		add	r0, r0, r3
+ARM GAS  /tmp/ccV7j3kz.s 			page 45
+
+
+ 2077 090e FFF7FEFF 		bl	__aeabi_i2d
+ 2078              	.LVL324:
+ 2079 0912 0022     		movs	r2, #0
+ 2080 0914 1B4B     		ldr	r3, .L100
+ 2081 0916 FFF7FEFF 		bl	__aeabi_dmul
+ 2082              	.LVL325:
+ 2083 091a FFF7FEFF 		bl	__aeabi_d2uiz
+ 2084              	.LVL326:
+ 2085 091e A5F88C00 		strh	r0, [r5, #140]	@ movhi
+ 381:Core/Src/bms.c ****         bms->cellVolt[71] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 2086              		.loc 1 381 0
+ 2087 0922 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 2088 0924 1B02     		lsls	r3, r3, #8
+ 2089 0926 03F47063 		and	r3, r3, #3840
+ 2090 092a E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 2091 092c 1844     		add	r0, r0, r3
+ 2092 092e FFF7FEFF 		bl	__aeabi_i2d
+ 2093              	.LVL327:
+ 2094 0932 0022     		movs	r2, #0
+ 2095 0934 134B     		ldr	r3, .L100
+ 2096 0936 FFF7FEFF 		bl	__aeabi_dmul
+ 2097              	.LVL328:
+ 2098 093a FFF7FEFF 		bl	__aeabi_d2uiz
+ 2099              	.LVL329:
+ 2100 093e A5F88E00 		strh	r0, [r5, #142]	@ movhi
+ 382:Core/Src/bms.c ****         bms->cellVolt[72] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 2101              		.loc 1 382 0
+ 2102 0942 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 2103 0944 1B02     		lsls	r3, r3, #8
+ 2104 0946 03F47063 		and	r3, r3, #3840
+ 2105 094a 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 2106 094c 1844     		add	r0, r0, r3
+ 2107 094e FFF7FEFF 		bl	__aeabi_i2d
+ 2108              	.LVL330:
+ 2109 0952 0022     		movs	r2, #0
+ 2110 0954 0B4B     		ldr	r3, .L100
+ 2111 0956 FFF7FEFF 		bl	__aeabi_dmul
+ 2112              	.LVL331:
+ 2113 095a FFF7FEFF 		bl	__aeabi_d2uiz
+ 2114              	.LVL332:
+ 2115 095e A5F89000 		strh	r0, [r5, #144]	@ movhi
+ 383:Core/Src/bms.c ****         bms->cellVolt[73] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 2116              		.loc 1 383 0
+ 2117 0962 A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 2118 0964 1B02     		lsls	r3, r3, #8
+ 2119 0966 03F47063 		and	r3, r3, #3840
+ 2120 096a E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 2121 096c 1844     		add	r0, r0, r3
+ 2122 096e FFF7FEFF 		bl	__aeabi_i2d
+ 2123              	.LVL333:
+ 2124 0972 0022     		movs	r2, #0
+ 2125 0974 034B     		ldr	r3, .L100
+ 2126 0976 FFF7FEFF 		bl	__aeabi_dmul
+ 2127              	.LVL334:
+ 2128 097a FFF7FEFF 		bl	__aeabi_d2uiz
+ 2129              	.LVL335:
+ 2130 097e A5F89200 		strh	r0, [r5, #146]	@ movhi
+ARM GAS  /tmp/ccV7j3kz.s 			page 46
+
+
+ 384:Core/Src/bms.c ****         break;
+ 2131              		.loc 1 384 0
+ 2132 0982 38BD     		pop	{r3, r4, r5, pc}
+ 2133              	.LVL336:
+ 2134              	.L101:
+ 2135              		.align	2
+ 2136              	.L100:
+ 2137 0984 0000F43F 		.word	1072955392
+ 2138              	.LVL337:
+ 2139              	.L91:
+ 385:Core/Src/bms.c **** 
+ 386:Core/Src/bms.c ****     case 0x47A:
+ 387:Core/Src/bms.c ****         bms->cellVolt[74] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 2140              		.loc 1 387 0
+ 2141 0988 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2142 098a 1B02     		lsls	r3, r3, #8
+ 2143 098c 03F47063 		and	r3, r3, #3840
+ 2144 0990 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 2145              	.LVL338:
+ 2146 0992 1844     		add	r0, r0, r3
+ 2147 0994 FFF7FEFF 		bl	__aeabi_i2d
+ 2148              	.LVL339:
+ 2149 0998 0022     		movs	r2, #0
+ 2150 099a AF4B     		ldr	r3, .L102
+ 2151 099c FFF7FEFF 		bl	__aeabi_dmul
+ 2152              	.LVL340:
+ 2153 09a0 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2154              	.LVL341:
+ 2155 09a4 A5F89400 		strh	r0, [r5, #148]	@ movhi
+ 388:Core/Src/bms.c ****         bms->cellVolt[75] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 2156              		.loc 1 388 0
+ 2157 09a8 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 2158 09aa 1B02     		lsls	r3, r3, #8
+ 2159 09ac 03F47063 		and	r3, r3, #3840
+ 2160 09b0 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 2161 09b2 1844     		add	r0, r0, r3
+ 2162 09b4 FFF7FEFF 		bl	__aeabi_i2d
+ 2163              	.LVL342:
+ 2164 09b8 0022     		movs	r2, #0
+ 2165 09ba A74B     		ldr	r3, .L102
+ 2166 09bc FFF7FEFF 		bl	__aeabi_dmul
+ 2167              	.LVL343:
+ 2168 09c0 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2169              	.LVL344:
+ 2170 09c4 A5F89600 		strh	r0, [r5, #150]	@ movhi
+ 389:Core/Src/bms.c ****         bms->cellVolt[76] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 2171              		.loc 1 389 0
+ 2172 09c8 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 2173 09ca 1B02     		lsls	r3, r3, #8
+ 2174 09cc 03F47063 		and	r3, r3, #3840
+ 2175 09d0 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 2176 09d2 1844     		add	r0, r0, r3
+ 2177 09d4 FFF7FEFF 		bl	__aeabi_i2d
+ 2178              	.LVL345:
+ 2179 09d8 0022     		movs	r2, #0
+ 2180 09da 9F4B     		ldr	r3, .L102
+ 2181 09dc FFF7FEFF 		bl	__aeabi_dmul
+ARM GAS  /tmp/ccV7j3kz.s 			page 47
+
+
+ 2182              	.LVL346:
+ 2183 09e0 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2184              	.LVL347:
+ 2185 09e4 A5F89800 		strh	r0, [r5, #152]	@ movhi
+ 390:Core/Src/bms.c ****         bms->cellVolt[77] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
+ 2186              		.loc 1 390 0
+ 2187 09e8 A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
+ 2188 09ea 1B02     		lsls	r3, r3, #8
+ 2189 09ec 03F47063 		and	r3, r3, #3840
+ 2190 09f0 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 2191 09f2 1844     		add	r0, r0, r3
+ 2192 09f4 FFF7FEFF 		bl	__aeabi_i2d
+ 2193              	.LVL348:
+ 2194 09f8 0022     		movs	r2, #0
+ 2195 09fa 974B     		ldr	r3, .L102
+ 2196 09fc FFF7FEFF 		bl	__aeabi_dmul
+ 2197              	.LVL349:
+ 2198 0a00 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2199              	.LVL350:
+ 2200 0a04 A5F89A00 		strh	r0, [r5, #154]	@ movhi
+ 391:Core/Src/bms.c ****         break;
+ 2201              		.loc 1 391 0
+ 2202 0a08 38BD     		pop	{r3, r4, r5, pc}
+ 2203              	.LVL351:
+ 2204              	.L79:
+ 392:Core/Src/bms.c **** 
+ 393:Core/Src/bms.c ****     case 0x46C:
+ 394:Core/Src/bms.c ****         bms->cellVolt[78] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25); //Begin module 4
+ 2205              		.loc 1 394 0
+ 2206 0a0a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2207 0a0c 1B02     		lsls	r3, r3, #8
+ 2208 0a0e 03F47063 		and	r3, r3, #3840
+ 2209 0a12 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 2210              	.LVL352:
+ 2211 0a14 1844     		add	r0, r0, r3
+ 2212 0a16 FFF7FEFF 		bl	__aeabi_i2d
+ 2213              	.LVL353:
+ 2214 0a1a 0022     		movs	r2, #0
+ 2215 0a1c 8E4B     		ldr	r3, .L102
+ 2216 0a1e FFF7FEFF 		bl	__aeabi_dmul
+ 2217              	.LVL354:
+ 2218 0a22 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2219              	.LVL355:
+ 2220 0a26 A5F89C00 		strh	r0, [r5, #156]	@ movhi
+ 395:Core/Src/bms.c ****         bms->cellVolt[79] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 2221              		.loc 1 395 0
+ 2222 0a2a A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 2223 0a2c 1B02     		lsls	r3, r3, #8
+ 2224 0a2e 03F47063 		and	r3, r3, #3840
+ 2225 0a32 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 2226 0a34 1844     		add	r0, r0, r3
+ 2227 0a36 FFF7FEFF 		bl	__aeabi_i2d
+ 2228              	.LVL356:
+ 2229 0a3a 0022     		movs	r2, #0
+ 2230 0a3c 864B     		ldr	r3, .L102
+ 2231 0a3e FFF7FEFF 		bl	__aeabi_dmul
+ 2232              	.LVL357:
+ARM GAS  /tmp/ccV7j3kz.s 			page 48
+
+
+ 2233 0a42 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2234              	.LVL358:
+ 2235 0a46 A5F89E00 		strh	r0, [r5, #158]	@ movhi
+ 396:Core/Src/bms.c ****         bms->cellVolt[80] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 2236              		.loc 1 396 0
+ 2237 0a4a 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 2238 0a4c 1B02     		lsls	r3, r3, #8
+ 2239 0a4e 03F47063 		and	r3, r3, #3840
+ 2240 0a52 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 2241 0a54 1844     		add	r0, r0, r3
+ 2242 0a56 FFF7FEFF 		bl	__aeabi_i2d
+ 2243              	.LVL359:
+ 2244 0a5a 0022     		movs	r2, #0
+ 2245 0a5c 7E4B     		ldr	r3, .L102
+ 2246 0a5e FFF7FEFF 		bl	__aeabi_dmul
+ 2247              	.LVL360:
+ 2248 0a62 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2249              	.LVL361:
+ 2250 0a66 A5F8A000 		strh	r0, [r5, #160]	@ movhi
+ 397:Core/Src/bms.c ****         break;
+ 2251              		.loc 1 397 0
+ 2252 0a6a 38BD     		pop	{r3, r4, r5, pc}
+ 2253              	.LVL362:
+ 2254              	.L92:
+ 398:Core/Src/bms.c **** 
+ 399:Core/Src/bms.c ****     case 0x47C:
+ 400:Core/Src/bms.c ****         bms->cellVolt[81] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 2255              		.loc 1 400 0
+ 2256 0a6c 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2257 0a6e 1B02     		lsls	r3, r3, #8
+ 2258 0a70 03F47063 		and	r3, r3, #3840
+ 2259 0a74 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 2260              	.LVL363:
+ 2261 0a76 1844     		add	r0, r0, r3
+ 2262 0a78 FFF7FEFF 		bl	__aeabi_i2d
+ 2263              	.LVL364:
+ 2264 0a7c 0022     		movs	r2, #0
+ 2265 0a7e 764B     		ldr	r3, .L102
+ 2266 0a80 FFF7FEFF 		bl	__aeabi_dmul
+ 2267              	.LVL365:
+ 2268 0a84 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2269              	.LVL366:
+ 2270 0a88 A5F8A200 		strh	r0, [r5, #162]	@ movhi
+ 401:Core/Src/bms.c ****         bms->cellVolt[82] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 2271              		.loc 1 401 0
+ 2272 0a8c A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 2273 0a8e 1B02     		lsls	r3, r3, #8
+ 2274 0a90 03F47063 		and	r3, r3, #3840
+ 2275 0a94 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 2276 0a96 1844     		add	r0, r0, r3
+ 2277 0a98 FFF7FEFF 		bl	__aeabi_i2d
+ 2278              	.LVL367:
+ 2279 0a9c 0022     		movs	r2, #0
+ 2280 0a9e 6E4B     		ldr	r3, .L102
+ 2281 0aa0 FFF7FEFF 		bl	__aeabi_dmul
+ 2282              	.LVL368:
+ 2283 0aa4 FFF7FEFF 		bl	__aeabi_d2uiz
+ARM GAS  /tmp/ccV7j3kz.s 			page 49
+
+
+ 2284              	.LVL369:
+ 2285 0aa8 A5F8A400 		strh	r0, [r5, #164]	@ movhi
+ 402:Core/Src/bms.c ****         bms->cellVolt[83] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 2286              		.loc 1 402 0
+ 2287 0aac 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 2288 0aae 1B02     		lsls	r3, r3, #8
+ 2289 0ab0 03F47063 		and	r3, r3, #3840
+ 2290 0ab4 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 2291 0ab6 1844     		add	r0, r0, r3
+ 2292 0ab8 FFF7FEFF 		bl	__aeabi_i2d
+ 2293              	.LVL370:
+ 2294 0abc 0022     		movs	r2, #0
+ 2295 0abe 664B     		ldr	r3, .L102
+ 2296 0ac0 FFF7FEFF 		bl	__aeabi_dmul
+ 2297              	.LVL371:
+ 2298 0ac4 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2299              	.LVL372:
+ 2300 0ac8 A5F8A600 		strh	r0, [r5, #166]	@ movhi
+ 403:Core/Src/bms.c ****         break;
+ 2301              		.loc 1 403 0
+ 2302 0acc 38BD     		pop	{r3, r4, r5, pc}
+ 2303              	.LVL373:
+ 2304              	.L80:
+ 404:Core/Src/bms.c **** 
+ 405:Core/Src/bms.c ****     case 0x46D:
+ 406:Core/Src/bms.c ****         bms->cellVolt[84] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 2305              		.loc 1 406 0
+ 2306 0ace 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2307 0ad0 1B02     		lsls	r3, r3, #8
+ 2308 0ad2 03F47063 		and	r3, r3, #3840
+ 2309 0ad6 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 2310              	.LVL374:
+ 2311 0ad8 1844     		add	r0, r0, r3
+ 2312 0ada FFF7FEFF 		bl	__aeabi_i2d
+ 2313              	.LVL375:
+ 2314 0ade 0022     		movs	r2, #0
+ 2315 0ae0 5D4B     		ldr	r3, .L102
+ 2316 0ae2 FFF7FEFF 		bl	__aeabi_dmul
+ 2317              	.LVL376:
+ 2318 0ae6 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2319              	.LVL377:
+ 2320 0aea A5F8A800 		strh	r0, [r5, #168]	@ movhi
+ 407:Core/Src/bms.c ****         bms->cellVolt[85] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 2321              		.loc 1 407 0
+ 2322 0aee A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 2323 0af0 1B02     		lsls	r3, r3, #8
+ 2324 0af2 03F47063 		and	r3, r3, #3840
+ 2325 0af6 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 2326 0af8 1844     		add	r0, r0, r3
+ 2327 0afa FFF7FEFF 		bl	__aeabi_i2d
+ 2328              	.LVL378:
+ 2329 0afe 0022     		movs	r2, #0
+ 2330 0b00 554B     		ldr	r3, .L102
+ 2331 0b02 FFF7FEFF 		bl	__aeabi_dmul
+ 2332              	.LVL379:
+ 2333 0b06 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2334              	.LVL380:
+ARM GAS  /tmp/ccV7j3kz.s 			page 50
+
+
+ 2335 0b0a A5F8AA00 		strh	r0, [r5, #170]	@ movhi
+ 408:Core/Src/bms.c ****         bms->cellVolt[86] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 2336              		.loc 1 408 0
+ 2337 0b0e 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 2338 0b10 1B02     		lsls	r3, r3, #8
+ 2339 0b12 03F47063 		and	r3, r3, #3840
+ 2340 0b16 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 2341 0b18 1844     		add	r0, r0, r3
+ 2342 0b1a FFF7FEFF 		bl	__aeabi_i2d
+ 2343              	.LVL381:
+ 2344 0b1e 0022     		movs	r2, #0
+ 2345 0b20 4D4B     		ldr	r3, .L102
+ 2346 0b22 FFF7FEFF 		bl	__aeabi_dmul
+ 2347              	.LVL382:
+ 2348 0b26 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2349              	.LVL383:
+ 2350 0b2a A5F8AC00 		strh	r0, [r5, #172]	@ movhi
+ 409:Core/Src/bms.c ****         break;
+ 2351              		.loc 1 409 0
+ 2352 0b2e 38BD     		pop	{r3, r4, r5, pc}
+ 2353              	.LVL384:
+ 2354              	.L93:
+ 410:Core/Src/bms.c **** 
+ 411:Core/Src/bms.c ****     case 0x47D:
+ 412:Core/Src/bms.c ****         bms->cellVolt[87] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 2355              		.loc 1 412 0
+ 2356 0b30 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2357 0b32 1B02     		lsls	r3, r3, #8
+ 2358 0b34 03F47063 		and	r3, r3, #3840
+ 2359 0b38 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 2360              	.LVL385:
+ 2361 0b3a 1844     		add	r0, r0, r3
+ 2362 0b3c FFF7FEFF 		bl	__aeabi_i2d
+ 2363              	.LVL386:
+ 2364 0b40 0022     		movs	r2, #0
+ 2365 0b42 454B     		ldr	r3, .L102
+ 2366 0b44 FFF7FEFF 		bl	__aeabi_dmul
+ 2367              	.LVL387:
+ 2368 0b48 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2369              	.LVL388:
+ 2370 0b4c A5F8AE00 		strh	r0, [r5, #174]	@ movhi
+ 413:Core/Src/bms.c ****         bms->cellVolt[88] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 2371              		.loc 1 413 0
+ 2372 0b50 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 2373 0b52 1B02     		lsls	r3, r3, #8
+ 2374 0b54 03F47063 		and	r3, r3, #3840
+ 2375 0b58 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 2376 0b5a 1844     		add	r0, r0, r3
+ 2377 0b5c FFF7FEFF 		bl	__aeabi_i2d
+ 2378              	.LVL389:
+ 2379 0b60 0022     		movs	r2, #0
+ 2380 0b62 3D4B     		ldr	r3, .L102
+ 2381 0b64 FFF7FEFF 		bl	__aeabi_dmul
+ 2382              	.LVL390:
+ 2383 0b68 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2384              	.LVL391:
+ 2385 0b6c A5F8B000 		strh	r0, [r5, #176]	@ movhi
+ARM GAS  /tmp/ccV7j3kz.s 			page 51
+
+
+ 414:Core/Src/bms.c ****         bms->cellVolt[89] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 2386              		.loc 1 414 0
+ 2387 0b70 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 2388 0b72 1B02     		lsls	r3, r3, #8
+ 2389 0b74 03F47063 		and	r3, r3, #3840
+ 2390 0b78 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 2391 0b7a 1844     		add	r0, r0, r3
+ 2392 0b7c FFF7FEFF 		bl	__aeabi_i2d
+ 2393              	.LVL392:
+ 2394 0b80 0022     		movs	r2, #0
+ 2395 0b82 354B     		ldr	r3, .L102
+ 2396 0b84 FFF7FEFF 		bl	__aeabi_dmul
+ 2397              	.LVL393:
+ 2398 0b88 FFF7FEFF 		bl	__aeabi_d2uiz
+ 2399              	.LVL394:
+ 2400 0b8c A5F8B200 		strh	r0, [r5, #178]	@ movhi
+ 415:Core/Src/bms.c ****         break;
+ 2401              		.loc 1 415 0
+ 2402 0b90 38BD     		pop	{r3, r4, r5, pc}
+ 2403              	.LVL395:
+ 2404              	.L81:
+ 416:Core/Src/bms.c **** 
+ 417:Core/Src/bms.c ****     case 0x46E:
+ 418:Core/Src/bms.c ****         bms->cellVolt[90] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 2405              		.loc 1 418 0
+ 2406 0b92 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2407 0b94 1B02     		lsls	r3, r3, #8
+ 2408 0b96 03F47063 		and	r3, r3, #3840
+ 2409 0b9a 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 2410              	.LVL396:
+ 2411 0b9c 1844     		add	r0, r0, r3
+ 2412 0b9e FFF7FEFF 		bl	__aeabi_i2d
+ 2413              	.LVL397:
+ 2414 0ba2 0022     		movs	r2, #0
+ 2415 0ba4 2C4B     		ldr	r3, .L102
+ 2416 0ba6 FFF7FEFF 		bl	__aeabi_dmul
+ 2417              	.LVL398:
+ 2418 0baa FFF7FEFF 		bl	__aeabi_d2uiz
+ 2419              	.LVL399:
+ 2420 0bae A5F8B400 		strh	r0, [r5, #180]	@ movhi
+ 419:Core/Src/bms.c ****         bms->cellVolt[91] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 2421              		.loc 1 419 0
+ 2422 0bb2 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 2423 0bb4 1B02     		lsls	r3, r3, #8
+ 2424 0bb6 03F47063 		and	r3, r3, #3840
+ 2425 0bba E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 2426 0bbc 1844     		add	r0, r0, r3
+ 2427 0bbe FFF7FEFF 		bl	__aeabi_i2d
+ 2428              	.LVL400:
+ 2429 0bc2 0022     		movs	r2, #0
+ 2430 0bc4 244B     		ldr	r3, .L102
+ 2431 0bc6 FFF7FEFF 		bl	__aeabi_dmul
+ 2432              	.LVL401:
+ 2433 0bca FFF7FEFF 		bl	__aeabi_d2uiz
+ 2434              	.LVL402:
+ 2435 0bce A5F8B600 		strh	r0, [r5, #182]	@ movhi
+ 420:Core/Src/bms.c ****         bms->cellVolt[92] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ARM GAS  /tmp/ccV7j3kz.s 			page 52
+
+
+ 2436              		.loc 1 420 0
+ 2437 0bd2 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 2438 0bd4 1B02     		lsls	r3, r3, #8
+ 2439 0bd6 03F47063 		and	r3, r3, #3840
+ 2440 0bda 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 2441 0bdc 1844     		add	r0, r0, r3
+ 2442 0bde FFF7FEFF 		bl	__aeabi_i2d
+ 2443              	.LVL403:
+ 2444 0be2 0022     		movs	r2, #0
+ 2445 0be4 1C4B     		ldr	r3, .L102
+ 2446 0be6 FFF7FEFF 		bl	__aeabi_dmul
+ 2447              	.LVL404:
+ 2448 0bea FFF7FEFF 		bl	__aeabi_d2uiz
+ 2449              	.LVL405:
+ 2450 0bee A5F8B800 		strh	r0, [r5, #184]	@ movhi
+ 421:Core/Src/bms.c ****         break;
+ 2451              		.loc 1 421 0
+ 2452 0bf2 38BD     		pop	{r3, r4, r5, pc}
+ 2453              	.LVL406:
+ 2454              	.L94:
+ 422:Core/Src/bms.c **** 
+ 423:Core/Src/bms.c ****     case 0x47E:
+ 424:Core/Src/bms.c ****         bms->cellVolt[93] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
+ 2455              		.loc 1 424 0
+ 2456 0bf4 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 2457 0bf6 1B02     		lsls	r3, r3, #8
+ 2458 0bf8 03F47063 		and	r3, r3, #3840
+ 2459 0bfc 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 2460              	.LVL407:
+ 2461 0bfe 1844     		add	r0, r0, r3
+ 2462 0c00 FFF7FEFF 		bl	__aeabi_i2d
+ 2463              	.LVL408:
+ 2464 0c04 0022     		movs	r2, #0
+ 2465 0c06 144B     		ldr	r3, .L102
+ 2466 0c08 FFF7FEFF 		bl	__aeabi_dmul
+ 2467              	.LVL409:
+ 2468 0c0c FFF7FEFF 		bl	__aeabi_d2uiz
+ 2469              	.LVL410:
+ 2470 0c10 A5F8BA00 		strh	r0, [r5, #186]	@ movhi
+ 425:Core/Src/bms.c ****         bms->cellVolt[94] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
+ 2471              		.loc 1 425 0
+ 2472 0c14 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 2473 0c16 1B02     		lsls	r3, r3, #8
+ 2474 0c18 03F47063 		and	r3, r3, #3840
+ 2475 0c1c E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 2476 0c1e 1844     		add	r0, r0, r3
+ 2477 0c20 FFF7FEFF 		bl	__aeabi_i2d
+ 2478              	.LVL411:
+ 2479 0c24 0022     		movs	r2, #0
+ 2480 0c26 0C4B     		ldr	r3, .L102
+ 2481 0c28 FFF7FEFF 		bl	__aeabi_dmul
+ 2482              	.LVL412:
+ 2483 0c2c FFF7FEFF 		bl	__aeabi_d2uiz
+ 2484              	.LVL413:
+ 2485 0c30 A5F8BC00 		strh	r0, [r5, #188]	@ movhi
+ 426:Core/Src/bms.c ****         bms->cellVolt[95] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
+ 2486              		.loc 1 426 0
+ARM GAS  /tmp/ccV7j3kz.s 			page 53
+
+
+ 2487 0c34 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 2488 0c36 1B02     		lsls	r3, r3, #8
+ 2489 0c38 03F47063 		and	r3, r3, #3840
+ 2490 0c3c 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
+ 2491 0c3e 1844     		add	r0, r0, r3
+ 2492 0c40 FFF7FEFF 		bl	__aeabi_i2d
+ 2493              	.LVL414:
+ 2494 0c44 0022     		movs	r2, #0
+ 2495 0c46 044B     		ldr	r3, .L102
+ 2496 0c48 FFF7FEFF 		bl	__aeabi_dmul
+ 2497              	.LVL415:
+ 2498 0c4c FFF7FEFF 		bl	__aeabi_d2uiz
+ 2499              	.LVL416:
+ 2500 0c50 A5F8BE00 		strh	r0, [r5, #190]	@ movhi
+ 2501              	.L66:
+ 2502 0c54 38BD     		pop	{r3, r4, r5, pc}
+ 2503              	.LVL417:
+ 2504              	.L103:
+ 2505 0c56 00BF     		.align	2
+ 2506              	.L102:
+ 2507 0c58 0000F43F 		.word	1072955392
+ 2508              		.cfi_endproc
+ 2509              	.LFE145:
+ 2511              		.section	.text.decodeTemp,"ax",%progbits
+ 2512              		.align	1
+ 2513              		.global	decodeTemp
+ 2514              		.syntax unified
+ 2515              		.thumb
+ 2516              		.thumb_func
+ 2517              		.fpu fpv4-sp-d16
+ 2519              	decodeTemp:
+ 2520              	.LFB146:
+ 427:Core/Src/bms.c ****         break;
+ 428:Core/Src/bms.c **** 
+ 429:Core/Src/bms.c ****     default:
+ 430:Core/Src/bms.c ****         break;
+ 431:Core/Src/bms.c ****     }
+ 432:Core/Src/bms.c **** }
+ 433:Core/Src/bms.c **** 
+ 434:Core/Src/bms.c **** void decodeTemp(bms_t *bms, CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
+ 435:Core/Src/bms.c **** {
+ 2521              		.loc 1 435 0
+ 2522              		.cfi_startproc
+ 2523              		@ args = 0, pretend = 0, frame = 0
+ 2524              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2525              		@ link register save eliminated.
+ 2526              	.LVL418:
+ 2527 0000 10B4     		push	{r4}
+ 2528              	.LCFI7:
+ 2529              		.cfi_def_cfa_offset 4
+ 2530              		.cfi_offset 4, -4
+ 436:Core/Src/bms.c ****     switch (rxMsg->StdId)
+ 2531              		.loc 1 436 0
+ 2532 0002 0B68     		ldr	r3, [r1]
+ 2533 0004 A3F5FC63 		sub	r3, r3, #2016
+ 2534 0008 0E2B     		cmp	r3, #14
+ 2535 000a 14D8     		bhi	.L104
+ARM GAS  /tmp/ccV7j3kz.s 			page 54
+
+
+ 2536 000c DFE803F0 		tbb	[pc, r3]
+ 2537              	.LVL419:
+ 2538              	.L107:
+ 2539 0010 08       		.byte	(.L106-.L107)/2
+ 2540 0011 16       		.byte	(.L108-.L107)/2
+ 2541 0012 22       		.byte	(.L109-.L107)/2
+ 2542 0013 37       		.byte	(.L110-.L107)/2
+ 2543 0014 43       		.byte	(.L111-.L107)/2
+ 2544 0015 4F       		.byte	(.L112-.L107)/2
+ 2545 0016 64       		.byte	(.L113-.L107)/2
+ 2546 0017 13       		.byte	(.L104-.L107)/2
+ 2547 0018 70       		.byte	(.L114-.L107)/2
+ 2548 0019 7C       		.byte	(.L115-.L107)/2
+ 2549 001a 91       		.byte	(.L116-.L107)/2
+ 2550 001b 13       		.byte	(.L104-.L107)/2
+ 2551 001c 9D       		.byte	(.L117-.L107)/2
+ 2552 001d A9       		.byte	(.L118-.L107)/2
+ 2553 001e B5       		.byte	(.L119-.L107)/2
+ 2554 001f 00       		.p2align 1
+ 2555              	.L106:
+ 437:Core/Src/bms.c ****     {
+ 438:Core/Src/bms.c ****     case 0x7E0: //Begin module 1 temp sensors
+ 439:Core/Src/bms.c ****         bms->tempSensor[0] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2556              		.loc 1 439 0
+ 2557 0020 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2558 0022 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2559 0024 03EB0123 		add	r3, r3, r1, lsl #8
+ 2560 0028 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2561 002c 03F5E043 		add	r3, r3, #28672
+ 2562 0030 1C33     		adds	r3, r3, #28
+ 2563 0032 A0F8C030 		strh	r3, [r0, #192]	@ movhi
+ 2564              	.L104:
+ 440:Core/Src/bms.c ****         break;
+ 441:Core/Src/bms.c **** 
+ 442:Core/Src/bms.c ****     case 0x7E1:
+ 443:Core/Src/bms.c ****         bms->tempSensor[1] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 444:Core/Src/bms.c ****         break;
+ 445:Core/Src/bms.c **** 
+ 446:Core/Src/bms.c ****     case 0x7E2:
+ 447:Core/Src/bms.c ****         bms->tempSensor[2] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 448:Core/Src/bms.c ****         bms->tempSensor[3] = -((((canRx[2] << 8) + canRx[3]) * 7) - 28700);
+ 449:Core/Src/bms.c ****         break;
+ 450:Core/Src/bms.c **** 
+ 451:Core/Src/bms.c ****     case 0x7E3:
+ 452:Core/Src/bms.c ****         bms->tempSensor[4] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 453:Core/Src/bms.c ****         break;
+ 454:Core/Src/bms.c **** 
+ 455:Core/Src/bms.c ****     case 0x7E4: //Begin module 2 temp sensors
+ 456:Core/Src/bms.c ****         bms->tempSensor[5] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 457:Core/Src/bms.c ****         break;
+ 458:Core/Src/bms.c **** 
+ 459:Core/Src/bms.c ****     case 0x7E5:
+ 460:Core/Src/bms.c ****         bms->tempSensor[6] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 461:Core/Src/bms.c ****         bms->tempSensor[7] = -((((canRx[2] << 8) + canRx[3]) * 7) - 28700);
+ 462:Core/Src/bms.c ****         break;
+ 463:Core/Src/bms.c **** 
+ 464:Core/Src/bms.c ****     case 0x7E6:
+ARM GAS  /tmp/ccV7j3kz.s 			page 55
+
+
+ 465:Core/Src/bms.c ****         bms->tempSensor[8] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 466:Core/Src/bms.c ****         break;
+ 467:Core/Src/bms.c **** 
+ 468:Core/Src/bms.c ****     case 0x7E8: //Begin module 3 temp sensors
+ 469:Core/Src/bms.c ****         bms->tempSensor[9] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 470:Core/Src/bms.c ****         break;
+ 471:Core/Src/bms.c **** 
+ 472:Core/Src/bms.c ****     case 0x7E9:
+ 473:Core/Src/bms.c ****         bms->tempSensor[10] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 474:Core/Src/bms.c ****         bms->tempSensor[11] = -((((canRx[2] << 8) + canRx[3]) * 7) - 28700);
+ 475:Core/Src/bms.c ****         break;
+ 476:Core/Src/bms.c **** 
+ 477:Core/Src/bms.c ****     case 0x7EA:
+ 478:Core/Src/bms.c ****         bms->tempSensor[12] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 479:Core/Src/bms.c ****         break;
+ 480:Core/Src/bms.c **** 
+ 481:Core/Src/bms.c ****     case 0x7EC: //Begin module 4 temp sensors
+ 482:Core/Src/bms.c ****         bms->tempSensor[13] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 483:Core/Src/bms.c ****         break;
+ 484:Core/Src/bms.c **** 
+ 485:Core/Src/bms.c ****     case 0x7ED:
+ 486:Core/Src/bms.c ****         bms->tempSensor[14] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 487:Core/Src/bms.c ****         break;
+ 488:Core/Src/bms.c **** 
+ 489:Core/Src/bms.c ****     case 0x7EE:
+ 490:Core/Src/bms.c ****         bms->tempSensor[15] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 491:Core/Src/bms.c ****         break;
+ 492:Core/Src/bms.c **** 
+ 493:Core/Src/bms.c ****     default:
+ 494:Core/Src/bms.c ****         break;
+ 495:Core/Src/bms.c ****     }
+ 496:Core/Src/bms.c **** }...
+ 2565              		.loc 1 496 0
+ 2566 0036 5DF8044B 		ldr	r4, [sp], #4
+ 2567              	.LCFI8:
+ 2568              		.cfi_remember_state
+ 2569              		.cfi_restore 4
+ 2570              		.cfi_def_cfa_offset 0
+ 2571 003a 7047     		bx	lr
+ 2572              	.L108:
+ 2573              	.LCFI9:
+ 2574              		.cfi_restore_state
+ 443:Core/Src/bms.c ****         bms->tempSensor[1] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2575              		.loc 1 443 0
+ 2576 003c 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2577 003e 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2578 0040 03EB0123 		add	r3, r3, r1, lsl #8
+ 2579 0044 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2580 0048 03F5E043 		add	r3, r3, #28672
+ 2581 004c 1C33     		adds	r3, r3, #28
+ 2582 004e A0F8C230 		strh	r3, [r0, #194]	@ movhi
+ 444:Core/Src/bms.c ****         break;
+ 2583              		.loc 1 444 0
+ 2584 0052 F0E7     		b	.L104
+ 2585              	.L109:
+ 447:Core/Src/bms.c ****         bms->tempSensor[2] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2586              		.loc 1 447 0
+ARM GAS  /tmp/ccV7j3kz.s 			page 56
+
+
+ 2587 0054 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2588 0056 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2589 0058 03EB0123 		add	r3, r3, r1, lsl #8
+ 2590 005c A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2591 0060 47F21C01 		movw	r1, #28700
+ 2592 0064 0B44     		add	r3, r3, r1
+ 2593 0066 A0F8C430 		strh	r3, [r0, #196]	@ movhi
+ 448:Core/Src/bms.c ****         bms->tempSensor[3] = -((((canRx[2] << 8) + canRx[3]) * 7) - 28700);
+ 2594              		.loc 1 448 0
+ 2595 006a 9478     		ldrb	r4, [r2, #2]	@ zero_extendqisi2
+ 2596 006c D378     		ldrb	r3, [r2, #3]	@ zero_extendqisi2
+ 2597 006e 03EB0423 		add	r3, r3, r4, lsl #8
+ 2598 0072 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2599 0076 0B44     		add	r3, r3, r1
+ 2600 0078 A0F8C630 		strh	r3, [r0, #198]	@ movhi
+ 449:Core/Src/bms.c ****         break;
+ 2601              		.loc 1 449 0
+ 2602 007c DBE7     		b	.L104
+ 2603              	.L110:
+ 452:Core/Src/bms.c ****         bms->tempSensor[4] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2604              		.loc 1 452 0
+ 2605 007e 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2606 0080 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2607 0082 03EB0123 		add	r3, r3, r1, lsl #8
+ 2608 0086 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2609 008a 03F5E043 		add	r3, r3, #28672
+ 2610 008e 1C33     		adds	r3, r3, #28
+ 2611 0090 A0F8C830 		strh	r3, [r0, #200]	@ movhi
+ 453:Core/Src/bms.c ****         break;
+ 2612              		.loc 1 453 0
+ 2613 0094 CFE7     		b	.L104
+ 2614              	.L111:
+ 456:Core/Src/bms.c ****         bms->tempSensor[5] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2615              		.loc 1 456 0
+ 2616 0096 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2617 0098 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2618 009a 03EB0123 		add	r3, r3, r1, lsl #8
+ 2619 009e A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2620 00a2 03F5E043 		add	r3, r3, #28672
+ 2621 00a6 1C33     		adds	r3, r3, #28
+ 2622 00a8 A0F8CA30 		strh	r3, [r0, #202]	@ movhi
+ 457:Core/Src/bms.c ****         break;
+ 2623              		.loc 1 457 0
+ 2624 00ac C3E7     		b	.L104
+ 2625              	.L112:
+ 460:Core/Src/bms.c ****         bms->tempSensor[6] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2626              		.loc 1 460 0
+ 2627 00ae 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2628 00b0 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2629 00b2 03EB0123 		add	r3, r3, r1, lsl #8
+ 2630 00b6 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2631 00ba 47F21C01 		movw	r1, #28700
+ 2632 00be 0B44     		add	r3, r3, r1
+ 2633 00c0 A0F8CC30 		strh	r3, [r0, #204]	@ movhi
+ 461:Core/Src/bms.c ****         bms->tempSensor[7] = -((((canRx[2] << 8) + canRx[3]) * 7) - 28700);
+ 2634              		.loc 1 461 0
+ 2635 00c4 9478     		ldrb	r4, [r2, #2]	@ zero_extendqisi2
+ARM GAS  /tmp/ccV7j3kz.s 			page 57
+
+
+ 2636 00c6 D378     		ldrb	r3, [r2, #3]	@ zero_extendqisi2
+ 2637 00c8 03EB0423 		add	r3, r3, r4, lsl #8
+ 2638 00cc A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2639 00d0 0B44     		add	r3, r3, r1
+ 2640 00d2 A0F8CE30 		strh	r3, [r0, #206]	@ movhi
+ 462:Core/Src/bms.c ****         break;
+ 2641              		.loc 1 462 0
+ 2642 00d6 AEE7     		b	.L104
+ 2643              	.L113:
+ 465:Core/Src/bms.c ****         bms->tempSensor[8] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2644              		.loc 1 465 0
+ 2645 00d8 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2646 00da 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2647 00dc 03EB0123 		add	r3, r3, r1, lsl #8
+ 2648 00e0 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2649 00e4 03F5E043 		add	r3, r3, #28672
+ 2650 00e8 1C33     		adds	r3, r3, #28
+ 2651 00ea A0F8D030 		strh	r3, [r0, #208]	@ movhi
+ 466:Core/Src/bms.c ****         break;
+ 2652              		.loc 1 466 0
+ 2653 00ee A2E7     		b	.L104
+ 2654              	.L114:
+ 469:Core/Src/bms.c ****         bms->tempSensor[9] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2655              		.loc 1 469 0
+ 2656 00f0 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2657 00f2 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2658 00f4 03EB0123 		add	r3, r3, r1, lsl #8
+ 2659 00f8 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2660 00fc 03F5E043 		add	r3, r3, #28672
+ 2661 0100 1C33     		adds	r3, r3, #28
+ 2662 0102 A0F8D230 		strh	r3, [r0, #210]	@ movhi
+ 470:Core/Src/bms.c ****         break;
+ 2663              		.loc 1 470 0
+ 2664 0106 96E7     		b	.L104
+ 2665              	.L115:
+ 473:Core/Src/bms.c ****         bms->tempSensor[10] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2666              		.loc 1 473 0
+ 2667 0108 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2668 010a 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2669 010c 03EB0123 		add	r3, r3, r1, lsl #8
+ 2670 0110 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2671 0114 47F21C01 		movw	r1, #28700
+ 2672 0118 0B44     		add	r3, r3, r1
+ 2673 011a A0F8D430 		strh	r3, [r0, #212]	@ movhi
+ 474:Core/Src/bms.c ****         bms->tempSensor[11] = -((((canRx[2] << 8) + canRx[3]) * 7) - 28700);
+ 2674              		.loc 1 474 0
+ 2675 011e 9478     		ldrb	r4, [r2, #2]	@ zero_extendqisi2
+ 2676 0120 D378     		ldrb	r3, [r2, #3]	@ zero_extendqisi2
+ 2677 0122 03EB0423 		add	r3, r3, r4, lsl #8
+ 2678 0126 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2679 012a 0B44     		add	r3, r3, r1
+ 2680 012c A0F8D630 		strh	r3, [r0, #214]	@ movhi
+ 475:Core/Src/bms.c ****         break;
+ 2681              		.loc 1 475 0
+ 2682 0130 81E7     		b	.L104
+ 2683              	.L116:
+ 478:Core/Src/bms.c ****         bms->tempSensor[12] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ARM GAS  /tmp/ccV7j3kz.s 			page 58
+
+
+ 2684              		.loc 1 478 0
+ 2685 0132 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2686 0134 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2687 0136 03EB0123 		add	r3, r3, r1, lsl #8
+ 2688 013a A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2689 013e 03F5E043 		add	r3, r3, #28672
+ 2690 0142 1C33     		adds	r3, r3, #28
+ 2691 0144 A0F8D830 		strh	r3, [r0, #216]	@ movhi
+ 479:Core/Src/bms.c ****         break;
+ 2692              		.loc 1 479 0
+ 2693 0148 75E7     		b	.L104
+ 2694              	.L117:
+ 482:Core/Src/bms.c ****         bms->tempSensor[13] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2695              		.loc 1 482 0
+ 2696 014a 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2697 014c 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2698 014e 03EB0123 		add	r3, r3, r1, lsl #8
+ 2699 0152 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2700 0156 03F5E043 		add	r3, r3, #28672
+ 2701 015a 1C33     		adds	r3, r3, #28
+ 2702 015c A0F8DA30 		strh	r3, [r0, #218]	@ movhi
+ 483:Core/Src/bms.c ****         break;
+ 2703              		.loc 1 483 0
+ 2704 0160 69E7     		b	.L104
+ 2705              	.L118:
+ 486:Core/Src/bms.c ****         bms->tempSensor[14] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2706              		.loc 1 486 0
+ 2707 0162 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2708 0164 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2709 0166 03EB0123 		add	r3, r3, r1, lsl #8
+ 2710 016a A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2711 016e 03F5E043 		add	r3, r3, #28672
+ 2712 0172 1C33     		adds	r3, r3, #28
+ 2713 0174 A0F8DC30 		strh	r3, [r0, #220]	@ movhi
+ 487:Core/Src/bms.c ****         break;
+ 2714              		.loc 1 487 0
+ 2715 0178 5DE7     		b	.L104
+ 2716              	.L119:
+ 490:Core/Src/bms.c ****         bms->tempSensor[15] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+ 2717              		.loc 1 490 0
+ 2718 017a 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 2719 017c 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 2720 017e 03EB0123 		add	r3, r3, r1, lsl #8
+ 2721 0182 A3EBC303 		sub	r3, r3, r3, lsl #3
+ 2722 0186 03F5E043 		add	r3, r3, #28672
+ 2723 018a 1C33     		adds	r3, r3, #28
+ 2724 018c A0F8DE30 		strh	r3, [r0, #222]	@ movhi
+ 2725              		.loc 1 496 0
+ 2726 0190 51E7     		b	.L104
+ 2727              		.cfi_endproc
+ 2728              	.LFE146:
+ 2730              		.comm	BMS,484,4
+ 2731              		.comm	txCycle3,4,4
+ 2732              		.comm	txCycle2,4,4
+ 2733              		.comm	txCycle,4,4
+ 2734              		.comm	canTx3,8,4
+ 2735              		.comm	canTx2,8,4
+ARM GAS  /tmp/ccV7j3kz.s 			page 59
+
+
+ 2736              		.comm	canTx,8,4
+ 2737              		.comm	canMailbox2,4,4
+ 2738              		.comm	canMailbox,4,4
+ 2739              		.comm	canRx3,8,4
+ 2740              		.comm	canRx2,8,4
+ 2741              		.comm	canRx,8,4
+ 2742              		.comm	txMsgExt3,24,4
+ 2743              		.comm	txMsg3,24,4
+ 2744              		.comm	rxMsg3,28,4
+ 2745              		.comm	txMsgExt2,24,4
+ 2746              		.comm	txMsg2,24,4
+ 2747              		.comm	rxMsg2,28,4
+ 2748              		.comm	txMsgExt,24,4
+ 2749              		.comm	txMsg,24,4
+ 2750              		.comm	rxMsg,28,4
+ 2751              		.comm	sf5,40,4
+ 2752              		.comm	sf4,40,4
+ 2753              		.comm	sf3,40,4
+ 2754              		.comm	sf2,40,4
+ 2755              		.comm	sf,40,4
+ 2756              		.comm	hcan3,40,4
+ 2757              		.comm	hcan2,40,4
+ 2758              		.comm	hcan1,40,4
+ 2759              		.section	.rodata.balanceByte,"a",%progbits
+ 2760              		.align	2
+ 2761              		.set	.LANCHOR0,. + 0
+ 2764              	balanceByte:
+ 2765 0000 00       		.byte	0
+ 2766 0001 00       		.byte	0
+ 2767 0002 00       		.byte	0
+ 2768 0003 00       		.byte	0
+ 2769 0004 00       		.byte	0
+ 2770 0005 00       		.byte	0
+ 2771 0006 01       		.byte	1
+ 2772 0007 01       		.byte	1
+ 2773 0008 01       		.byte	1
+ 2774 0009 01       		.byte	1
+ 2775 000a 01       		.byte	1
+ 2776 000b 01       		.byte	1
+ 2777 000c 01       		.byte	1
+ 2778 000d 01       		.byte	1
+ 2779 000e 02       		.byte	2
+ 2780 000f 02       		.byte	2
+ 2781 0010 02       		.byte	2
+ 2782 0011 02       		.byte	2
+ 2783 0012 02       		.byte	2
+ 2784 0013 02       		.byte	2
+ 2785 0014 02       		.byte	2
+ 2786 0015 02       		.byte	2
+ 2787 0016 03       		.byte	3
+ 2788 0017 03       		.byte	3
+ 2789 0018 03       		.byte	3
+ 2790 0019 03       		.byte	3
+ 2791 001a 03       		.byte	3
+ 2792 001b 03       		.byte	3
+ 2793 001c 03       		.byte	3
+ 2794 001d 03       		.byte	3
+ARM GAS  /tmp/ccV7j3kz.s 			page 60
+
+
+ 2795 001e 04       		.byte	4
+ 2796 001f 04       		.byte	4
+ 2797 0020 04       		.byte	4
+ 2798 0021 04       		.byte	4
+ 2799 0022 04       		.byte	4
+ 2800 0023 04       		.byte	4
+ 2801 0024 04       		.byte	4
+ 2802 0025 04       		.byte	4
+ 2803 0026 05       		.byte	5
+ 2804 0027 05       		.byte	5
+ 2805 0028 05       		.byte	5
+ 2806 0029 05       		.byte	5
+ 2807 002a 05       		.byte	5
+ 2808 002b 05       		.byte	5
+ 2809 002c 05       		.byte	5
+ 2810 002d 05       		.byte	5
+ 2811 002e 06       		.byte	6
+ 2812 002f 06       		.byte	6
+ 2813 0030 06       		.byte	6
+ 2814 0031 06       		.byte	6
+ 2815 0032 06       		.byte	6
+ 2816 0033 06       		.byte	6
+ 2817 0034 06       		.byte	6
+ 2818 0035 06       		.byte	6
+ 2819 0036 07       		.byte	7
+ 2820 0037 07       		.byte	7
+ 2821 0038 07       		.byte	7
+ 2822 0039 07       		.byte	7
+ 2823 003a 07       		.byte	7
+ 2824 003b 07       		.byte	7
+ 2825 003c 07       		.byte	7
+ 2826 003d 07       		.byte	7
+ 2827 003e 00       		.byte	0
+ 2828 003f 00       		.byte	0
+ 2829 0040 00       		.byte	0
+ 2830 0041 00       		.byte	0
+ 2831 0042 00       		.byte	0
+ 2832 0043 00       		.byte	0
+ 2833 0044 00       		.byte	0
+ 2834 0045 00       		.byte	0
+ 2835 0046 01       		.byte	1
+ 2836 0047 01       		.byte	1
+ 2837 0048 01       		.byte	1
+ 2838 0049 01       		.byte	1
+ 2839 004a 01       		.byte	1
+ 2840 004b 01       		.byte	1
+ 2841 004c 01       		.byte	1
+ 2842 004d 01       		.byte	1
+ 2843 004e 02       		.byte	2
+ 2844 004f 02       		.byte	2
+ 2845 0050 02       		.byte	2
+ 2846 0051 02       		.byte	2
+ 2847 0052 02       		.byte	2
+ 2848 0053 02       		.byte	2
+ 2849 0054 03       		.byte	3
+ 2850 0055 03       		.byte	3
+ 2851 0056 03       		.byte	3
+ARM GAS  /tmp/ccV7j3kz.s 			page 61
+
+
+ 2852 0057 03       		.byte	3
+ 2853 0058 03       		.byte	3
+ 2854 0059 03       		.byte	3
+ 2855 005a 04       		.byte	4
+ 2856 005b 04       		.byte	4
+ 2857 005c 04       		.byte	4
+ 2858 005d 04       		.byte	4
+ 2859 005e 04       		.byte	4
+ 2860 005f 04       		.byte	4
+ 2861              		.section	.rodata.balanceShift,"a",%progbits
+ 2862              		.align	2
+ 2863              		.set	.LANCHOR1,. + 0
+ 2866              	balanceShift:
+ 2867 0000 01       		.byte	1
+ 2868 0001 02       		.byte	2
+ 2869 0002 04       		.byte	4
+ 2870 0003 08       		.byte	8
+ 2871 0004 0A       		.byte	10
+ 2872 0005 14       		.byte	20
+ 2873 0006 01       		.byte	1
+ 2874 0007 02       		.byte	2
+ 2875 0008 04       		.byte	4
+ 2876 0009 08       		.byte	8
+ 2877 000a 0A       		.byte	10
+ 2878 000b 14       		.byte	20
+ 2879 000c 28       		.byte	40
+ 2880 000d 50       		.byte	80
+ 2881 000e 01       		.byte	1
+ 2882 000f 02       		.byte	2
+ 2883 0010 04       		.byte	4
+ 2884 0011 08       		.byte	8
+ 2885 0012 0A       		.byte	10
+ 2886 0013 14       		.byte	20
+ 2887 0014 28       		.byte	40
+ 2888 0015 50       		.byte	80
+ 2889 0016 01       		.byte	1
+ 2890 0017 02       		.byte	2
+ 2891 0018 04       		.byte	4
+ 2892 0019 08       		.byte	8
+ 2893 001a 0A       		.byte	10
+ 2894 001b 14       		.byte	20
+ 2895 001c 28       		.byte	40
+ 2896 001d 50       		.byte	80
+ 2897 001e 01       		.byte	1
+ 2898 001f 02       		.byte	2
+ 2899 0020 04       		.byte	4
+ 2900 0021 08       		.byte	8
+ 2901 0022 0A       		.byte	10
+ 2902 0023 14       		.byte	20
+ 2903 0024 28       		.byte	40
+ 2904 0025 50       		.byte	80
+ 2905 0026 01       		.byte	1
+ 2906 0027 02       		.byte	2
+ 2907 0028 04       		.byte	4
+ 2908 0029 08       		.byte	8
+ 2909 002a 0A       		.byte	10
+ 2910 002b 14       		.byte	20
+ARM GAS  /tmp/ccV7j3kz.s 			page 62
+
+
+ 2911 002c 28       		.byte	40
+ 2912 002d 50       		.byte	80
+ 2913 002e 01       		.byte	1
+ 2914 002f 02       		.byte	2
+ 2915 0030 04       		.byte	4
+ 2916 0031 08       		.byte	8
+ 2917 0032 0A       		.byte	10
+ 2918 0033 14       		.byte	20
+ 2919 0034 28       		.byte	40
+ 2920 0035 50       		.byte	80
+ 2921 0036 01       		.byte	1
+ 2922 0037 02       		.byte	2
+ 2923 0038 04       		.byte	4
+ 2924 0039 08       		.byte	8
+ 2925 003a 0A       		.byte	10
+ 2926 003b 14       		.byte	20
+ 2927 003c 28       		.byte	40
+ 2928 003d 50       		.byte	80
+ 2929 003e 01       		.byte	1
+ 2930 003f 02       		.byte	2
+ 2931 0040 04       		.byte	4
+ 2932 0041 08       		.byte	8
+ 2933 0042 0A       		.byte	10
+ 2934 0043 14       		.byte	20
+ 2935 0044 28       		.byte	40
+ 2936 0045 50       		.byte	80
+ 2937 0046 01       		.byte	1
+ 2938 0047 02       		.byte	2
+ 2939 0048 04       		.byte	4
+ 2940 0049 08       		.byte	8
+ 2941 004a 0A       		.byte	10
+ 2942 004b 14       		.byte	20
+ 2943 004c 28       		.byte	40
+ 2944 004d 50       		.byte	80
+ 2945 004e 01       		.byte	1
+ 2946 004f 02       		.byte	2
+ 2947 0050 04       		.byte	4
+ 2948 0051 08       		.byte	8
+ 2949 0052 0A       		.byte	10
+ 2950 0053 14       		.byte	20
+ 2951 0054 01       		.byte	1
+ 2952 0055 02       		.byte	2
+ 2953 0056 04       		.byte	4
+ 2954 0057 08       		.byte	8
+ 2955 0058 0A       		.byte	10
+ 2956 0059 14       		.byte	20
+ 2957 005a 01       		.byte	1
+ 2958 005b 02       		.byte	2
+ 2959 005c 04       		.byte	4
+ 2960 005d 08       		.byte	8
+ 2961 005e 0A       		.byte	10
+ 2962 005f 14       		.byte	20
+ 2963              		.text
+ 2964              	.Letext0:
+ 2965              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 2966              		.file 3 "/usr/include/newlib/sys/_stdint.h"
+ 2967              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ARM GAS  /tmp/ccV7j3kz.s 			page 63
+
+
+ 2968              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 2969              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
+ 2970              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 2971              		.file 8 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
+ 2972              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 2973              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 2974              		.file 11 "/usr/include/newlib/sys/lock.h"
+ 2975              		.file 12 "/usr/include/newlib/sys/_types.h"
+ 2976              		.file 13 "/usr/include/newlib/sys/reent.h"
+ 2977              		.file 14 "Core/Inc/can_setup.h"
+ 2978              		.file 15 "Core/Inc/bms.h"
+ARM GAS  /tmp/ccV7j3kz.s 			page 64
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 bms.c
+     /tmp/ccV7j3kz.s:18     .text.getHighCellVolt:0000000000000000 $t
+     /tmp/ccV7j3kz.s:24     .text.getHighCellVolt:0000000000000000 getHighCellVolt
+     /tmp/ccV7j3kz.s:67     .text.getHighCellTemp:0000000000000000 $t
+     /tmp/ccV7j3kz.s:73     .text.getHighCellTemp:0000000000000000 getHighCellTemp
+     /tmp/ccV7j3kz.s:119    .text.getLowCellTemp:0000000000000000 $t
+     /tmp/ccV7j3kz.s:125    .text.getLowCellTemp:0000000000000000 getLowCellTemp
+     /tmp/ccV7j3kz.s:168    .text.getAvgCellTemp:0000000000000000 $t
+     /tmp/ccV7j3kz.s:174    .text.getAvgCellTemp:0000000000000000 getAvgCellTemp
+     /tmp/ccV7j3kz.s:240    .text.getTempDelta:0000000000000000 $t
+     /tmp/ccV7j3kz.s:246    .text.getTempDelta:0000000000000000 getTempDelta
+     /tmp/ccV7j3kz.s:268    .text.getCellDelta:0000000000000000 $t
+     /tmp/ccV7j3kz.s:274    .text.getCellDelta:0000000000000000 getCellDelta
+     /tmp/ccV7j3kz.s:296    .text.getLowCellVolt:0000000000000000 $t
+     /tmp/ccV7j3kz.s:302    .text.getLowCellVolt:0000000000000000 getLowCellVolt
+     /tmp/ccV7j3kz.s:345    .text.getAvgCellVolt:0000000000000000 $t
+     /tmp/ccV7j3kz.s:351    .text.getAvgCellVolt:0000000000000000 getAvgCellVolt
+     /tmp/ccV7j3kz.s:396    .text.getAvgCellVolt:0000000000000028 $d
+     /tmp/ccV7j3kz.s:401    .text.getPackVolt:0000000000000000 $t
+     /tmp/ccV7j3kz.s:407    .text.getPackVolt:0000000000000000 getPackVolt
+     /tmp/ccV7j3kz.s:452    .text.getPackVolt:0000000000000024 $d
+     /tmp/ccV7j3kz.s:457    .text.bmsStateHandler:0000000000000000 $t
+     /tmp/ccV7j3kz.s:464    .text.bmsStateHandler:0000000000000000 bmsStateHandler
+     /tmp/ccV7j3kz.s:476    .text.tx500kData:0000000000000000 $t
+     /tmp/ccV7j3kz.s:483    .text.tx500kData:0000000000000000 tx500kData
+     /tmp/ccV7j3kz.s:572    .text.tx500kData:0000000000000088 $d
+                            *COM*:0000000000000018 txMsg2
+                            *COM*:00000000000001e4 BMS
+                            *COM*:0000000000000008 canTx2
+     /tmp/ccV7j3kz.s:579    .text.refreshData:0000000000000000 $t
+     /tmp/ccV7j3kz.s:586    .text.refreshData:0000000000000000 refreshData
+     /tmp/ccV7j3kz.s:659    .text.refreshData:000000000000004c $d
+     /tmp/ccV7j3kz.s:664    .text.sendCommand:0000000000000000 $t
+     /tmp/ccV7j3kz.s:671    .text.sendCommand:0000000000000000 sendCommand
+     /tmp/ccV7j3kz.s:724    .text.sendCommand:0000000000000034 $d
+                            *COM*:0000000000000018 txMsg
+                            *COM*:0000000000000008 canTx
+                            *COM*:0000000000000018 txMsg3
+                            *COM*:0000000000000008 canTx3
+     /tmp/ccV7j3kz.s:732    .text.balanceCommand:0000000000000000 $t
+     /tmp/ccV7j3kz.s:739    .text.balanceCommand:0000000000000000 balanceCommand
+     /tmp/ccV7j3kz.s:845    .text.balanceCommand:0000000000000080 $d
+     /tmp/ccV7j3kz.s:856    .text.decodeVolt:0000000000000000 $t
+     /tmp/ccV7j3kz.s:863    .text.decodeVolt:0000000000000000 decodeVolt
+     /tmp/ccV7j3kz.s:887    .text.decodeVolt:0000000000000016 $d
+     /tmp/ccV7j3kz.s:918    .text.decodeVolt:0000000000000054 $t
+     /tmp/ccV7j3kz.s:1347   .text.decodeVolt:0000000000000370 $d
+     /tmp/ccV7j3kz.s:1351   .text.decodeVolt:0000000000000374 $t
+     /tmp/ccV7j3kz.s:1742   .text.decodeVolt:0000000000000674 $d
+     /tmp/ccV7j3kz.s:1746   .text.decodeVolt:0000000000000678 $t
+     /tmp/ccV7j3kz.s:2137   .text.decodeVolt:0000000000000984 $d
+     /tmp/ccV7j3kz.s:2141   .text.decodeVolt:0000000000000988 $t
+     /tmp/ccV7j3kz.s:2507   .text.decodeVolt:0000000000000c58 $d
+     /tmp/ccV7j3kz.s:2512   .text.decodeTemp:0000000000000000 $t
+     /tmp/ccV7j3kz.s:2519   .text.decodeTemp:0000000000000000 decodeTemp
+     /tmp/ccV7j3kz.s:2539   .text.decodeTemp:0000000000000010 $d
+ARM GAS  /tmp/ccV7j3kz.s 			page 65
+
+
+                            *COM*:0000000000000004 txCycle3
+                            *COM*:0000000000000004 txCycle2
+                            *COM*:0000000000000004 txCycle
+                            *COM*:0000000000000004 canMailbox2
+                            *COM*:0000000000000004 canMailbox
+                            *COM*:0000000000000008 canRx3
+                            *COM*:0000000000000008 canRx2
+                            *COM*:0000000000000008 canRx
+                            *COM*:0000000000000018 txMsgExt3
+                            *COM*:000000000000001c rxMsg3
+                            *COM*:0000000000000018 txMsgExt2
+                            *COM*:000000000000001c rxMsg2
+                            *COM*:0000000000000018 txMsgExt
+                            *COM*:000000000000001c rxMsg
+                            *COM*:0000000000000028 sf5
+                            *COM*:0000000000000028 sf4
+                            *COM*:0000000000000028 sf3
+                            *COM*:0000000000000028 sf2
+                            *COM*:0000000000000028 sf
+                            *COM*:0000000000000028 hcan3
+                            *COM*:0000000000000028 hcan2
+                            *COM*:0000000000000028 hcan1
+     /tmp/ccV7j3kz.s:2760   .rodata.balanceByte:0000000000000000 $d
+     /tmp/ccV7j3kz.s:2764   .rodata.balanceByte:0000000000000000 balanceByte
+     /tmp/ccV7j3kz.s:2862   .rodata.balanceShift:0000000000000000 $d
+     /tmp/ccV7j3kz.s:2866   .rodata.balanceShift:0000000000000000 balanceShift
+                     .debug_frame:0000000000000010 $d
+     /tmp/ccV7j3kz.s:2554   .text.decodeTemp:000000000000001f $d
+     /tmp/ccV7j3kz.s:2554   .text.decodeTemp:0000000000000020 $t
+
+UNDEFINED SYMBOLS
+c2tx
+c1tx
+c3tx
+__aeabi_i2d
+__aeabi_dmul
+__aeabi_d2uiz

@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "showDevDebugOutput": true,
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/BMS_ALT.elf",
+            "name": "Debug STM32",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "preLaunchTask": "Build STM",
+            "device": "stlink",
+            "configFiles": [
+                "openocd.cfg"
+            ]
+        }
+    ]
+}
