@@ -1,0 +1,2751 @@
+ARM GAS  /tmp/ccHQyC2e.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"ws2812b.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.DMA_TransferError,"ax",%progbits
+  18              		.align	1
+  19              		.global	DMA_TransferError
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	DMA_TransferError:
+  26              	.LFB135:
+  27              		.file 1 "Core/Src/ws2812b.c"
+   1:Core/Src/ws2812b.c **** /*
+   2:Core/Src/ws2812b.c **** 
+   3:Core/Src/ws2812b.c ****   WS2812B CPU and memory efficient library
+   4:Core/Src/ws2812b.c **** 
+   5:Core/Src/ws2812b.c ****   Date: 28.9.2016
+   6:Core/Src/ws2812b.c **** 
+   7:Core/Src/ws2812b.c ****   Author: Martin Hubacek
+   8:Core/Src/ws2812b.c ****   	  	  http://www.martinhubacek.cz
+   9:Core/Src/ws2812b.c ****   	  	  @hubmartin
+  10:Core/Src/ws2812b.c **** 
+  11:Core/Src/ws2812b.c ****   Licence: MIT License
+  12:Core/Src/ws2812b.c **** 
+  13:Core/Src/ws2812b.c **** */
+  14:Core/Src/ws2812b.c **** 
+  15:Core/Src/ws2812b.c **** #include <string.h>
+  16:Core/Src/ws2812b.c **** 
+  17:Core/Src/ws2812b.c **** #include "stm32f4xx_hal.h"
+  18:Core/Src/ws2812b.c **** #include "ws2812b.h"
+  19:Core/Src/ws2812b.c **** 
+  20:Core/Src/ws2812b.c **** extern WS2812_Struct ws2812b;
+  21:Core/Src/ws2812b.c **** 
+  22:Core/Src/ws2812b.c **** // Define source arrays for my DMAs
+  23:Core/Src/ws2812b.c **** uint32_t WS2812_IO_High[] =  { WS2812B_PINS };
+  24:Core/Src/ws2812b.c **** uint32_t WS2812_IO_Low[] = {WS2812B_PINS << 16};
+  25:Core/Src/ws2812b.c **** 
+  26:Core/Src/ws2812b.c **** // WS2812 framebuffer - buffer for 2 LEDs - two times 24 bits
+  27:Core/Src/ws2812b.c **** uint16_t ws2812bDmaBitBuffer[24 * 2];
+  28:Core/Src/ws2812b.c **** 
+  29:Core/Src/ws2812b.c **** // Gamma correction table
+  30:Core/Src/ws2812b.c **** const uint8_t gammaTable[] = {
+  31:Core/Src/ws2812b.c ****     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+ARM GAS  /tmp/ccHQyC2e.s 			page 2
+
+
+  32:Core/Src/ws2812b.c ****     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
+  33:Core/Src/ws2812b.c ****     1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,
+  34:Core/Src/ws2812b.c ****     2,  3,  3,  3,  3,  3,  3,  3,  4,  4,  4,  4,  4,  5,  5,  5,
+  35:Core/Src/ws2812b.c ****     5,  6,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  9,  9,  9, 10,
+  36:Core/Src/ws2812b.c ****    10, 10, 11, 11, 11, 12, 12, 13, 13, 13, 14, 14, 15, 15, 16, 16,
+  37:Core/Src/ws2812b.c ****    17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 24, 24, 25,
+  38:Core/Src/ws2812b.c ****    25, 26, 27, 27, 28, 29, 29, 30, 31, 32, 32, 33, 34, 35, 35, 36,
+  39:Core/Src/ws2812b.c ****    37, 38, 39, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 50,
+  40:Core/Src/ws2812b.c ****    51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68,
+  41:Core/Src/ws2812b.c ****    69, 70, 72, 73, 74, 75, 77, 78, 79, 81, 82, 83, 85, 86, 87, 89,
+  42:Core/Src/ws2812b.c ****    90, 92, 93, 95, 96, 98, 99,101,102,104,105,107,109,110,112,114,
+  43:Core/Src/ws2812b.c ****   115,117,119,120,122,124,126,127,129,131,133,135,137,138,140,142,
+  44:Core/Src/ws2812b.c ****   144,146,148,150,152,154,156,158,160,162,164,167,169,171,173,175,
+  45:Core/Src/ws2812b.c ****   177,180,182,184,186,189,191,193,196,198,200,203,205,208,210,213,
+  46:Core/Src/ws2812b.c ****   215,218,220,223,225,228,231,233,236,239,241,244,247,249,252,255 };
+  47:Core/Src/ws2812b.c **** 
+  48:Core/Src/ws2812b.c **** static void ws2812b_gpio_init(void)
+  49:Core/Src/ws2812b.c **** {
+  50:Core/Src/ws2812b.c **** 	// WS2812B outputs
+  51:Core/Src/ws2812b.c **** 	WS2812B_GPIO_CLK_ENABLE();
+  52:Core/Src/ws2812b.c **** 	GPIO_InitTypeDef  GPIO_InitStruct;
+  53:Core/Src/ws2812b.c **** 	GPIO_InitStruct.Pin       = WS2812B_PINS;
+  54:Core/Src/ws2812b.c **** 	GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+  55:Core/Src/ws2812b.c **** 	GPIO_InitStruct.Pull      = GPIO_NOPULL;
+  56:Core/Src/ws2812b.c **** 	GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+  57:Core/Src/ws2812b.c **** 	HAL_GPIO_Init(WS2812B_PORT, &GPIO_InitStruct);
+  58:Core/Src/ws2812b.c **** 
+  59:Core/Src/ws2812b.c **** 	// Enable output pins for debuging to see DMA Full and Half transfer interrupts
+  60:Core/Src/ws2812b.c **** 	#if defined(LED_BLUE_PORT) && defined(LED_ORANGE_PORT)
+  61:Core/Src/ws2812b.c **** 		__HAL_RCC_GPIOD_CLK_ENABLE();
+  62:Core/Src/ws2812b.c **** 
+  63:Core/Src/ws2812b.c **** 		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  64:Core/Src/ws2812b.c **** 		GPIO_InitStruct.Pull = GPIO_NOPULL;
+  65:Core/Src/ws2812b.c **** 		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  66:Core/Src/ws2812b.c **** 
+  67:Core/Src/ws2812b.c **** 		GPIO_InitStruct.Pin = LED_BLUE_PIN;
+  68:Core/Src/ws2812b.c **** 		HAL_GPIO_Init(LED_BLUE_PORT, &GPIO_InitStruct);
+  69:Core/Src/ws2812b.c **** 		GPIO_InitStruct.Pin = LED_ORANGE_PIN;
+  70:Core/Src/ws2812b.c **** 		HAL_GPIO_Init(LED_ORANGE_PORT, &GPIO_InitStruct);
+  71:Core/Src/ws2812b.c **** 	#endif
+  72:Core/Src/ws2812b.c **** }
+  73:Core/Src/ws2812b.c **** 
+  74:Core/Src/ws2812b.c **** 
+  75:Core/Src/ws2812b.c **** 
+  76:Core/Src/ws2812b.c **** static void TIM1_init(void)
+  77:Core/Src/ws2812b.c **** {
+  78:Core/Src/ws2812b.c **** 	// TIM2 Periph clock enable
+  79:Core/Src/ws2812b.c **** 	__HAL_RCC_TIM1_CLK_ENABLE();
+  80:Core/Src/ws2812b.c **** 
+  81:Core/Src/ws2812b.c **** 	// This computation of pulse length should work ok,
+  82:Core/Src/ws2812b.c **** 	// at some slower core speeds it needs some tuning.
+  83:Core/Src/ws2812b.c **** 	tim_period =  SystemCoreClock / 800000; // 0,125us period (10 times lower the 1,25us period to hav
+  84:Core/Src/ws2812b.c **** 	timer_reset_pulse_period = (SystemCoreClock / (320 * 60)); // 60us just to be sure
+  85:Core/Src/ws2812b.c **** 
+  86:Core/Src/ws2812b.c **** 	uint32_t cc1 = (10 * tim_period) / 36;
+  87:Core/Src/ws2812b.c **** 	uint32_t cc2 = (10 * tim_period) / 15;
+  88:Core/Src/ws2812b.c **** 
+ARM GAS  /tmp/ccHQyC2e.s 			page 3
+
+
+  89:Core/Src/ws2812b.c **** 	TIM1_handle.Instance = TIM1;
+  90:Core/Src/ws2812b.c **** 
+  91:Core/Src/ws2812b.c **** 	TIM1_handle.Init.Period            = tim_period;
+  92:Core/Src/ws2812b.c **** 	TIM1_handle.Init.RepetitionCounter = 0;
+  93:Core/Src/ws2812b.c **** 	TIM1_handle.Init.Prescaler         = 0;
+  94:Core/Src/ws2812b.c **** 	TIM1_handle.Init.ClockDivision     = TIM_CLOCKDIVISION_DIV1;
+  95:Core/Src/ws2812b.c **** 	TIM1_handle.Init.CounterMode       = TIM_COUNTERMODE_UP;
+  96:Core/Src/ws2812b.c **** 	HAL_TIM_PWM_Init(&TIM1_handle);
+  97:Core/Src/ws2812b.c **** 
+  98:Core/Src/ws2812b.c **** 	HAL_NVIC_SetPriority(TIM1_UP_TIM10_IRQn, 0, 0);
+  99:Core/Src/ws2812b.c **** 	HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+ 100:Core/Src/ws2812b.c **** 
+ 101:Core/Src/ws2812b.c **** 	tim2OC1.OCMode       = TIM_OCMODE_PWM1;
+ 102:Core/Src/ws2812b.c **** 	tim2OC1.OCPolarity   = TIM_OCPOLARITY_HIGH;
+ 103:Core/Src/ws2812b.c **** 	tim2OC1.Pulse        = cc1;
+ 104:Core/Src/ws2812b.c **** 	tim2OC1.OCNPolarity  = TIM_OCNPOLARITY_HIGH;
+ 105:Core/Src/ws2812b.c **** 	tim2OC1.OCFastMode   = TIM_OCFAST_DISABLE;
+ 106:Core/Src/ws2812b.c **** 	HAL_TIM_PWM_ConfigChannel(&TIM1_handle, &tim2OC1, TIM_CHANNEL_1);
+ 107:Core/Src/ws2812b.c **** 
+ 108:Core/Src/ws2812b.c **** 	tim2OC2.OCMode       = TIM_OCMODE_PWM1;
+ 109:Core/Src/ws2812b.c **** 	tim2OC2.OCPolarity   = TIM_OCPOLARITY_HIGH;
+ 110:Core/Src/ws2812b.c **** 	tim2OC2.Pulse        = cc2;
+ 111:Core/Src/ws2812b.c **** 	tim2OC2.OCNPolarity  = TIM_OCNPOLARITY_HIGH;
+ 112:Core/Src/ws2812b.c **** 	tim2OC2.OCFastMode   = TIM_OCFAST_DISABLE;
+ 113:Core/Src/ws2812b.c **** 	tim2OC2.OCIdleState  = TIM_OCIDLESTATE_RESET;
+ 114:Core/Src/ws2812b.c **** 	tim2OC2.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+ 115:Core/Src/ws2812b.c **** 	HAL_TIM_PWM_ConfigChannel(&TIM1_handle, &tim2OC2, TIM_CHANNEL_2);
+ 116:Core/Src/ws2812b.c **** 
+ 117:Core/Src/ws2812b.c **** 
+ 118:Core/Src/ws2812b.c **** 	HAL_TIM_Base_Start(&TIM1_handle);
+ 119:Core/Src/ws2812b.c **** 	HAL_TIM_PWM_Start(&TIM1_handle, TIM_CHANNEL_1);
+ 120:Core/Src/ws2812b.c **** 
+ 121:Core/Src/ws2812b.c **** 	__HAL_TIM_DISABLE(&TIM1_handle);
+ 122:Core/Src/ws2812b.c **** 
+ 123:Core/Src/ws2812b.c **** }
+ 124:Core/Src/ws2812b.c **** 
+ 125:Core/Src/ws2812b.c **** 
+ 126:Core/Src/ws2812b.c **** 
+ 127:Core/Src/ws2812b.c **** DMA_HandleTypeDef     dmaUpdate;
+ 128:Core/Src/ws2812b.c **** DMA_HandleTypeDef     dmaCC1;
+ 129:Core/Src/ws2812b.c **** DMA_HandleTypeDef     dmaCC2;
+ 130:Core/Src/ws2812b.c **** #define BUFFER_SIZE		(sizeof(ws2812bDmaBitBuffer)/sizeof(uint16_t))
+ 131:Core/Src/ws2812b.c **** 
+ 132:Core/Src/ws2812b.c **** uint32_t dummy;
+ 133:Core/Src/ws2812b.c **** 
+ 134:Core/Src/ws2812b.c **** 
+ 135:Core/Src/ws2812b.c **** static void DMA2_init(void)
+ 136:Core/Src/ws2812b.c **** {
+ 137:Core/Src/ws2812b.c **** 
+ 138:Core/Src/ws2812b.c **** 	// TIM2 Update event
+ 139:Core/Src/ws2812b.c **** 	__HAL_RCC_DMA2_CLK_ENABLE();
+ 140:Core/Src/ws2812b.c **** 
+ 141:Core/Src/ws2812b.c **** 	dmaUpdate.Init.Direction = DMA_MEMORY_TO_PERIPH;
+ 142:Core/Src/ws2812b.c **** 	dmaUpdate.Init.PeriphInc = DMA_PINC_DISABLE;
+ 143:Core/Src/ws2812b.c **** 	dmaUpdate.Init.MemInc = DMA_MINC_DISABLE;
+ 144:Core/Src/ws2812b.c **** 	dmaUpdate.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+ 145:Core/Src/ws2812b.c **** 	dmaUpdate.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+ARM GAS  /tmp/ccHQyC2e.s 			page 4
+
+
+ 146:Core/Src/ws2812b.c **** 	dmaUpdate.Init.Mode = DMA_CIRCULAR;
+ 147:Core/Src/ws2812b.c **** 	dmaUpdate.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 148:Core/Src/ws2812b.c **** 	dmaUpdate.Init.Channel = DMA_CHANNEL_6;
+ 149:Core/Src/ws2812b.c **** 
+ 150:Core/Src/ws2812b.c **** 	dmaUpdate.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+ 151:Core/Src/ws2812b.c **** 	dmaUpdate.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 152:Core/Src/ws2812b.c **** 	dmaUpdate.Init.MemBurst = DMA_MBURST_SINGLE;
+ 153:Core/Src/ws2812b.c **** 	dmaUpdate.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 154:Core/Src/ws2812b.c **** 
+ 155:Core/Src/ws2812b.c **** 	dmaUpdate.Instance = DMA2_Stream5;
+ 156:Core/Src/ws2812b.c **** 	//dmaUpdate.XferCpltCallback  = TransferComplete;
+ 157:Core/Src/ws2812b.c **** 	//dmaUpdate.XferErrorCallback = TransferError;
+ 158:Core/Src/ws2812b.c **** 
+ 159:Core/Src/ws2812b.c **** 	HAL_DMA_DeInit(&dmaUpdate);
+ 160:Core/Src/ws2812b.c **** 	HAL_DMA_Init(&dmaUpdate);
+ 161:Core/Src/ws2812b.c **** 	//HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
+ 162:Core/Src/ws2812b.c **** 	//HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
+ 163:Core/Src/ws2812b.c **** 	HAL_DMA_Start(&dmaUpdate, (uint32_t)WS2812_IO_High, (uint32_t)(&WS2812B_PORT->BSRR), BUFFER_SIZE);
+ 164:Core/Src/ws2812b.c **** 	//HAL_DMA_Start(&dmaUpdate, (uint32_t)WS2812_IO_High, (uint32_t)&dummy, BUFFER_SIZE);
+ 165:Core/Src/ws2812b.c **** 
+ 166:Core/Src/ws2812b.c **** 
+ 167:Core/Src/ws2812b.c **** 	// TIM2 CC1 event
+ 168:Core/Src/ws2812b.c **** 	dmaCC1.Init.Direction = DMA_MEMORY_TO_PERIPH;
+ 169:Core/Src/ws2812b.c **** 	dmaCC1.Init.PeriphInc = DMA_PINC_DISABLE;
+ 170:Core/Src/ws2812b.c **** 	dmaCC1.Init.MemInc = DMA_MINC_ENABLE;
+ 171:Core/Src/ws2812b.c **** 	dmaCC1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+ 172:Core/Src/ws2812b.c **** 	dmaCC1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+ 173:Core/Src/ws2812b.c **** 	dmaCC1.Init.Mode = DMA_CIRCULAR;
+ 174:Core/Src/ws2812b.c **** 	dmaCC1.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 175:Core/Src/ws2812b.c **** 	dmaCC1.Init.Channel = DMA_CHANNEL_6;
+ 176:Core/Src/ws2812b.c **** 
+ 177:Core/Src/ws2812b.c **** 	dmaCC1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+ 178:Core/Src/ws2812b.c **** 	dmaCC1.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 179:Core/Src/ws2812b.c **** 	dmaCC1.Init.MemBurst = DMA_MBURST_SINGLE;
+ 180:Core/Src/ws2812b.c **** 	dmaCC1.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 181:Core/Src/ws2812b.c **** 
+ 182:Core/Src/ws2812b.c **** 	dmaCC1.Instance = DMA2_Stream1;
+ 183:Core/Src/ws2812b.c **** 	//dmaUpdate.XferCpltCallback  = TransferComplete;
+ 184:Core/Src/ws2812b.c **** 	//dmaUpdate.XferErrorCallback = TransferError;
+ 185:Core/Src/ws2812b.c **** 	//dmaUpdate.XferHalfCpltCallback = TransferHalf;
+ 186:Core/Src/ws2812b.c **** 	//HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
+ 187:Core/Src/ws2812b.c **** 	//HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
+ 188:Core/Src/ws2812b.c **** 	HAL_DMA_DeInit(&dmaCC1);
+ 189:Core/Src/ws2812b.c **** 	HAL_DMA_Init(&dmaCC1);
+ 190:Core/Src/ws2812b.c **** 	HAL_DMA_Start(&dmaCC1, (uint32_t)ws2812bDmaBitBuffer, (uint32_t)(&WS2812B_PORT->BSRR) + 2, BUFFER_
+ 191:Core/Src/ws2812b.c **** 	//HAL_DMA_Start(&dmaCC1, (uint32_t)ws2812bDmaBitBuffer, (uint32_t)&dummy, BUFFER_SIZE); //BRR
+ 192:Core/Src/ws2812b.c **** 
+ 193:Core/Src/ws2812b.c **** 
+ 194:Core/Src/ws2812b.c **** 	// TIM2 CC2 event
+ 195:Core/Src/ws2812b.c **** 	dmaCC2.Init.Direction = DMA_MEMORY_TO_PERIPH;
+ 196:Core/Src/ws2812b.c **** 	dmaCC2.Init.PeriphInc = DMA_PINC_DISABLE;
+ 197:Core/Src/ws2812b.c **** 	dmaCC2.Init.MemInc = DMA_MINC_DISABLE;
+ 198:Core/Src/ws2812b.c **** 	dmaCC2.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+ 199:Core/Src/ws2812b.c **** 	dmaCC2.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+ 200:Core/Src/ws2812b.c **** 	dmaCC2.Init.Mode = DMA_CIRCULAR;
+ 201:Core/Src/ws2812b.c **** 	dmaCC2.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 202:Core/Src/ws2812b.c **** 	dmaCC2.Init.Channel = DMA_CHANNEL_6;
+ARM GAS  /tmp/ccHQyC2e.s 			page 5
+
+
+ 203:Core/Src/ws2812b.c **** 
+ 204:Core/Src/ws2812b.c **** 	dmaCC2.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+ 205:Core/Src/ws2812b.c **** 	dmaCC2.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 206:Core/Src/ws2812b.c **** 	dmaCC2.Init.MemBurst = DMA_MBURST_SINGLE;
+ 207:Core/Src/ws2812b.c **** 	dmaCC2.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 208:Core/Src/ws2812b.c **** 
+ 209:Core/Src/ws2812b.c **** 	dmaCC2.Instance = DMA2_Stream2;
+ 210:Core/Src/ws2812b.c **** 
+ 211:Core/Src/ws2812b.c **** 	HAL_DMA_DeInit(&dmaCC2);
+ 212:Core/Src/ws2812b.c **** 
+ 213:Core/Src/ws2812b.c **** 	dmaCC2.XferCpltCallback  = DMA_TransferCompleteHandler;
+ 214:Core/Src/ws2812b.c **** 	dmaCC2.XferHalfCpltCallback = DMA_TransferHalfHandler;
+ 215:Core/Src/ws2812b.c **** 	dmaCC2.XferErrorCallback = DMA_TransferError;
+ 216:Core/Src/ws2812b.c **** 
+ 217:Core/Src/ws2812b.c **** 	HAL_DMA_Init(&dmaCC2);
+ 218:Core/Src/ws2812b.c **** 	HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
+ 219:Core/Src/ws2812b.c **** 	HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+ 220:Core/Src/ws2812b.c **** 	HAL_DMA_Start_IT(&dmaCC2, (uint32_t)WS2812_IO_Low, (uint32_t)&WS2812B_PORT->BSRR, BUFFER_SIZE);
+ 221:Core/Src/ws2812b.c **** 	//HAL_DMA_Start_IT(&dmaCC2, (uint32_t)WS2812_IO_Low, (uint32_t)&dummy, BUFFER_SIZE);
+ 222:Core/Src/ws2812b.c **** 
+ 223:Core/Src/ws2812b.c **** 	//__HAL_LINKDMA(&Tim2Handle, hdma,  &dmaCC2);
+ 224:Core/Src/ws2812b.c **** 
+ 225:Core/Src/ws2812b.c **** }
+ 226:Core/Src/ws2812b.c **** 
+ 227:Core/Src/ws2812b.c **** 
+ 228:Core/Src/ws2812b.c **** 
+ 229:Core/Src/ws2812b.c **** 
+ 230:Core/Src/ws2812b.c **** 
+ 231:Core/Src/ws2812b.c **** 
+ 232:Core/Src/ws2812b.c **** static void loadNextFramebufferData(WS2812_BufferItem *bItem, uint32_t row)
+ 233:Core/Src/ws2812b.c **** {
+ 234:Core/Src/ws2812b.c **** 
+ 235:Core/Src/ws2812b.c **** 	uint32_t r = bItem->frameBufferPointer[bItem->frameBufferCounter++];
+ 236:Core/Src/ws2812b.c **** 	uint32_t g = bItem->frameBufferPointer[bItem->frameBufferCounter++];
+ 237:Core/Src/ws2812b.c **** 	uint32_t b = bItem->frameBufferPointer[bItem->frameBufferCounter++];
+ 238:Core/Src/ws2812b.c **** 
+ 239:Core/Src/ws2812b.c **** 	if(bItem->frameBufferCounter == bItem->frameBufferSize)
+ 240:Core/Src/ws2812b.c **** 		bItem->frameBufferCounter = 0;
+ 241:Core/Src/ws2812b.c **** 
+ 242:Core/Src/ws2812b.c **** 	ws2812b_set_pixel(bItem->channel, row, r, g, b);
+ 243:Core/Src/ws2812b.c **** }
+ 244:Core/Src/ws2812b.c **** 
+ 245:Core/Src/ws2812b.c **** 
+ 246:Core/Src/ws2812b.c **** // Transmit the framebuffer
+ 247:Core/Src/ws2812b.c **** static void WS2812_sendbuf()
+ 248:Core/Src/ws2812b.c **** {
+ 249:Core/Src/ws2812b.c **** 	// transmission complete flag
+ 250:Core/Src/ws2812b.c **** 	ws2812b.transferComplete = 0;
+ 251:Core/Src/ws2812b.c **** 
+ 252:Core/Src/ws2812b.c **** 	uint32_t i;
+ 253:Core/Src/ws2812b.c **** 
+ 254:Core/Src/ws2812b.c **** 	for( i = 0; i < WS2812_BUFFER_COUNT; i++ )
+ 255:Core/Src/ws2812b.c **** 	{
+ 256:Core/Src/ws2812b.c **** 		ws2812b.item[i].frameBufferCounter = 0;
+ 257:Core/Src/ws2812b.c **** 
+ 258:Core/Src/ws2812b.c **** 		loadNextFramebufferData(&ws2812b.item[i], 0); // ROW 0
+ 259:Core/Src/ws2812b.c **** 		loadNextFramebufferData(&ws2812b.item[i], 1); // ROW 0
+ARM GAS  /tmp/ccHQyC2e.s 			page 6
+
+
+ 260:Core/Src/ws2812b.c **** 	}
+ 261:Core/Src/ws2812b.c **** 
+ 262:Core/Src/ws2812b.c **** 	// clear all DMA flags
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaUpdate, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 265:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 266:Core/Src/ws2812b.c **** 
+ 267:Core/Src/ws2812b.c **** 
+ 268:Core/Src/ws2812b.c **** 
+ 269:Core/Src/ws2812b.c **** 	// configure the number of bytes to be transferred by the DMA controller
+ 270:Core/Src/ws2812b.c **** 	dmaUpdate.Instance->NDTR = BUFFER_SIZE;
+ 271:Core/Src/ws2812b.c **** 	dmaCC1.Instance->NDTR = BUFFER_SIZE;
+ 272:Core/Src/ws2812b.c **** 	dmaCC2.Instance->NDTR = BUFFER_SIZE;
+ 273:Core/Src/ws2812b.c **** 
+ 274:Core/Src/ws2812b.c **** 	// clear all TIM2 flags
+ 275:Core/Src/ws2812b.c **** 	__HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE | TIM_FLAG_CC1 | TIM_FLAG_CC2 | TIM_FLAG_CC3 | 
+ 276:Core/Src/ws2812b.c **** 
+ 277:Core/Src/ws2812b.c **** 	// enable DMA channels
+ 278:Core/Src/ws2812b.c **** 	__HAL_DMA_ENABLE(&dmaUpdate);
+ 279:Core/Src/ws2812b.c **** 	__HAL_DMA_ENABLE(&dmaCC1);
+ 280:Core/Src/ws2812b.c **** 	__HAL_DMA_ENABLE(&dmaCC2);
+ 281:Core/Src/ws2812b.c **** 
+ 282:Core/Src/ws2812b.c **** 	// IMPORTANT: enable the TIM2 DMA requests AFTER enabling the DMA channels!
+ 283:Core/Src/ws2812b.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_UPDATE);
+ 284:Core/Src/ws2812b.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_CC1);
+ 285:Core/Src/ws2812b.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_CC2);
+ 286:Core/Src/ws2812b.c **** 
+ 287:Core/Src/ws2812b.c **** 	TIM1->CNT = tim_period-1;
+ 288:Core/Src/ws2812b.c **** 
+ 289:Core/Src/ws2812b.c **** 	// start TIM2
+ 290:Core/Src/ws2812b.c **** 	__HAL_TIM_ENABLE(&TIM1_handle);
+ 291:Core/Src/ws2812b.c **** }
+ 292:Core/Src/ws2812b.c **** 
+ 293:Core/Src/ws2812b.c **** 
+ 294:Core/Src/ws2812b.c **** void DMA_TransferError(DMA_HandleTypeDef *DmaHandle)
+ 295:Core/Src/ws2812b.c **** {
+  28              		.loc 1 295 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+  34 0000 82B0     		sub	sp, sp, #8
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+ 296:Core/Src/ws2812b.c **** 	volatile int i = 0;
+  37              		.loc 1 296 0
+  38 0002 0023     		movs	r3, #0
+  39 0004 0193     		str	r3, [sp, #4]
+ 297:Core/Src/ws2812b.c **** 	i++;
+  40              		.loc 1 297 0
+  41 0006 019B     		ldr	r3, [sp, #4]
+  42 0008 0133     		adds	r3, r3, #1
+  43 000a 0193     		str	r3, [sp, #4]
+ 298:Core/Src/ws2812b.c **** }
+  44              		.loc 1 298 0
+  45 000c 02B0     		add	sp, sp, #8
+ARM GAS  /tmp/ccHQyC2e.s 			page 7
+
+
+  46              	.LCFI1:
+  47              		.cfi_def_cfa_offset 0
+  48              		@ sp needed
+  49 000e 7047     		bx	lr
+  50              		.cfi_endproc
+  51              	.LFE135:
+  53              		.section	.text.ws2812b_gpio_init,"ax",%progbits
+  54              		.align	1
+  55              		.syntax unified
+  56              		.thumb
+  57              		.thumb_func
+  58              		.fpu fpv4-sp-d16
+  60              	ws2812b_gpio_init:
+  61              	.LFB130:
+  49:Core/Src/ws2812b.c **** 	// WS2812B outputs
+  62              		.loc 1 49 0
+  63              		.cfi_startproc
+  64              		@ args = 0, pretend = 0, frame = 32
+  65              		@ frame_needed = 0, uses_anonymous_args = 0
+  66 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  67              	.LCFI2:
+  68              		.cfi_def_cfa_offset 20
+  69              		.cfi_offset 4, -20
+  70              		.cfi_offset 5, -16
+  71              		.cfi_offset 6, -12
+  72              		.cfi_offset 7, -8
+  73              		.cfi_offset 14, -4
+  74 0002 89B0     		sub	sp, sp, #36
+  75              	.LCFI3:
+  76              		.cfi_def_cfa_offset 56
+  77              	.LBB2:
+  51:Core/Src/ws2812b.c **** 	GPIO_InitTypeDef  GPIO_InitStruct;
+  78              		.loc 1 51 0
+  79 0004 0025     		movs	r5, #0
+  80 0006 0195     		str	r5, [sp, #4]
+  81 0008 194C     		ldr	r4, .L5
+  82 000a 236B     		ldr	r3, [r4, #48]
+  83 000c 43F00403 		orr	r3, r3, #4
+  84 0010 2363     		str	r3, [r4, #48]
+  85 0012 236B     		ldr	r3, [r4, #48]
+  86 0014 03F00403 		and	r3, r3, #4
+  87 0018 0193     		str	r3, [sp, #4]
+  88 001a 019B     		ldr	r3, [sp, #4]
+  89              	.LBE2:
+  53:Core/Src/ws2812b.c **** 	GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+  90              		.loc 1 53 0
+  91 001c 4FF40056 		mov	r6, #8192
+  92 0020 0396     		str	r6, [sp, #12]
+  54:Core/Src/ws2812b.c **** 	GPIO_InitStruct.Pull      = GPIO_NOPULL;
+  93              		.loc 1 54 0
+  94 0022 0127     		movs	r7, #1
+  95 0024 0497     		str	r7, [sp, #16]
+  55:Core/Src/ws2812b.c **** 	GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_LOW;
+  96              		.loc 1 55 0
+  97 0026 0595     		str	r5, [sp, #20]
+  56:Core/Src/ws2812b.c **** 	HAL_GPIO_Init(WS2812B_PORT, &GPIO_InitStruct);
+  98              		.loc 1 56 0
+ARM GAS  /tmp/ccHQyC2e.s 			page 8
+
+
+  99 0028 0695     		str	r5, [sp, #24]
+  57:Core/Src/ws2812b.c **** 
+ 100              		.loc 1 57 0
+ 101 002a 03A9     		add	r1, sp, #12
+ 102 002c 1148     		ldr	r0, .L5+4
+ 103 002e FFF7FEFF 		bl	HAL_GPIO_Init
+ 104              	.LVL1:
+ 105              	.LBB3:
+  61:Core/Src/ws2812b.c **** 
+ 106              		.loc 1 61 0
+ 107 0032 0295     		str	r5, [sp, #8]
+ 108 0034 236B     		ldr	r3, [r4, #48]
+ 109 0036 43F00803 		orr	r3, r3, #8
+ 110 003a 2363     		str	r3, [r4, #48]
+ 111 003c 236B     		ldr	r3, [r4, #48]
+ 112 003e 03F00803 		and	r3, r3, #8
+ 113 0042 0293     		str	r3, [sp, #8]
+ 114 0044 029B     		ldr	r3, [sp, #8]
+ 115              	.LBE3:
+  63:Core/Src/ws2812b.c **** 		GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 116              		.loc 1 63 0
+ 117 0046 0497     		str	r7, [sp, #16]
+  64:Core/Src/ws2812b.c **** 		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+ 118              		.loc 1 64 0
+ 119 0048 0595     		str	r5, [sp, #20]
+  65:Core/Src/ws2812b.c **** 
+ 120              		.loc 1 65 0
+ 121 004a 0223     		movs	r3, #2
+ 122 004c 0693     		str	r3, [sp, #24]
+  67:Core/Src/ws2812b.c **** 		HAL_GPIO_Init(LED_BLUE_PORT, &GPIO_InitStruct);
+ 123              		.loc 1 67 0
+ 124 004e 4FF40043 		mov	r3, #32768
+ 125 0052 0393     		str	r3, [sp, #12]
+  68:Core/Src/ws2812b.c **** 		GPIO_InitStruct.Pin = LED_ORANGE_PIN;
+ 126              		.loc 1 68 0
+ 127 0054 A4F53054 		sub	r4, r4, #11264
+ 128 0058 03A9     		add	r1, sp, #12
+ 129 005a 2046     		mov	r0, r4
+ 130 005c FFF7FEFF 		bl	HAL_GPIO_Init
+ 131              	.LVL2:
+  69:Core/Src/ws2812b.c **** 		HAL_GPIO_Init(LED_ORANGE_PORT, &GPIO_InitStruct);
+ 132              		.loc 1 69 0
+ 133 0060 0396     		str	r6, [sp, #12]
+  70:Core/Src/ws2812b.c **** 	#endif
+ 134              		.loc 1 70 0
+ 135 0062 03A9     		add	r1, sp, #12
+ 136 0064 2046     		mov	r0, r4
+ 137 0066 FFF7FEFF 		bl	HAL_GPIO_Init
+ 138              	.LVL3:
+  72:Core/Src/ws2812b.c **** 
+ 139              		.loc 1 72 0
+ 140 006a 09B0     		add	sp, sp, #36
+ 141              	.LCFI4:
+ 142              		.cfi_def_cfa_offset 20
+ 143              		@ sp needed
+ 144 006c F0BD     		pop	{r4, r5, r6, r7, pc}
+ 145              	.L6:
+ARM GAS  /tmp/ccHQyC2e.s 			page 9
+
+
+ 146 006e 00BF     		.align	2
+ 147              	.L5:
+ 148 0070 00380240 		.word	1073887232
+ 149 0074 00080240 		.word	1073874944
+ 150              		.cfi_endproc
+ 151              	.LFE130:
+ 153              		.section	.text.DMA2_init,"ax",%progbits
+ 154              		.align	1
+ 155              		.syntax unified
+ 156              		.thumb
+ 157              		.thumb_func
+ 158              		.fpu fpv4-sp-d16
+ 160              	DMA2_init:
+ 161              	.LFB132:
+ 136:Core/Src/ws2812b.c **** 
+ 162              		.loc 1 136 0
+ 163              		.cfi_startproc
+ 164              		@ args = 0, pretend = 0, frame = 8
+ 165              		@ frame_needed = 0, uses_anonymous_args = 0
+ 166 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 167              	.LCFI5:
+ 168              		.cfi_def_cfa_offset 36
+ 169              		.cfi_offset 4, -36
+ 170              		.cfi_offset 5, -32
+ 171              		.cfi_offset 6, -28
+ 172              		.cfi_offset 7, -24
+ 173              		.cfi_offset 8, -20
+ 174              		.cfi_offset 9, -16
+ 175              		.cfi_offset 10, -12
+ 176              		.cfi_offset 11, -8
+ 177              		.cfi_offset 14, -4
+ 178 0004 83B0     		sub	sp, sp, #12
+ 179              	.LCFI6:
+ 180              		.cfi_def_cfa_offset 48
+ 181              	.LBB4:
+ 139:Core/Src/ws2812b.c **** 
+ 182              		.loc 1 139 0
+ 183 0006 0025     		movs	r5, #0
+ 184 0008 0195     		str	r5, [sp, #4]
+ 185 000a 464B     		ldr	r3, .L9
+ 186 000c 1A6B     		ldr	r2, [r3, #48]
+ 187 000e 42F48002 		orr	r2, r2, #4194304
+ 188 0012 1A63     		str	r2, [r3, #48]
+ 189 0014 1B6B     		ldr	r3, [r3, #48]
+ 190 0016 03F48003 		and	r3, r3, #4194304
+ 191 001a 0193     		str	r3, [sp, #4]
+ 192 001c 019B     		ldr	r3, [sp, #4]
+ 193              	.LBE4:
+ 141:Core/Src/ws2812b.c **** 	dmaUpdate.Init.PeriphInc = DMA_PINC_DISABLE;
+ 194              		.loc 1 141 0
+ 195 001e 424C     		ldr	r4, .L9+4
+ 196 0020 4FF0400A 		mov	r10, #64
+ 197 0024 C4F808A0 		str	r10, [r4, #8]
+ 142:Core/Src/ws2812b.c **** 	dmaUpdate.Init.MemInc = DMA_MINC_DISABLE;
+ 198              		.loc 1 142 0
+ 199 0028 E560     		str	r5, [r4, #12]
+ 143:Core/Src/ws2812b.c **** 	dmaUpdate.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+ARM GAS  /tmp/ccHQyC2e.s 			page 10
+
+
+ 200              		.loc 1 143 0
+ 201 002a 2561     		str	r5, [r4, #16]
+ 144:Core/Src/ws2812b.c **** 	dmaUpdate.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+ 202              		.loc 1 144 0
+ 203 002c 4FF4805B 		mov	fp, #4096
+ 204 0030 C4F814B0 		str	fp, [r4, #20]
+ 145:Core/Src/ws2812b.c **** 	dmaUpdate.Init.Mode = DMA_CIRCULAR;
+ 205              		.loc 1 145 0
+ 206 0034 4FF48043 		mov	r3, #16384
+ 207 0038 A361     		str	r3, [r4, #24]
+ 146:Core/Src/ws2812b.c **** 	dmaUpdate.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 208              		.loc 1 146 0
+ 209 003a 4FF48079 		mov	r9, #256
+ 210 003e C4F81C90 		str	r9, [r4, #28]
+ 147:Core/Src/ws2812b.c **** 	dmaUpdate.Init.Channel = DMA_CHANNEL_6;
+ 211              		.loc 1 147 0
+ 212 0042 4FF44038 		mov	r8, #196608
+ 213 0046 C4F82080 		str	r8, [r4, #32]
+ 148:Core/Src/ws2812b.c **** 
+ 214              		.loc 1 148 0
+ 215 004a 4FF04067 		mov	r7, #201326592
+ 216 004e 6760     		str	r7, [r4, #4]
+ 150:Core/Src/ws2812b.c **** 	dmaUpdate.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 217              		.loc 1 150 0
+ 218 0050 6562     		str	r5, [r4, #36]
+ 151:Core/Src/ws2812b.c **** 	dmaUpdate.Init.MemBurst = DMA_MBURST_SINGLE;
+ 219              		.loc 1 151 0
+ 220 0052 0326     		movs	r6, #3
+ 221 0054 A662     		str	r6, [r4, #40]
+ 152:Core/Src/ws2812b.c **** 	dmaUpdate.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 222              		.loc 1 152 0
+ 223 0056 E562     		str	r5, [r4, #44]
+ 153:Core/Src/ws2812b.c **** 
+ 224              		.loc 1 153 0
+ 225 0058 2563     		str	r5, [r4, #48]
+ 155:Core/Src/ws2812b.c **** 	//dmaUpdate.XferCpltCallback  = TransferComplete;
+ 226              		.loc 1 155 0
+ 227 005a 344B     		ldr	r3, .L9+8
+ 228 005c 2360     		str	r3, [r4]
+ 159:Core/Src/ws2812b.c **** 	HAL_DMA_Init(&dmaUpdate);
+ 229              		.loc 1 159 0
+ 230 005e 2046     		mov	r0, r4
+ 231 0060 FFF7FEFF 		bl	HAL_DMA_DeInit
+ 232              	.LVL4:
+ 160:Core/Src/ws2812b.c **** 	//HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
+ 233              		.loc 1 160 0
+ 234 0064 2046     		mov	r0, r4
+ 235 0066 FFF7FEFF 		bl	HAL_DMA_Init
+ 236              	.LVL5:
+ 163:Core/Src/ws2812b.c **** 	//HAL_DMA_Start(&dmaUpdate, (uint32_t)WS2812_IO_High, (uint32_t)&dummy, BUFFER_SIZE);
+ 237              		.loc 1 163 0
+ 238 006a 3023     		movs	r3, #48
+ 239 006c 304A     		ldr	r2, .L9+12
+ 240 006e 3149     		ldr	r1, .L9+16
+ 241 0070 2046     		mov	r0, r4
+ 242 0072 FFF7FEFF 		bl	HAL_DMA_Start
+ 243              	.LVL6:
+ARM GAS  /tmp/ccHQyC2e.s 			page 11
+
+
+ 168:Core/Src/ws2812b.c **** 	dmaCC1.Init.PeriphInc = DMA_PINC_DISABLE;
+ 244              		.loc 1 168 0
+ 245 0076 304C     		ldr	r4, .L9+20
+ 246 0078 C4F808A0 		str	r10, [r4, #8]
+ 169:Core/Src/ws2812b.c **** 	dmaCC1.Init.MemInc = DMA_MINC_ENABLE;
+ 247              		.loc 1 169 0
+ 248 007c E560     		str	r5, [r4, #12]
+ 170:Core/Src/ws2812b.c **** 	dmaCC1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+ 249              		.loc 1 170 0
+ 250 007e 4FF48063 		mov	r3, #1024
+ 251 0082 2361     		str	r3, [r4, #16]
+ 171:Core/Src/ws2812b.c **** 	dmaCC1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+ 252              		.loc 1 171 0
+ 253 0084 4FF40063 		mov	r3, #2048
+ 254 0088 6361     		str	r3, [r4, #20]
+ 172:Core/Src/ws2812b.c **** 	dmaCC1.Init.Mode = DMA_CIRCULAR;
+ 255              		.loc 1 172 0
+ 256 008a 4FF40053 		mov	r3, #8192
+ 257 008e A361     		str	r3, [r4, #24]
+ 173:Core/Src/ws2812b.c **** 	dmaCC1.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 258              		.loc 1 173 0
+ 259 0090 C4F81C90 		str	r9, [r4, #28]
+ 174:Core/Src/ws2812b.c **** 	dmaCC1.Init.Channel = DMA_CHANNEL_6;
+ 260              		.loc 1 174 0
+ 261 0094 C4F82080 		str	r8, [r4, #32]
+ 175:Core/Src/ws2812b.c **** 
+ 262              		.loc 1 175 0
+ 263 0098 6760     		str	r7, [r4, #4]
+ 177:Core/Src/ws2812b.c **** 	dmaCC1.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 264              		.loc 1 177 0
+ 265 009a 6562     		str	r5, [r4, #36]
+ 178:Core/Src/ws2812b.c **** 	dmaCC1.Init.MemBurst = DMA_MBURST_SINGLE;
+ 266              		.loc 1 178 0
+ 267 009c A662     		str	r6, [r4, #40]
+ 179:Core/Src/ws2812b.c **** 	dmaCC1.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 268              		.loc 1 179 0
+ 269 009e E562     		str	r5, [r4, #44]
+ 180:Core/Src/ws2812b.c **** 
+ 270              		.loc 1 180 0
+ 271 00a0 2563     		str	r5, [r4, #48]
+ 182:Core/Src/ws2812b.c **** 	//dmaUpdate.XferCpltCallback  = TransferComplete;
+ 272              		.loc 1 182 0
+ 273 00a2 264B     		ldr	r3, .L9+24
+ 274 00a4 2360     		str	r3, [r4]
+ 188:Core/Src/ws2812b.c **** 	HAL_DMA_Init(&dmaCC1);
+ 275              		.loc 1 188 0
+ 276 00a6 2046     		mov	r0, r4
+ 277 00a8 FFF7FEFF 		bl	HAL_DMA_DeInit
+ 278              	.LVL7:
+ 189:Core/Src/ws2812b.c **** 	HAL_DMA_Start(&dmaCC1, (uint32_t)ws2812bDmaBitBuffer, (uint32_t)(&WS2812B_PORT->BSRR) + 2, BUFFER_
+ 279              		.loc 1 189 0
+ 280 00ac 2046     		mov	r0, r4
+ 281 00ae FFF7FEFF 		bl	HAL_DMA_Init
+ 282              	.LVL8:
+ 190:Core/Src/ws2812b.c **** 	//HAL_DMA_Start(&dmaCC1, (uint32_t)ws2812bDmaBitBuffer, (uint32_t)&dummy, BUFFER_SIZE); //BRR
+ 283              		.loc 1 190 0
+ 284 00b2 3023     		movs	r3, #48
+ARM GAS  /tmp/ccHQyC2e.s 			page 12
+
+
+ 285 00b4 224A     		ldr	r2, .L9+28
+ 286 00b6 2349     		ldr	r1, .L9+32
+ 287 00b8 2046     		mov	r0, r4
+ 288 00ba FFF7FEFF 		bl	HAL_DMA_Start
+ 289              	.LVL9:
+ 195:Core/Src/ws2812b.c **** 	dmaCC2.Init.PeriphInc = DMA_PINC_DISABLE;
+ 290              		.loc 1 195 0
+ 291 00be 224C     		ldr	r4, .L9+36
+ 292 00c0 C4F808A0 		str	r10, [r4, #8]
+ 196:Core/Src/ws2812b.c **** 	dmaCC2.Init.MemInc = DMA_MINC_DISABLE;
+ 293              		.loc 1 196 0
+ 294 00c4 E560     		str	r5, [r4, #12]
+ 197:Core/Src/ws2812b.c **** 	dmaCC2.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+ 295              		.loc 1 197 0
+ 296 00c6 2561     		str	r5, [r4, #16]
+ 198:Core/Src/ws2812b.c **** 	dmaCC2.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+ 297              		.loc 1 198 0
+ 298 00c8 C4F814B0 		str	fp, [r4, #20]
+ 199:Core/Src/ws2812b.c **** 	dmaCC2.Init.Mode = DMA_CIRCULAR;
+ 299              		.loc 1 199 0
+ 300 00cc 4FF48043 		mov	r3, #16384
+ 301 00d0 A361     		str	r3, [r4, #24]
+ 200:Core/Src/ws2812b.c **** 	dmaCC2.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+ 302              		.loc 1 200 0
+ 303 00d2 C4F81C90 		str	r9, [r4, #28]
+ 201:Core/Src/ws2812b.c **** 	dmaCC2.Init.Channel = DMA_CHANNEL_6;
+ 304              		.loc 1 201 0
+ 305 00d6 C4F82080 		str	r8, [r4, #32]
+ 202:Core/Src/ws2812b.c **** 
+ 306              		.loc 1 202 0
+ 307 00da 6760     		str	r7, [r4, #4]
+ 204:Core/Src/ws2812b.c **** 	dmaCC2.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+ 308              		.loc 1 204 0
+ 309 00dc 6562     		str	r5, [r4, #36]
+ 205:Core/Src/ws2812b.c **** 	dmaCC2.Init.MemBurst = DMA_MBURST_SINGLE;
+ 310              		.loc 1 205 0
+ 311 00de A662     		str	r6, [r4, #40]
+ 206:Core/Src/ws2812b.c **** 	dmaCC2.Init.PeriphBurst = DMA_PBURST_SINGLE;
+ 312              		.loc 1 206 0
+ 313 00e0 E562     		str	r5, [r4, #44]
+ 207:Core/Src/ws2812b.c **** 
+ 314              		.loc 1 207 0
+ 315 00e2 2563     		str	r5, [r4, #48]
+ 209:Core/Src/ws2812b.c **** 
+ 316              		.loc 1 209 0
+ 317 00e4 194B     		ldr	r3, .L9+40
+ 318 00e6 2360     		str	r3, [r4]
+ 211:Core/Src/ws2812b.c **** 
+ 319              		.loc 1 211 0
+ 320 00e8 2046     		mov	r0, r4
+ 321 00ea FFF7FEFF 		bl	HAL_DMA_DeInit
+ 322              	.LVL10:
+ 213:Core/Src/ws2812b.c **** 	dmaCC2.XferHalfCpltCallback = DMA_TransferHalfHandler;
+ 323              		.loc 1 213 0
+ 324 00ee 184B     		ldr	r3, .L9+44
+ 325 00f0 E363     		str	r3, [r4, #60]
+ 214:Core/Src/ws2812b.c **** 	dmaCC2.XferErrorCallback = DMA_TransferError;
+ARM GAS  /tmp/ccHQyC2e.s 			page 13
+
+
+ 326              		.loc 1 214 0
+ 327 00f2 184B     		ldr	r3, .L9+48
+ 328 00f4 2364     		str	r3, [r4, #64]
+ 215:Core/Src/ws2812b.c **** 
+ 329              		.loc 1 215 0
+ 330 00f6 184B     		ldr	r3, .L9+52
+ 331 00f8 E364     		str	r3, [r4, #76]
+ 217:Core/Src/ws2812b.c **** 	HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
+ 332              		.loc 1 217 0
+ 333 00fa 2046     		mov	r0, r4
+ 334 00fc FFF7FEFF 		bl	HAL_DMA_Init
+ 335              	.LVL11:
+ 218:Core/Src/ws2812b.c **** 	HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+ 336              		.loc 1 218 0
+ 337 0100 2A46     		mov	r2, r5
+ 338 0102 2946     		mov	r1, r5
+ 339 0104 3A20     		movs	r0, #58
+ 340 0106 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 341              	.LVL12:
+ 219:Core/Src/ws2812b.c **** 	HAL_DMA_Start_IT(&dmaCC2, (uint32_t)WS2812_IO_Low, (uint32_t)&WS2812B_PORT->BSRR, BUFFER_SIZE);
+ 342              		.loc 1 219 0
+ 343 010a 3A20     		movs	r0, #58
+ 344 010c FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 345              	.LVL13:
+ 220:Core/Src/ws2812b.c **** 	//HAL_DMA_Start_IT(&dmaCC2, (uint32_t)WS2812_IO_Low, (uint32_t)&dummy, BUFFER_SIZE);
+ 346              		.loc 1 220 0
+ 347 0110 3023     		movs	r3, #48
+ 348 0112 074A     		ldr	r2, .L9+12
+ 349 0114 1149     		ldr	r1, .L9+56
+ 350 0116 2046     		mov	r0, r4
+ 351 0118 FFF7FEFF 		bl	HAL_DMA_Start_IT
+ 352              	.LVL14:
+ 225:Core/Src/ws2812b.c **** 
+ 353              		.loc 1 225 0
+ 354 011c 03B0     		add	sp, sp, #12
+ 355              	.LCFI7:
+ 356              		.cfi_def_cfa_offset 36
+ 357              		@ sp needed
+ 358 011e BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 359              	.L10:
+ 360 0122 00BF     		.align	2
+ 361              	.L9:
+ 362 0124 00380240 		.word	1073887232
+ 363 0128 00000000 		.word	dmaUpdate
+ 364 012c 88640240 		.word	1073898632
+ 365 0130 18080240 		.word	1073874968
+ 366 0134 00000000 		.word	.LANCHOR0
+ 367 0138 00000000 		.word	dmaCC1
+ 368 013c 28640240 		.word	1073898536
+ 369 0140 1A080240 		.word	1073874970
+ 370 0144 00000000 		.word	ws2812bDmaBitBuffer
+ 371 0148 00000000 		.word	dmaCC2
+ 372 014c 40640240 		.word	1073898560
+ 373 0150 00000000 		.word	DMA_TransferCompleteHandler
+ 374 0154 00000000 		.word	DMA_TransferHalfHandler
+ 375 0158 00000000 		.word	DMA_TransferError
+ 376 015c 00000000 		.word	.LANCHOR1
+ARM GAS  /tmp/ccHQyC2e.s 			page 14
+
+
+ 377              		.cfi_endproc
+ 378              	.LFE132:
+ 380              		.section	.text.TIM1_init,"ax",%progbits
+ 381              		.align	1
+ 382              		.syntax unified
+ 383              		.thumb
+ 384              		.thumb_func
+ 385              		.fpu fpv4-sp-d16
+ 387              	TIM1_init:
+ 388              	.LFB131:
+  77:Core/Src/ws2812b.c **** 	// TIM2 Periph clock enable
+ 389              		.loc 1 77 0
+ 390              		.cfi_startproc
+ 391              		@ args = 0, pretend = 0, frame = 8
+ 392              		@ frame_needed = 0, uses_anonymous_args = 0
+ 393 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 394              	.LCFI8:
+ 395              		.cfi_def_cfa_offset 24
+ 396              		.cfi_offset 4, -24
+ 397              		.cfi_offset 5, -20
+ 398              		.cfi_offset 6, -16
+ 399              		.cfi_offset 7, -12
+ 400              		.cfi_offset 8, -8
+ 401              		.cfi_offset 14, -4
+ 402 0004 82B0     		sub	sp, sp, #8
+ 403              	.LCFI9:
+ 404              		.cfi_def_cfa_offset 32
+ 405              	.LBB5:
+  79:Core/Src/ws2812b.c **** 
+ 406              		.loc 1 79 0
+ 407 0006 0024     		movs	r4, #0
+ 408 0008 0194     		str	r4, [sp, #4]
+ 409 000a 354B     		ldr	r3, .L14
+ 410 000c 5A6C     		ldr	r2, [r3, #68]
+ 411 000e 42F00102 		orr	r2, r2, #1
+ 412 0012 5A64     		str	r2, [r3, #68]
+ 413 0014 5B6C     		ldr	r3, [r3, #68]
+ 414 0016 03F00103 		and	r3, r3, #1
+ 415 001a 0193     		str	r3, [sp, #4]
+ 416 001c 019B     		ldr	r3, [sp, #4]
+ 417              	.LBE5:
+  83:Core/Src/ws2812b.c **** 	timer_reset_pulse_period = (SystemCoreClock / (320 * 60)); // 60us just to be sure
+ 418              		.loc 1 83 0
+ 419 001e 314B     		ldr	r3, .L14+4
+ 420 0020 1A68     		ldr	r2, [r3]
+ 421 0022 130A     		lsrs	r3, r2, #8
+ 422 0024 3049     		ldr	r1, .L14+8
+ 423 0026 A1FB0313 		umull	r1, r3, r1, r3
+ 424 002a 1B09     		lsrs	r3, r3, #4
+ 425 002c 2F49     		ldr	r1, .L14+12
+ 426 002e 0B60     		str	r3, [r1]
+  84:Core/Src/ws2812b.c **** 
+ 427              		.loc 1 84 0
+ 428 0030 2F49     		ldr	r1, .L14+16
+ 429 0032 A1FB0212 		umull	r1, r2, r1, r2
+ 430 0036 D20A     		lsrs	r2, r2, #11
+ 431 0038 2E49     		ldr	r1, .L14+20
+ARM GAS  /tmp/ccHQyC2e.s 			page 15
+
+
+ 432 003a 0A60     		str	r2, [r1]
+  86:Core/Src/ws2812b.c **** 	uint32_t cc2 = (10 * tim_period) / 15;
+ 433              		.loc 1 86 0
+ 434 003c 03EB8301 		add	r1, r3, r3, lsl #2
+ 435 0040 4A00     		lsls	r2, r1, #1
+ 436 0042 2D49     		ldr	r1, .L14+24
+ 437 0044 A1FB0201 		umull	r0, r1, r1, r2
+ 438 0048 CF08     		lsrs	r7, r1, #3
+ 439              	.LVL15:
+  87:Core/Src/ws2812b.c **** 
+ 440              		.loc 1 87 0
+ 441 004a 2C49     		ldr	r1, .L14+28
+ 442 004c A1FB0212 		umull	r1, r2, r1, r2
+ 443 0050 D608     		lsrs	r6, r2, #3
+ 444              	.LVL16:
+  89:Core/Src/ws2812b.c **** 
+ 445              		.loc 1 89 0
+ 446 0052 2B4D     		ldr	r5, .L14+32
+ 447 0054 2B4A     		ldr	r2, .L14+36
+ 448 0056 2A60     		str	r2, [r5]
+  91:Core/Src/ws2812b.c **** 	TIM1_handle.Init.RepetitionCounter = 0;
+ 449              		.loc 1 91 0
+ 450 0058 EB60     		str	r3, [r5, #12]
+  92:Core/Src/ws2812b.c **** 	TIM1_handle.Init.Prescaler         = 0;
+ 451              		.loc 1 92 0
+ 452 005a 6C61     		str	r4, [r5, #20]
+  93:Core/Src/ws2812b.c **** 	TIM1_handle.Init.ClockDivision     = TIM_CLOCKDIVISION_DIV1;
+ 453              		.loc 1 93 0
+ 454 005c 6C60     		str	r4, [r5, #4]
+  94:Core/Src/ws2812b.c **** 	TIM1_handle.Init.CounterMode       = TIM_COUNTERMODE_UP;
+ 455              		.loc 1 94 0
+ 456 005e 2C61     		str	r4, [r5, #16]
+  95:Core/Src/ws2812b.c **** 	HAL_TIM_PWM_Init(&TIM1_handle);
+ 457              		.loc 1 95 0
+ 458 0060 AC60     		str	r4, [r5, #8]
+  96:Core/Src/ws2812b.c **** 
+ 459              		.loc 1 96 0
+ 460 0062 2846     		mov	r0, r5
+ 461 0064 FFF7FEFF 		bl	HAL_TIM_PWM_Init
+ 462              	.LVL17:
+  98:Core/Src/ws2812b.c **** 	HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+ 463              		.loc 1 98 0
+ 464 0068 2246     		mov	r2, r4
+ 465 006a 2146     		mov	r1, r4
+ 466 006c 1920     		movs	r0, #25
+ 467 006e FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 468              	.LVL18:
+  99:Core/Src/ws2812b.c **** 
+ 469              		.loc 1 99 0
+ 470 0072 1920     		movs	r0, #25
+ 471 0074 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 472              	.LVL19:
+ 101:Core/Src/ws2812b.c **** 	tim2OC1.OCPolarity   = TIM_OCPOLARITY_HIGH;
+ 473              		.loc 1 101 0
+ 474 0078 2349     		ldr	r1, .L14+40
+ 475 007a 4FF06008 		mov	r8, #96
+ 476 007e C1F80080 		str	r8, [r1]
+ARM GAS  /tmp/ccHQyC2e.s 			page 16
+
+
+ 102:Core/Src/ws2812b.c **** 	tim2OC1.Pulse        = cc1;
+ 477              		.loc 1 102 0
+ 478 0082 8C60     		str	r4, [r1, #8]
+ 103:Core/Src/ws2812b.c **** 	tim2OC1.OCNPolarity  = TIM_OCNPOLARITY_HIGH;
+ 479              		.loc 1 103 0
+ 480 0084 4F60     		str	r7, [r1, #4]
+ 104:Core/Src/ws2812b.c **** 	tim2OC1.OCFastMode   = TIM_OCFAST_DISABLE;
+ 481              		.loc 1 104 0
+ 482 0086 CC60     		str	r4, [r1, #12]
+ 105:Core/Src/ws2812b.c **** 	HAL_TIM_PWM_ConfigChannel(&TIM1_handle, &tim2OC1, TIM_CHANNEL_1);
+ 483              		.loc 1 105 0
+ 484 0088 0C61     		str	r4, [r1, #16]
+ 106:Core/Src/ws2812b.c **** 
+ 485              		.loc 1 106 0
+ 486 008a 2246     		mov	r2, r4
+ 487 008c 2846     		mov	r0, r5
+ 488 008e FFF7FEFF 		bl	HAL_TIM_PWM_ConfigChannel
+ 489              	.LVL20:
+ 108:Core/Src/ws2812b.c **** 	tim2OC2.OCPolarity   = TIM_OCPOLARITY_HIGH;
+ 490              		.loc 1 108 0
+ 491 0092 1E49     		ldr	r1, .L14+44
+ 492 0094 C1F80080 		str	r8, [r1]
+ 109:Core/Src/ws2812b.c **** 	tim2OC2.Pulse        = cc2;
+ 493              		.loc 1 109 0
+ 494 0098 8C60     		str	r4, [r1, #8]
+ 110:Core/Src/ws2812b.c **** 	tim2OC2.OCNPolarity  = TIM_OCNPOLARITY_HIGH;
+ 495              		.loc 1 110 0
+ 496 009a 4E60     		str	r6, [r1, #4]
+ 111:Core/Src/ws2812b.c **** 	tim2OC2.OCFastMode   = TIM_OCFAST_DISABLE;
+ 497              		.loc 1 111 0
+ 498 009c CC60     		str	r4, [r1, #12]
+ 112:Core/Src/ws2812b.c **** 	tim2OC2.OCIdleState  = TIM_OCIDLESTATE_RESET;
+ 499              		.loc 1 112 0
+ 500 009e 0C61     		str	r4, [r1, #16]
+ 113:Core/Src/ws2812b.c **** 	tim2OC2.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+ 501              		.loc 1 113 0
+ 502 00a0 4C61     		str	r4, [r1, #20]
+ 114:Core/Src/ws2812b.c **** 	HAL_TIM_PWM_ConfigChannel(&TIM1_handle, &tim2OC2, TIM_CHANNEL_2);
+ 503              		.loc 1 114 0
+ 504 00a2 8C61     		str	r4, [r1, #24]
+ 115:Core/Src/ws2812b.c **** 
+ 505              		.loc 1 115 0
+ 506 00a4 0422     		movs	r2, #4
+ 507 00a6 2846     		mov	r0, r5
+ 508 00a8 FFF7FEFF 		bl	HAL_TIM_PWM_ConfigChannel
+ 509              	.LVL21:
+ 118:Core/Src/ws2812b.c **** 	HAL_TIM_PWM_Start(&TIM1_handle, TIM_CHANNEL_1);
+ 510              		.loc 1 118 0
+ 511 00ac 2846     		mov	r0, r5
+ 512 00ae FFF7FEFF 		bl	HAL_TIM_Base_Start
+ 513              	.LVL22:
+ 119:Core/Src/ws2812b.c **** 
+ 514              		.loc 1 119 0
+ 515 00b2 2146     		mov	r1, r4
+ 516 00b4 2846     		mov	r0, r5
+ 517 00b6 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+ 518              	.LVL23:
+ARM GAS  /tmp/ccHQyC2e.s 			page 17
+
+
+ 121:Core/Src/ws2812b.c **** 
+ 519              		.loc 1 121 0
+ 520 00ba 2B68     		ldr	r3, [r5]
+ 521 00bc 196A     		ldr	r1, [r3, #32]
+ 522 00be 41F21112 		movw	r2, #4369
+ 523 00c2 1142     		tst	r1, r2
+ 524 00c4 08D1     		bne	.L11
+ 121:Core/Src/ws2812b.c **** 
+ 525              		.loc 1 121 0 is_stmt 0 discriminator 1
+ 526 00c6 196A     		ldr	r1, [r3, #32]
+ 527 00c8 40F24442 		movw	r2, #1092
+ 528 00cc 1142     		tst	r1, r2
+ 529 00ce 03D1     		bne	.L11
+ 121:Core/Src/ws2812b.c **** 
+ 530              		.loc 1 121 0 discriminator 2
+ 531 00d0 1A68     		ldr	r2, [r3]
+ 532 00d2 22F00102 		bic	r2, r2, #1
+ 533 00d6 1A60     		str	r2, [r3]
+ 534              	.L11:
+ 123:Core/Src/ws2812b.c **** 
+ 535              		.loc 1 123 0 is_stmt 1
+ 536 00d8 02B0     		add	sp, sp, #8
+ 537              	.LCFI10:
+ 538              		.cfi_def_cfa_offset 24
+ 539              		@ sp needed
+ 540 00da BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 541              	.LVL24:
+ 542              	.L15:
+ 543 00de 00BF     		.align	2
+ 544              	.L14:
+ 545 00e0 00380240 		.word	1073887232
+ 546 00e4 00000000 		.word	SystemCoreClock
+ 547 00e8 598B4F01 		.word	21990233
+ 548 00ec 00000000 		.word	tim_period
+ 549 00f0 B5814E1B 		.word	458129845
+ 550 00f4 00000000 		.word	timer_reset_pulse_period
+ 551 00f8 398EE338 		.word	954437177
+ 552 00fc 89888888 		.word	-2004318071
+ 553 0100 00000000 		.word	TIM1_handle
+ 554 0104 00000140 		.word	1073807360
+ 555 0108 00000000 		.word	tim2OC1
+ 556 010c 00000000 		.word	tim2OC2
+ 557              		.cfi_endproc
+ 558              	.LFE131:
+ 560              		.section	.text.DMA2_Stream2_IRQHandler,"ax",%progbits
+ 561              		.align	1
+ 562              		.global	DMA2_Stream2_IRQHandler
+ 563              		.syntax unified
+ 564              		.thumb
+ 565              		.thumb_func
+ 566              		.fpu fpv4-sp-d16
+ 568              	DMA2_Stream2_IRQHandler:
+ 569              	.LFB138:
+ 299:Core/Src/ws2812b.c **** 
+ 300:Core/Src/ws2812b.c **** 
+ 301:Core/Src/ws2812b.c **** void DMA_TransferHalfHandler(DMA_HandleTypeDef *DmaHandle)
+ 302:Core/Src/ws2812b.c **** {
+ARM GAS  /tmp/ccHQyC2e.s 			page 18
+
+
+ 303:Core/Src/ws2812b.c **** 
+ 304:Core/Src/ws2812b.c **** 	// Is this the last LED?
+ 305:Core/Src/ws2812b.c **** 	if(ws2812b.repeatCounter == WS2812B_NUMBER_OF_LEDS)
+ 306:Core/Src/ws2812b.c **** 	 {
+ 307:Core/Src/ws2812b.c **** 
+ 308:Core/Src/ws2812b.c **** 		// If this is the last pixel, set the next pixel value to zeros, because
+ 309:Core/Src/ws2812b.c **** 		// the DMA would not stop exactly at the last bit.
+ 310:Core/Src/ws2812b.c **** 		ws2812b_set_pixel(0, 0, 0, 0, 0);
+ 311:Core/Src/ws2812b.c **** 
+ 312:Core/Src/ws2812b.c **** 	} else {
+ 313:Core/Src/ws2812b.c **** 		uint32_t i;
+ 314:Core/Src/ws2812b.c **** 
+ 315:Core/Src/ws2812b.c **** 		for( i = 0; i < WS2812_BUFFER_COUNT; i++ )
+ 316:Core/Src/ws2812b.c **** 		{
+ 317:Core/Src/ws2812b.c **** 			loadNextFramebufferData(&ws2812b.item[i], 0);
+ 318:Core/Src/ws2812b.c **** 		}
+ 319:Core/Src/ws2812b.c **** 
+ 320:Core/Src/ws2812b.c **** 		ws2812b.repeatCounter++;
+ 321:Core/Src/ws2812b.c **** 	}
+ 322:Core/Src/ws2812b.c **** 
+ 323:Core/Src/ws2812b.c **** 
+ 324:Core/Src/ws2812b.c **** 
+ 325:Core/Src/ws2812b.c **** }
+ 326:Core/Src/ws2812b.c **** 
+ 327:Core/Src/ws2812b.c **** void DMA_TransferCompleteHandler(DMA_HandleTypeDef *DmaHandle)
+ 328:Core/Src/ws2812b.c **** {
+ 329:Core/Src/ws2812b.c **** 
+ 330:Core/Src/ws2812b.c **** 	#if defined(LED_ORANGE_PORT)
+ 331:Core/Src/ws2812b.c **** 		LED_ORANGE_PORT->BSRR = LED_ORANGE_PIN;
+ 332:Core/Src/ws2812b.c **** 	#endif
+ 333:Core/Src/ws2812b.c **** 
+ 334:Core/Src/ws2812b.c **** 	if(ws2812b.repeatCounter == WS2812B_NUMBER_OF_LEDS)
+ 335:Core/Src/ws2812b.c **** 	{
+ 336:Core/Src/ws2812b.c **** 		// Transfer of all LEDs is done, disable DMA but enable tiemr update IRQ to stop the 50us pulse
+ 337:Core/Src/ws2812b.c **** 		ws2812b.repeatCounter = 0;
+ 338:Core/Src/ws2812b.c **** 
+ 339:Core/Src/ws2812b.c **** 		// Stop timer
+ 340:Core/Src/ws2812b.c **** 		TIM1->CR1 &= ~TIM_CR1_CEN;
+ 341:Core/Src/ws2812b.c **** 
+ 342:Core/Src/ws2812b.c **** 		// Disable DMA
+ 343:Core/Src/ws2812b.c **** 		__HAL_DMA_DISABLE(&dmaUpdate);
+ 344:Core/Src/ws2812b.c **** 		__HAL_DMA_DISABLE(&dmaCC1);
+ 345:Core/Src/ws2812b.c **** 		__HAL_DMA_DISABLE(&dmaCC2);
+ 346:Core/Src/ws2812b.c **** 
+ 347:Core/Src/ws2812b.c **** 		// Disable the DMA requests
+ 348:Core/Src/ws2812b.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_UPDATE);
+ 349:Core/Src/ws2812b.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_CC1);
+ 350:Core/Src/ws2812b.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_CC2);
+ 351:Core/Src/ws2812b.c **** 
+ 352:Core/Src/ws2812b.c **** 		// Set 50us period for Treset pulse
+ 353:Core/Src/ws2812b.c **** 		//TIM2->PSC = 1000; // For this long period we need prescaler 1000
+ 354:Core/Src/ws2812b.c **** 		TIM1->ARR = timer_reset_pulse_period;
+ 355:Core/Src/ws2812b.c **** 		// Reset the timer
+ 356:Core/Src/ws2812b.c **** 		TIM1->CNT = 0;
+ 357:Core/Src/ws2812b.c **** 
+ 358:Core/Src/ws2812b.c **** 		// Generate an update event to reload the prescaler value immediately
+ 359:Core/Src/ws2812b.c **** 		TIM1->EGR = TIM_EGR_UG;
+ARM GAS  /tmp/ccHQyC2e.s 			page 19
+
+
+ 360:Core/Src/ws2812b.c **** 		__HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE);
+ 361:Core/Src/ws2812b.c **** 
+ 362:Core/Src/ws2812b.c **** 		// Enable TIM2 Update interrupt for 50us Treset signal
+ 363:Core/Src/ws2812b.c **** 		__HAL_TIM_ENABLE_IT(&TIM1_handle, TIM_IT_UPDATE);
+ 364:Core/Src/ws2812b.c **** 		// Enable timer
+ 365:Core/Src/ws2812b.c **** 		TIM1->CR1 |= TIM_CR1_CEN;
+ 366:Core/Src/ws2812b.c **** 
+ 367:Core/Src/ws2812b.c **** 		// Manually set outputs to low to generate 50us reset impulse
+ 368:Core/Src/ws2812b.c **** 		WS2812B_PORT->BSRR = WS2812_IO_Low[0];
+ 369:Core/Src/ws2812b.c **** 	} else {
+ 370:Core/Src/ws2812b.c **** 
+ 371:Core/Src/ws2812b.c **** 		// Load bitbuffer with next RGB LED values
+ 372:Core/Src/ws2812b.c **** 		uint32_t i;
+ 373:Core/Src/ws2812b.c **** 		for( i = 0; i < WS2812_BUFFER_COUNT; i++ )
+ 374:Core/Src/ws2812b.c **** 		{
+ 375:Core/Src/ws2812b.c **** 			loadNextFramebufferData(&ws2812b.item[i], 1);
+ 376:Core/Src/ws2812b.c **** 		}
+ 377:Core/Src/ws2812b.c **** 
+ 378:Core/Src/ws2812b.c **** 		ws2812b.repeatCounter++;
+ 379:Core/Src/ws2812b.c **** 	}
+ 380:Core/Src/ws2812b.c **** 
+ 381:Core/Src/ws2812b.c **** 
+ 382:Core/Src/ws2812b.c **** 
+ 383:Core/Src/ws2812b.c **** 	#if defined(LED_ORANGE_PORT)
+ 384:Core/Src/ws2812b.c **** 		LED_ORANGE_PORT->BSRR = LED_ORANGE_PIN << 16;
+ 385:Core/Src/ws2812b.c **** 	#endif
+ 386:Core/Src/ws2812b.c **** 
+ 387:Core/Src/ws2812b.c **** }
+ 388:Core/Src/ws2812b.c **** 
+ 389:Core/Src/ws2812b.c **** void DMA2_Stream2_IRQHandler(void)
+ 390:Core/Src/ws2812b.c **** {
+ 570              		.loc 1 390 0
+ 571              		.cfi_startproc
+ 572              		@ args = 0, pretend = 0, frame = 0
+ 573              		@ frame_needed = 0, uses_anonymous_args = 0
+ 574 0000 10B5     		push	{r4, lr}
+ 575              	.LCFI11:
+ 576              		.cfi_def_cfa_offset 8
+ 577              		.cfi_offset 4, -8
+ 578              		.cfi_offset 14, -4
+ 391:Core/Src/ws2812b.c **** 
+ 392:Core/Src/ws2812b.c **** 	#if defined(LED_BLUE_PORT)
+ 393:Core/Src/ws2812b.c **** 		LED_BLUE_PORT->BSRR = LED_BLUE_PIN;
+ 579              		.loc 1 393 0
+ 580 0002 054C     		ldr	r4, .L18
+ 581 0004 4FF40043 		mov	r3, #32768
+ 582 0008 A361     		str	r3, [r4, #24]
+ 394:Core/Src/ws2812b.c **** 	#endif
+ 395:Core/Src/ws2812b.c **** 
+ 396:Core/Src/ws2812b.c **** 	// Check the interrupt and clear flag
+ 397:Core/Src/ws2812b.c **** 	  HAL_DMA_IRQHandler(&dmaCC2);
+ 583              		.loc 1 397 0
+ 584 000a 0448     		ldr	r0, .L18+4
+ 585 000c FFF7FEFF 		bl	HAL_DMA_IRQHandler
+ 586              	.LVL25:
+ 398:Core/Src/ws2812b.c **** 
+ 399:Core/Src/ws2812b.c **** 	#if defined(LED_BLUE_PORT)
+ARM GAS  /tmp/ccHQyC2e.s 			page 20
+
+
+ 400:Core/Src/ws2812b.c **** 		LED_BLUE_PORT->BSRR = LED_BLUE_PIN << 16;
+ 587              		.loc 1 400 0
+ 588 0010 4FF00043 		mov	r3, #-2147483648
+ 589 0014 A361     		str	r3, [r4, #24]
+ 590 0016 10BD     		pop	{r4, pc}
+ 591              	.L19:
+ 592              		.align	2
+ 593              	.L18:
+ 594 0018 000C0240 		.word	1073875968
+ 595 001c 00000000 		.word	dmaCC2
+ 596              		.cfi_endproc
+ 597              	.LFE138:
+ 599              		.section	.text.TIM1_UP_TIM10_IRQHandler,"ax",%progbits
+ 600              		.align	1
+ 601              		.global	TIM1_UP_TIM10_IRQHandler
+ 602              		.syntax unified
+ 603              		.thumb
+ 604              		.thumb_func
+ 605              		.fpu fpv4-sp-d16
+ 607              	TIM1_UP_TIM10_IRQHandler:
+ 608              	.LFB139:
+ 401:Core/Src/ws2812b.c **** 	#endif
+ 402:Core/Src/ws2812b.c **** }
+ 403:Core/Src/ws2812b.c **** 
+ 404:Core/Src/ws2812b.c **** void TIM1_UP_TIM10_IRQHandler(void)
+ 405:Core/Src/ws2812b.c **** {
+ 609              		.loc 1 405 0
+ 610              		.cfi_startproc
+ 611              		@ args = 0, pretend = 0, frame = 0
+ 612              		@ frame_needed = 0, uses_anonymous_args = 0
+ 613 0000 10B5     		push	{r4, lr}
+ 614              	.LCFI12:
+ 615              		.cfi_def_cfa_offset 8
+ 616              		.cfi_offset 4, -8
+ 617              		.cfi_offset 14, -4
+ 406:Core/Src/ws2812b.c **** 	#if defined(LED_ORANGE_PORT)
+ 407:Core/Src/ws2812b.c **** 		LED_ORANGE_PORT->BSRR = LED_ORANGE_PIN;
+ 618              		.loc 1 407 0
+ 619 0002 054C     		ldr	r4, .L22
+ 620 0004 4FF40053 		mov	r3, #8192
+ 621 0008 A361     		str	r3, [r4, #24]
+ 408:Core/Src/ws2812b.c **** 	#endif
+ 409:Core/Src/ws2812b.c **** 
+ 410:Core/Src/ws2812b.c **** 	HAL_TIM_IRQHandler(&TIM1_handle);
+ 622              		.loc 1 410 0
+ 623 000a 0448     		ldr	r0, .L22+4
+ 624 000c FFF7FEFF 		bl	HAL_TIM_IRQHandler
+ 625              	.LVL26:
+ 411:Core/Src/ws2812b.c **** 
+ 412:Core/Src/ws2812b.c **** 	#if defined(LED_ORANGE_PORT)
+ 413:Core/Src/ws2812b.c **** 		LED_ORANGE_PORT->BSRR = LED_ORANGE_PIN << 16;
+ 626              		.loc 1 413 0
+ 627 0010 4FF00053 		mov	r3, #536870912
+ 628 0014 A361     		str	r3, [r4, #24]
+ 629 0016 10BD     		pop	{r4, pc}
+ 630              	.L23:
+ 631              		.align	2
+ARM GAS  /tmp/ccHQyC2e.s 			page 21
+
+
+ 632              	.L22:
+ 633 0018 000C0240 		.word	1073875968
+ 634 001c 00000000 		.word	TIM1_handle
+ 635              		.cfi_endproc
+ 636              	.LFE139:
+ 638              		.section	.text.ws2812b_set_pixel,"ax",%progbits
+ 639              		.align	1
+ 640              		.global	ws2812b_set_pixel
+ 641              		.syntax unified
+ 642              		.thumb
+ 643              		.thumb_func
+ 644              		.fpu fpv4-sp-d16
+ 646              	ws2812b_set_pixel:
+ 647              	.LFB140:
+ 414:Core/Src/ws2812b.c **** 	#endif
+ 415:Core/Src/ws2812b.c **** }
+ 416:Core/Src/ws2812b.c **** 
+ 417:Core/Src/ws2812b.c **** /*
+ 418:Core/Src/ws2812b.c **** // TIM2 Interrupt Handler gets executed on every TIM2 Update if enabled
+ 419:Core/Src/ws2812b.c **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+ 420:Core/Src/ws2812b.c **** {
+ 421:Core/Src/ws2812b.c **** 	
+ 422:Core/Src/ws2812b.c **** 	// I have to wait 50us to generate Treset signal
+ 423:Core/Src/ws2812b.c **** 	if (ws2812b.timerPeriodCounter < (uint8_t)WS2812_RESET_PERIOD)
+ 424:Core/Src/ws2812b.c **** 	{
+ 425:Core/Src/ws2812b.c **** 		// count the number of timer periods
+ 426:Core/Src/ws2812b.c **** 		ws2812b.timerPeriodCounter++;
+ 427:Core/Src/ws2812b.c **** 	}
+ 428:Core/Src/ws2812b.c **** 	else
+ 429:Core/Src/ws2812b.c **** 	{
+ 430:Core/Src/ws2812b.c **** 		ws2812b.timerPeriodCounter = 0;
+ 431:Core/Src/ws2812b.c **** 		__HAL_TIM_DISABLE(&TIM1_handle);
+ 432:Core/Src/ws2812b.c **** 		TIM1->CR1 = 0; // disable timer
+ 433:Core/Src/ws2812b.c **** 
+ 434:Core/Src/ws2812b.c **** 		// disable the TIM2 Update
+ 435:Core/Src/ws2812b.c **** 		__HAL_TIM_DISABLE_IT(&TIM1_handle, TIM_IT_UPDATE);
+ 436:Core/Src/ws2812b.c **** 		// set TransferComplete flag
+ 437:Core/Src/ws2812b.c **** 		ws2812b.transferComplete = 1;
+ 438:Core/Src/ws2812b.c **** 	}*/
+ 439:Core/Src/ws2812b.c **** /*
+ 440:Core/Src/ws2812b.c ****     ws2812b.timerPeriodCounter = 0;
+ 441:Core/Src/ws2812b.c ****     TIM1->CR1 = 0; // disable timer
+ 442:Core/Src/ws2812b.c **** 
+ 443:Core/Src/ws2812b.c ****     // disable the TIM2 Update IRQ
+ 444:Core/Src/ws2812b.c ****     __HAL_TIM_DISABLE_IT(&TIM1_handle, TIM_IT_UPDATE);
+ 445:Core/Src/ws2812b.c **** 
+ 446:Core/Src/ws2812b.c ****     // Set back 1,25us period
+ 447:Core/Src/ws2812b.c ****     TIM1->ARR = tim_period;
+ 448:Core/Src/ws2812b.c **** 
+ 449:Core/Src/ws2812b.c ****     // Generate an update event to reload the Prescaler value immediatly
+ 450:Core/Src/ws2812b.c ****     TIM1->EGR = TIM_EGR_UG;
+ 451:Core/Src/ws2812b.c ****     __HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE);
+ 452:Core/Src/ws2812b.c **** 
+ 453:Core/Src/ws2812b.c ****     // set transfer_complete flag
+ 454:Core/Src/ws2812b.c ****     ws2812b.transferComplete = 1;
+ 455:Core/Src/ws2812b.c **** 
+ 456:Core/Src/ws2812b.c **** }
+ARM GAS  /tmp/ccHQyC2e.s 			page 22
+
+
+ 457:Core/Src/ws2812b.c **** */ 
+ 458:Core/Src/ws2812b.c **** 
+ 459:Core/Src/ws2812b.c **** 
+ 460:Core/Src/ws2812b.c **** 
+ 461:Core/Src/ws2812b.c **** void ws2812b_set_pixel(uint8_t row, uint16_t column, uint8_t red, uint8_t green, uint8_t blue)
+ 462:Core/Src/ws2812b.c **** {
+ 648              		.loc 1 462 0
+ 649              		.cfi_startproc
+ 650              		@ args = 4, pretend = 0, frame = 0
+ 651              		@ frame_needed = 0, uses_anonymous_args = 0
+ 652              	.LVL27:
+ 653 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 654              	.LCFI13:
+ 655              		.cfi_def_cfa_offset 20
+ 656              		.cfi_offset 4, -20
+ 657              		.cfi_offset 5, -16
+ 658              		.cfi_offset 6, -12
+ 659              		.cfi_offset 7, -8
+ 660              		.cfi_offset 14, -4
+ 463:Core/Src/ws2812b.c **** 
+ 464:Core/Src/ws2812b.c **** 	// Apply gamma
+ 465:Core/Src/ws2812b.c **** 	red = gammaTable[red];
+ 661              		.loc 1 465 0
+ 662 0002 3D4C     		ldr	r4, .L35
+ 663 0004 A65C     		ldrb	r6, [r4, r2]	@ zero_extendqisi2
+ 664              	.LVL28:
+ 466:Core/Src/ws2812b.c **** 	green = gammaTable[green];
+ 665              		.loc 1 466 0
+ 666 0006 E55C     		ldrb	r5, [r4, r3]	@ zero_extendqisi2
+ 667              	.LVL29:
+ 467:Core/Src/ws2812b.c **** 	blue = gammaTable[blue];
+ 668              		.loc 1 467 0
+ 669 0008 9DF81430 		ldrb	r3, [sp, #20]	@ zero_extendqisi2
+ 670 000c E45C     		ldrb	r4, [r4, r3]	@ zero_extendqisi2
+ 671              	.LVL30:
+ 468:Core/Src/ws2812b.c **** 
+ 469:Core/Src/ws2812b.c **** 
+ 470:Core/Src/ws2812b.c **** 	uint32_t calcCol = (column*24);
+ 672              		.loc 1 470 0
+ 673 000e 01EB4103 		add	r3, r1, r1, lsl #1
+ 674 0012 D900     		lsls	r1, r3, #3
+ 675              	.LVL31:
+ 471:Core/Src/ws2812b.c **** 	uint32_t invRed = ~red;
+ 676              		.loc 1 471 0
+ 677 0014 F643     		mvns	r6, r6
+ 678              	.LVL32:
+ 472:Core/Src/ws2812b.c **** 	uint32_t invGreen = ~green;
+ 679              		.loc 1 472 0
+ 680 0016 ED43     		mvns	r5, r5
+ 681              	.LVL33:
+ 473:Core/Src/ws2812b.c **** 	uint32_t invBlue = ~blue;
+ 682              		.loc 1 473 0
+ 683 0018 E443     		mvns	r4, r4
+ 684              	.LVL34:
+ 474:Core/Src/ws2812b.c **** 
+ 475:Core/Src/ws2812b.c **** 
+ 476:Core/Src/ws2812b.c **** #if defined(SETPIX_1)
+ARM GAS  /tmp/ccHQyC2e.s 			page 23
+
+
+ 477:Core/Src/ws2812b.c **** 	uint8_t i;
+ 478:Core/Src/ws2812b.c **** 	uint32_t calcClearRow = ~((0x01<<row) << 0);
+ 479:Core/Src/ws2812b.c **** 	for (i = 0; i < 8; i++)
+ 480:Core/Src/ws2812b.c **** 	{
+ 481:Core/Src/ws2812b.c **** 		// clear the data for pixel
+ 482:Core/Src/ws2812b.c **** 
+ 483:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+i)] &= calcClearRow;
+ 484:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+8+i)] &= calcClearRow;
+ 485:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+16+i)] &= calcClearRow;
+ 486:Core/Src/ws2812b.c **** 
+ 487:Core/Src/ws2812b.c **** 		// write new data for pixel
+ 488:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+i)] |= (((((invGreen)<<i) & 0x80)>>7)<<(row+0));
+ 489:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+8+i)] |= (((((invRed)<<i) & 0x80)>>7)<<(row+0));
+ 490:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+16+i)] |= (((((invBlue)<<i) & 0x80)>>7)<<(row+0));
+ 491:Core/Src/ws2812b.c **** 	}
+ 492:Core/Src/ws2812b.c **** #elif defined(SETPIX_2)
+ 493:Core/Src/ws2812b.c **** 	uint8_t i;
+ 494:Core/Src/ws2812b.c **** 	for (i = 0; i < 8; i++)
+ 685              		.loc 1 494 0
+ 686 001a 0023     		movs	r3, #0
+ 687 001c 2DE0     		b	.L25
+ 688              	.LVL35:
+ 689              	.L26:
+ 495:Core/Src/ws2812b.c **** 	{
+ 496:Core/Src/ws2812b.c **** 		// Set or clear the data for the pixel
+ 497:Core/Src/ws2812b.c **** 
+ 498:Core/Src/ws2812b.c **** 		if(((invGreen)<<i) & 0x80)
+ 499:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+i)], row);
+ 500:Core/Src/ws2812b.c **** 		else
+ 501:Core/Src/ws2812b.c **** 			varResetBit(ws2812bDmaBitBuffer[(calcCol+i)], row);
+ 690              		.loc 1 501 0
+ 691 001e 03EB010E 		add	lr, r3, r1
+ 692 0022 364F     		ldr	r7, .L35+4
+ 693 0024 07EB4E0E 		add	lr, r7, lr, lsl #1
+ 694 0028 8700     		lsls	r7, r0, #2
+ 695 002a 47EA4E17 		orr	r7, r7, lr, lsl #5
+ 696 002e 47F00857 		orr	r7, r7, #570425344
+ 697 0032 4FF0000E 		mov	lr, #0
+ 698 0036 C7F800E0 		str	lr, [r7]
+ 699 003a 34E0     		b	.L27
+ 700              	.L28:
+ 502:Core/Src/ws2812b.c **** 
+ 503:Core/Src/ws2812b.c **** 		if(((invRed)<<i) & 0x80)
+ 504:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+8+i)], row);
+ 505:Core/Src/ws2812b.c **** 		else
+ 506:Core/Src/ws2812b.c **** 			varResetBit(ws2812bDmaBitBuffer[(calcCol+8+i)], row);
+ 701              		.loc 1 506 0
+ 702 003c 03EB010E 		add	lr, r3, r1
+ 703 0040 0EF1080E 		add	lr, lr, #8
+ 704 0044 2D4F     		ldr	r7, .L35+4
+ 705 0046 07EB4E0E 		add	lr, r7, lr, lsl #1
+ 706 004a 8700     		lsls	r7, r0, #2
+ 707 004c 47EA4E17 		orr	r7, r7, lr, lsl #5
+ 708 0050 47F00857 		orr	r7, r7, #570425344
+ 709 0054 4FF0000E 		mov	lr, #0
+ 710 0058 C7F800E0 		str	lr, [r7]
+ 711 005c 38E0     		b	.L29
+ARM GAS  /tmp/ccHQyC2e.s 			page 24
+
+
+ 712              	.L30:
+ 507:Core/Src/ws2812b.c **** 
+ 508:Core/Src/ws2812b.c **** 		if(((invBlue)<<i) & 0x80)
+ 509:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+16+i)], row);
+ 510:Core/Src/ws2812b.c **** 		else
+ 511:Core/Src/ws2812b.c **** 			varResetBit(ws2812bDmaBitBuffer[(calcCol+16+i)], row);
+ 713              		.loc 1 511 0
+ 714 005e 5F18     		adds	r7, r3, r1
+ 715 0060 1037     		adds	r7, r7, #16
+ 716 0062 264A     		ldr	r2, .L35+4
+ 717 0064 02EB4707 		add	r7, r2, r7, lsl #1
+ 718 0068 8200     		lsls	r2, r0, #2
+ 719 006a 42EA4712 		orr	r2, r2, r7, lsl #5
+ 720 006e 42F00852 		orr	r2, r2, #570425344
+ 721 0072 0027     		movs	r7, #0
+ 722 0074 1760     		str	r7, [r2]
+ 723              	.L31:
+ 494:Core/Src/ws2812b.c **** 	{
+ 724              		.loc 1 494 0 discriminator 2
+ 725 0076 0133     		adds	r3, r3, #1
+ 726              	.LVL36:
+ 727 0078 DBB2     		uxtb	r3, r3
+ 728              	.LVL37:
+ 729              	.L25:
+ 494:Core/Src/ws2812b.c **** 	{
+ 730              		.loc 1 494 0 is_stmt 0 discriminator 1
+ 731 007a 072B     		cmp	r3, #7
+ 732 007c 3AD8     		bhi	.L34
+ 498:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+i)], row);
+ 733              		.loc 1 498 0 is_stmt 1
+ 734 007e 1A46     		mov	r2, r3
+ 735 0080 05FA03F7 		lsl	r7, r5, r3
+ 736 0084 17F0800F 		tst	r7, #128
+ 737 0088 C9D0     		beq	.L26
+ 499:Core/Src/ws2812b.c **** 		else
+ 738              		.loc 1 499 0
+ 739 008a 03EB010E 		add	lr, r3, r1
+ 740 008e 1B4F     		ldr	r7, .L35+4
+ 741 0090 07EB4E0E 		add	lr, r7, lr, lsl #1
+ 742 0094 8700     		lsls	r7, r0, #2
+ 743 0096 47EA4E17 		orr	r7, r7, lr, lsl #5
+ 744 009a 47F00857 		orr	r7, r7, #570425344
+ 745 009e 4FF0010E 		mov	lr, #1
+ 746 00a2 C7F800E0 		str	lr, [r7]
+ 747              	.L27:
+ 503:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+8+i)], row);
+ 748              		.loc 1 503 0
+ 749 00a6 06FA02F7 		lsl	r7, r6, r2
+ 750 00aa 17F0800F 		tst	r7, #128
+ 751 00ae C5D0     		beq	.L28
+ 504:Core/Src/ws2812b.c **** 		else
+ 752              		.loc 1 504 0
+ 753 00b0 03EB010E 		add	lr, r3, r1
+ 754 00b4 0EF1080E 		add	lr, lr, #8
+ 755 00b8 104F     		ldr	r7, .L35+4
+ 756 00ba 07EB4E0E 		add	lr, r7, lr, lsl #1
+ 757 00be 8700     		lsls	r7, r0, #2
+ARM GAS  /tmp/ccHQyC2e.s 			page 25
+
+
+ 758 00c0 47EA4E17 		orr	r7, r7, lr, lsl #5
+ 759 00c4 47F00857 		orr	r7, r7, #570425344
+ 760 00c8 4FF0010E 		mov	lr, #1
+ 761 00cc C7F800E0 		str	lr, [r7]
+ 762              	.L29:
+ 508:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+16+i)], row);
+ 763              		.loc 1 508 0
+ 764 00d0 04FA02F2 		lsl	r2, r4, r2
+ 765 00d4 12F0800F 		tst	r2, #128
+ 766 00d8 C1D0     		beq	.L30
+ 509:Core/Src/ws2812b.c **** 		else
+ 767              		.loc 1 509 0
+ 768 00da 5F18     		adds	r7, r3, r1
+ 769 00dc 1037     		adds	r7, r7, #16
+ 770 00de 074A     		ldr	r2, .L35+4
+ 771 00e0 02EB4707 		add	r7, r2, r7, lsl #1
+ 772 00e4 8200     		lsls	r2, r0, #2
+ 773 00e6 42EA4712 		orr	r2, r2, r7, lsl #5
+ 774 00ea 42F00852 		orr	r2, r2, #570425344
+ 775 00ee 0127     		movs	r7, #1
+ 776 00f0 1760     		str	r7, [r2]
+ 777 00f2 C0E7     		b	.L31
+ 778              	.L34:
+ 512:Core/Src/ws2812b.c **** 
+ 513:Core/Src/ws2812b.c **** 	}
+ 514:Core/Src/ws2812b.c **** #elif defined(SETPIX_3)
+ 515:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+0)] |= (((((invGreen)<<0) & 0x80)>>7)<<row);
+ 516:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+0)] |= (((((invRed)<<0) & 0x80)>>7)<<row);
+ 517:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+0)] |= (((((invBlue)<<0) & 0x80)>>7)<<row);
+ 518:Core/Src/ws2812b.c **** 
+ 519:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+1)] |= (((((invGreen)<<1) & 0x80)>>7)<<row);
+ 520:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+1)] |= (((((invRed)<<1) & 0x80)>>7)<<row);
+ 521:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+1)] |= (((((invBlue)<<1) & 0x80)>>7)<<row);
+ 522:Core/Src/ws2812b.c **** 
+ 523:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+2)] |= (((((invGreen)<<2) & 0x80)>>7)<<row);
+ 524:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+2)] |= (((((invRed)<<2) & 0x80)>>7)<<row);
+ 525:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+2)] |= (((((invBlue)<<2) & 0x80)>>7)<<row);
+ 526:Core/Src/ws2812b.c **** 
+ 527:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+3)] |= (((((invGreen)<<3) & 0x80)>>7)<<row);
+ 528:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+3)] |= (((((invRed)<<3) & 0x80)>>7)<<row);
+ 529:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+3)] |= (((((invBlue)<<3) & 0x80)>>7)<<row);
+ 530:Core/Src/ws2812b.c **** 
+ 531:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+4)] |= (((((invGreen)<<4) & 0x80)>>7)<<row);
+ 532:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+4)] |= (((((invRed)<<4) & 0x80)>>7)<<row);
+ 533:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+4)] |= (((((invBlue)<<4) & 0x80)>>7)<<row);
+ 534:Core/Src/ws2812b.c **** 
+ 535:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+5)] |= (((((invGreen)<<5) & 0x80)>>7)<<row);
+ 536:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+5)] |= (((((invRed)<<5) & 0x80)>>7)<<row);
+ 537:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+5)] |= (((((invBlue)<<5) & 0x80)>>7)<<row);
+ 538:Core/Src/ws2812b.c **** 
+ 539:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+6)] |= (((((invGreen)<<6) & 0x80)>>7)<<row);
+ 540:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+6)] |= (((((invRed)<<6) & 0x80)>>7)<<row);
+ 541:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+6)] |= (((((invBlue)<<6) & 0x80)>>7)<<row);
+ 542:Core/Src/ws2812b.c **** 
+ 543:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+7)] |= (((((invGreen)<<7) & 0x80)>>7)<<row);
+ 544:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+7)] |= (((((invRed)<<7) & 0x80)>>7)<<row);
+ 545:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+7)] |= (((((invBlue)<<7) & 0x80)>>7)<<row);
+ARM GAS  /tmp/ccHQyC2e.s 			page 26
+
+
+ 546:Core/Src/ws2812b.c **** #elif defined(SETPIX_4)
+ 547:Core/Src/ws2812b.c **** 
+ 548:Core/Src/ws2812b.c **** 	// Bitband optimizations with pure increments, 5us interrupts
+ 549:Core/Src/ws2812b.c **** 	uint32_t *bitBand = BITBAND_SRAM(&ws2812bDmaBitBuffer[(calcCol)], row);
+ 550:Core/Src/ws2812b.c **** 
+ 551:Core/Src/ws2812b.c **** 	*bitBand =  (invGreen >> 7);
+ 552:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 553:Core/Src/ws2812b.c **** 
+ 554:Core/Src/ws2812b.c **** 	*bitBand = (invGreen >> 6);
+ 555:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 556:Core/Src/ws2812b.c **** 
+ 557:Core/Src/ws2812b.c **** 	*bitBand = (invGreen >> 5);
+ 558:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 559:Core/Src/ws2812b.c **** 
+ 560:Core/Src/ws2812b.c **** 	*bitBand = (invGreen >> 4);
+ 561:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 562:Core/Src/ws2812b.c **** 
+ 563:Core/Src/ws2812b.c **** 	*bitBand = (invGreen >> 3);
+ 564:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 565:Core/Src/ws2812b.c **** 
+ 566:Core/Src/ws2812b.c **** 	*bitBand = (invGreen >> 2);
+ 567:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 568:Core/Src/ws2812b.c **** 
+ 569:Core/Src/ws2812b.c **** 	*bitBand = (invGreen >> 1);
+ 570:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 571:Core/Src/ws2812b.c **** 
+ 572:Core/Src/ws2812b.c **** 	*bitBand = (invGreen >> 0);
+ 573:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 574:Core/Src/ws2812b.c **** 
+ 575:Core/Src/ws2812b.c **** 	// RED
+ 576:Core/Src/ws2812b.c **** 	*bitBand =  (invRed >> 7);
+ 577:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 578:Core/Src/ws2812b.c **** 
+ 579:Core/Src/ws2812b.c **** 	*bitBand = (invRed >> 6);
+ 580:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 581:Core/Src/ws2812b.c **** 
+ 582:Core/Src/ws2812b.c **** 	*bitBand = (invRed >> 5);
+ 583:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 584:Core/Src/ws2812b.c **** 
+ 585:Core/Src/ws2812b.c **** 	*bitBand = (invRed >> 4);
+ 586:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 587:Core/Src/ws2812b.c **** 
+ 588:Core/Src/ws2812b.c **** 	*bitBand = (invRed >> 3);
+ 589:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 590:Core/Src/ws2812b.c **** 
+ 591:Core/Src/ws2812b.c **** 	*bitBand = (invRed >> 2);
+ 592:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 593:Core/Src/ws2812b.c **** 
+ 594:Core/Src/ws2812b.c **** 	*bitBand = (invRed >> 1);
+ 595:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 596:Core/Src/ws2812b.c **** 
+ 597:Core/Src/ws2812b.c **** 	*bitBand = (invRed >> 0);
+ 598:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 599:Core/Src/ws2812b.c **** 
+ 600:Core/Src/ws2812b.c **** 	// BLUE
+ 601:Core/Src/ws2812b.c **** 	*bitBand =  (invBlue >> 7);
+ 602:Core/Src/ws2812b.c **** 	bitBand+=16;
+ARM GAS  /tmp/ccHQyC2e.s 			page 27
+
+
+ 603:Core/Src/ws2812b.c **** 
+ 604:Core/Src/ws2812b.c **** 	*bitBand = (invBlue >> 6);
+ 605:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 606:Core/Src/ws2812b.c **** 
+ 607:Core/Src/ws2812b.c **** 	*bitBand = (invBlue >> 5);
+ 608:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 609:Core/Src/ws2812b.c **** 
+ 610:Core/Src/ws2812b.c **** 	*bitBand = (invBlue >> 4);
+ 611:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 612:Core/Src/ws2812b.c **** 
+ 613:Core/Src/ws2812b.c **** 	*bitBand = (invBlue >> 3);
+ 614:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 615:Core/Src/ws2812b.c **** 
+ 616:Core/Src/ws2812b.c **** 	*bitBand = (invBlue >> 2);
+ 617:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 618:Core/Src/ws2812b.c **** 
+ 619:Core/Src/ws2812b.c **** 	*bitBand = (invBlue >> 1);
+ 620:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 621:Core/Src/ws2812b.c **** 
+ 622:Core/Src/ws2812b.c **** 	*bitBand = (invBlue >> 0);
+ 623:Core/Src/ws2812b.c **** 	bitBand+=16;
+ 624:Core/Src/ws2812b.c **** 
+ 625:Core/Src/ws2812b.c **** #endif
+ 626:Core/Src/ws2812b.c **** }
+ 779              		.loc 1 626 0
+ 780 00f4 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 781              	.LVL38:
+ 782              	.L36:
+ 783 00f6 00BF     		.align	2
+ 784              	.L35:
+ 785 00f8 00000000 		.word	.LANCHOR2
+ 786 00fc 00000000 		.word	ws2812bDmaBitBuffer
+ 787              		.cfi_endproc
+ 788              	.LFE140:
+ 790              		.section	.text.loadNextFramebufferData,"ax",%progbits
+ 791              		.align	1
+ 792              		.syntax unified
+ 793              		.thumb
+ 794              		.thumb_func
+ 795              		.fpu fpv4-sp-d16
+ 797              	loadNextFramebufferData:
+ 798              	.LFB133:
+ 233:Core/Src/ws2812b.c **** 
+ 799              		.loc 1 233 0
+ 800              		.cfi_startproc
+ 801              		@ args = 0, pretend = 0, frame = 0
+ 802              		@ frame_needed = 0, uses_anonymous_args = 0
+ 803              	.LVL39:
+ 804 0000 70B5     		push	{r4, r5, r6, lr}
+ 805              	.LCFI14:
+ 806              		.cfi_def_cfa_offset 16
+ 807              		.cfi_offset 4, -16
+ 808              		.cfi_offset 5, -12
+ 809              		.cfi_offset 6, -8
+ 810              		.cfi_offset 14, -4
+ 811 0002 82B0     		sub	sp, sp, #8
+ 812              	.LCFI15:
+ARM GAS  /tmp/ccHQyC2e.s 			page 28
+
+
+ 813              		.cfi_def_cfa_offset 24
+ 235:Core/Src/ws2812b.c **** 	uint32_t g = bItem->frameBufferPointer[bItem->frameBufferCounter++];
+ 814              		.loc 1 235 0
+ 815 0004 0568     		ldr	r5, [r0]
+ 816 0006 8268     		ldr	r2, [r0, #8]
+ 817 0008 531C     		adds	r3, r2, #1
+ 818 000a 8360     		str	r3, [r0, #8]
+ 819 000c AA5C     		ldrb	r2, [r5, r2]	@ zero_extendqisi2
+ 820              	.LVL40:
+ 236:Core/Src/ws2812b.c **** 	uint32_t b = bItem->frameBufferPointer[bItem->frameBufferCounter++];
+ 821              		.loc 1 236 0
+ 822 000e 5C1C     		adds	r4, r3, #1
+ 823 0010 8460     		str	r4, [r0, #8]
+ 824 0012 EB5C     		ldrb	r3, [r5, r3]	@ zero_extendqisi2
+ 825              	.LVL41:
+ 237:Core/Src/ws2812b.c **** 
+ 826              		.loc 1 237 0
+ 827 0014 661C     		adds	r6, r4, #1
+ 828 0016 8660     		str	r6, [r0, #8]
+ 829 0018 2C5D     		ldrb	r4, [r5, r4]	@ zero_extendqisi2
+ 830              	.LVL42:
+ 239:Core/Src/ws2812b.c **** 		bItem->frameBufferCounter = 0;
+ 831              		.loc 1 239 0
+ 832 001a 4568     		ldr	r5, [r0, #4]
+ 833 001c AE42     		cmp	r6, r5
+ 834 001e 06D0     		beq	.L40
+ 835              	.L38:
+ 242:Core/Src/ws2812b.c **** }
+ 836              		.loc 1 242 0
+ 837 0020 007B     		ldrb	r0, [r0, #12]	@ zero_extendqisi2
+ 838              	.LVL43:
+ 839 0022 0094     		str	r4, [sp]
+ 840 0024 89B2     		uxth	r1, r1
+ 841              	.LVL44:
+ 842 0026 FFF7FEFF 		bl	ws2812b_set_pixel
+ 843              	.LVL45:
+ 243:Core/Src/ws2812b.c **** 
+ 844              		.loc 1 243 0
+ 845 002a 02B0     		add	sp, sp, #8
+ 846              	.LCFI16:
+ 847              		.cfi_remember_state
+ 848              		.cfi_def_cfa_offset 16
+ 849              		@ sp needed
+ 850 002c 70BD     		pop	{r4, r5, r6, pc}
+ 851              	.LVL46:
+ 852              	.L40:
+ 853              	.LCFI17:
+ 854              		.cfi_restore_state
+ 240:Core/Src/ws2812b.c **** 
+ 855              		.loc 1 240 0
+ 856 002e 0025     		movs	r5, #0
+ 857 0030 8560     		str	r5, [r0, #8]
+ 858 0032 F5E7     		b	.L38
+ 859              		.cfi_endproc
+ 860              	.LFE133:
+ 862              		.section	.text.DMA_TransferCompleteHandler,"ax",%progbits
+ 863              		.align	1
+ARM GAS  /tmp/ccHQyC2e.s 			page 29
+
+
+ 864              		.global	DMA_TransferCompleteHandler
+ 865              		.syntax unified
+ 866              		.thumb
+ 867              		.thumb_func
+ 868              		.fpu fpv4-sp-d16
+ 870              	DMA_TransferCompleteHandler:
+ 871              	.LFB137:
+ 328:Core/Src/ws2812b.c **** 
+ 872              		.loc 1 328 0
+ 873              		.cfi_startproc
+ 874              		@ args = 0, pretend = 0, frame = 0
+ 875              		@ frame_needed = 0, uses_anonymous_args = 0
+ 876              	.LVL47:
+ 331:Core/Src/ws2812b.c **** 	#endif
+ 877              		.loc 1 331 0
+ 878 0000 4FF40052 		mov	r2, #8192
+ 879 0004 2E4B     		ldr	r3, .L50
+ 880 0006 9A61     		str	r2, [r3, #24]
+ 334:Core/Src/ws2812b.c **** 	{
+ 881              		.loc 1 334 0
+ 882 0008 2E4B     		ldr	r3, .L50+4
+ 883 000a 9B69     		ldr	r3, [r3, #24]
+ 884 000c 042B     		cmp	r3, #4
+ 885 000e 02D0     		beq	.L49
+ 328:Core/Src/ws2812b.c **** 
+ 886              		.loc 1 328 0
+ 887 0010 10B5     		push	{r4, lr}
+ 888              	.LCFI18:
+ 889              		.cfi_def_cfa_offset 8
+ 890              		.cfi_offset 4, -8
+ 891              		.cfi_offset 14, -4
+ 892 0012 0024     		movs	r4, #0
+ 893 0014 48E0     		b	.L42
+ 894              	.L49:
+ 895              	.LCFI19:
+ 896              		.cfi_def_cfa_offset 0
+ 897              		.cfi_restore 4
+ 898              		.cfi_restore 14
+ 337:Core/Src/ws2812b.c **** 
+ 899              		.loc 1 337 0
+ 900 0016 0020     		movs	r0, #0
+ 901              	.LVL48:
+ 902 0018 2A4B     		ldr	r3, .L50+4
+ 903 001a 9861     		str	r0, [r3, #24]
+ 340:Core/Src/ws2812b.c **** 
+ 904              		.loc 1 340 0
+ 905 001c 2A4A     		ldr	r2, .L50+8
+ 906 001e 1368     		ldr	r3, [r2]
+ 907 0020 23F00103 		bic	r3, r3, #1
+ 908 0024 1360     		str	r3, [r2]
+ 343:Core/Src/ws2812b.c **** 		__HAL_DMA_DISABLE(&dmaCC1);
+ 909              		.loc 1 343 0
+ 910 0026 294B     		ldr	r3, .L50+12
+ 911 0028 1968     		ldr	r1, [r3]
+ 912 002a 0B68     		ldr	r3, [r1]
+ 913 002c 23F00103 		bic	r3, r3, #1
+ 914 0030 0B60     		str	r3, [r1]
+ARM GAS  /tmp/ccHQyC2e.s 			page 30
+
+
+ 344:Core/Src/ws2812b.c **** 		__HAL_DMA_DISABLE(&dmaCC2);
+ 915              		.loc 1 344 0
+ 916 0032 274B     		ldr	r3, .L50+16
+ 917 0034 1968     		ldr	r1, [r3]
+ 918 0036 0B68     		ldr	r3, [r1]
+ 919 0038 23F00103 		bic	r3, r3, #1
+ 920 003c 0B60     		str	r3, [r1]
+ 345:Core/Src/ws2812b.c **** 
+ 921              		.loc 1 345 0
+ 922 003e 254B     		ldr	r3, .L50+20
+ 923 0040 1968     		ldr	r1, [r3]
+ 924 0042 0B68     		ldr	r3, [r1]
+ 925 0044 23F00103 		bic	r3, r3, #1
+ 926 0048 0B60     		str	r3, [r1]
+ 348:Core/Src/ws2812b.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_CC1);
+ 927              		.loc 1 348 0
+ 928 004a 234B     		ldr	r3, .L50+24
+ 929 004c 1B68     		ldr	r3, [r3]
+ 930 004e D968     		ldr	r1, [r3, #12]
+ 931 0050 21F48071 		bic	r1, r1, #256
+ 932 0054 D960     		str	r1, [r3, #12]
+ 349:Core/Src/ws2812b.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_CC2);
+ 933              		.loc 1 349 0
+ 934 0056 D968     		ldr	r1, [r3, #12]
+ 935 0058 21F40071 		bic	r1, r1, #512
+ 936 005c D960     		str	r1, [r3, #12]
+ 350:Core/Src/ws2812b.c **** 
+ 937              		.loc 1 350 0
+ 938 005e D968     		ldr	r1, [r3, #12]
+ 939 0060 21F48061 		bic	r1, r1, #1024
+ 940 0064 D960     		str	r1, [r3, #12]
+ 354:Core/Src/ws2812b.c **** 		// Reset the timer
+ 941              		.loc 1 354 0
+ 942 0066 1D49     		ldr	r1, .L50+28
+ 943 0068 0968     		ldr	r1, [r1]
+ 944 006a D162     		str	r1, [r2, #44]
+ 356:Core/Src/ws2812b.c **** 
+ 945              		.loc 1 356 0
+ 946 006c 5062     		str	r0, [r2, #36]
+ 359:Core/Src/ws2812b.c **** 		__HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE);
+ 947              		.loc 1 359 0
+ 948 006e 0121     		movs	r1, #1
+ 949 0070 5161     		str	r1, [r2, #20]
+ 360:Core/Src/ws2812b.c **** 
+ 950              		.loc 1 360 0
+ 951 0072 6FF00101 		mvn	r1, #1
+ 952 0076 1961     		str	r1, [r3, #16]
+ 363:Core/Src/ws2812b.c **** 		// Enable timer
+ 953              		.loc 1 363 0
+ 954 0078 D968     		ldr	r1, [r3, #12]
+ 955 007a 41F00101 		orr	r1, r1, #1
+ 956 007e D960     		str	r1, [r3, #12]
+ 365:Core/Src/ws2812b.c **** 
+ 957              		.loc 1 365 0
+ 958 0080 1368     		ldr	r3, [r2]
+ 959 0082 43F00103 		orr	r3, r3, #1
+ 960 0086 1360     		str	r3, [r2]
+ARM GAS  /tmp/ccHQyC2e.s 			page 31
+
+
+ 368:Core/Src/ws2812b.c **** 	} else {
+ 961              		.loc 1 368 0
+ 962 0088 154B     		ldr	r3, .L50+32
+ 963 008a 1A68     		ldr	r2, [r3]
+ 964 008c 154B     		ldr	r3, .L50+36
+ 965 008e 9A61     		str	r2, [r3, #24]
+ 384:Core/Src/ws2812b.c **** 	#endif
+ 966              		.loc 1 384 0
+ 967 0090 4FF00052 		mov	r2, #536870912
+ 968 0094 0A4B     		ldr	r3, .L50
+ 969 0096 9A61     		str	r2, [r3, #24]
+ 970 0098 7047     		bx	lr
+ 971              	.LVL49:
+ 972              	.L44:
+ 973              	.LCFI20:
+ 974              		.cfi_def_cfa_offset 8
+ 975              		.cfi_offset 4, -8
+ 976              		.cfi_offset 14, -4
+ 977              	.LBB6:
+ 375:Core/Src/ws2812b.c **** 		}
+ 978              		.loc 1 375 0 discriminator 3
+ 979 009a 0121     		movs	r1, #1
+ 980 009c 0948     		ldr	r0, .L50+4
+ 981 009e 00EB0410 		add	r0, r0, r4, lsl #4
+ 982 00a2 FFF7FEFF 		bl	loadNextFramebufferData
+ 983              	.LVL50:
+ 373:Core/Src/ws2812b.c **** 		{
+ 984              		.loc 1 373 0 discriminator 3
+ 985 00a6 0134     		adds	r4, r4, #1
+ 986              	.LVL51:
+ 987              	.L42:
+ 373:Core/Src/ws2812b.c **** 		{
+ 988              		.loc 1 373 0 is_stmt 0 discriminator 1
+ 989 00a8 002C     		cmp	r4, #0
+ 990 00aa F6D0     		beq	.L44
+ 378:Core/Src/ws2812b.c **** 	}
+ 991              		.loc 1 378 0 is_stmt 1
+ 992 00ac 054A     		ldr	r2, .L50+4
+ 993 00ae 9369     		ldr	r3, [r2, #24]
+ 994 00b0 0133     		adds	r3, r3, #1
+ 995 00b2 9361     		str	r3, [r2, #24]
+ 996              	.LBE6:
+ 384:Core/Src/ws2812b.c **** 	#endif
+ 997              		.loc 1 384 0
+ 998 00b4 4FF00052 		mov	r2, #536870912
+ 999 00b8 014B     		ldr	r3, .L50
+ 1000 00ba 9A61     		str	r2, [r3, #24]
+ 1001 00bc 10BD     		pop	{r4, pc}
+ 1002              	.LVL52:
+ 1003              	.L51:
+ 1004 00be 00BF     		.align	2
+ 1005              	.L50:
+ 1006 00c0 000C0240 		.word	1073875968
+ 1007 00c4 00000000 		.word	ws2812b
+ 1008 00c8 00000140 		.word	1073807360
+ 1009 00cc 00000000 		.word	dmaUpdate
+ 1010 00d0 00000000 		.word	dmaCC1
+ARM GAS  /tmp/ccHQyC2e.s 			page 32
+
+
+ 1011 00d4 00000000 		.word	dmaCC2
+ 1012 00d8 00000000 		.word	TIM1_handle
+ 1013 00dc 00000000 		.word	timer_reset_pulse_period
+ 1014 00e0 00000000 		.word	.LANCHOR1
+ 1015 00e4 00080240 		.word	1073874944
+ 1016              		.cfi_endproc
+ 1017              	.LFE137:
+ 1019              		.section	.text.WS2812_sendbuf,"ax",%progbits
+ 1020              		.align	1
+ 1021              		.syntax unified
+ 1022              		.thumb
+ 1023              		.thumb_func
+ 1024              		.fpu fpv4-sp-d16
+ 1026              	WS2812_sendbuf:
+ 1027              	.LFB134:
+ 248:Core/Src/ws2812b.c **** 	// transmission complete flag
+ 1028              		.loc 1 248 0
+ 1029              		.cfi_startproc
+ 1030              		@ args = 0, pretend = 0, frame = 0
+ 1031              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1032 0000 38B5     		push	{r3, r4, r5, lr}
+ 1033              	.LCFI21:
+ 1034              		.cfi_def_cfa_offset 16
+ 1035              		.cfi_offset 3, -16
+ 1036              		.cfi_offset 4, -12
+ 1037              		.cfi_offset 5, -8
+ 1038              		.cfi_offset 14, -4
+ 250:Core/Src/ws2812b.c **** 
+ 1039              		.loc 1 250 0
+ 1040 0002 0024     		movs	r4, #0
+ 1041 0004 4F4B     		ldr	r3, .L71
+ 1042 0006 1C74     		strb	r4, [r3, #16]
+ 1043              	.LVL53:
+ 1044              	.L53:
+ 254:Core/Src/ws2812b.c **** 	{
+ 1045              		.loc 1 254 0 discriminator 1
+ 1046 0008 0CB3     		cbz	r4, .L54
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1047              		.loc 1 263 0
+ 1048 000a 4F4B     		ldr	r3, .L71+4
+ 1049 000c 1B68     		ldr	r3, [r3]
+ 1050 000e 4F4A     		ldr	r2, .L71+8
+ 1051 0010 9342     		cmp	r3, r2
+ 1052 0012 2AD9     		bls	.L55
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1053              		.loc 1 263 0 is_stmt 0 discriminator 1
+ 1054 0014 4FF46062 		mov	r2, #3584
+ 1055 0018 4D4B     		ldr	r3, .L71+12
+ 1056 001a DA60     		str	r2, [r3, #12]
+ 1057              	.L56:
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 1058              		.loc 1 264 0 is_stmt 1
+ 1059 001c 4D4B     		ldr	r3, .L71+16
+ 1060 001e 1B68     		ldr	r3, [r3]
+ 1061 0020 4A4A     		ldr	r2, .L71+8
+ 1062 0022 9342     		cmp	r3, r2
+ 1063 0024 36D9     		bls	.L59
+ARM GAS  /tmp/ccHQyC2e.s 			page 33
+
+
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 1064              		.loc 1 264 0 is_stmt 0 discriminator 1
+ 1065 0026 4FF46062 		mov	r2, #3584
+ 1066 002a 494B     		ldr	r3, .L71+12
+ 1067 002c DA60     		str	r2, [r3, #12]
+ 1068              	.L60:
+ 265:Core/Src/ws2812b.c **** 
+ 1069              		.loc 1 265 0 is_stmt 1
+ 1070 002e 4A4B     		ldr	r3, .L71+20
+ 1071 0030 1B68     		ldr	r3, [r3]
+ 1072 0032 464A     		ldr	r2, .L71+8
+ 1073 0034 9342     		cmp	r3, r2
+ 1074 0036 42D8     		bhi	.L68
+ 265:Core/Src/ws2812b.c **** 
+ 1075              		.loc 1 265 0 is_stmt 0 discriminator 2
+ 1076 0038 484A     		ldr	r2, .L71+24
+ 1077 003a 9342     		cmp	r3, r2
+ 1078 003c 77D8     		bhi	.L69
+ 265:Core/Src/ws2812b.c **** 
+ 1079              		.loc 1 265 0 discriminator 4
+ 1080 003e 484A     		ldr	r2, .L71+28
+ 1081 0040 9342     		cmp	r3, r2
+ 1082 0042 79D8     		bhi	.L70
+ 265:Core/Src/ws2812b.c **** 
+ 1083              		.loc 1 265 0 discriminator 7
+ 1084 0044 4FF46012 		mov	r2, #3670016
+ 1085 0048 464B     		ldr	r3, .L71+32
+ 1086 004a 9A60     		str	r2, [r3, #8]
+ 1087 004c 3BE0     		b	.L64
+ 1088              	.L54:
+ 256:Core/Src/ws2812b.c **** 
+ 1089              		.loc 1 256 0 is_stmt 1 discriminator 3
+ 1090 004e 3D4D     		ldr	r5, .L71
+ 1091 0050 05EB0415 		add	r5, r5, r4, lsl #4
+ 1092 0054 0021     		movs	r1, #0
+ 1093 0056 A960     		str	r1, [r5, #8]
+ 258:Core/Src/ws2812b.c **** 		loadNextFramebufferData(&ws2812b.item[i], 1); // ROW 0
+ 1094              		.loc 1 258 0 discriminator 3
+ 1095 0058 2846     		mov	r0, r5
+ 1096 005a FFF7FEFF 		bl	loadNextFramebufferData
+ 1097              	.LVL54:
+ 259:Core/Src/ws2812b.c **** 	}
+ 1098              		.loc 1 259 0 discriminator 3
+ 1099 005e 0121     		movs	r1, #1
+ 1100 0060 2846     		mov	r0, r5
+ 1101 0062 FFF7FEFF 		bl	loadNextFramebufferData
+ 1102              	.LVL55:
+ 254:Core/Src/ws2812b.c **** 	{
+ 1103              		.loc 1 254 0 discriminator 3
+ 1104 0066 0134     		adds	r4, r4, #1
+ 1105              	.LVL56:
+ 1106 0068 CEE7     		b	.L53
+ 1107              	.L55:
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1108              		.loc 1 263 0 discriminator 2
+ 1109 006a 3C4A     		ldr	r2, .L71+24
+ 1110 006c 9342     		cmp	r3, r2
+ARM GAS  /tmp/ccHQyC2e.s 			page 34
+
+
+ 1111 006e 04D9     		bls	.L57
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1112              		.loc 1 263 0 is_stmt 0 discriminator 3
+ 1113 0070 4FF46062 		mov	r2, #3584
+ 1114 0074 364B     		ldr	r3, .L71+12
+ 1115 0076 9A60     		str	r2, [r3, #8]
+ 1116 0078 D0E7     		b	.L56
+ 1117              	.L57:
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1118              		.loc 1 263 0 discriminator 4
+ 1119 007a 394A     		ldr	r2, .L71+28
+ 1120 007c 9342     		cmp	r3, r2
+ 1121 007e 04D9     		bls	.L58
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1122              		.loc 1 263 0 discriminator 6
+ 1123 0080 4FF46062 		mov	r2, #3584
+ 1124 0084 374B     		ldr	r3, .L71+32
+ 1125 0086 DA60     		str	r2, [r3, #12]
+ 1126 0088 C8E7     		b	.L56
+ 1127              	.L58:
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1128              		.loc 1 263 0 discriminator 7
+ 1129 008a 4FF46062 		mov	r2, #3584
+ 1130 008e 354B     		ldr	r3, .L71+32
+ 1131 0090 9A60     		str	r2, [r3, #8]
+ 1132 0092 C3E7     		b	.L56
+ 1133              	.L59:
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 1134              		.loc 1 264 0 is_stmt 1 discriminator 2
+ 1135 0094 314A     		ldr	r2, .L71+24
+ 1136 0096 9342     		cmp	r3, r2
+ 1137 0098 04D9     		bls	.L61
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 1138              		.loc 1 264 0 is_stmt 0 discriminator 3
+ 1139 009a 4FF46062 		mov	r2, #3584
+ 1140 009e 2C4B     		ldr	r3, .L71+12
+ 1141 00a0 9A60     		str	r2, [r3, #8]
+ 1142 00a2 C4E7     		b	.L60
+ 1143              	.L61:
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 1144              		.loc 1 264 0 discriminator 4
+ 1145 00a4 2E4A     		ldr	r2, .L71+28
+ 1146 00a6 9342     		cmp	r3, r2
+ 1147 00a8 04D9     		bls	.L62
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 1148              		.loc 1 264 0 discriminator 6
+ 1149 00aa 4FF46062 		mov	r2, #3584
+ 1150 00ae 2D4B     		ldr	r3, .L71+32
+ 1151 00b0 DA60     		str	r2, [r3, #12]
+ 1152 00b2 BCE7     		b	.L60
+ 1153              	.L62:
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 1154              		.loc 1 264 0 discriminator 7
+ 1155 00b4 4FF46062 		mov	r2, #3584
+ 1156 00b8 2A4B     		ldr	r3, .L71+32
+ 1157 00ba 9A60     		str	r2, [r3, #8]
+ 1158 00bc B7E7     		b	.L60
+ARM GAS  /tmp/ccHQyC2e.s 			page 35
+
+
+ 1159              	.L68:
+ 265:Core/Src/ws2812b.c **** 
+ 1160              		.loc 1 265 0 is_stmt 1 discriminator 1
+ 1161 00be 4FF46012 		mov	r2, #3670016
+ 1162 00c2 234B     		ldr	r3, .L71+12
+ 1163 00c4 DA60     		str	r2, [r3, #12]
+ 1164              	.L64:
+ 270:Core/Src/ws2812b.c **** 	dmaCC1.Instance->NDTR = BUFFER_SIZE;
+ 1165              		.loc 1 270 0
+ 1166 00c6 204B     		ldr	r3, .L71+4
+ 1167 00c8 1B68     		ldr	r3, [r3]
+ 1168 00ca 3022     		movs	r2, #48
+ 1169 00cc 5A60     		str	r2, [r3, #4]
+ 271:Core/Src/ws2812b.c **** 	dmaCC2.Instance->NDTR = BUFFER_SIZE;
+ 1170              		.loc 1 271 0
+ 1171 00ce 214C     		ldr	r4, .L71+16
+ 1172              	.LVL57:
+ 1173 00d0 2168     		ldr	r1, [r4]
+ 1174 00d2 4A60     		str	r2, [r1, #4]
+ 272:Core/Src/ws2812b.c **** 
+ 1175              		.loc 1 272 0
+ 1176 00d4 2048     		ldr	r0, .L71+20
+ 1177 00d6 0168     		ldr	r1, [r0]
+ 1178 00d8 4A60     		str	r2, [r1, #4]
+ 275:Core/Src/ws2812b.c **** 
+ 1179              		.loc 1 275 0
+ 1180 00da 2349     		ldr	r1, .L71+36
+ 1181 00dc 0A68     		ldr	r2, [r1]
+ 1182 00de 6FF01F05 		mvn	r5, #31
+ 1183 00e2 1561     		str	r5, [r2, #16]
+ 278:Core/Src/ws2812b.c **** 	__HAL_DMA_ENABLE(&dmaCC1);
+ 1184              		.loc 1 278 0
+ 1185 00e4 1A68     		ldr	r2, [r3]
+ 1186 00e6 42F00102 		orr	r2, r2, #1
+ 1187 00ea 1A60     		str	r2, [r3]
+ 279:Core/Src/ws2812b.c **** 	__HAL_DMA_ENABLE(&dmaCC2);
+ 1188              		.loc 1 279 0
+ 1189 00ec 2268     		ldr	r2, [r4]
+ 1190 00ee 1368     		ldr	r3, [r2]
+ 1191 00f0 43F00103 		orr	r3, r3, #1
+ 1192 00f4 1360     		str	r3, [r2]
+ 280:Core/Src/ws2812b.c **** 
+ 1193              		.loc 1 280 0
+ 1194 00f6 0268     		ldr	r2, [r0]
+ 1195 00f8 1368     		ldr	r3, [r2]
+ 1196 00fa 43F00103 		orr	r3, r3, #1
+ 1197 00fe 1360     		str	r3, [r2]
+ 283:Core/Src/ws2812b.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_CC1);
+ 1198              		.loc 1 283 0
+ 1199 0100 0B68     		ldr	r3, [r1]
+ 1200 0102 DA68     		ldr	r2, [r3, #12]
+ 1201 0104 42F48072 		orr	r2, r2, #256
+ 1202 0108 DA60     		str	r2, [r3, #12]
+ 284:Core/Src/ws2812b.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_CC2);
+ 1203              		.loc 1 284 0
+ 1204 010a DA68     		ldr	r2, [r3, #12]
+ 1205 010c 42F40072 		orr	r2, r2, #512
+ARM GAS  /tmp/ccHQyC2e.s 			page 36
+
+
+ 1206 0110 DA60     		str	r2, [r3, #12]
+ 285:Core/Src/ws2812b.c **** 
+ 1207              		.loc 1 285 0
+ 1208 0112 DA68     		ldr	r2, [r3, #12]
+ 1209 0114 42F48062 		orr	r2, r2, #1024
+ 1210 0118 DA60     		str	r2, [r3, #12]
+ 287:Core/Src/ws2812b.c **** 
+ 1211              		.loc 1 287 0
+ 1212 011a 144A     		ldr	r2, .L71+40
+ 1213 011c 1268     		ldr	r2, [r2]
+ 1214 011e 013A     		subs	r2, r2, #1
+ 1215 0120 1349     		ldr	r1, .L71+44
+ 1216 0122 4A62     		str	r2, [r1, #36]
+ 290:Core/Src/ws2812b.c **** }
+ 1217              		.loc 1 290 0
+ 1218 0124 1A68     		ldr	r2, [r3]
+ 1219 0126 42F00102 		orr	r2, r2, #1
+ 1220 012a 1A60     		str	r2, [r3]
+ 1221 012c 38BD     		pop	{r3, r4, r5, pc}
+ 1222              	.LVL58:
+ 1223              	.L69:
+ 265:Core/Src/ws2812b.c **** 
+ 1224              		.loc 1 265 0 discriminator 3
+ 1225 012e 4FF46012 		mov	r2, #3670016
+ 1226 0132 074B     		ldr	r3, .L71+12
+ 1227 0134 9A60     		str	r2, [r3, #8]
+ 1228 0136 C6E7     		b	.L64
+ 1229              	.L70:
+ 265:Core/Src/ws2812b.c **** 
+ 1230              		.loc 1 265 0 is_stmt 0 discriminator 6
+ 1231 0138 4FF46012 		mov	r2, #3670016
+ 1232 013c 094B     		ldr	r3, .L71+32
+ 1233 013e DA60     		str	r2, [r3, #12]
+ 1234 0140 C1E7     		b	.L64
+ 1235              	.L72:
+ 1236 0142 00BF     		.align	2
+ 1237              	.L71:
+ 1238 0144 00000000 		.word	ws2812b
+ 1239 0148 00000000 		.word	dmaUpdate
+ 1240 014c 58640240 		.word	1073898584
+ 1241 0150 00640240 		.word	1073898496
+ 1242 0154 00000000 		.word	dmaCC1
+ 1243 0158 00000000 		.word	dmaCC2
+ 1244 015c B8600240 		.word	1073897656
+ 1245 0160 58600240 		.word	1073897560
+ 1246 0164 00600240 		.word	1073897472
+ 1247 0168 00000000 		.word	TIM1_handle
+ 1248 016c 00000000 		.word	tim_period
+ 1249 0170 00000140 		.word	1073807360
+ 1250              		.cfi_endproc
+ 1251              	.LFE134:
+ 1253              		.section	.text.DMA_TransferHalfHandler,"ax",%progbits
+ 1254              		.align	1
+ 1255              		.global	DMA_TransferHalfHandler
+ 1256              		.syntax unified
+ 1257              		.thumb
+ 1258              		.thumb_func
+ARM GAS  /tmp/ccHQyC2e.s 			page 37
+
+
+ 1259              		.fpu fpv4-sp-d16
+ 1261              	DMA_TransferHalfHandler:
+ 1262              	.LFB136:
+ 302:Core/Src/ws2812b.c **** 
+ 1263              		.loc 1 302 0 is_stmt 1
+ 1264              		.cfi_startproc
+ 1265              		@ args = 0, pretend = 0, frame = 0
+ 1266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1267              	.LVL59:
+ 1268 0000 10B5     		push	{r4, lr}
+ 1269              	.LCFI22:
+ 1270              		.cfi_def_cfa_offset 8
+ 1271              		.cfi_offset 4, -8
+ 1272              		.cfi_offset 14, -4
+ 1273 0002 82B0     		sub	sp, sp, #8
+ 1274              	.LCFI23:
+ 1275              		.cfi_def_cfa_offset 16
+ 305:Core/Src/ws2812b.c **** 	 {
+ 1276              		.loc 1 305 0
+ 1277 0004 0E4B     		ldr	r3, .L80
+ 1278 0006 9B69     		ldr	r3, [r3, #24]
+ 1279 0008 042B     		cmp	r3, #4
+ 1280 000a 01D0     		beq	.L79
+ 1281 000c 0024     		movs	r4, #0
+ 1282 000e 0EE0     		b	.L74
+ 1283              	.L79:
+ 310:Core/Src/ws2812b.c **** 
+ 1284              		.loc 1 310 0
+ 1285 0010 0020     		movs	r0, #0
+ 1286              	.LVL60:
+ 1287 0012 0090     		str	r0, [sp]
+ 1288 0014 0346     		mov	r3, r0
+ 1289 0016 0246     		mov	r2, r0
+ 1290 0018 0146     		mov	r1, r0
+ 1291 001a FFF7FEFF 		bl	ws2812b_set_pixel
+ 1292              	.LVL61:
+ 1293 001e 0CE0     		b	.L73
+ 1294              	.LVL62:
+ 1295              	.L76:
+ 1296              	.LBB7:
+ 317:Core/Src/ws2812b.c **** 		}
+ 1297              		.loc 1 317 0 discriminator 3
+ 1298 0020 0021     		movs	r1, #0
+ 1299 0022 0748     		ldr	r0, .L80
+ 1300 0024 00EB0410 		add	r0, r0, r4, lsl #4
+ 1301 0028 FFF7FEFF 		bl	loadNextFramebufferData
+ 1302              	.LVL63:
+ 315:Core/Src/ws2812b.c **** 		{
+ 1303              		.loc 1 315 0 discriminator 3
+ 1304 002c 0134     		adds	r4, r4, #1
+ 1305              	.LVL64:
+ 1306              	.L74:
+ 315:Core/Src/ws2812b.c **** 		{
+ 1307              		.loc 1 315 0 is_stmt 0 discriminator 1
+ 1308 002e 002C     		cmp	r4, #0
+ 1309 0030 F6D0     		beq	.L76
+ 320:Core/Src/ws2812b.c **** 	}
+ARM GAS  /tmp/ccHQyC2e.s 			page 38
+
+
+ 1310              		.loc 1 320 0 is_stmt 1
+ 1311 0032 034A     		ldr	r2, .L80
+ 1312 0034 9369     		ldr	r3, [r2, #24]
+ 1313 0036 0133     		adds	r3, r3, #1
+ 1314 0038 9361     		str	r3, [r2, #24]
+ 1315              	.LVL65:
+ 1316              	.L73:
+ 1317              	.LBE7:
+ 325:Core/Src/ws2812b.c **** 
+ 1318              		.loc 1 325 0
+ 1319 003a 02B0     		add	sp, sp, #8
+ 1320              	.LCFI24:
+ 1321              		.cfi_def_cfa_offset 8
+ 1322              		@ sp needed
+ 1323 003c 10BD     		pop	{r4, pc}
+ 1324              	.L81:
+ 1325 003e 00BF     		.align	2
+ 1326              	.L80:
+ 1327 0040 00000000 		.word	ws2812b
+ 1328              		.cfi_endproc
+ 1329              	.LFE136:
+ 1331              		.section	.text.ws2812b_init,"ax",%progbits
+ 1332              		.align	1
+ 1333              		.global	ws2812b_init
+ 1334              		.syntax unified
+ 1335              		.thumb
+ 1336              		.thumb_func
+ 1337              		.fpu fpv4-sp-d16
+ 1339              	ws2812b_init:
+ 1340              	.LFB141:
+ 627:Core/Src/ws2812b.c **** 
+ 628:Core/Src/ws2812b.c **** 
+ 629:Core/Src/ws2812b.c **** void ws2812b_init()
+ 630:Core/Src/ws2812b.c **** {
+ 1341              		.loc 1 630 0
+ 1342              		.cfi_startproc
+ 1343              		@ args = 0, pretend = 0, frame = 0
+ 1344              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1345 0000 08B5     		push	{r3, lr}
+ 1346              	.LCFI25:
+ 1347              		.cfi_def_cfa_offset 8
+ 1348              		.cfi_offset 3, -8
+ 1349              		.cfi_offset 14, -4
+ 631:Core/Src/ws2812b.c **** 	ws2812b_gpio_init();
+ 1350              		.loc 1 631 0
+ 1351 0002 FFF7FEFF 		bl	ws2812b_gpio_init
+ 1352              	.LVL66:
+ 632:Core/Src/ws2812b.c **** 
+ 633:Core/Src/ws2812b.c **** 	/*TIM2_init();
+ 634:Core/Src/ws2812b.c **** 	DMA_init();*/
+ 635:Core/Src/ws2812b.c **** 
+ 636:Core/Src/ws2812b.c **** 
+ 637:Core/Src/ws2812b.c **** 	DMA2_init();
+ 1353              		.loc 1 637 0
+ 1354 0006 FFF7FEFF 		bl	DMA2_init
+ 1355              	.LVL67:
+ 638:Core/Src/ws2812b.c **** 	TIM1_init();
+ARM GAS  /tmp/ccHQyC2e.s 			page 39
+
+
+ 1356              		.loc 1 638 0
+ 1357 000a FFF7FEFF 		bl	TIM1_init
+ 1358              	.LVL68:
+ 639:Core/Src/ws2812b.c **** 
+ 640:Core/Src/ws2812b.c **** 
+ 641:Core/Src/ws2812b.c **** 	// Need to start the first transfer
+ 642:Core/Src/ws2812b.c **** 	ws2812b.transferComplete = 1;
+ 1359              		.loc 1 642 0
+ 1360 000e 0122     		movs	r2, #1
+ 1361 0010 014B     		ldr	r3, .L84
+ 1362 0012 1A74     		strb	r2, [r3, #16]
+ 1363 0014 08BD     		pop	{r3, pc}
+ 1364              	.L85:
+ 1365 0016 00BF     		.align	2
+ 1366              	.L84:
+ 1367 0018 00000000 		.word	ws2812b
+ 1368              		.cfi_endproc
+ 1369              	.LFE141:
+ 1371              		.section	.text.ws2812b_handle,"ax",%progbits
+ 1372              		.align	1
+ 1373              		.global	ws2812b_handle
+ 1374              		.syntax unified
+ 1375              		.thumb
+ 1376              		.thumb_func
+ 1377              		.fpu fpv4-sp-d16
+ 1379              	ws2812b_handle:
+ 1380              	.LFB142:
+ 643:Core/Src/ws2812b.c **** }
+ 644:Core/Src/ws2812b.c **** 
+ 645:Core/Src/ws2812b.c **** 
+ 646:Core/Src/ws2812b.c **** void ws2812b_handle()
+ 647:Core/Src/ws2812b.c **** {
+ 1381              		.loc 1 647 0
+ 1382              		.cfi_startproc
+ 1383              		@ args = 0, pretend = 0, frame = 0
+ 1384              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1385 0000 08B5     		push	{r3, lr}
+ 1386              	.LCFI26:
+ 1387              		.cfi_def_cfa_offset 8
+ 1388              		.cfi_offset 3, -8
+ 1389              		.cfi_offset 14, -4
+ 648:Core/Src/ws2812b.c **** 	if(ws2812b.startTransfer) {
+ 1390              		.loc 1 648 0
+ 1391 0002 054B     		ldr	r3, .L90
+ 1392 0004 5B7C     		ldrb	r3, [r3, #17]	@ zero_extendqisi2
+ 1393 0006 03B9     		cbnz	r3, .L89
+ 1394              	.L86:
+ 1395 0008 08BD     		pop	{r3, pc}
+ 1396              	.L89:
+ 649:Core/Src/ws2812b.c **** 		ws2812b.startTransfer = 0;
+ 1397              		.loc 1 649 0
+ 1398 000a 0022     		movs	r2, #0
+ 1399 000c 024B     		ldr	r3, .L90
+ 1400 000e 5A74     		strb	r2, [r3, #17]
+ 650:Core/Src/ws2812b.c **** 		WS2812_sendbuf();
+ 1401              		.loc 1 650 0
+ 1402 0010 FFF7FEFF 		bl	WS2812_sendbuf
+ARM GAS  /tmp/ccHQyC2e.s 			page 40
+
+
+ 1403              	.LVL69:
+ 651:Core/Src/ws2812b.c **** 	}
+ 652:Core/Src/ws2812b.c **** 
+ 653:Core/Src/ws2812b.c **** }
+ 1404              		.loc 1 653 0
+ 1405 0014 F8E7     		b	.L86
+ 1406              	.L91:
+ 1407 0016 00BF     		.align	2
+ 1408              	.L90:
+ 1409 0018 00000000 		.word	ws2812b
+ 1410              		.cfi_endproc
+ 1411              	.LFE142:
+ 1413              		.comm	dummy,4,4
+ 1414              		.comm	dmaCC2,96,4
+ 1415              		.comm	dmaCC1,96,4
+ 1416              		.comm	dmaUpdate,96,4
+ 1417              		.global	gammaTable
+ 1418              		.comm	ws2812bDmaBitBuffer,96,4
+ 1419              		.global	WS2812_IO_Low
+ 1420              		.global	WS2812_IO_High
+ 1421              		.comm	ws2812b,28,4
+ 1422              		.comm	timer_reset_pulse_period,4,4
+ 1423              		.comm	tim_period,4,4
+ 1424              		.comm	tim2OC2,28,4
+ 1425              		.comm	tim2OC1,28,4
+ 1426              		.comm	TIM1_handle,64,4
+ 1427              		.section	.data.WS2812_IO_High,"aw",%progbits
+ 1428              		.align	2
+ 1429              		.set	.LANCHOR0,. + 0
+ 1432              	WS2812_IO_High:
+ 1433 0000 00200000 		.word	8192
+ 1434              		.section	.data.WS2812_IO_Low,"aw",%progbits
+ 1435              		.align	2
+ 1436              		.set	.LANCHOR1,. + 0
+ 1439              	WS2812_IO_Low:
+ 1440 0000 00000020 		.word	536870912
+ 1441              		.section	.rodata.gammaTable,"a",%progbits
+ 1442              		.align	2
+ 1443              		.set	.LANCHOR2,. + 0
+ 1446              	gammaTable:
+ 1447 0000 00       		.byte	0
+ 1448 0001 00       		.byte	0
+ 1449 0002 00       		.byte	0
+ 1450 0003 00       		.byte	0
+ 1451 0004 00       		.byte	0
+ 1452 0005 00       		.byte	0
+ 1453 0006 00       		.byte	0
+ 1454 0007 00       		.byte	0
+ 1455 0008 00       		.byte	0
+ 1456 0009 00       		.byte	0
+ 1457 000a 00       		.byte	0
+ 1458 000b 00       		.byte	0
+ 1459 000c 00       		.byte	0
+ 1460 000d 00       		.byte	0
+ 1461 000e 00       		.byte	0
+ 1462 000f 00       		.byte	0
+ 1463 0010 00       		.byte	0
+ARM GAS  /tmp/ccHQyC2e.s 			page 41
+
+
+ 1464 0011 00       		.byte	0
+ 1465 0012 00       		.byte	0
+ 1466 0013 00       		.byte	0
+ 1467 0014 00       		.byte	0
+ 1468 0015 00       		.byte	0
+ 1469 0016 00       		.byte	0
+ 1470 0017 00       		.byte	0
+ 1471 0018 00       		.byte	0
+ 1472 0019 00       		.byte	0
+ 1473 001a 00       		.byte	0
+ 1474 001b 00       		.byte	0
+ 1475 001c 01       		.byte	1
+ 1476 001d 01       		.byte	1
+ 1477 001e 01       		.byte	1
+ 1478 001f 01       		.byte	1
+ 1479 0020 01       		.byte	1
+ 1480 0021 01       		.byte	1
+ 1481 0022 01       		.byte	1
+ 1482 0023 01       		.byte	1
+ 1483 0024 01       		.byte	1
+ 1484 0025 01       		.byte	1
+ 1485 0026 01       		.byte	1
+ 1486 0027 01       		.byte	1
+ 1487 0028 01       		.byte	1
+ 1488 0029 02       		.byte	2
+ 1489 002a 02       		.byte	2
+ 1490 002b 02       		.byte	2
+ 1491 002c 02       		.byte	2
+ 1492 002d 02       		.byte	2
+ 1493 002e 02       		.byte	2
+ 1494 002f 02       		.byte	2
+ 1495 0030 02       		.byte	2
+ 1496 0031 03       		.byte	3
+ 1497 0032 03       		.byte	3
+ 1498 0033 03       		.byte	3
+ 1499 0034 03       		.byte	3
+ 1500 0035 03       		.byte	3
+ 1501 0036 03       		.byte	3
+ 1502 0037 03       		.byte	3
+ 1503 0038 04       		.byte	4
+ 1504 0039 04       		.byte	4
+ 1505 003a 04       		.byte	4
+ 1506 003b 04       		.byte	4
+ 1507 003c 04       		.byte	4
+ 1508 003d 05       		.byte	5
+ 1509 003e 05       		.byte	5
+ 1510 003f 05       		.byte	5
+ 1511 0040 05       		.byte	5
+ 1512 0041 06       		.byte	6
+ 1513 0042 06       		.byte	6
+ 1514 0043 06       		.byte	6
+ 1515 0044 06       		.byte	6
+ 1516 0045 07       		.byte	7
+ 1517 0046 07       		.byte	7
+ 1518 0047 07       		.byte	7
+ 1519 0048 07       		.byte	7
+ 1520 0049 08       		.byte	8
+ARM GAS  /tmp/ccHQyC2e.s 			page 42
+
+
+ 1521 004a 08       		.byte	8
+ 1522 004b 08       		.byte	8
+ 1523 004c 09       		.byte	9
+ 1524 004d 09       		.byte	9
+ 1525 004e 09       		.byte	9
+ 1526 004f 0A       		.byte	10
+ 1527 0050 0A       		.byte	10
+ 1528 0051 0A       		.byte	10
+ 1529 0052 0B       		.byte	11
+ 1530 0053 0B       		.byte	11
+ 1531 0054 0B       		.byte	11
+ 1532 0055 0C       		.byte	12
+ 1533 0056 0C       		.byte	12
+ 1534 0057 0D       		.byte	13
+ 1535 0058 0D       		.byte	13
+ 1536 0059 0D       		.byte	13
+ 1537 005a 0E       		.byte	14
+ 1538 005b 0E       		.byte	14
+ 1539 005c 0F       		.byte	15
+ 1540 005d 0F       		.byte	15
+ 1541 005e 10       		.byte	16
+ 1542 005f 10       		.byte	16
+ 1543 0060 11       		.byte	17
+ 1544 0061 11       		.byte	17
+ 1545 0062 12       		.byte	18
+ 1546 0063 12       		.byte	18
+ 1547 0064 13       		.byte	19
+ 1548 0065 13       		.byte	19
+ 1549 0066 14       		.byte	20
+ 1550 0067 14       		.byte	20
+ 1551 0068 15       		.byte	21
+ 1552 0069 15       		.byte	21
+ 1553 006a 16       		.byte	22
+ 1554 006b 16       		.byte	22
+ 1555 006c 17       		.byte	23
+ 1556 006d 18       		.byte	24
+ 1557 006e 18       		.byte	24
+ 1558 006f 19       		.byte	25
+ 1559 0070 19       		.byte	25
+ 1560 0071 1A       		.byte	26
+ 1561 0072 1B       		.byte	27
+ 1562 0073 1B       		.byte	27
+ 1563 0074 1C       		.byte	28
+ 1564 0075 1D       		.byte	29
+ 1565 0076 1D       		.byte	29
+ 1566 0077 1E       		.byte	30
+ 1567 0078 1F       		.byte	31
+ 1568 0079 20       		.byte	32
+ 1569 007a 20       		.byte	32
+ 1570 007b 21       		.byte	33
+ 1571 007c 22       		.byte	34
+ 1572 007d 23       		.byte	35
+ 1573 007e 23       		.byte	35
+ 1574 007f 24       		.byte	36
+ 1575 0080 25       		.byte	37
+ 1576 0081 26       		.byte	38
+ 1577 0082 27       		.byte	39
+ARM GAS  /tmp/ccHQyC2e.s 			page 43
+
+
+ 1578 0083 27       		.byte	39
+ 1579 0084 28       		.byte	40
+ 1580 0085 29       		.byte	41
+ 1581 0086 2A       		.byte	42
+ 1582 0087 2B       		.byte	43
+ 1583 0088 2C       		.byte	44
+ 1584 0089 2D       		.byte	45
+ 1585 008a 2E       		.byte	46
+ 1586 008b 2F       		.byte	47
+ 1587 008c 30       		.byte	48
+ 1588 008d 31       		.byte	49
+ 1589 008e 32       		.byte	50
+ 1590 008f 32       		.byte	50
+ 1591 0090 33       		.byte	51
+ 1592 0091 34       		.byte	52
+ 1593 0092 36       		.byte	54
+ 1594 0093 37       		.byte	55
+ 1595 0094 38       		.byte	56
+ 1596 0095 39       		.byte	57
+ 1597 0096 3A       		.byte	58
+ 1598 0097 3B       		.byte	59
+ 1599 0098 3C       		.byte	60
+ 1600 0099 3D       		.byte	61
+ 1601 009a 3E       		.byte	62
+ 1602 009b 3F       		.byte	63
+ 1603 009c 40       		.byte	64
+ 1604 009d 42       		.byte	66
+ 1605 009e 43       		.byte	67
+ 1606 009f 44       		.byte	68
+ 1607 00a0 45       		.byte	69
+ 1608 00a1 46       		.byte	70
+ 1609 00a2 48       		.byte	72
+ 1610 00a3 49       		.byte	73
+ 1611 00a4 4A       		.byte	74
+ 1612 00a5 4B       		.byte	75
+ 1613 00a6 4D       		.byte	77
+ 1614 00a7 4E       		.byte	78
+ 1615 00a8 4F       		.byte	79
+ 1616 00a9 51       		.byte	81
+ 1617 00aa 52       		.byte	82
+ 1618 00ab 53       		.byte	83
+ 1619 00ac 55       		.byte	85
+ 1620 00ad 56       		.byte	86
+ 1621 00ae 57       		.byte	87
+ 1622 00af 59       		.byte	89
+ 1623 00b0 5A       		.byte	90
+ 1624 00b1 5C       		.byte	92
+ 1625 00b2 5D       		.byte	93
+ 1626 00b3 5F       		.byte	95
+ 1627 00b4 60       		.byte	96
+ 1628 00b5 62       		.byte	98
+ 1629 00b6 63       		.byte	99
+ 1630 00b7 65       		.byte	101
+ 1631 00b8 66       		.byte	102
+ 1632 00b9 68       		.byte	104
+ 1633 00ba 69       		.byte	105
+ 1634 00bb 6B       		.byte	107
+ARM GAS  /tmp/ccHQyC2e.s 			page 44
+
+
+ 1635 00bc 6D       		.byte	109
+ 1636 00bd 6E       		.byte	110
+ 1637 00be 70       		.byte	112
+ 1638 00bf 72       		.byte	114
+ 1639 00c0 73       		.byte	115
+ 1640 00c1 75       		.byte	117
+ 1641 00c2 77       		.byte	119
+ 1642 00c3 78       		.byte	120
+ 1643 00c4 7A       		.byte	122
+ 1644 00c5 7C       		.byte	124
+ 1645 00c6 7E       		.byte	126
+ 1646 00c7 7F       		.byte	127
+ 1647 00c8 81       		.byte	-127
+ 1648 00c9 83       		.byte	-125
+ 1649 00ca 85       		.byte	-123
+ 1650 00cb 87       		.byte	-121
+ 1651 00cc 89       		.byte	-119
+ 1652 00cd 8A       		.byte	-118
+ 1653 00ce 8C       		.byte	-116
+ 1654 00cf 8E       		.byte	-114
+ 1655 00d0 90       		.byte	-112
+ 1656 00d1 92       		.byte	-110
+ 1657 00d2 94       		.byte	-108
+ 1658 00d3 96       		.byte	-106
+ 1659 00d4 98       		.byte	-104
+ 1660 00d5 9A       		.byte	-102
+ 1661 00d6 9C       		.byte	-100
+ 1662 00d7 9E       		.byte	-98
+ 1663 00d8 A0       		.byte	-96
+ 1664 00d9 A2       		.byte	-94
+ 1665 00da A4       		.byte	-92
+ 1666 00db A7       		.byte	-89
+ 1667 00dc A9       		.byte	-87
+ 1668 00dd AB       		.byte	-85
+ 1669 00de AD       		.byte	-83
+ 1670 00df AF       		.byte	-81
+ 1671 00e0 B1       		.byte	-79
+ 1672 00e1 B4       		.byte	-76
+ 1673 00e2 B6       		.byte	-74
+ 1674 00e3 B8       		.byte	-72
+ 1675 00e4 BA       		.byte	-70
+ 1676 00e5 BD       		.byte	-67
+ 1677 00e6 BF       		.byte	-65
+ 1678 00e7 C1       		.byte	-63
+ 1679 00e8 C4       		.byte	-60
+ 1680 00e9 C6       		.byte	-58
+ 1681 00ea C8       		.byte	-56
+ 1682 00eb CB       		.byte	-53
+ 1683 00ec CD       		.byte	-51
+ 1684 00ed D0       		.byte	-48
+ 1685 00ee D2       		.byte	-46
+ 1686 00ef D5       		.byte	-43
+ 1687 00f0 D7       		.byte	-41
+ 1688 00f1 DA       		.byte	-38
+ 1689 00f2 DC       		.byte	-36
+ 1690 00f3 DF       		.byte	-33
+ 1691 00f4 E1       		.byte	-31
+ARM GAS  /tmp/ccHQyC2e.s 			page 45
+
+
+ 1692 00f5 E4       		.byte	-28
+ 1693 00f6 E7       		.byte	-25
+ 1694 00f7 E9       		.byte	-23
+ 1695 00f8 EC       		.byte	-20
+ 1696 00f9 EF       		.byte	-17
+ 1697 00fa F1       		.byte	-15
+ 1698 00fb F4       		.byte	-12
+ 1699 00fc F7       		.byte	-9
+ 1700 00fd F9       		.byte	-7
+ 1701 00fe FC       		.byte	-4
+ 1702 00ff FF       		.byte	-1
+ 1703              		.text
+ 1704              	.Letext0:
+ 1705              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 1706              		.file 3 "/usr/include/newlib/sys/lock.h"
+ 1707              		.file 4 "/usr/include/newlib/sys/_types.h"
+ 1708              		.file 5 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
+ 1709              		.file 6 "/usr/include/newlib/sys/reent.h"
+ 1710              		.file 7 "/usr/include/newlib/sys/_stdint.h"
+ 1711              		.file 8 "Drivers/CMSIS/Include/core_cm4.h"
+ 1712              		.file 9 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 1713              		.file 10 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
+ 1714              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 1715              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 1716              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 1717              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 1718              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 1719              		.file 16 "Core/Inc/ws2812b.h"
+ 1720              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
+ARM GAS  /tmp/ccHQyC2e.s 			page 46
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ws2812b.c
+     /tmp/ccHQyC2e.s:18     .text.DMA_TransferError:0000000000000000 $t
+     /tmp/ccHQyC2e.s:25     .text.DMA_TransferError:0000000000000000 DMA_TransferError
+     /tmp/ccHQyC2e.s:54     .text.ws2812b_gpio_init:0000000000000000 $t
+     /tmp/ccHQyC2e.s:60     .text.ws2812b_gpio_init:0000000000000000 ws2812b_gpio_init
+     /tmp/ccHQyC2e.s:148    .text.ws2812b_gpio_init:0000000000000070 $d
+     /tmp/ccHQyC2e.s:154    .text.DMA2_init:0000000000000000 $t
+     /tmp/ccHQyC2e.s:160    .text.DMA2_init:0000000000000000 DMA2_init
+     /tmp/ccHQyC2e.s:362    .text.DMA2_init:0000000000000124 $d
+                            *COM*:0000000000000060 dmaUpdate
+                            *COM*:0000000000000060 dmaCC1
+                            *COM*:0000000000000060 ws2812bDmaBitBuffer
+                            *COM*:0000000000000060 dmaCC2
+     /tmp/ccHQyC2e.s:870    .text.DMA_TransferCompleteHandler:0000000000000000 DMA_TransferCompleteHandler
+     /tmp/ccHQyC2e.s:1261   .text.DMA_TransferHalfHandler:0000000000000000 DMA_TransferHalfHandler
+     /tmp/ccHQyC2e.s:381    .text.TIM1_init:0000000000000000 $t
+     /tmp/ccHQyC2e.s:387    .text.TIM1_init:0000000000000000 TIM1_init
+     /tmp/ccHQyC2e.s:545    .text.TIM1_init:00000000000000e0 $d
+                            *COM*:0000000000000004 tim_period
+                            *COM*:0000000000000004 timer_reset_pulse_period
+                            *COM*:0000000000000040 TIM1_handle
+                            *COM*:000000000000001c tim2OC1
+                            *COM*:000000000000001c tim2OC2
+     /tmp/ccHQyC2e.s:561    .text.DMA2_Stream2_IRQHandler:0000000000000000 $t
+     /tmp/ccHQyC2e.s:568    .text.DMA2_Stream2_IRQHandler:0000000000000000 DMA2_Stream2_IRQHandler
+     /tmp/ccHQyC2e.s:594    .text.DMA2_Stream2_IRQHandler:0000000000000018 $d
+     /tmp/ccHQyC2e.s:600    .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 $t
+     /tmp/ccHQyC2e.s:607    .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 TIM1_UP_TIM10_IRQHandler
+     /tmp/ccHQyC2e.s:633    .text.TIM1_UP_TIM10_IRQHandler:0000000000000018 $d
+     /tmp/ccHQyC2e.s:639    .text.ws2812b_set_pixel:0000000000000000 $t
+     /tmp/ccHQyC2e.s:646    .text.ws2812b_set_pixel:0000000000000000 ws2812b_set_pixel
+     /tmp/ccHQyC2e.s:785    .text.ws2812b_set_pixel:00000000000000f8 $d
+     /tmp/ccHQyC2e.s:791    .text.loadNextFramebufferData:0000000000000000 $t
+     /tmp/ccHQyC2e.s:797    .text.loadNextFramebufferData:0000000000000000 loadNextFramebufferData
+     /tmp/ccHQyC2e.s:863    .text.DMA_TransferCompleteHandler:0000000000000000 $t
+     /tmp/ccHQyC2e.s:1006   .text.DMA_TransferCompleteHandler:00000000000000c0 $d
+                            *COM*:000000000000001c ws2812b
+     /tmp/ccHQyC2e.s:1020   .text.WS2812_sendbuf:0000000000000000 $t
+     /tmp/ccHQyC2e.s:1026   .text.WS2812_sendbuf:0000000000000000 WS2812_sendbuf
+     /tmp/ccHQyC2e.s:1238   .text.WS2812_sendbuf:0000000000000144 $d
+     /tmp/ccHQyC2e.s:1254   .text.DMA_TransferHalfHandler:0000000000000000 $t
+     /tmp/ccHQyC2e.s:1327   .text.DMA_TransferHalfHandler:0000000000000040 $d
+     /tmp/ccHQyC2e.s:1332   .text.ws2812b_init:0000000000000000 $t
+     /tmp/ccHQyC2e.s:1339   .text.ws2812b_init:0000000000000000 ws2812b_init
+     /tmp/ccHQyC2e.s:1367   .text.ws2812b_init:0000000000000018 $d
+     /tmp/ccHQyC2e.s:1372   .text.ws2812b_handle:0000000000000000 $t
+     /tmp/ccHQyC2e.s:1379   .text.ws2812b_handle:0000000000000000 ws2812b_handle
+     /tmp/ccHQyC2e.s:1409   .text.ws2812b_handle:0000000000000018 $d
+                            *COM*:0000000000000004 dummy
+     /tmp/ccHQyC2e.s:1446   .rodata.gammaTable:0000000000000000 gammaTable
+     /tmp/ccHQyC2e.s:1439   .data.WS2812_IO_Low:0000000000000000 WS2812_IO_Low
+     /tmp/ccHQyC2e.s:1432   .data.WS2812_IO_High:0000000000000000 WS2812_IO_High
+     /tmp/ccHQyC2e.s:1428   .data.WS2812_IO_High:0000000000000000 $d
+     /tmp/ccHQyC2e.s:1435   .data.WS2812_IO_Low:0000000000000000 $d
+     /tmp/ccHQyC2e.s:1442   .rodata.gammaTable:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
+ARM GAS  /tmp/ccHQyC2e.s 			page 47
+
+
+
+UNDEFINED SYMBOLS
+HAL_GPIO_Init
+HAL_DMA_DeInit
+HAL_DMA_Init
+HAL_DMA_Start
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ
+HAL_DMA_Start_IT
+HAL_TIM_PWM_Init
+HAL_TIM_PWM_ConfigChannel
+HAL_TIM_Base_Start
+HAL_TIM_PWM_Start
+SystemCoreClock
+HAL_DMA_IRQHandler
+HAL_TIM_IRQHandler

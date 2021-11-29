@@ -25,6 +25,9 @@
 /* USER CODE BEGIN Includes */
 #include "bms.h"
 #include "can_setup.h"
+#include "visEffect.h"
+#include "ws2812b.h"
+
 //#include "visEffect.h"
 /* USER CODE END Includes */
 
@@ -47,49 +50,39 @@ CAN_HandleTypeDef hcan1;
 CAN_HandleTypeDef hcan2;
 CAN_HandleTypeDef hcan3;
 
-TIM_HandleTypeDef htim3;
-DMA_HandleTypeDef hdma_tim3_ch1_trig;
-
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
+    .name = "defaultTask",
+    .priority = (osPriority_t)osPriorityNormal,
+    .stack_size = 128 * 4};
 /* Definitions for sendCommand */
 osThreadId_t sendCommandHandle;
 const osThreadAttr_t sendCommand_attributes = {
-  .name = "sendCommand",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
+    .name = "sendCommand",
+    .priority = (osPriority_t)osPriorityNormal,
+    .stack_size = 128 * 4};
 /* Definitions for balanceCommand */
 osThreadId_t balanceCommandHandle;
 const osThreadAttr_t balanceCommand_attributes = {
-  .name = "balanceCommand",
-  .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 128 * 4
-};
+    .name = "balanceCommand",
+    .priority = (osPriority_t)osPriorityLow,
+    .stack_size = 128 * 4};
 /* Definitions for processData */
 osThreadId_t processDataHandle;
 const osThreadAttr_t processData_attributes = {
-  .name = "processData",
-  .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 128 * 4
-};
+    .name = "processData",
+    .priority = (osPriority_t)osPriorityLow,
+    .stack_size = 128 * 4};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
-static void MX_DMA_Init(void);
 static void MX_CAN1_Init(void);
 static void MX_CAN2_Init(void);
 static void MX_CAN3_Init(void);
-static void MX_TIM3_Init(void);
 void StartDefaultTask(void *argument);
 void StartsendCommand(void *argument);
 void StartbalanceCommand(void *argument);
@@ -131,14 +124,15 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_DMA_Init();
+
   MX_CAN1_Init();
   MX_CAN2_Init();
   MX_CAN3_Init();
-  MX_TIM3_Init();
+  ;
   /* USER CODE BEGIN 2 */
   canSettings();
+  visInit();
+  initBMS();
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -228,8 +222,7 @@ void SystemClock_Config(void)
   }
   /** Initializes the CPU, AHB and APB buses clocks
   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -275,7 +268,6 @@ static void MX_CAN1_Init(void)
   /* USER CODE BEGIN CAN1_Init 2 */
 
   /* USER CODE END CAN1_Init 2 */
-
 }
 
 /**
@@ -312,7 +304,6 @@ static void MX_CAN2_Init(void)
   /* USER CODE BEGIN CAN2_Init 2 */
 
   /* USER CODE END CAN2_Init 2 */
-
 }
 
 /**
@@ -349,103 +340,7 @@ static void MX_CAN3_Init(void)
   /* USER CODE BEGIN CAN3_Init 2 */
 
   /* USER CODE END CAN3_Init 2 */
-
 }
-
-/**
-  * @brief TIM3 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM3_Init(void)
-{
-
-  /* USER CODE BEGIN TIM3_Init 0 */
-
-  /* USER CODE END TIM3_Init 0 */
-
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
-
-  /* USER CODE BEGIN TIM3_Init 1 */
-
-  /* USER CODE END TIM3_Init 1 */
-  htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 90;
-  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 65535;
-  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_OC_Init(&htim3) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_OC_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM3_Init 2 */
-
-  /* USER CODE END TIM3_Init 2 */
-
-}
-
-/**
-  * Enable DMA controller clock
-  */
-static void MX_DMA_Init(void)
-{
-
-  /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
-
-  /* DMA interrupt init */
-  /* DMA1_Stream4_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
-
-}
-
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_GPIO_Init(void)
-{
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOH_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : LED_Pin */
-  GPIO_InitStruct.Pin = LED_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
-
-}
-
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
 /**
@@ -453,6 +348,7 @@ static void MX_GPIO_Init(void)
   * @param  argument: Not used
   * @retval None
   */
+
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
 {
@@ -461,6 +357,10 @@ void StartDefaultTask(void *argument)
   for (;;)
   {
     //bmsStateHandler();
+    visHandle();
+    acChargeCommand();
+    bmsStateHandler(&BMS[0]);
+    bmsStateHandler(&BMS[1]);
 
     osDelay(1);
   }
@@ -500,7 +400,16 @@ void StartbalanceCommand(void *argument)
   /* Infinite loop */
   for (;;)
   {
-    //balanceCommand(&BMS[0]);
+    if (BMS[0].balancecells)
+    {
+      //balanceCommand(&BMS[0], 0);
+    }
+
+    if (BMS[1].balancecells)
+    {
+      //balanceCommand(&BMS[1], 1);
+    }
+
     osDelay(15000);
   }
   /* USER CODE END StartbalanceCommand */
@@ -527,7 +436,7 @@ void StartprocessData(void *argument)
   /* USER CODE END StartprocessData */
 }
 
- /**
+/**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM7 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
@@ -538,9 +447,28 @@ void StartprocessData(void *argument)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
+  if (htim->Instance == TIM1)
+  {
+    ws2812b.timerPeriodCounter = 0;
+    TIM1->CR1 = 0; // disable timer
+
+    // disable the TIM2 Update IRQ
+    __HAL_TIM_DISABLE_IT(&TIM1_handle, TIM_IT_UPDATE);
+
+    // Set back 1,25us period
+    TIM1->ARR = tim_period;
+
+    // Generate an update event to reload the Prescaler value immediatly
+    TIM1->EGR = TIM_EGR_UG;
+    __HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE);
+
+    // set transfer_complete flag
+    ws2812b.transferComplete = 1;
+  }
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM7) {
+  if (htim->Instance == TIM7)
+  {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
@@ -563,7 +491,7 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.

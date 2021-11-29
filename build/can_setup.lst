@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccXiJNjz.s 			page 1
+ARM GAS  /tmp/cc7guzVb.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
   49              	.L2:
    8:Core/Src/can_setup.c ****     {
    9:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg, canRx) != HAL_OK)
-ARM GAS  /tmp/ccXiJNjz.s 			page 2
+ARM GAS  /tmp/cc7guzVb.s 			page 2
 
 
   10:Core/Src/can_setup.c ****         {
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
   91              	.L8:
   19:Core/Src/can_setup.c ****     {
   20:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan3, CAN_RX_FIFO0, &rxMsg3, canRx3) != HAL_OK)
-ARM GAS  /tmp/ccXiJNjz.s 			page 3
+ARM GAS  /tmp/cc7guzVb.s 			page 3
 
 
   92              		.loc 1 20 0
@@ -175,10 +175,10 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  134 0090 00000000 		.word	canRx3
  135 0094 00000000 		.word	rxMsg3
  136 0098 00000000 		.word	hcan3
- 137 009c F2000000 		.word	BMS+242
+ 137 009c F6000000 		.word	BMS+246
  138              		.cfi_endproc
  139              	.LFE131:
-ARM GAS  /tmp/ccXiJNjz.s 			page 4
+ARM GAS  /tmp/cc7guzVb.s 			page 4
 
 
  141              		.section	.text.HAL_CAN_RxFifo1MsgPendingCallback,"ax",%progbits
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
   37:Core/Src/can_setup.c ****         {
  181              		.loc 1 37 0
  182 0016 134B     		ldr	r3, .L21+8
-ARM GAS  /tmp/ccXiJNjz.s 			page 5
+ARM GAS  /tmp/cc7guzVb.s 			page 5
 
 
  183 0018 134A     		ldr	r2, .L21+12
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  225              		.loc 1 47 0
  226 0056 FFF7FEFF 		bl	Error_Handler
  227              	.LVL27:
-ARM GAS  /tmp/ccXiJNjz.s 			page 6
+ARM GAS  /tmp/cc7guzVb.s 			page 6
 
 
  228 005a EEE7     		b	.L16
@@ -313,7 +313,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  237 0070 00000000 		.word	canRx3
  238 0074 00000000 		.word	rxMsg3
  239 0078 00000000 		.word	hcan3
- 240 007c F2000000 		.word	BMS+242
+ 240 007c F6000000 		.word	BMS+246
  241              		.cfi_endproc
  242              	.LFE132:
  244              		.section	.text.canSettings,"ax",%progbits
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  274 0010 9160     		str	r1, [r2, #8]
   64:Core/Src/can_setup.c ****     txMsgExt.RTR = CAN_RTR_DATA;
  275              		.loc 1 64 0
-ARM GAS  /tmp/ccXiJNjz.s 			page 7
+ARM GAS  /tmp/cc7guzVb.s 			page 7
 
 
  276 0012 D360     		str	r3, [r2, #12]
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  313 0044 FFF7FEFF 		bl	HAL_CAN_Start
  314              	.LVL29:
  315 0048 0028     		cmp	r0, #0
-ARM GAS  /tmp/ccXiJNjz.s 			page 8
+ARM GAS  /tmp/cc7guzVb.s 			page 8
 
 
  316 004a 70D1     		bne	.L35
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  351 007a 1375     		strb	r3, [r2, #20]
  101:Core/Src/can_setup.c **** 
  102:Core/Src/can_setup.c ****     sf2.FilterBank = 14; // CAN2 Filter bank starts at 14
-ARM GAS  /tmp/ccXiJNjz.s 			page 9
+ARM GAS  /tmp/cc7guzVb.s 			page 9
 
 
  352              		.loc 1 102 0
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  118:Core/Src/can_setup.c ****     {
  119:Core/Src/can_setup.c ****         Error_Handler();
  120:Core/Src/can_setup.c ****     }
-ARM GAS  /tmp/ccXiJNjz.s 			page 10
+ARM GAS  /tmp/cc7guzVb.s 			page 10
 
 
  121:Core/Src/can_setup.c **** 
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  427 00e4 0122     		movs	r2, #1
  428 00e6 4A61     		str	r2, [r1, #20]
  139:Core/Src/can_setup.c ****     sf3.FilterMode = CAN_FILTERMODE_IDMASK;
-ARM GAS  /tmp/ccXiJNjz.s 			page 11
+ARM GAS  /tmp/cc7guzVb.s 			page 11
 
 
  429              		.loc 1 139 0
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  463 0110 FFF7FEFF 		bl	HAL_CAN_ActivateNotification
  464              	.LVL40:
  465 0114 00BB     		cbnz	r0, .L42
-ARM GAS  /tmp/ccXiJNjz.s 			page 12
+ARM GAS  /tmp/cc7guzVb.s 			page 12
 
 
  466              	.L32:
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  151:Core/Src/can_setup.c ****     }
  509              		.loc 1 151 0
  510 014c FFF7FEFF 		bl	Error_Handler
-ARM GAS  /tmp/ccXiJNjz.s 			page 13
+ARM GAS  /tmp/cc7guzVb.s 			page 13
 
 
  511              	.LVL49:
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  560              		.cfi_offset 14, -4
  170:Core/Src/can_setup.c **** 
  171:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan1, txMsg, canTx, &canMailbox);
-ARM GAS  /tmp/ccXiJNjz.s 			page 14
+ARM GAS  /tmp/cc7guzVb.s 			page 14
 
 
  561              		.loc 1 171 0
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  179:Core/Src/can_setup.c **** 
  180:Core/Src/can_setup.c **** void c2tx(CAN_TxHeaderTypeDef *txMsg2, uint8_t *canTx2)
  181:Core/Src/can_setup.c **** {
-ARM GAS  /tmp/ccXiJNjz.s 			page 15
+ARM GAS  /tmp/cc7guzVb.s 			page 15
 
 
  610              		.loc 1 181 0
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  655 0034 00000000 		.word	txCycle2
  656              		.cfi_endproc
  657              	.LFE135:
-ARM GAS  /tmp/ccXiJNjz.s 			page 16
+ARM GAS  /tmp/cc7guzVb.s 			page 16
 
 
  659              		.section	.text.c3tx,"ax",%progbits
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  200:Core/Src/can_setup.c ****         txCycle3 = 0;
  705              		.loc 1 200 0
  706 0026 0022     		movs	r2, #0
-ARM GAS  /tmp/ccXiJNjz.s 			page 17
+ARM GAS  /tmp/cc7guzVb.s 			page 17
 
 
  707 0028 044B     		ldr	r3, .L61+12
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  209:Core/Src/can_setup.c ****     if (txCycle >= 3)
  755              		.loc 1 209 0
  756 0016 022B     		cmp	r3, #2
-ARM GAS  /tmp/ccXiJNjz.s 			page 18
+ARM GAS  /tmp/cc7guzVb.s 			page 18
 
 
  757 0018 00DC     		bgt	.L66
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  803 0006 0146     		mov	r1, r0
  804              	.LVL73:
  805 0008 0948     		ldr	r0, .L73+4
-ARM GAS  /tmp/ccXiJNjz.s 			page 19
+ARM GAS  /tmp/cc7guzVb.s 			page 19
 
 
  806              	.LVL74:
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  854              		.comm	txMsg2,24,4
  855              		.comm	rxMsg2,28,4
  856              		.comm	txMsgExt,24,4
-ARM GAS  /tmp/ccXiJNjz.s 			page 20
+ARM GAS  /tmp/cc7guzVb.s 			page 20
 
 
  857              		.comm	txMsg,24,4
@@ -1151,50 +1151,52 @@ ARM GAS  /tmp/ccXiJNjz.s 			page 1
  864              		.comm	hcan3,40,4
  865              		.comm	hcan2,40,4
  866              		.comm	hcan1,40,4
- 867              		.comm	BMS,484,4
- 868              		.text
- 869              	.Letext0:
- 870              		.file 2 "/usr/include/newlib/machine/_default_types.h"
- 871              		.file 3 "/usr/include/newlib/sys/_stdint.h"
- 872              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
- 873              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
- 874              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
- 875              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
- 876              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
- 877              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
- 878              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
- 879              		.file 11 "/usr/include/newlib/sys/lock.h"
- 880              		.file 12 "/usr/include/newlib/sys/_types.h"
- 881              		.file 13 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
- 882              		.file 14 "/usr/include/newlib/sys/reent.h"
- 883              		.file 15 "Core/Inc/bms.h"
- 884              		.file 16 "Core/Inc/can_setup.h"
- 885              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
- 886              		.file 18 "Core/Inc/main.h"
-ARM GAS  /tmp/ccXiJNjz.s 			page 21
+ 867              		.comm	charged,1,1
+ 868              		.comm	vechicleState,1,1
+ 869              		.comm	BMS,492,4
+ 870              		.text
+ 871              	.Letext0:
+ 872              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 873              		.file 3 "/usr/include/newlib/sys/_stdint.h"
+ 874              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 875              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 876              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
+ 877              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 878              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 879              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 880              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 881              		.file 11 "/usr/include/newlib/sys/lock.h"
+ 882              		.file 12 "/usr/include/newlib/sys/_types.h"
+ 883              		.file 13 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
+ 884              		.file 14 "/usr/include/newlib/sys/reent.h"
+ 885              		.file 15 "Core/Inc/bms.h"
+ 886              		.file 16 "Core/Inc/can_setup.h"
+ 887              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
+ 888              		.file 18 "Core/Inc/main.h"
+ARM GAS  /tmp/cc7guzVb.s 			page 21
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 can_setup.c
-     /tmp/ccXiJNjz.s:18     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 $t
-     /tmp/ccXiJNjz.s:25     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo0MsgPendingCallback
-     /tmp/ccXiJNjz.s:128    .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000078 $d
+     /tmp/cc7guzVb.s:18     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 $t
+     /tmp/cc7guzVb.s:25     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo0MsgPendingCallback
+     /tmp/cc7guzVb.s:128    .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000078 $d
                             *COM*:0000000000000008 canRx
                             *COM*:000000000000001c rxMsg
                             *COM*:0000000000000028 hcan1
-                            *COM*:00000000000001e4 BMS
+                            *COM*:00000000000001ec BMS
                             *COM*:0000000000000008 canRx3
                             *COM*:000000000000001c rxMsg3
                             *COM*:0000000000000028 hcan3
-     /tmp/ccXiJNjz.s:142    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 $t
-     /tmp/ccXiJNjz.s:149    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo1MsgPendingCallback
-     /tmp/ccXiJNjz.s:232    .text.HAL_CAN_RxFifo1MsgPendingCallback:000000000000005c $d
+     /tmp/cc7guzVb.s:142    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 $t
+     /tmp/cc7guzVb.s:149    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo1MsgPendingCallback
+     /tmp/cc7guzVb.s:232    .text.HAL_CAN_RxFifo1MsgPendingCallback:000000000000005c $d
                             *COM*:0000000000000008 canRx2
                             *COM*:000000000000001c rxMsg2
                             *COM*:0000000000000028 hcan2
-     /tmp/ccXiJNjz.s:245    .text.canSettings:0000000000000000 $t
-     /tmp/ccXiJNjz.s:252    .text.canSettings:0000000000000000 canSettings
-     /tmp/ccXiJNjz.s:526    .text.canSettings:0000000000000160 $d
+     /tmp/cc7guzVb.s:245    .text.canSettings:0000000000000000 $t
+     /tmp/cc7guzVb.s:252    .text.canSettings:0000000000000000 canSettings
+     /tmp/cc7guzVb.s:526    .text.canSettings:0000000000000160 $d
                             *COM*:0000000000000018 txMsg
                             *COM*:0000000000000018 txMsgExt
                             *COM*:0000000000000028 sf
@@ -1204,35 +1206,37 @@ DEFINED SYMBOLS
                             *COM*:0000000000000018 txMsg3
                             *COM*:0000000000000018 txMsgExt3
                             *COM*:0000000000000028 sf3
-     /tmp/ccXiJNjz.s:542    .text.c1tx:0000000000000000 $t
-     /tmp/ccXiJNjz.s:549    .text.c1tx:0000000000000000 c1tx
-     /tmp/ccXiJNjz.s:594    .text.c1tx:000000000000002c $d
+     /tmp/cc7guzVb.s:542    .text.c1tx:0000000000000000 $t
+     /tmp/cc7guzVb.s:549    .text.c1tx:0000000000000000 c1tx
+     /tmp/cc7guzVb.s:594    .text.c1tx:000000000000002c $d
                             *COM*:0000000000000004 canMailbox
                             *COM*:0000000000000004 txCycle
-     /tmp/ccXiJNjz.s:601    .text.c2tx:0000000000000000 $t
-     /tmp/ccXiJNjz.s:608    .text.c2tx:0000000000000000 c2tx
-     /tmp/ccXiJNjz.s:653    .text.c2tx:000000000000002c $d
+     /tmp/cc7guzVb.s:601    .text.c2tx:0000000000000000 $t
+     /tmp/cc7guzVb.s:608    .text.c2tx:0000000000000000 c2tx
+     /tmp/cc7guzVb.s:653    .text.c2tx:000000000000002c $d
                             *COM*:0000000000000004 canMailbox2
                             *COM*:0000000000000004 txCycle2
-     /tmp/ccXiJNjz.s:660    .text.c3tx:0000000000000000 $t
-     /tmp/ccXiJNjz.s:667    .text.c3tx:0000000000000000 c3tx
-     /tmp/ccXiJNjz.s:714    .text.c3tx:0000000000000030 $d
+     /tmp/cc7guzVb.s:660    .text.c3tx:0000000000000000 $t
+     /tmp/cc7guzVb.s:667    .text.c3tx:0000000000000000 c3tx
+     /tmp/cc7guzVb.s:714    .text.c3tx:0000000000000030 $d
                             *COM*:0000000000000004 txCycle3
-     /tmp/ccXiJNjz.s:722    .text.c1txExt:0000000000000000 $t
-     /tmp/ccXiJNjz.s:729    .text.c1txExt:0000000000000000 c1txExt
-     /tmp/ccXiJNjz.s:774    .text.c1txExt:000000000000002c $d
-     /tmp/ccXiJNjz.s:781    .text.c2txExt:0000000000000000 $t
-     /tmp/ccXiJNjz.s:788    .text.c2txExt:0000000000000000 c2txExt
-     /tmp/ccXiJNjz.s:833    .text.c2txExt:000000000000002c $d
+     /tmp/cc7guzVb.s:722    .text.c1txExt:0000000000000000 $t
+     /tmp/cc7guzVb.s:729    .text.c1txExt:0000000000000000 c1txExt
+     /tmp/cc7guzVb.s:774    .text.c1txExt:000000000000002c $d
+     /tmp/cc7guzVb.s:781    .text.c2txExt:0000000000000000 $t
+     /tmp/cc7guzVb.s:788    .text.c2txExt:0000000000000000 c2txExt
+     /tmp/cc7guzVb.s:833    .text.c2txExt:000000000000002c $d
                             *COM*:0000000000000008 canTx3
                             *COM*:0000000000000008 canTx2
                             *COM*:0000000000000008 canTx
                             *COM*:0000000000000028 sf5
                             *COM*:0000000000000028 sf4
+                            *COM*:0000000000000001 charged
+                            *COM*:0000000000000001 vechicleState
+ARM GAS  /tmp/cc7guzVb.s 			page 22
+
+
                      .debug_frame:0000000000000010 $d
-
-ARM GAS  /tmp/ccXiJNjz.s 			page 22
-
 
 UNDEFINED SYMBOLS
 HAL_CAN_GetRxMessage

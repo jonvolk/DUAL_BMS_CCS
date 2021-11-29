@@ -1,14 +1,46 @@
 #include "bms.h"
+#include "settings.h"
+#include "my_math.h"
 
-static uint16_t getPackVolt(bms_t *bms);
-static uint16_t getAvgCellVolt(bms_t *bms);
-static uint16_t getLowCellVolt(bms_t *bms);
-static uint16_t getHighCellVolt(bms_t *bms);
-static uint16_t getCellDelta(bms_t *bms);
-static uint16_t getLowCellTemp(bms_t *bms);
-static uint16_t getHighCellTemp(bms_t *bms);
-static uint16_t getAvgCellTemp(bms_t *bms);
-static uint16_t getTempDelta(bms_t *bms);
+static void getPackVolt(bms_t *bms);
+static void getAvgCellVolt(bms_t *bms);
+static void getLowCellVolt(bms_t *bms);
+static void getHighCellVolt(bms_t *bms);
+static void getCellDelta(bms_t *bms);
+static void getLowCellTemp(bms_t *bms);
+static void getHighCellTemp(bms_t *bms);
+static void getAvgCellTemp(bms_t *bms);
+static void getTempDelta(bms_t *bms);
+static void getCellCount(bms_t *bms, int pack);
+static void getSOC(bms_t *bms);
+
+enum
+{
+    Boot,
+    Ready,
+    Drive,
+    Charge,
+    Error
+};
+
+enum
+{
+    off,
+    on, //key on, inverter off
+    charge_keyOff,
+    charge_keyOn, //who even does that
+    idle,         //key on, inverter on
+    run,          //key on direction selected
+    launchMode,   //break shit
+    burnout,      //destroy tires
+};
+
+//SOC filtering
+static const int numReadings = 10;
+static int readings[10];  // the readings from the analog input
+static int readIndex = 0; // the index of the current reading
+static int total = 0;     // the running total
+static int average = 0;   // the average
 
 static const uint8_t balanceByte[96] =
     {0, 0, 0, 0, 0, 0,
@@ -40,11 +72,145 @@ static const uint8_t balanceShift[96] =
      1, 2, 4, 8, 10, 20,
      1, 2, 4, 8, 10, 20};
 
-// Primary State Machine ///////////////////////////////////////////////////////////////
-void bmsStateHandler(void)
+// Initialize BMS //////////////////////////////////////////////////////////////////
+void initBMS(void)
 {
+    for (size_t i = 0; i < 2; i++)
+    {
+        BMS[i].state = Boot;
+    }
+    vechicleState = off;
+    charged = false;
 }
 
+// Primary State Machine ///////////////////////////////////////////////////////////////
+void bmsStateHandler(bms_t *bms)
+{
+    switch (bms->state)
+    {
+    case Boot:
+        bms->chargeRequest = 0;
+        bms->state = Ready;
+        break;
+
+    case Ready:
+        bms->chargeRequest = 0;
+
+        if (bms->avgCellVolt > BALANCE_VOLTAGE)
+        {
+            if ((bms->highCellVolt - bms->lowCellVolt) > (BALANCE_HYS * 2.5))
+            {
+                bms->balancecells = true;
+            }
+
+            else if ((bms->highCellVolt - bms->lowCellVolt) <= BALANCE_HYS)
+            {
+                bms->balancecells = false;
+            }
+        }
+        else
+        {
+            bms->balancecells = false;
+        }
+
+        if (bms->highCellVolt < (CHARGE_V_SETPOINT - CHARGE_HYS))
+        {
+            bms->state = Charge;
+        }
+
+        if (vechicleState == idle || run)
+        {
+            bms->balancecells = false;
+            bms->state = Drive;
+        }
+        break;
+
+    case Drive:
+
+        if (vechicleState == off)
+        {
+            bms->state = Ready;
+        }
+        break;
+
+    case Charge:
+        bms->balancecells = false;
+        bms->chargeRequest = 1;
+
+        if (bms->highCellVolt > CHARGE_V_SETPOINT || bms->highCellTemp > OVER_T_SETPOINT)
+        {
+            if (bms->avgCellVolt > CHARGE_V_SETPOINT - BALANCE_HYS)
+            {
+                //SOC charged func
+            }
+            else
+            {
+                //SOC charged func
+            }
+            bms->chargeRequest = 0;
+            bms->state = Ready;
+        }
+
+        if (charged)
+        {
+            bms->chargeRequest = 0;
+            bms->state = Ready;
+        }
+
+        break;
+
+    case Error:
+        bms->chargeRequest = 0;
+
+        if (bms->lowCellVolt > UNDER_V_SETPOINT && bms->highCellVolt < OVER_V_SETPOINT)
+        {
+            bms->state = Ready;
+        }
+        break;
+
+    default:
+        break;
+    }
+}
+
+// 10kw Tesla Charger /////////////////////////////////////////////////////////////////////
+void acChargeCommand(void)
+{
+
+    if (BMS[0].chargeRequest && BMS[1].chargeRequest)
+    {
+        charged = false;
+        int val = 32;
+        txMsg2.StdId = 0x605; //set parameter ID
+        txMsg2.DLC = 8;
+        canTx2[0] = 0x40;
+        canTx2[1] = 0x00;
+        canTx2[2] = 0x20;
+        canTx2[3] = 9;
+        canTx2[4] = val & 0xFF;
+        canTx2[5] = (val >> 8) & 0xFF;
+        canTx2[6] = (val >> 16) & 0xFF;
+        canTx2[7] = (val >> 24) & 0xFF;
+        c2tx(&txMsg, canTx);
+    }
+
+    if (!BMS[0].chargeRequest || !BMS[1].chargeRequest)
+    {
+        int val = 0;
+        txMsg2.StdId = 0x605; //set parameter ID
+        txMsg2.DLC = 8;
+        canTx2[0] = 0x40;
+        canTx2[1] = 0x00;
+        canTx2[2] = 0x20;
+        canTx2[3] = 9;
+        canTx2[4] = val & 0xFF;
+        canTx2[5] = (val >> 8) & 0xFF;
+        canTx2[6] = (val >> 16) & 0xFF;
+        canTx2[7] = (val >> 24) & 0xFF;
+        c2tx(&txMsg, canTx);
+        charged = true;
+    }
+}
 // Send CAN Data /////////////////////////////////////////////////////////////////////
 void tx500kData(void)
 {
@@ -76,8 +242,10 @@ void tx500kData(void)
 
 void refreshData(void)
 {
+
     for (size_t i = 0; i < 2; i++)
     {
+        requestBICMdata(&BMS[i]);
         getPackVolt(&BMS[i]);
         getAvgCellVolt(&BMS[i]);
         getLowCellVolt(&BMS[i]);
@@ -87,6 +255,8 @@ void refreshData(void)
         getHighCellTemp(&BMS[i]);
         getAvgCellTemp(&BMS[i]);
         getTempDelta(&BMS[i]);
+        getCellCount(&BMS[i], i);
+        getSOC(&BMS[i]);
     }
 }
 
@@ -107,34 +277,129 @@ void sendCommand(void)
     c3tx(&txMsg3, canTx3); // pack 2
 }
 
-// send every 200ms //////////////////////////////////////////////////////////////////
-void balanceCommand(bms_t *bms)
+void requestBICMdata(bms_t *bms)
 {
-    txMsg.StdId = 0x300;
-    txMsg.DLC = 8;
-    for (size_t i = 0; i < 62; i++)
-    {
-        if (bms->avgCellVolt < bms->cellVolt[i])
-        {
-            canTx[balanceByte[i]] |= balanceShift[i];
-        }
-    }
-    c1tx(&txMsg, canTx);
+    sendCommand();
 
-    txMsg.StdId = 0x310;
-    txMsg.DLC = 5;
-    for (size_t i = 62; i < 96; i++)
+    if (!bms->balancecells)
     {
-        if (bms->avgCellVolt < bms->cellVolt[i])
+
+        txMsg.StdId = 0x300;
+        txMsg.DLC = 8;
+        for (size_t i = 0; i < 8; i++)
         {
-            canTx[balanceByte[i]] |= balanceShift[i];
+            canTx[i] = 0x00;
         }
+        c1tx(&txMsg, canTx); //pack 1
+
+        txMsg.StdId = 0x310;
+        txMsg.DLC = 5;
+        for (size_t i = 0; i < 5; i++)
+        {
+            canTx[i] = 0x00;
+        }
+        c1tx(&txMsg, canTx); //pack 1
     }
-    c1tx(&txMsg, canTx);
+
+    if (!bms->balancecells)
+    {
+        txMsg3.StdId = 0x300;
+        txMsg3.DLC = 8;
+        for (size_t i = 0; i < 8; i++)
+        {
+            canTx3[i] = 0x00;
+        }
+        c3tx(&txMsg3, canTx3); //pack 2
+
+        txMsg3.StdId = 0x310;
+        txMsg3.DLC = 5;
+        for (size_t i = 0; i < 5; i++)
+        {
+            canTx3[i] = 0x00;
+        }
+        c3tx(&txMsg3, canTx3); //pack 2
+    }
+}
+
+// send every 200ms //////////////////////////////////////////////////////////////////
+void balanceCommand(bms_t *bms, int pack)
+{
+    if (pack == 0)
+    {
+        txMsg.StdId = 0x300;
+        txMsg.DLC = 8;
+        for (size_t i = 0; i < 62; i++)
+        {
+            if (bms->avgCellVolt < bms->cellVolt[i])
+            {
+                canTx[balanceByte[i]] |= balanceShift[i];
+            }
+        }
+        c1tx(&txMsg, canTx);
+
+        txMsg.StdId = 0x310;
+        txMsg.DLC = 5;
+        for (size_t i = 62; i < 96; i++)
+        {
+            if (bms->avgCellVolt < bms->cellVolt[i])
+            {
+                canTx[balanceByte[i]] |= balanceShift[i];
+            }
+        }
+        c1tx(&txMsg, canTx);
+    }
+
+    if (pack == 1)
+    {
+        txMsg3.StdId = 0x300;
+        txMsg3.DLC = 8;
+        for (size_t i = 0; i < 62; i++)
+        {
+            if (bms->avgCellVolt < bms->cellVolt[i])
+            {
+                canTx3[balanceByte[i]] |= balanceShift[i];
+            }
+        }
+        c3tx(&txMsg3, canTx3);
+
+        txMsg3.StdId = 0x310;
+        txMsg3.DLC = 5;
+        for (size_t i = 62; i < 96; i++)
+        {
+            if (bms->avgCellVolt < bms->cellVolt[i])
+            {
+                canTx3[balanceByte[i]] |= balanceShift[i];
+            }
+        }
+        c3tx(&txMsg3, canTx3);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-uint16_t getHighCellVolt(bms_t *bms)
+void getSOC(bms_t *bms)
+{
+    bms->SOC = MAP(bms->avgCellVolt, SOC_VOLT_10, SOC_VOLT_90, 10, 90);
+
+    // subtract the last reading:
+    total = total - readings[readIndex];
+    // read from the sensor:
+    readings[readIndex] = bms->SOC;
+    // add the reading to the total:
+    total = total + readings[readIndex];
+    // advance to the next position in the array:
+    readIndex = readIndex + 1;
+    // if we're at the end of the array...
+    if (readIndex >= numReadings)
+    {
+        // ...wrap around to the beginning:
+        readIndex = 0;
+    }
+    // calculate the average:
+    average = total / numReadings;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+void getHighCellVolt(bms_t *bms)
 {
     bms->highCellVolt = 0;
     for (size_t i = 0; i < 96; i++)
@@ -144,11 +409,10 @@ uint16_t getHighCellVolt(bms_t *bms)
             bms->highCellVolt = bms->cellVolt[i];
         }
     }
-    return bms->highCellVolt;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-uint16_t getHighCellTemp(bms_t *bms)
+void getHighCellTemp(bms_t *bms)
 {
     bms->highCellTemp = 0;
     for (size_t i = 0; i < 16; i++)
@@ -158,11 +422,10 @@ uint16_t getHighCellTemp(bms_t *bms)
             bms->highCellTemp = bms->tempSensor[i];
         }
     }
-    return bms->highCellTemp;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-uint16_t getLowCellTemp(bms_t *bms)
+void getLowCellTemp(bms_t *bms)
 {
     bms->lowCellTemp = 0;
     for (size_t i = 0; i < 16; i++)
@@ -172,44 +435,39 @@ uint16_t getLowCellTemp(bms_t *bms)
             bms->lowCellTemp = bms->tempSensor[i];
         }
     }
-    return bms->lowCellVolt;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-uint16_t getAvgCellTemp(bms_t *bms)
+void getAvgCellTemp(bms_t *bms)
 {
     int zeroCounter = 0;
-    int avgTemp = 0;
+    int sumTemp = 0;
     for (size_t i = 0; i < 16; i++)
     {
-        if (bms->tempSensor[i] == 0)
+        if (bms->tempSensor[i] == IGNORE_TEMP)
         {
             zeroCounter++;
         }
 
-        avgTemp += bms->tempSensor[i];
+        sumTemp += bms->tempSensor[i];
     }
-    bms->avgCellTemp = avgTemp / (16 - zeroCounter);
-    return bms->avgCellTemp;
+    bms->avgCellTemp = (sumTemp - (zeroCounter * IGNORE_TEMP) / (16 - zeroCounter));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-uint16_t getTempDelta(bms_t *bms)
+void getTempDelta(bms_t *bms)
 {
     bms->tempDelta = bms->highCellTemp - bms->lowCellTemp;
-    return bms->tempDelta;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-uint16_t getCellDelta(bms_t *bms)
+void getCellDelta(bms_t *bms)
 {
     bms->cellDelta = bms->highCellVolt - bms->lowCellVolt;
-
-    return bms->cellDelta;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-uint16_t getLowCellVolt(bms_t *bms)
+void getLowCellVolt(bms_t *bms)
 {
     bms->lowCellVolt = 5000;
     for (size_t i = 0; i < 96; i++)
@@ -219,11 +477,10 @@ uint16_t getLowCellVolt(bms_t *bms)
             bms->lowCellVolt = bms->cellVolt[i];
         }
     }
-    return bms->lowCellVolt;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-uint16_t getAvgCellVolt(bms_t *bms)
+void getAvgCellVolt(bms_t *bms)
 {
 
     int cellSum = 0;
@@ -233,11 +490,10 @@ uint16_t getAvgCellVolt(bms_t *bms)
         cellSum += bms->cellVolt[i];
     }
     bms->avgCellTemp = cellSum / 96;
-    return bms->avgCellVolt;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-uint16_t getPackVolt(bms_t *bms)
+void getPackVolt(bms_t *bms)
 {
     uint32_t packSum = 0;
     for (size_t i = 0; i < 96; i++)
@@ -245,7 +501,36 @@ uint16_t getPackVolt(bms_t *bms)
         packSum += bms->cellVolt[i];
     }
     bms->packVolt = packSum / 10;
-    return bms->packVolt;
+}
+///////////////////////////////////////////////////////////////////////////////////////
+void getCellCount(bms_t *bms, int pack)
+{
+    uint16_t cellCount = 0;
+    for (size_t i = 0; i < 96; i++)
+    {
+        if (bms->cellVolt[i] > IGNORE_VOLT)
+        {
+            cellCount++;
+        }
+    }
+    if (cellCount != 96)
+    {
+        BMS[pack].state = Error;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+void vehicleComms(CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
+{
+    switch (rxMsg->StdId)
+    {
+    case 0x313:
+        vechicleState = canRx[0];
+        break;
+
+    default:
+        break;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

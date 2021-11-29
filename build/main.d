@@ -37,7 +37,8 @@ build/main.o: Core/Src/main.c Core/Inc/main.h \
  Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  Core/Inc/bms.h Core/Inc/main.h Core/Inc/can_setup.h Core/Inc/bms.h \
- Core/Inc/can_setup.h
+ Core/Inc/can_setup.h Core/Inc/visEffect.h Core/Inc/ws2812b.h \
+ Core/Inc/ws2812b.h
 
 Core/Inc/main.h:
 
@@ -128,3 +129,9 @@ Core/Inc/can_setup.h:
 Core/Inc/bms.h:
 
 Core/Inc/can_setup.h:
+
+Core/Inc/visEffect.h:
+
+Core/Inc/ws2812b.h:
+
+Core/Inc/ws2812b.h:

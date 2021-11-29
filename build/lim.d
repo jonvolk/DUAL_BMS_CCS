@@ -1,5 +1,5 @@
-build/rainbowshit.o: Core/Src/rainbowshit.c Core/Inc/rainbowshit.h \
- Core/Inc/main.h Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+build/lim.o: Core/Src/lim.c Core/Inc/lim.h Core/Inc/main.h \
+ Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  Core/Inc/stm32f4xx_hal_conf.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -26,7 +26,7 @@ build/rainbowshit.o: Core/Src/rainbowshit.c Core/Inc/rainbowshit.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 
-Core/Inc/rainbowshit.h:
+Core/Inc/lim.h:
 
 Core/Inc/main.h:
 

@@ -39,11 +39,14 @@ C_SOURCES =  \
 Core/Src/bms.c \
 Core/Src/can_setup.c \
 Core/Src/freertos.c \
+Core/Src/lim.c \
 Core/Src/main.c \
 Core/Src/stm32f4xx_hal_msp.c \
 Core/Src/stm32f4xx_hal_timebase_tim.c \
 Core/Src/stm32f4xx_it.c \
 Core/Src/system_stm32f4xx.c \
+Core/Src/visEffect.c \
+Core/Src/ws2812b.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c \
