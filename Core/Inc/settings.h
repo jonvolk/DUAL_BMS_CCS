@@ -19,7 +19,7 @@
 
 // BMW I3 LIM CCS SETTINGS
 
-
+#define  Voltspnt 0x0  
 
 
 #endif // __SETTINGS_H_

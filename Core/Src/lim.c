@@ -147,7 +147,7 @@ void Send10msMessages()
 {
     uint16_t V_Batt = BMS[0].packVolt * 10; //Param::GetInt(Param::udc) * 10;
     uint8_t V_Batt2 = BMS[0].packVolt / 4;  //(Param::GetInt(Param::udc)) / 4;
-    int32_t I_Batt = BMS[0].cellVolt;       //(Param::GetInt(Param::idc) + 819) * 10; //(Param::GetInt(Param::idc);FP_FROMINT
+    int32_t I_Batt = BMS[0].packVolt;       //(Param::GetInt(Param::idc) + 819) * 10; //(Param::GetInt(Param::idc);FP_FROMINT
     //I_Batt=0xa0a0;
     //uint16_t SOC_Local=25*10;//(Param::GetInt(Param::SOC))*10;
     uint16_t SOC_Local = BMS[0].SOC * 10; //(Param::GetInt(Param::SOC)) * 10;

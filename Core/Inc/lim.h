@@ -5,6 +5,7 @@
 #include "stdbool.h"
 #include "bms.h"
 #include "can_setup.h"
+#include "settings.h"
 
 /*  TO DO LIST
 
@@ -12,10 +13,11 @@ IMPORT FP LIBRARY
 DEAL WITH SFP32
 VERIFY IMPORTED VALUES OF 10MS MSG.
 User values Votspnt
+int32_t I_Batt needs to be properly assigned to current, volt place holder to allow compiling
 
 */
 
-#define  Voltspnt 0x0  
+
 
 
 enum i3LIMChargingState

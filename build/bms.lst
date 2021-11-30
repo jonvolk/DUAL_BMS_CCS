@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cciXVhcj.s 			page 1
+ARM GAS  /tmp/ccBwmWIp.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
   30:Core/Src/bms.c ****     charge_keyOff,
   31:Core/Src/bms.c ****     charge_keyOn, //who even does that
   32:Core/Src/bms.c ****     idle,         //key on, inverter on
-ARM GAS  /tmp/cciXVhcj.s 			page 2
+ARM GAS  /tmp/ccBwmWIp.s 			page 2
 
 
   33:Core/Src/bms.c ****     run,          //key on direction selected
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
   87:Core/Src/bms.c ****         BMS[i].lowCellTemp = 0;
   88:Core/Src/bms.c ****         BMS[i].packVolt = 0;
   89:Core/Src/bms.c ****         BMS[i].SOC = 0;
-ARM GAS  /tmp/cciXVhcj.s 			page 3
+ARM GAS  /tmp/ccBwmWIp.s 			page 3
 
 
   90:Core/Src/bms.c ****         BMS[i].tempDelta = 0;
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  144:Core/Src/bms.c ****             bms->state = Drive;
  145:Core/Src/bms.c ****         }
  146:Core/Src/bms.c ****         break;
-ARM GAS  /tmp/cciXVhcj.s 			page 4
+ARM GAS  /tmp/ccBwmWIp.s 			page 4
 
 
  147:Core/Src/bms.c **** 
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  201:Core/Src/bms.c ****     {
  202:Core/Src/bms.c ****         charged = false;
  203:Core/Src/bms.c ****         int val = 32;
-ARM GAS  /tmp/cciXVhcj.s 			page 5
+ARM GAS  /tmp/ccBwmWIp.s 			page 5
 
 
  204:Core/Src/bms.c ****         txMsg2.StdId = 0x605; //set parameter ID
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  258:Core/Src/bms.c ****     bytes[5] = (BMS[1].cellDelta >> 8) & 0XFF;
  259:Core/Src/bms.c ****     bytes[6] = (BMS[1].SOC);
  260:Core/Src/bms.c ****     bytes[7] = 0;
-ARM GAS  /tmp/cciXVhcj.s 			page 6
+ARM GAS  /tmp/ccBwmWIp.s 			page 6
 
 
  261:Core/Src/bms.c ****     can2tx(0x139, 8, bytes);
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  315:Core/Src/bms.c ****         }
  316:Core/Src/bms.c ****         c1tx(&txMsg, canTx); //pack 1
  317:Core/Src/bms.c **** 
-ARM GAS  /tmp/cciXVhcj.s 			page 7
+ARM GAS  /tmp/ccBwmWIp.s 			page 7
 
 
  318:Core/Src/bms.c ****         txMsg.StdId = 0x310;
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  372:Core/Src/bms.c ****         c1tx(&txMsg, canTx);
  373:Core/Src/bms.c ****     }
  374:Core/Src/bms.c **** 
-ARM GAS  /tmp/cciXVhcj.s 			page 8
+ARM GAS  /tmp/ccBwmWIp.s 			page 8
 
 
  375:Core/Src/bms.c ****     if (pack == 1)
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
   52              		.section	.text.getHighCellVolt,"ax",%progbits
   53              		.align	1
   54              		.syntax unified
-ARM GAS  /tmp/cciXVhcj.s 			page 9
+ARM GAS  /tmp/ccBwmWIp.s 			page 9
 
 
   55              		.thumb
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
   83              		.loc 1 431 0 is_stmt 1
   84 000e 30F81320 		ldrh	r2, [r0, r3, lsl #1]
   85 0012 B0F8E410 		ldrh	r1, [r0, #228]
-ARM GAS  /tmp/cciXVhcj.s 			page 10
+ARM GAS  /tmp/ccBwmWIp.s 			page 10
 
 
   86 0016 8A42     		cmp	r2, r1
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  129              		.loc 1 444 0 is_stmt 1
  130 000e 03F16002 		add	r2, r3, #96
  131 0012 30F81220 		ldrh	r2, [r0, r2, lsl #1]
-ARM GAS  /tmp/cciXVhcj.s 			page 11
+ARM GAS  /tmp/ccBwmWIp.s 			page 11
 
 
  132 0016 B0F8EA10 		ldrh	r1, [r0, #234]
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  456:Core/Src/bms.c ****     {
  457:Core/Src/bms.c ****         if (bms->tempSensor[i] > 0)
  177              		.loc 1 457 0 is_stmt 1
-ARM GAS  /tmp/cciXVhcj.s 			page 12
+ARM GAS  /tmp/ccBwmWIp.s 			page 12
 
 
  178 0012 03F16002 		add	r2, r3, #96
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  219              	.LBE5:
  471:Core/Src/bms.c ****     for (size_t i = 0; i < 16; i++)
  220              		.loc 1 471 0
-ARM GAS  /tmp/cciXVhcj.s 			page 13
+ARM GAS  /tmp/ccBwmWIp.s 			page 13
 
 
  221 0004 1946     		mov	r1, r3
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  260              		.cfi_def_cfa_offset 0
  261 0032 7047     		bx	lr
  262              		.cfi_endproc
-ARM GAS  /tmp/cciXVhcj.s 			page 14
+ARM GAS  /tmp/ccBwmWIp.s 			page 14
 
 
  263              	.LFE143:
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  310              		.cfi_endproc
  311              	.LFE145:
  313              		.section	.text.getLowCellVolt,"ax",%progbits
-ARM GAS  /tmp/cciXVhcj.s 			page 15
+ARM GAS  /tmp/ccBwmWIp.s 			page 15
 
 
  314              		.align	1
@@ -898,7 +898,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  355              		.loc 1 507 0
  356 0024 7047     		bx	lr
  357              		.cfi_endproc
-ARM GAS  /tmp/cciXVhcj.s 			page 16
+ARM GAS  /tmp/ccBwmWIp.s 			page 16
 
 
  358              	.LFE146:
@@ -958,7 +958,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  399 0012 0449     		ldr	r1, .L35
  400 0014 81FB0231 		smull	r3, r1, r1, r2
  401              	.LVL31:
-ARM GAS  /tmp/cciXVhcj.s 			page 17
+ARM GAS  /tmp/ccBwmWIp.s 			page 17
 
 
  402 0018 D317     		asrs	r3, r2, #31
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  526:Core/Src/bms.c ****     {
  447              		.loc 1 526 0 is_stmt 0 discriminator 1
  448 000e 5F2B     		cmp	r3, #95
-ARM GAS  /tmp/cciXVhcj.s 			page 18
+ARM GAS  /tmp/ccBwmWIp.s 			page 18
 
 
  449 0010 F9D9     		bls	.L39
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  496              	.L44:
  497              		.loc 1 536 0 is_stmt 0 discriminator 2
  498 0008 0133     		adds	r3, r3, #1
-ARM GAS  /tmp/cciXVhcj.s 			page 19
+ARM GAS  /tmp/ccBwmWIp.s 			page 19
 
 
  499              	.LVL41:
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  543              		.align	1
  544              		.global	initBMS
  545              		.syntax unified
-ARM GAS  /tmp/cciXVhcj.s 			page 20
+ARM GAS  /tmp/ccBwmWIp.s 			page 20
 
 
  546              		.thumb
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  595              	.LBB16:
   99:Core/Src/bms.c ****         }
  596              		.loc 1 99 0 is_stmt 1 discriminator 3
-ARM GAS  /tmp/cciXVhcj.s 			page 21
+ARM GAS  /tmp/ccBwmWIp.s 			page 21
 
 
  597 0026 C1EB4113 		rsb	r3, r1, r1, lsl #5
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  639              		.loc 1 89 0
  640 0070 83F8F320 		strb	r2, [r3, #243]
   90:Core/Src/bms.c **** 
-ARM GAS  /tmp/cciXVhcj.s 			page 22
+ARM GAS  /tmp/ccBwmWIp.s 			page 22
 
 
  641              		.loc 1 90 0
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  690              		.thumb_func
  691              		.fpu fpv4-sp-d16
  693              	bmsStateHandler:
-ARM GAS  /tmp/cciXVhcj.s 			page 23
+ARM GAS  /tmp/ccBwmWIp.s 			page 23
 
 
  694              	.LFB132:
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  740 003a B0F8E230 		ldrh	r3, [r0, #226]
  741 003e ED1A     		subs	r5, r5, r3
  742 0040 2846     		mov	r0, r5
-ARM GAS  /tmp/cciXVhcj.s 			page 24
+ARM GAS  /tmp/ccBwmWIp.s 			page 24
 
 
  743              	.LVL60:
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  788              	.L72:
  157:Core/Src/bms.c ****         bms->chargeRequest = 1;
  789              		.loc 1 157 0
-ARM GAS  /tmp/cciXVhcj.s 			page 25
+ARM GAS  /tmp/ccBwmWIp.s 			page 25
 
 
  790 0086 0023     		movs	r3, #0
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  833 00da 41F29903 		movw	r3, #4249
  834 00de 9A42     		cmp	r2, r3
  835 00e0 02D8     		bhi	.L66
-ARM GAS  /tmp/cciXVhcj.s 			page 26
+ARM GAS  /tmp/ccBwmWIp.s 			page 26
 
 
  187:Core/Src/bms.c ****         }
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  886              	.L87:
  887              	.LVL66:
  888              	.LBB19:
-ARM GAS  /tmp/cciXVhcj.s 			page 27
+ARM GAS  /tmp/ccBwmWIp.s 			page 27
 
 
  220:Core/Src/bms.c ****         txMsg2.DLC = 8;
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  930              		.loc 1 202 0
  931 0054 0023     		movs	r3, #0
  932 0056 0E4A     		ldr	r2, .L91+12
-ARM GAS  /tmp/cciXVhcj.s 			page 28
+ARM GAS  /tmp/ccBwmWIp.s 			page 28
 
 
  933 0058 1370     		strb	r3, [r2]
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  977              		.section	.text.tx500kData,"ax",%progbits
  978              		.align	1
  979              		.global	tx500kData
-ARM GAS  /tmp/cciXVhcj.s 			page 29
+ARM GAS  /tmp/ccBwmWIp.s 			page 29
 
 
  980              		.syntax unified
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1025              		.loc 1 249 0
  1026 003e 6A46     		mov	r2, sp
  1027 0040 0821     		movs	r1, #8
-ARM GAS  /tmp/cciXVhcj.s 			page 30
+ARM GAS  /tmp/ccBwmWIp.s 			page 30
 
 
  1028 0042 4FF49C70 		mov	r0, #312
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1073              		.section	.text.sendCommand,"ax",%progbits
  1074              		.align	1
  1075              		.global	sendCommand
-ARM GAS  /tmp/cciXVhcj.s 			page 31
+ARM GAS  /tmp/ccBwmWIp.s 			page 31
 
 
  1076              		.syntax unified
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1121 0024 0649     		ldr	r1, .L99+12
  1122 0026 0D70     		strb	r5, [r1]
  298:Core/Src/bms.c ****     canTx3[2] = 0x00;
-ARM GAS  /tmp/cciXVhcj.s 			page 32
+ARM GAS  /tmp/ccBwmWIp.s 			page 32
 
 
  1123              		.loc 1 298 0
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1173 0014 1A60     		str	r2, [r3]
  311:Core/Src/bms.c ****         for (size_t i = 0; i < 8; i++)
  1174              		.loc 1 311 0
-ARM GAS  /tmp/cciXVhcj.s 			page 33
+ARM GAS  /tmp/ccBwmWIp.s 			page 33
 
 
  1175 0016 0822     		movs	r2, #8
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1219              		.loc 1 320 0 discriminator 3
  1220 0048 0133     		adds	r3, r3, #1
  1221              	.LVL83:
-ARM GAS  /tmp/cciXVhcj.s 			page 34
+ARM GAS  /tmp/ccBwmWIp.s 			page 34
 
 
  1222              	.L105:
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1266 007c 2046     		mov	r0, r4
  1267 007e FFF7FEFF 		bl	c3tx
  1268              	.LVL89:
-ARM GAS  /tmp/cciXVhcj.s 			page 35
+ARM GAS  /tmp/ccBwmWIp.s 			page 35
 
 
  337:Core/Src/bms.c ****         txMsg3.DLC = 5;
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1317              		.fpu fpv4-sp-d16
  1319              	refreshData:
  1320              	.LFB135:
-ARM GAS  /tmp/cciXVhcj.s 			page 36
+ARM GAS  /tmp/ccBwmWIp.s 			page 36
 
 
  266:Core/Src/bms.c **** 
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1366              		.loc 1 276 0 discriminator 3
  1367 0032 2046     		mov	r0, r4
  1368 0034 FFF7FEFF 		bl	getLowCellTemp
-ARM GAS  /tmp/cciXVhcj.s 			page 37
+ARM GAS  /tmp/ccBwmWIp.s 			page 37
 
 
  1369              	.LVL102:
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1415              		.syntax unified
  1416              		.thumb
  1417              		.thumb_func
-ARM GAS  /tmp/cciXVhcj.s 			page 38
+ARM GAS  /tmp/ccBwmWIp.s 			page 38
 
 
  1418              		.fpu fpv4-sp-d16
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  358:Core/Src/bms.c ****             }
  1465              		.loc 1 358 0
  1466 002c 364A     		ldr	r2, .L142+4
-ARM GAS  /tmp/cciXVhcj.s 			page 39
+ARM GAS  /tmp/ccBwmWIp.s 			page 39
 
 
  1467 002e D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1513 0070 2748     		ldr	r0, .L142+12
  1514 0072 465C     		ldrb	r6, [r0, r1]	@ zero_extendqisi2
  1515 0074 3243     		orrs	r2, r2, r6
-ARM GAS  /tmp/cciXVhcj.s 			page 40
+ARM GAS  /tmp/ccBwmWIp.s 			page 40
 
 
  1516 0076 4254     		strb	r2, [r0, r1]
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1561 00aa 174A     		ldr	r2, .L142+4
  1562 00ac D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
  1563 00ae 174A     		ldr	r2, .L142+8
-ARM GAS  /tmp/cciXVhcj.s 			page 41
+ARM GAS  /tmp/ccBwmWIp.s 			page 41
 
 
  1564 00b0 D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1610 00f2 2A43     		orrs	r2, r2, r5
  1611 00f4 4254     		strb	r2, [r0, r1]
  1612 00f6 EDE7     		b	.L134
-ARM GAS  /tmp/cciXVhcj.s 			page 42
+ARM GAS  /tmp/ccBwmWIp.s 			page 42
 
 
  1613              	.L141:
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1659              	.L144:
  1660 0010 7047     		bx	lr
  1661              	.L148:
-ARM GAS  /tmp/cciXVhcj.s 			page 43
+ARM GAS  /tmp/ccBwmWIp.s 			page 43
 
 
  1662 0012 00BF     		.align	2
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1707 0020 6C02     		.2byte	(.L157-.L152)/2
  1708 0022 EE02     		.2byte	(.L158-.L152)/2
  1709 0024 1F06     		.2byte	(.L149-.L152)/2
-ARM GAS  /tmp/cciXVhcj.s 			page 44
+ARM GAS  /tmp/ccBwmWIp.s 			page 44
 
 
  1710 0026 7203     		.2byte	(.L159-.L152)/2
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1760 0084 BA4B     		ldr	r3, .L179
  1761 0086 FFF7FEFF 		bl	__aeabi_dmul
  1762              	.LVL138:
-ARM GAS  /tmp/cciXVhcj.s 			page 45
+ARM GAS  /tmp/ccBwmWIp.s 			page 45
 
 
  1763 008a FFF7FEFF 		bl	__aeabi_d2uiz
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1811 00e2 FFF7FEFF 		bl	__aeabi_dmul
  1812              	.LVL149:
  1813 00e6 FFF7FEFF 		bl	__aeabi_d2uiz
-ARM GAS  /tmp/cciXVhcj.s 			page 46
+ARM GAS  /tmp/ccBwmWIp.s 			page 46
 
 
  1814              	.LVL150:
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1862              	.LVL160:
  1863 0142 FFF7FEFF 		bl	__aeabi_d2uiz
  1864              	.LVL161:
-ARM GAS  /tmp/cciXVhcj.s 			page 47
+ARM GAS  /tmp/ccBwmWIp.s 			page 47
 
 
  1865 0146 E881     		strh	r0, [r5, #14]	@ movhi
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  1913 019e FFF7FEFF 		bl	__aeabi_d2uiz
  1914              	.LVL172:
  1915 01a2 A882     		strh	r0, [r5, #20]	@ movhi
-ARM GAS  /tmp/cciXVhcj.s 			page 48
+ARM GAS  /tmp/ccBwmWIp.s 			page 48
 
 
  589:Core/Src/bms.c ****         bms->cellVolt[11] = ((((canRx[2] & 0x0F) << 8) + canRx[3]) * 1.25);
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  594:Core/Src/bms.c ****     case 0x462:
  595:Core/Src/bms.c ****         bms->cellVolt[14] = ((((canRx[0] & 0x0F) << 8) + canRx[1]) * 1.25);
  1965              		.loc 1 595 0
-ARM GAS  /tmp/cciXVhcj.s 			page 49
+ARM GAS  /tmp/ccBwmWIp.s 			page 49
 
 
  1966 0200 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2017 0266 FFF7FEFF 		bl	__aeabi_i2d
  2018              	.LVL193:
  2019 026a 0022     		movs	r2, #0
-ARM GAS  /tmp/cciXVhcj.s 			page 50
+ARM GAS  /tmp/ccBwmWIp.s 			page 50
 
 
  2020 026c 404B     		ldr	r3, .L179
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2068              	.LVL204:
  2069 02c6 0022     		movs	r2, #0
  2070 02c8 294B     		ldr	r3, .L179
-ARM GAS  /tmp/cciXVhcj.s 			page 51
+ARM GAS  /tmp/ccBwmWIp.s 			page 51
 
 
  2071 02ca FFF7FEFF 		bl	__aeabi_dmul
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2120 0324 124B     		ldr	r3, .L179
  2121 0326 FFF7FEFF 		bl	__aeabi_dmul
  2122              	.LVL216:
-ARM GAS  /tmp/cciXVhcj.s 			page 52
+ARM GAS  /tmp/ccBwmWIp.s 			page 52
 
 
  2123 032a FFF7FEFF 		bl	__aeabi_d2uiz
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2171 037e 1844     		add	r0, r0, r3
  2172 0380 FFF7FEFF 		bl	__aeabi_i2d
  2173              	.LVL227:
-ARM GAS  /tmp/cciXVhcj.s 			page 53
+ARM GAS  /tmp/ccBwmWIp.s 			page 53
 
 
  2174 0384 0022     		movs	r2, #0
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2225 03ea 6887     		strh	r0, [r5, #58]	@ movhi
  619:Core/Src/bms.c ****         break;
  2226              		.loc 1 619 0
-ARM GAS  /tmp/cciXVhcj.s 			page 54
+ARM GAS  /tmp/ccBwmWIp.s 			page 54
 
 
  2227 03ec 38BD     		pop	{r3, r4, r5, pc}
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  625:Core/Src/bms.c ****         bms->cellVolt[33] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
  2276              		.loc 1 625 0
  2277 044a A379     		ldrb	r3, [r4, #6]	@ zero_extendqisi2
-ARM GAS  /tmp/cciXVhcj.s 			page 55
+ARM GAS  /tmp/ccBwmWIp.s 			page 55
 
 
  2278 044c 1B02     		lsls	r3, r3, #8
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2326              		.loc 1 631 0
  2327 04ac 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
  2328 04ae 1B02     		lsls	r3, r3, #8
-ARM GAS  /tmp/cciXVhcj.s 			page 56
+ARM GAS  /tmp/ccBwmWIp.s 			page 56
 
 
  2329 04b0 03F47063 		and	r3, r3, #3840
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2377 050e A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
  2378 0510 1B02     		lsls	r3, r3, #8
  2379 0512 03F47063 		and	r3, r3, #3840
-ARM GAS  /tmp/cciXVhcj.s 			page 57
+ARM GAS  /tmp/ccBwmWIp.s 			page 57
 
 
  2380 0516 E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2428 0574 03F47063 		and	r3, r3, #3840
  2429 0578 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
  2430              	.LVL282:
-ARM GAS  /tmp/cciXVhcj.s 			page 58
+ARM GAS  /tmp/ccBwmWIp.s 			page 58
 
 
  2431 057a 1844     		add	r0, r0, r3
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2482              	.LVL293:
  2483 05e8 FFF7FEFF 		bl	__aeabi_d2uiz
  2484              	.LVL294:
-ARM GAS  /tmp/cciXVhcj.s 			page 59
+ARM GAS  /tmp/ccBwmWIp.s 			page 59
 
 
  2485 05ec A5F85A00 		strh	r0, [r5, #90]	@ movhi
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2533 064a FFF7FEFF 		bl	__aeabi_d2uiz
  2534              	.LVL305:
  2535 064e A5F86000 		strh	r0, [r5, #96]	@ movhi
-ARM GAS  /tmp/cciXVhcj.s 			page 60
+ARM GAS  /tmp/ccBwmWIp.s 			page 60
 
 
  653:Core/Src/bms.c ****         bms->cellVolt[49] = ((((canRx[6] & 0x0F) << 8) + canRx[7]) * 1.25);
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2584 06a8 0022     		movs	r2, #0
  2585 06aa B64B     		ldr	r3, .L183
  2586 06ac FFF7FEFF 		bl	__aeabi_dmul
-ARM GAS  /tmp/cciXVhcj.s 			page 61
+ARM GAS  /tmp/ccBwmWIp.s 			page 61
 
 
  2587              	.LVL316:
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2635 070c 9D4B     		ldr	r3, .L183
  2636 070e FFF7FEFF 		bl	__aeabi_dmul
  2637              	.LVL327:
-ARM GAS  /tmp/cciXVhcj.s 			page 62
+ARM GAS  /tmp/ccBwmWIp.s 			page 62
 
 
  2638 0712 FFF7FEFF 		bl	__aeabi_d2uiz
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2688              	.LVL338:
  2689              	.L172:
  669:Core/Src/bms.c **** 
-ARM GAS  /tmp/cciXVhcj.s 			page 63
+ARM GAS  /tmp/ccBwmWIp.s 			page 63
 
 
  670:Core/Src/bms.c ****     case 0x478:
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2739 07e0 03F47063 		and	r3, r3, #3840
  2740 07e4 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
  2741 07e6 1844     		add	r0, r0, r3
-ARM GAS  /tmp/cciXVhcj.s 			page 64
+ARM GAS  /tmp/ccBwmWIp.s 			page 64
 
 
  2742 07e8 FFF7FEFF 		bl	__aeabi_i2d
@@ -3838,7 +3838,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2790 0846 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
  2791 0848 1844     		add	r0, r0, r3
  2792 084a FFF7FEFF 		bl	__aeabi_i2d
-ARM GAS  /tmp/cciXVhcj.s 			page 65
+ARM GAS  /tmp/ccBwmWIp.s 			page 65
 
 
  2793              	.LVL360:
@@ -3898,7 +3898,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2841 08aa 1844     		add	r0, r0, r3
  2842 08ac FFF7FEFF 		bl	__aeabi_i2d
  2843              	.LVL371:
-ARM GAS  /tmp/cciXVhcj.s 			page 66
+ARM GAS  /tmp/ccBwmWIp.s 			page 66
 
 
  2844 08b0 0022     		movs	r2, #0
@@ -3958,7 +3958,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2892 090e FFF7FEFF 		bl	__aeabi_i2d
  2893              	.LVL382:
  2894 0912 0022     		movs	r2, #0
-ARM GAS  /tmp/cciXVhcj.s 			page 67
+ARM GAS  /tmp/ccBwmWIp.s 			page 67
 
 
  2895 0914 1B4B     		ldr	r3, .L183
@@ -4018,7 +4018,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  696:Core/Src/bms.c ****         break;
  2946              		.loc 1 696 0
  2947 0982 38BD     		pop	{r3, r4, r5, pc}
-ARM GAS  /tmp/cciXVhcj.s 			page 68
+ARM GAS  /tmp/ccBwmWIp.s 			page 68
 
 
  2948              	.LVL394:
@@ -4078,7 +4078,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  2997              	.LVL404:
  2998 09e0 FFF7FEFF 		bl	__aeabi_d2uiz
  2999              	.LVL405:
-ARM GAS  /tmp/cciXVhcj.s 			page 69
+ARM GAS  /tmp/ccBwmWIp.s 			page 69
 
 
  3000 09e4 A5F89800 		strh	r0, [r5, #152]	@ movhi
@@ -4138,7 +4138,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3048 0a42 FFF7FEFF 		bl	__aeabi_d2uiz
  3049              	.LVL416:
  3050 0a46 A5F89E00 		strh	r0, [r5, #158]	@ movhi
-ARM GAS  /tmp/cciXVhcj.s 			page 70
+ARM GAS  /tmp/ccBwmWIp.s 			page 70
 
 
  708:Core/Src/bms.c ****         bms->cellVolt[80] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
@@ -4198,7 +4198,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3099              	.LVL427:
  3100 0aa8 A5F8A400 		strh	r0, [r5, #164]	@ movhi
  714:Core/Src/bms.c ****         bms->cellVolt[83] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
-ARM GAS  /tmp/cciXVhcj.s 			page 71
+ARM GAS  /tmp/ccBwmWIp.s 			page 71
 
 
  3101              		.loc 1 714 0
@@ -4258,7 +4258,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3150 0b0a A5F8AA00 		strh	r0, [r5, #170]	@ movhi
  720:Core/Src/bms.c ****         bms->cellVolt[86] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
  3151              		.loc 1 720 0
-ARM GAS  /tmp/cciXVhcj.s 			page 72
+ARM GAS  /tmp/ccBwmWIp.s 			page 72
 
 
  3152 0b0e 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
@@ -4318,7 +4318,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  726:Core/Src/bms.c ****         bms->cellVolt[89] = ((((canRx[4] & 0x0F) << 8) + canRx[5]) * 1.25);
  3201              		.loc 1 726 0
  3202 0b70 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
-ARM GAS  /tmp/cciXVhcj.s 			page 73
+ARM GAS  /tmp/ccBwmWIp.s 			page 73
 
 
  3203 0b72 1B02     		lsls	r3, r3, #8
@@ -4378,7 +4378,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3251              		.loc 1 732 0
  3252 0bd2 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
  3253 0bd4 1B02     		lsls	r3, r3, #8
-ARM GAS  /tmp/cciXVhcj.s 			page 74
+ARM GAS  /tmp/ccBwmWIp.s 			page 74
 
 
  3254 0bd6 03F47063 		and	r3, r3, #3840
@@ -4438,7 +4438,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3302 0c34 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
  3303 0c36 1B02     		lsls	r3, r3, #8
  3304 0c38 03F47063 		and	r3, r3, #3840
-ARM GAS  /tmp/cciXVhcj.s 			page 75
+ARM GAS  /tmp/ccBwmWIp.s 			page 75
 
 
  3305 0c3c 6079     		ldrb	r0, [r4, #5]	@ zero_extendqisi2
@@ -4498,7 +4498,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3351 0011 14       		.byte	(.L191-.L190)/2
  3352 0012 20       		.byte	(.L192-.L190)/2
  3353 0013 2F       		.byte	(.L193-.L190)/2
-ARM GAS  /tmp/cciXVhcj.s 			page 76
+ARM GAS  /tmp/ccBwmWIp.s 			page 76
 
 
  3354 0014 33       		.byte	(.L194-.L190)/2
@@ -4558,7 +4558,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3396 005e A3EBC303 		sub	r3, r3, r3, lsl #3
  3397 0062 03F5E043 		add	r3, r3, #28672
  3398 0066 1C33     		adds	r3, r3, #28
-ARM GAS  /tmp/cciXVhcj.s 			page 77
+ARM GAS  /tmp/ccBwmWIp.s 			page 77
 
 
  3399 0068 A0F8C630 		strh	r3, [r0, #198]	@ movhi
@@ -4618,7 +4618,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3436 00ae A0F8D030 		strh	r3, [r0, #208]	@ movhi
  778:Core/Src/bms.c ****         break;
  3437              		.loc 1 778 0
-ARM GAS  /tmp/cciXVhcj.s 			page 78
+ARM GAS  /tmp/ccBwmWIp.s 			page 78
 
 
  3438 00b2 7047     		bx	lr
@@ -4678,7 +4678,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3476 00fe 03F5E043 		add	r3, r3, #28672
  3477 0102 1C33     		adds	r3, r3, #28
  3478 0104 A0F8DA30 		strh	r3, [r0, #218]	@ movhi
-ARM GAS  /tmp/cciXVhcj.s 			page 79
+ARM GAS  /tmp/ccBwmWIp.s 			page 79
 
 
  795:Core/Src/bms.c ****         break;
@@ -4738,7 +4738,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3526              		.comm	sf3,40,4
  3527              		.comm	sf2,40,4
  3528              		.comm	sf,40,4
-ARM GAS  /tmp/cciXVhcj.s 			page 80
+ARM GAS  /tmp/ccBwmWIp.s 			page 80
 
 
  3529              		.comm	hcan3,40,4
@@ -4798,7 +4798,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3585 002f 06       		.byte	6
  3586 0030 06       		.byte	6
  3587 0031 06       		.byte	6
-ARM GAS  /tmp/cciXVhcj.s 			page 81
+ARM GAS  /tmp/ccBwmWIp.s 			page 81
 
 
  3588 0032 06       		.byte	6
@@ -4858,7 +4858,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3644 0004 0A       		.byte	10
  3645 0005 14       		.byte	20
  3646 0006 01       		.byte	1
-ARM GAS  /tmp/cciXVhcj.s 			page 82
+ARM GAS  /tmp/ccBwmWIp.s 			page 82
 
 
  3647 0007 02       		.byte	2
@@ -4918,7 +4918,7 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3701 003d 50       		.byte	80
  3702 003e 01       		.byte	1
  3703 003f 02       		.byte	2
-ARM GAS  /tmp/cciXVhcj.s 			page 83
+ARM GAS  /tmp/ccBwmWIp.s 			page 83
 
 
  3704 0040 04       		.byte	4
@@ -4969,91 +4969,91 @@ ARM GAS  /tmp/cciXVhcj.s 			page 1
  3749              		.file 13 "/usr/include/newlib/sys/reent.h"
  3750              		.file 14 "Core/Inc/can_setup.h"
  3751              		.file 15 "Core/Inc/bms.h"
-ARM GAS  /tmp/cciXVhcj.s 			page 84
+ARM GAS  /tmp/ccBwmWIp.s 			page 84
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 bms.c
-     /tmp/cciXVhcj.s:18     .text.getSOC:0000000000000000 $t
-     /tmp/cciXVhcj.s:24     .text.getSOC:0000000000000000 getSOC
-     /tmp/cciXVhcj.s:48     .text.getSOC:0000000000000024 $d
-     /tmp/cciXVhcj.s:53     .text.getHighCellVolt:0000000000000000 $t
-     /tmp/cciXVhcj.s:59     .text.getHighCellVolt:0000000000000000 getHighCellVolt
-     /tmp/cciXVhcj.s:99     .text.getHighCellTemp:0000000000000000 $t
-     /tmp/cciXVhcj.s:105    .text.getHighCellTemp:0000000000000000 getHighCellTemp
-     /tmp/cciXVhcj.s:146    .text.getLowCellTemp:0000000000000000 $t
-     /tmp/cciXVhcj.s:152    .text.getLowCellTemp:0000000000000000 getLowCellTemp
-     /tmp/cciXVhcj.s:197    .text.getAvgCellTemp:0000000000000000 $t
-     /tmp/cciXVhcj.s:203    .text.getAvgCellTemp:0000000000000000 getAvgCellTemp
-     /tmp/cciXVhcj.s:266    .text.getTempDelta:0000000000000000 $t
-     /tmp/cciXVhcj.s:272    .text.getTempDelta:0000000000000000 getTempDelta
-     /tmp/cciXVhcj.s:290    .text.getCellDelta:0000000000000000 $t
-     /tmp/cciXVhcj.s:296    .text.getCellDelta:0000000000000000 getCellDelta
-     /tmp/cciXVhcj.s:314    .text.getLowCellVolt:0000000000000000 $t
-     /tmp/cciXVhcj.s:320    .text.getLowCellVolt:0000000000000000 getLowCellVolt
-     /tmp/cciXVhcj.s:361    .text.getAvgCellVolt:0000000000000000 $t
-     /tmp/cciXVhcj.s:367    .text.getAvgCellVolt:0000000000000000 getAvgCellVolt
-     /tmp/cciXVhcj.s:409    .text.getAvgCellVolt:0000000000000024 $d
-     /tmp/cciXVhcj.s:414    .text.getPackVolt:0000000000000000 $t
-     /tmp/cciXVhcj.s:420    .text.getPackVolt:0000000000000000 getPackVolt
-     /tmp/cciXVhcj.s:462    .text.getPackVolt:0000000000000020 $d
-     /tmp/cciXVhcj.s:467    .text.getCellCount:0000000000000000 $t
-     /tmp/cciXVhcj.s:473    .text.getCellCount:0000000000000000 getCellCount
-     /tmp/cciXVhcj.s:538    .text.getCellCount:0000000000000038 $d
+     /tmp/ccBwmWIp.s:18     .text.getSOC:0000000000000000 $t
+     /tmp/ccBwmWIp.s:24     .text.getSOC:0000000000000000 getSOC
+     /tmp/ccBwmWIp.s:48     .text.getSOC:0000000000000024 $d
+     /tmp/ccBwmWIp.s:53     .text.getHighCellVolt:0000000000000000 $t
+     /tmp/ccBwmWIp.s:59     .text.getHighCellVolt:0000000000000000 getHighCellVolt
+     /tmp/ccBwmWIp.s:99     .text.getHighCellTemp:0000000000000000 $t
+     /tmp/ccBwmWIp.s:105    .text.getHighCellTemp:0000000000000000 getHighCellTemp
+     /tmp/ccBwmWIp.s:146    .text.getLowCellTemp:0000000000000000 $t
+     /tmp/ccBwmWIp.s:152    .text.getLowCellTemp:0000000000000000 getLowCellTemp
+     /tmp/ccBwmWIp.s:197    .text.getAvgCellTemp:0000000000000000 $t
+     /tmp/ccBwmWIp.s:203    .text.getAvgCellTemp:0000000000000000 getAvgCellTemp
+     /tmp/ccBwmWIp.s:266    .text.getTempDelta:0000000000000000 $t
+     /tmp/ccBwmWIp.s:272    .text.getTempDelta:0000000000000000 getTempDelta
+     /tmp/ccBwmWIp.s:290    .text.getCellDelta:0000000000000000 $t
+     /tmp/ccBwmWIp.s:296    .text.getCellDelta:0000000000000000 getCellDelta
+     /tmp/ccBwmWIp.s:314    .text.getLowCellVolt:0000000000000000 $t
+     /tmp/ccBwmWIp.s:320    .text.getLowCellVolt:0000000000000000 getLowCellVolt
+     /tmp/ccBwmWIp.s:361    .text.getAvgCellVolt:0000000000000000 $t
+     /tmp/ccBwmWIp.s:367    .text.getAvgCellVolt:0000000000000000 getAvgCellVolt
+     /tmp/ccBwmWIp.s:409    .text.getAvgCellVolt:0000000000000024 $d
+     /tmp/ccBwmWIp.s:414    .text.getPackVolt:0000000000000000 $t
+     /tmp/ccBwmWIp.s:420    .text.getPackVolt:0000000000000000 getPackVolt
+     /tmp/ccBwmWIp.s:462    .text.getPackVolt:0000000000000020 $d
+     /tmp/ccBwmWIp.s:467    .text.getCellCount:0000000000000000 $t
+     /tmp/ccBwmWIp.s:473    .text.getCellCount:0000000000000000 getCellCount
+     /tmp/ccBwmWIp.s:538    .text.getCellCount:0000000000000038 $d
                             *COM*:00000000000001ec BMS
-     /tmp/cciXVhcj.s:543    .text.initBMS:0000000000000000 $t
-     /tmp/cciXVhcj.s:550    .text.initBMS:0000000000000000 initBMS
-     /tmp/cciXVhcj.s:677    .text.initBMS:0000000000000098 $d
+     /tmp/ccBwmWIp.s:543    .text.initBMS:0000000000000000 $t
+     /tmp/ccBwmWIp.s:550    .text.initBMS:0000000000000000 initBMS
+     /tmp/ccBwmWIp.s:677    .text.initBMS:0000000000000098 $d
                             *COM*:0000000000000001 vechicleState
                             *COM*:0000000000000001 charged
-     /tmp/cciXVhcj.s:686    .text.bmsStateHandler:0000000000000000 $t
-     /tmp/cciXVhcj.s:693    .text.bmsStateHandler:0000000000000000 bmsStateHandler
-     /tmp/cciXVhcj.s:713    .text.bmsStateHandler:000000000000000e $d
-     /tmp/cciXVhcj.s:844    .text.bmsStateHandler:00000000000000ec $d
-     /tmp/cciXVhcj.s:851    .text.acChargeCommand:0000000000000000 $t
-     /tmp/cciXVhcj.s:858    .text.acChargeCommand:0000000000000000 acChargeCommand
-     /tmp/cciXVhcj.s:969    .text.acChargeCommand:0000000000000084 $d
+     /tmp/ccBwmWIp.s:686    .text.bmsStateHandler:0000000000000000 $t
+     /tmp/ccBwmWIp.s:693    .text.bmsStateHandler:0000000000000000 bmsStateHandler
+     /tmp/ccBwmWIp.s:713    .text.bmsStateHandler:000000000000000e $d
+     /tmp/ccBwmWIp.s:844    .text.bmsStateHandler:00000000000000ec $d
+     /tmp/ccBwmWIp.s:851    .text.acChargeCommand:0000000000000000 $t
+     /tmp/ccBwmWIp.s:858    .text.acChargeCommand:0000000000000000 acChargeCommand
+     /tmp/ccBwmWIp.s:969    .text.acChargeCommand:0000000000000084 $d
                             *COM*:0000000000000018 txMsg2
                             *COM*:0000000000000008 canTx2
-     /tmp/cciXVhcj.s:978    .text.tx500kData:0000000000000000 $t
-     /tmp/cciXVhcj.s:985    .text.tx500kData:0000000000000000 tx500kData
-     /tmp/cciXVhcj.s:1069   .text.tx500kData:0000000000000090 $d
-     /tmp/cciXVhcj.s:1074   .text.sendCommand:0000000000000000 $t
-     /tmp/cciXVhcj.s:1081   .text.sendCommand:0000000000000000 sendCommand
-     /tmp/cciXVhcj.s:1134   .text.sendCommand:0000000000000034 $d
+     /tmp/ccBwmWIp.s:978    .text.tx500kData:0000000000000000 $t
+     /tmp/ccBwmWIp.s:985    .text.tx500kData:0000000000000000 tx500kData
+     /tmp/ccBwmWIp.s:1069   .text.tx500kData:0000000000000090 $d
+     /tmp/ccBwmWIp.s:1074   .text.sendCommand:0000000000000000 $t
+     /tmp/ccBwmWIp.s:1081   .text.sendCommand:0000000000000000 sendCommand
+     /tmp/ccBwmWIp.s:1134   .text.sendCommand:0000000000000034 $d
                             *COM*:0000000000000018 txMsg
                             *COM*:0000000000000008 canTx
                             *COM*:0000000000000018 txMsg3
                             *COM*:0000000000000008 canTx3
-     /tmp/cciXVhcj.s:1142   .text.requestBICMdata:0000000000000000 $t
-     /tmp/cciXVhcj.s:1149   .text.requestBICMdata:0000000000000000 requestBICMdata
-     /tmp/cciXVhcj.s:1304   .text.requestBICMdata:00000000000000a8 $d
-     /tmp/cciXVhcj.s:1312   .text.refreshData:0000000000000000 $t
-ARM GAS  /tmp/cciXVhcj.s 			page 85
+     /tmp/ccBwmWIp.s:1142   .text.requestBICMdata:0000000000000000 $t
+     /tmp/ccBwmWIp.s:1149   .text.requestBICMdata:0000000000000000 requestBICMdata
+     /tmp/ccBwmWIp.s:1304   .text.requestBICMdata:00000000000000a8 $d
+     /tmp/ccBwmWIp.s:1312   .text.refreshData:0000000000000000 $t
+ARM GAS  /tmp/ccBwmWIp.s 			page 85
 
 
-     /tmp/cciXVhcj.s:1319   .text.refreshData:0000000000000000 refreshData
-     /tmp/cciXVhcj.s:1408   .text.refreshData:0000000000000064 $d
-     /tmp/cciXVhcj.s:1413   .text.balanceCommand:0000000000000000 $t
-     /tmp/cciXVhcj.s:1420   .text.balanceCommand:0000000000000000 balanceCommand
-     /tmp/cciXVhcj.s:1625   .text.balanceCommand:0000000000000104 $d
-     /tmp/cciXVhcj.s:1635   .text.vehicleComms:0000000000000000 $t
-     /tmp/cciXVhcj.s:1642   .text.vehicleComms:0000000000000000 vehicleComms
-     /tmp/cciXVhcj.s:1664   .text.vehicleComms:0000000000000014 $d
-     /tmp/cciXVhcj.s:1671   .text.decodeVolt:0000000000000000 $t
-     /tmp/cciXVhcj.s:1678   .text.decodeVolt:0000000000000000 decodeVolt
-     /tmp/cciXVhcj.s:1702   .text.decodeVolt:0000000000000016 $d
-     /tmp/cciXVhcj.s:1733   .text.decodeVolt:0000000000000054 $t
-     /tmp/cciXVhcj.s:2162   .text.decodeVolt:0000000000000370 $d
-     /tmp/cciXVhcj.s:2166   .text.decodeVolt:0000000000000374 $t
-     /tmp/cciXVhcj.s:2557   .text.decodeVolt:0000000000000674 $d
-     /tmp/cciXVhcj.s:2561   .text.decodeVolt:0000000000000678 $t
-     /tmp/cciXVhcj.s:2952   .text.decodeVolt:0000000000000984 $d
-     /tmp/cciXVhcj.s:2956   .text.decodeVolt:0000000000000988 $t
-     /tmp/cciXVhcj.s:3322   .text.decodeVolt:0000000000000c58 $d
-     /tmp/cciXVhcj.s:3327   .text.decodeTemp:0000000000000000 $t
-     /tmp/cciXVhcj.s:3334   .text.decodeTemp:0000000000000000 decodeTemp
-     /tmp/cciXVhcj.s:3350   .text.decodeTemp:0000000000000010 $d
+     /tmp/ccBwmWIp.s:1319   .text.refreshData:0000000000000000 refreshData
+     /tmp/ccBwmWIp.s:1408   .text.refreshData:0000000000000064 $d
+     /tmp/ccBwmWIp.s:1413   .text.balanceCommand:0000000000000000 $t
+     /tmp/ccBwmWIp.s:1420   .text.balanceCommand:0000000000000000 balanceCommand
+     /tmp/ccBwmWIp.s:1625   .text.balanceCommand:0000000000000104 $d
+     /tmp/ccBwmWIp.s:1635   .text.vehicleComms:0000000000000000 $t
+     /tmp/ccBwmWIp.s:1642   .text.vehicleComms:0000000000000000 vehicleComms
+     /tmp/ccBwmWIp.s:1664   .text.vehicleComms:0000000000000014 $d
+     /tmp/ccBwmWIp.s:1671   .text.decodeVolt:0000000000000000 $t
+     /tmp/ccBwmWIp.s:1678   .text.decodeVolt:0000000000000000 decodeVolt
+     /tmp/ccBwmWIp.s:1702   .text.decodeVolt:0000000000000016 $d
+     /tmp/ccBwmWIp.s:1733   .text.decodeVolt:0000000000000054 $t
+     /tmp/ccBwmWIp.s:2162   .text.decodeVolt:0000000000000370 $d
+     /tmp/ccBwmWIp.s:2166   .text.decodeVolt:0000000000000374 $t
+     /tmp/ccBwmWIp.s:2557   .text.decodeVolt:0000000000000674 $d
+     /tmp/ccBwmWIp.s:2561   .text.decodeVolt:0000000000000678 $t
+     /tmp/ccBwmWIp.s:2952   .text.decodeVolt:0000000000000984 $d
+     /tmp/ccBwmWIp.s:2956   .text.decodeVolt:0000000000000988 $t
+     /tmp/ccBwmWIp.s:3322   .text.decodeVolt:0000000000000c58 $d
+     /tmp/ccBwmWIp.s:3327   .text.decodeTemp:0000000000000000 $t
+     /tmp/ccBwmWIp.s:3334   .text.decodeTemp:0000000000000000 decodeTemp
+     /tmp/ccBwmWIp.s:3350   .text.decodeTemp:0000000000000010 $d
                             *COM*:0000000000000004 txCycle3
                             *COM*:0000000000000004 txCycle2
                             *COM*:0000000000000004 txCycle
@@ -5076,20 +5076,20 @@ DEFINED SYMBOLS
                             *COM*:0000000000000028 hcan3
                             *COM*:0000000000000028 hcan2
                             *COM*:0000000000000028 hcan1
-     /tmp/cciXVhcj.s:3533   .rodata.balanceByte:0000000000000000 $d
-     /tmp/cciXVhcj.s:3537   .rodata.balanceByte:0000000000000000 balanceByte
-     /tmp/cciXVhcj.s:3635   .rodata.balanceShift:0000000000000000 $d
-     /tmp/cciXVhcj.s:3639   .rodata.balanceShift:0000000000000000 balanceShift
+     /tmp/ccBwmWIp.s:3533   .rodata.balanceByte:0000000000000000 $d
+     /tmp/ccBwmWIp.s:3537   .rodata.balanceByte:0000000000000000 balanceByte
+     /tmp/ccBwmWIp.s:3635   .rodata.balanceShift:0000000000000000 $d
+     /tmp/ccBwmWIp.s:3639   .rodata.balanceShift:0000000000000000 balanceShift
                      .debug_frame:0000000000000010 $d
-     /tmp/cciXVhcj.s:718    .text.bmsStateHandler:0000000000000013 $d
-     /tmp/cciXVhcj.s:718    .text.bmsStateHandler:0000000000000014 $t
-     /tmp/cciXVhcj.s:3365   .text.decodeTemp:000000000000001f $d
-     /tmp/cciXVhcj.s:3365   .text.decodeTemp:0000000000000020 $t
+     /tmp/ccBwmWIp.s:718    .text.bmsStateHandler:0000000000000013 $d
+     /tmp/ccBwmWIp.s:718    .text.bmsStateHandler:0000000000000014 $t
+     /tmp/ccBwmWIp.s:3365   .text.decodeTemp:000000000000001f $d
+     /tmp/ccBwmWIp.s:3365   .text.decodeTemp:0000000000000020 $t
 
 UNDEFINED SYMBOLS
 __aeabi_i2d
 __aeabi_dcmpgt
-ARM GAS  /tmp/cciXVhcj.s 			page 86
+ARM GAS  /tmp/ccBwmWIp.s 			page 86
 
 
 c2tx
