@@ -35,12 +35,13 @@ enum
     burnout,      //destroy tires
 };
 
-//SOC filtering
+/*/SOC filtering
 static const int numReadings = 10;
 static int readings[10];  // the readings from the analog input
 static int readIndex = 0; // the index of the current reading
 static int total = 0;     // the running total
 static int average = 0;   // the average
+*/
 
 static const uint8_t balanceByte[96] =
     {0, 0, 0, 0, 0, 0,
@@ -78,6 +79,25 @@ void initBMS(void)
     for (size_t i = 0; i < 2; i++)
     {
         BMS[i].state = Boot;
+        BMS[i].cellDelta = 0;
+        BMS[i].highCellTemp = 0;
+        BMS[i].chargeRequest = 0;
+        BMS[i].highCellVolt = 0;
+        BMS[i].lowCellVolt = 0;
+        BMS[i].lowCellTemp = 0;
+        BMS[i].packVolt = 0;
+        BMS[i].SOC = 0;
+        BMS[i].tempDelta = 0;
+
+        for (size_t j = 0; j < 96; j++)
+        {
+            BMS[i].cellVolt[j] = 0; /* code */
+        }
+
+        for (size_t j = 0; j < 16; j++)
+        {
+            BMS[i].tempSensor[j] = 0; /* code */
+        }
     }
     vechicleState = off;
     charged = false;
@@ -98,7 +118,7 @@ void bmsStateHandler(bms_t *bms)
 
         if (bms->avgCellVolt > BALANCE_VOLTAGE)
         {
-            if ((bms->highCellVolt - bms->lowCellVolt) > (BALANCE_HYS * 2.5))
+            if ((bms->highCellVolt - bms->lowCellVolt) > (BALANCE_HYS * 1.5)) // was 2.5
             {
                 bms->balancecells = true;
             }
@@ -191,7 +211,7 @@ void acChargeCommand(void)
         canTx2[5] = (val >> 8) & 0xFF;
         canTx2[6] = (val >> 16) & 0xFF;
         canTx2[7] = (val >> 24) & 0xFF;
-        c2tx(&txMsg, canTx);
+        c2tx(&txMsg2, canTx2);
     }
 
     if (!BMS[0].chargeRequest || !BMS[1].chargeRequest)
@@ -207,7 +227,7 @@ void acChargeCommand(void)
         canTx2[5] = (val >> 8) & 0xFF;
         canTx2[6] = (val >> 16) & 0xFF;
         canTx2[7] = (val >> 24) & 0xFF;
-        c2tx(&txMsg, canTx);
+        c2tx(&txMsg2, canTx2);
         charged = true;
     }
 }
@@ -215,29 +235,31 @@ void acChargeCommand(void)
 void tx500kData(void)
 {
 
-    txMsg2.StdId = 0x138; //BMS1
-    txMsg2.DLC = 8;
-    canTx2[0] = BMS[0].packVolt & 0xFF;
-    canTx2[1] = (BMS[0].packVolt >> 8) & 0xFF;
-    canTx2[2] = BMS[0].avgCellTemp & 0XFF;
-    canTx2[3] = (BMS[0].avgCellTemp >> 8) & 0XFF;
-    canTx2[4] = BMS[0].cellDelta & 0XFF;
-    canTx2[5] = (BMS[0].cellDelta >> 8) & 0XFF;
-    canTx2[6] = 0;
-    canTx2[7] = 0;
-    c2tx(&txMsg2, canTx2);
+    //txMsg2.StdId = 0x138; //BMS1
+    //txMsg2.DLC = 8;
+    uint8_t bytes[8];
+    bytes[0] = BMS[0].packVolt & 0xFF;
+    bytes[1] = (BMS[0].packVolt >> 8) & 0xFF;
+    bytes[2] = BMS[0].avgCellTemp & 0XFF;
+    bytes[3] = (BMS[0].avgCellTemp >> 8) & 0XFF;
+    bytes[4] = BMS[0].cellDelta & 0XFF;
+    bytes[5] = (BMS[0].cellDelta >> 8) & 0XFF;
+    bytes[6] = (BMS[0].SOC);
+    bytes[7] = 0;
+    can2tx(0x138, 8, bytes);
 
-    txMsg2.StdId = 0x139; //BMS2
-    txMsg2.DLC = 8;
-    canTx2[0] = BMS[1].packVolt & 0xFF;
-    canTx2[1] = (BMS[1].packVolt >> 8) & 0xFF;
-    canTx2[2] = BMS[1].avgCellTemp & 0XFF;
-    canTx2[3] = (BMS[1].avgCellTemp >> 8) & 0XFF;
-    canTx2[4] = BMS[1].cellDelta & 0XFF;
-    canTx2[5] = (BMS[1].cellDelta >> 8) & 0XFF;
-    canTx2[6] = 0;
-    canTx2[7] = 0;
-    c2tx(&txMsg2, canTx2);
+    //txMsg2.StdId = 0x139; //BMS2
+    //txMsg2.DLC = 8;
+    bytes[0] = BMS[1].packVolt & 0xFF;
+    bytes[1] = (BMS[1].packVolt >> 8) & 0xFF;
+    bytes[2] = BMS[1].avgCellTemp & 0XFF;
+    bytes[3] = (BMS[1].avgCellTemp >> 8) & 0XFF;
+    bytes[4] = BMS[1].cellDelta & 0XFF;
+    bytes[5] = (BMS[1].cellDelta >> 8) & 0XFF;
+    bytes[6] = (BMS[1].SOC);
+    bytes[7] = 0;
+    can2tx(0x139, 8, bytes);
+    //c2tx(&txMsg2, canTx2);
 }
 
 void refreshData(void)
@@ -257,6 +279,7 @@ void refreshData(void)
         getTempDelta(&BMS[i]);
         getCellCount(&BMS[i], i);
         getSOC(&BMS[i]);
+        acChargeCommand();
     }
 }
 
@@ -379,7 +402,7 @@ void balanceCommand(bms_t *bms, int pack)
 void getSOC(bms_t *bms)
 {
     bms->SOC = MAP(bms->avgCellVolt, SOC_VOLT_10, SOC_VOLT_90, 10, 90);
-
+    /*
     // subtract the last reading:
     total = total - readings[readIndex];
     // read from the sensor:
@@ -396,6 +419,7 @@ void getSOC(bms_t *bms)
     }
     // calculate the average:
     average = total / numReadings;
+    */
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -417,7 +441,7 @@ void getHighCellTemp(bms_t *bms)
     bms->highCellTemp = 0;
     for (size_t i = 0; i < 16; i++)
     {
-        if ((bms->tempSensor[i] > bms->highCellTemp) && (bms->tempSensor[i] > 0))
+        if (bms->tempSensor[i] > bms->highCellTemp)
         {
             bms->highCellTemp = bms->tempSensor[i];
         }
@@ -427,12 +451,15 @@ void getHighCellTemp(bms_t *bms)
 ///////////////////////////////////////////////////////////////////////////////////////
 void getLowCellTemp(bms_t *bms)
 {
-    bms->lowCellTemp = 0;
+    bms->lowCellTemp = 20000;
     for (size_t i = 0; i < 16; i++)
     {
-        if (bms->tempSensor[i] > bms->lowCellTemp)
+        if (bms->tempSensor[i] > 0)
         {
-            bms->lowCellTemp = bms->tempSensor[i];
+            if (bms->tempSensor[i] < bms->lowCellTemp)
+            {
+                bms->lowCellTemp = bms->tempSensor[i];
+            }
         }
     }
 }
@@ -444,14 +471,14 @@ void getAvgCellTemp(bms_t *bms)
     int sumTemp = 0;
     for (size_t i = 0; i < 16; i++)
     {
-        if (bms->tempSensor[i] == IGNORE_TEMP)
+        if (bms->tempSensor[i] == 0) //IGNORE_TEMP)
         {
             zeroCounter++;
         }
 
         sumTemp += bms->tempSensor[i];
     }
-    bms->avgCellTemp = (sumTemp - (zeroCounter * IGNORE_TEMP) / (16 - zeroCounter));
+    bms->avgCellTemp = (sumTemp / (16 - zeroCounter));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -489,7 +516,7 @@ void getAvgCellVolt(bms_t *bms)
 
         cellSum += bms->cellVolt[i];
     }
-    bms->avgCellTemp = cellSum / 96;
+    bms->avgCellVolt = (cellSum / 96);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -716,7 +743,7 @@ void decodeVolt(bms_t *bms, CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx) // cell 
     }
 }
 
-void decodeTemp(bms_t *bms, CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
+void decodeTemp(bms_t *bms, CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx) // in degrees F x 100
 {
     switch (rxMsg->StdId)
     {
@@ -729,12 +756,12 @@ void decodeTemp(bms_t *bms, CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
         break;
 
     case 0x7E2:
-        bms->tempSensor[2] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+        bms->tempSensor[2] = 0; //-((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
         bms->tempSensor[3] = -((((canRx[2] << 8) + canRx[3]) * 7) - 28700);
         break;
 
     case 0x7E3:
-        bms->tempSensor[4] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+        bms->tempSensor[4] = 0; //-((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
         break;
 
     case 0x7E4: //Begin module 2 temp sensors
@@ -742,12 +769,12 @@ void decodeTemp(bms_t *bms, CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
         break;
 
     case 0x7E5:
-        bms->tempSensor[6] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+        bms->tempSensor[6] = 0; //-((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
         bms->tempSensor[7] = -((((canRx[2] << 8) + canRx[3]) * 7) - 28700);
         break;
 
     case 0x7E6:
-        bms->tempSensor[8] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+        bms->tempSensor[8] = 0; //-((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
         break;
 
     case 0x7E8: //Begin module 3 temp sensors
@@ -755,12 +782,12 @@ void decodeTemp(bms_t *bms, CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
         break;
 
     case 0x7E9:
-        bms->tempSensor[10] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+        bms->tempSensor[10] = 0; //-((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
         bms->tempSensor[11] = -((((canRx[2] << 8) + canRx[3]) * 7) - 28700);
         break;
 
     case 0x7EA:
-        bms->tempSensor[12] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+        bms->tempSensor[12] = 0; //-((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
         break;
 
     case 0x7EC: //Begin module 4 temp sensors
@@ -772,7 +799,7 @@ void decodeTemp(bms_t *bms, CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
         break;
 
     case 0x7EE:
-        bms->tempSensor[15] = -((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
+        bms->tempSensor[15] = 0; //-((((canRx[0] << 8) + canRx[1]) * 7) - 28700);
         break;
 
     default:

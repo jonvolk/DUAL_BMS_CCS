@@ -358,7 +358,7 @@ void StartDefaultTask(void *argument)
   {
     //bmsStateHandler();
     visHandle();
-    acChargeCommand();
+    
     bmsStateHandler(&BMS[0]);
     bmsStateHandler(&BMS[1]);
 
@@ -402,12 +402,12 @@ void StartbalanceCommand(void *argument)
   {
     if (BMS[0].balancecells)
     {
-      //balanceCommand(&BMS[0], 0);
+      balanceCommand(&BMS[0], 0);
     }
 
     if (BMS[1].balancecells)
     {
-      //balanceCommand(&BMS[1], 1);
+      balanceCommand(&BMS[1], 1);
     }
 
     osDelay(15000);
@@ -430,6 +430,7 @@ void StartprocessData(void *argument)
   {
 
     refreshData();
+    tx500kData();
 
     osDelay(1000);
   }

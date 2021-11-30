@@ -135,6 +135,7 @@ void i3LIMClass::handle3B4(uint32_t data[2])  //Lim data
 
 }
 
+////////// PORTED
 void i3LIMClass::handle29E(uint32_t data[2])  //Lim data. Available current and voltage from the ccs charger
 
 {
@@ -152,7 +153,7 @@ CCS_IntStat = (bytes[0]>>2)&0x0f;
 Param::SetInt(Param::CCS_COND,CCS_IntStat);//update evse condition on webui
 
 }
-
+//////////// PORTED
 void i3LIMClass::handle2B2(uint32_t data[2])  //Lim data. Current and Votage as measured by the ccs charger
 
 {
@@ -173,7 +174,7 @@ CCS_Malf = (bytes[4]>>2)&0x03;
 CCS_Bmalf = bytes[5]&0x03;
 CCS_Stop = (bytes[5]>>2)&0x03;
 }
-
+////////// PORTED
 void i3LIMClass::handle2EF(uint32_t data[2])  //Lim data. Min available voltage from the ccs charger.
 
 {
@@ -185,6 +186,7 @@ Param::SetInt(Param::CCS_V_Min,minV_Avail);//minimum available voltage from ccs 
 CCS_Plim = (bytes[6]>>4)&0x03;
 
 }
+/////////// PORTED
 
 void i3LIMClass::handle272(uint32_t data[2])  //Lim data. CCS contactor state and charge flap open/close status.
 {
@@ -196,7 +198,7 @@ Param::SetInt(Param::CCS_Contactor,Cont_stat);
 uint8_t drmodes=bytes[2]&0x03;
 Param::SetInt(Param::CP_DOOR,drmodes);
 }
-
+///////// PORTED
 
 void i3LIMClass::Send10msMessages()
 {
@@ -233,7 +235,7 @@ Can::GetInterface(0)->Send(0x1a1, (uint32_t*)bytes,5); //Send on CAN1. average 2
 }
 
 }
-
+////////////PORTED
 
 void i3LIMClass::Send200msMessages()
 {
@@ -418,7 +420,7 @@ Can::GetInterface(0)->Send(0x397, (uint32_t*)bytes,7); //Send on CAN1. not on 19
 
 
 
-
+/////////////PORTED
 
 
 

@@ -38,6 +38,8 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
         {
             Error_Handler();
         }
+        vehicleComms(&rxMsg2,canRx2);
+
     }
 
     if (hcan->Instance == CAN3)
@@ -177,6 +179,18 @@ void c1tx(CAN_TxHeaderTypeDef *txMsg, uint8_t *canTx)
     }
 }
 
+void can1tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx)
+{
+    txMsg.StdId = msgId;
+    txMsg.DLC = DLC;
+    HAL_CAN_AddTxMessage(&hcan1, &txMsg, canTx, &canMailbox);
+    if (txCycle >= 3)
+    {
+        HAL_Delay(1);
+        txCycle = 0;
+    }
+}
+
 void c2tx(CAN_TxHeaderTypeDef *txMsg2, uint8_t *canTx2)
 {
 
@@ -189,11 +203,35 @@ void c2tx(CAN_TxHeaderTypeDef *txMsg2, uint8_t *canTx2)
     }
 }
 
+void can2tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx2)
+{
+    txMsg2.StdId = msgId;
+    txMsg2.DLC = DLC;
+    HAL_CAN_AddTxMessage(&hcan2, &txMsg2, canTx2, &canMailbox);
+    if (txCycle2 >= 3)
+    {
+        HAL_Delay(1);
+        txCycle2 = 0;
+    }
+}
+
 void c3tx(CAN_TxHeaderTypeDef *txMsg3, uint8_t *canTx3)
 {
 
     HAL_CAN_AddTxMessage(&hcan3, txMsg3, canTx3, &canMailbox2);
     txCycle2++;
+    if (txCycle3 >= 3)
+    {
+        HAL_Delay(1);
+        txCycle3 = 0;
+    }
+}
+
+void can3tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx2)
+{
+    txMsg3.StdId = msgId;
+    txMsg3.DLC = DLC;
+    HAL_CAN_AddTxMessage(&hcan3, &txMsg3, canTx3, &canMailbox);
     if (txCycle3 >= 3)
     {
         HAL_Delay(1);
