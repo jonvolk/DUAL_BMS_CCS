@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccNnkPJn.s 			page 1
+ARM GAS  /tmp/ccQ0jBtd.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
   29:Core/Src/ws2812b.c **** // Gamma correction table
   30:Core/Src/ws2812b.c **** const uint8_t gammaTable[] = {
   31:Core/Src/ws2812b.c ****     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-ARM GAS  /tmp/ccNnkPJn.s 			page 2
+ARM GAS  /tmp/ccQ0jBtd.s 			page 2
 
 
   32:Core/Src/ws2812b.c ****     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
   86:Core/Src/ws2812b.c **** 	uint32_t cc1 = (10 * tim_period) / 36;
   87:Core/Src/ws2812b.c **** 	uint32_t cc2 = (10 * tim_period) / 15;
   88:Core/Src/ws2812b.c **** 
-ARM GAS  /tmp/ccNnkPJn.s 			page 3
+ARM GAS  /tmp/ccQ0jBtd.s 			page 3
 
 
   89:Core/Src/ws2812b.c **** 	TIM1_handle.Instance = TIM1;
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  143:Core/Src/ws2812b.c **** 	dmaUpdate.Init.MemInc = DMA_MINC_DISABLE;
  144:Core/Src/ws2812b.c **** 	dmaUpdate.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
  145:Core/Src/ws2812b.c **** 	dmaUpdate.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-ARM GAS  /tmp/ccNnkPJn.s 			page 4
+ARM GAS  /tmp/ccQ0jBtd.s 			page 4
 
 
  146:Core/Src/ws2812b.c **** 	dmaUpdate.Init.Mode = DMA_CIRCULAR;
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  200:Core/Src/ws2812b.c **** 	dmaCC2.Init.Mode = DMA_CIRCULAR;
  201:Core/Src/ws2812b.c **** 	dmaCC2.Init.Priority = DMA_PRIORITY_VERY_HIGH;
  202:Core/Src/ws2812b.c **** 	dmaCC2.Init.Channel = DMA_CHANNEL_6;
-ARM GAS  /tmp/ccNnkPJn.s 			page 5
+ARM GAS  /tmp/ccQ0jBtd.s 			page 5
 
 
  203:Core/Src/ws2812b.c **** 
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  257:Core/Src/ws2812b.c **** 
  258:Core/Src/ws2812b.c **** 		loadNextFramebufferData(&ws2812b.item[i], 0); // ROW 0
  259:Core/Src/ws2812b.c **** 		loadNextFramebufferData(&ws2812b.item[i], 1); // ROW 0
-ARM GAS  /tmp/ccNnkPJn.s 			page 6
+ARM GAS  /tmp/ccQ0jBtd.s 			page 6
 
 
  260:Core/Src/ws2812b.c **** 	}
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  298:Core/Src/ws2812b.c **** }
   44              		.loc 1 298 0
   45 000c 02B0     		add	sp, sp, #8
-ARM GAS  /tmp/ccNnkPJn.s 			page 7
+ARM GAS  /tmp/ccQ0jBtd.s 			page 7
 
 
   46              	.LCFI1:
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
   97 0026 0595     		str	r5, [sp, #20]
   56:Core/Src/ws2812b.c **** 	HAL_GPIO_Init(WS2812B_PORT, &GPIO_InitStruct);
   98              		.loc 1 56 0
-ARM GAS  /tmp/ccNnkPJn.s 			page 8
+ARM GAS  /tmp/ccQ0jBtd.s 			page 8
 
 
   99 0028 0695     		str	r5, [sp, #24]
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  143              		@ sp needed
  144 006c F0BD     		pop	{r4, r5, r6, r7, pc}
  145              	.L6:
-ARM GAS  /tmp/ccNnkPJn.s 			page 9
+ARM GAS  /tmp/ccQ0jBtd.s 			page 9
 
 
  146 006e 00BF     		.align	2
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  198              		.loc 1 142 0
  199 0028 E560     		str	r5, [r4, #12]
  143:Core/Src/ws2812b.c **** 	dmaUpdate.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-ARM GAS  /tmp/ccNnkPJn.s 			page 10
+ARM GAS  /tmp/ccQ0jBtd.s 			page 10
 
 
  200              		.loc 1 143 0
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  241 0070 2046     		mov	r0, r4
  242 0072 FFF7FEFF 		bl	HAL_DMA_Start
  243              	.LVL6:
-ARM GAS  /tmp/ccNnkPJn.s 			page 11
+ARM GAS  /tmp/ccQ0jBtd.s 			page 11
 
 
  168:Core/Src/ws2812b.c **** 	dmaCC1.Init.PeriphInc = DMA_PINC_DISABLE;
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  190:Core/Src/ws2812b.c **** 	//HAL_DMA_Start(&dmaCC1, (uint32_t)ws2812bDmaBitBuffer, (uint32_t)&dummy, BUFFER_SIZE); //BRR
  283              		.loc 1 190 0
  284 00b2 3023     		movs	r3, #48
-ARM GAS  /tmp/ccNnkPJn.s 			page 12
+ARM GAS  /tmp/ccQ0jBtd.s 			page 12
 
 
  285 00b4 224A     		ldr	r2, .L9+28
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  324 00ee 184B     		ldr	r3, .L9+44
  325 00f0 E363     		str	r3, [r4, #60]
  214:Core/Src/ws2812b.c **** 	dmaCC2.XferErrorCallback = DMA_TransferError;
-ARM GAS  /tmp/ccNnkPJn.s 			page 13
+ARM GAS  /tmp/ccQ0jBtd.s 			page 13
 
 
  326              		.loc 1 214 0
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  374 0154 00000000 		.word	DMA_TransferHalfHandler
  375 0158 00000000 		.word	DMA_TransferError
  376 015c 00000000 		.word	.LANCHOR1
-ARM GAS  /tmp/ccNnkPJn.s 			page 14
+ARM GAS  /tmp/ccQ0jBtd.s 			page 14
 
 
  377              		.cfi_endproc
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  429 0032 A1FB0212 		umull	r1, r2, r1, r2
  430 0036 D20A     		lsrs	r2, r2, #11
  431 0038 2E49     		ldr	r1, .L14+20
-ARM GAS  /tmp/ccNnkPJn.s 			page 15
+ARM GAS  /tmp/ccQ0jBtd.s 			page 15
 
 
  432 003a 0A60     		str	r2, [r1]
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  474 0078 2349     		ldr	r1, .L14+40
  475 007a 4FF06008 		mov	r8, #96
  476 007e C1F80080 		str	r8, [r1]
-ARM GAS  /tmp/ccNnkPJn.s 			page 16
+ARM GAS  /tmp/ccQ0jBtd.s 			page 16
 
 
  102:Core/Src/ws2812b.c **** 	tim2OC1.Pulse        = cc1;
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  516 00b4 2846     		mov	r0, r5
  517 00b6 FFF7FEFF 		bl	HAL_TIM_PWM_Start
  518              	.LVL23:
-ARM GAS  /tmp/ccNnkPJn.s 			page 17
+ARM GAS  /tmp/ccQ0jBtd.s 			page 17
 
 
  121:Core/Src/ws2812b.c **** 
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  300:Core/Src/ws2812b.c **** 
  301:Core/Src/ws2812b.c **** void DMA_TransferHalfHandler(DMA_HandleTypeDef *DmaHandle)
  302:Core/Src/ws2812b.c **** {
-ARM GAS  /tmp/ccNnkPJn.s 			page 18
+ARM GAS  /tmp/ccQ0jBtd.s 			page 18
 
 
  303:Core/Src/ws2812b.c **** 
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  357:Core/Src/ws2812b.c **** 
  358:Core/Src/ws2812b.c **** 		// Generate an update event to reload the prescaler value immediately
  359:Core/Src/ws2812b.c **** 		TIM1->EGR = TIM_EGR_UG;
-ARM GAS  /tmp/ccNnkPJn.s 			page 19
+ARM GAS  /tmp/ccQ0jBtd.s 			page 19
 
 
  360:Core/Src/ws2812b.c **** 		__HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE);
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  586              	.LVL25:
  398:Core/Src/ws2812b.c **** 
  399:Core/Src/ws2812b.c **** 	#if defined(LED_BLUE_PORT)
-ARM GAS  /tmp/ccNnkPJn.s 			page 20
+ARM GAS  /tmp/ccQ0jBtd.s 			page 20
 
 
  400:Core/Src/ws2812b.c **** 		LED_BLUE_PORT->BSRR = LED_BLUE_PIN << 16;
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  629 0016 10BD     		pop	{r4, pc}
  630              	.L23:
  631              		.align	2
-ARM GAS  /tmp/ccNnkPJn.s 			page 21
+ARM GAS  /tmp/ccQ0jBtd.s 			page 21
 
 
  632              	.L22:
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  454:Core/Src/ws2812b.c ****     ws2812b.transferComplete = 1;
  455:Core/Src/ws2812b.c **** 
  456:Core/Src/ws2812b.c **** }
-ARM GAS  /tmp/ccNnkPJn.s 			page 22
+ARM GAS  /tmp/ccQ0jBtd.s 			page 22
 
 
  457:Core/Src/ws2812b.c **** */ 
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  474:Core/Src/ws2812b.c **** 
  475:Core/Src/ws2812b.c **** 
  476:Core/Src/ws2812b.c **** #if defined(SETPIX_1)
-ARM GAS  /tmp/ccNnkPJn.s 			page 23
+ARM GAS  /tmp/ccQ0jBtd.s 			page 23
 
 
  477:Core/Src/ws2812b.c **** 	uint8_t i;
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  709 0054 4FF0000E 		mov	lr, #0
  710 0058 C7F800E0 		str	lr, [r7]
  711 005c 38E0     		b	.L29
-ARM GAS  /tmp/ccNnkPJn.s 			page 24
+ARM GAS  /tmp/ccQ0jBtd.s 			page 24
 
 
  712              	.L30:
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  755 00b8 104F     		ldr	r7, .L35+4
  756 00ba 07EB4E0E 		add	lr, r7, lr, lsl #1
  757 00be 8700     		lsls	r7, r0, #2
-ARM GAS  /tmp/ccNnkPJn.s 			page 25
+ARM GAS  /tmp/ccQ0jBtd.s 			page 25
 
 
  758 00c0 47EA4E17 		orr	r7, r7, lr, lsl #5
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  543:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+7)] |= (((((invGreen)<<7) & 0x80)>>7)<<row);
  544:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+7)] |= (((((invRed)<<7) & 0x80)>>7)<<row);
  545:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+7)] |= (((((invBlue)<<7) & 0x80)>>7)<<row);
-ARM GAS  /tmp/ccNnkPJn.s 			page 26
+ARM GAS  /tmp/ccQ0jBtd.s 			page 26
 
 
  546:Core/Src/ws2812b.c **** #elif defined(SETPIX_4)
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  600:Core/Src/ws2812b.c **** 	// BLUE
  601:Core/Src/ws2812b.c **** 	*bitBand =  (invBlue >> 7);
  602:Core/Src/ws2812b.c **** 	bitBand+=16;
-ARM GAS  /tmp/ccNnkPJn.s 			page 27
+ARM GAS  /tmp/ccQ0jBtd.s 			page 27
 
 
  603:Core/Src/ws2812b.c **** 
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  810              		.cfi_offset 14, -4
  811 0002 82B0     		sub	sp, sp, #8
  812              	.LCFI15:
-ARM GAS  /tmp/ccNnkPJn.s 			page 28
+ARM GAS  /tmp/ccQ0jBtd.s 			page 28
 
 
  813              		.cfi_def_cfa_offset 24
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  860              	.LFE133:
  862              		.section	.text.DMA_TransferCompleteHandler,"ax",%progbits
  863              		.align	1
-ARM GAS  /tmp/ccNnkPJn.s 			page 29
+ARM GAS  /tmp/ccQ0jBtd.s 			page 29
 
 
  864              		.global	DMA_TransferCompleteHandler
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  912 002a 0B68     		ldr	r3, [r1]
  913 002c 23F00103 		bic	r3, r3, #1
  914 0030 0B60     		str	r3, [r1]
-ARM GAS  /tmp/ccNnkPJn.s 			page 30
+ARM GAS  /tmp/ccQ0jBtd.s 			page 30
 
 
  344:Core/Src/ws2812b.c **** 		__HAL_DMA_DISABLE(&dmaCC2);
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  958 0080 1368     		ldr	r3, [r2]
  959 0082 43F00103 		orr	r3, r3, #1
  960 0086 1360     		str	r3, [r2]
-ARM GAS  /tmp/ccNnkPJn.s 			page 31
+ARM GAS  /tmp/ccQ0jBtd.s 			page 31
 
 
  368:Core/Src/ws2812b.c **** 	} else {
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1008 00c8 00000140 		.word	1073807360
  1009 00cc 00000000 		.word	dmaUpdate
  1010 00d0 00000000 		.word	dmaCC1
-ARM GAS  /tmp/ccNnkPJn.s 			page 32
+ARM GAS  /tmp/ccQ0jBtd.s 			page 32
 
 
  1011 00d4 00000000 		.word	dmaCC2
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1061 0020 4A4A     		ldr	r2, .L71+8
  1062 0022 9342     		cmp	r3, r2
  1063 0024 36D9     		bls	.L59
-ARM GAS  /tmp/ccNnkPJn.s 			page 33
+ARM GAS  /tmp/ccQ0jBtd.s 			page 33
 
 
  264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1108              		.loc 1 263 0 discriminator 2
  1109 006a 3C4A     		ldr	r2, .L71+24
  1110 006c 9342     		cmp	r3, r2
-ARM GAS  /tmp/ccNnkPJn.s 			page 34
+ARM GAS  /tmp/ccQ0jBtd.s 			page 34
 
 
  1111 006e 04D9     		bls	.L57
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1156 00b8 2A4B     		ldr	r3, .L71+32
  1157 00ba 9A60     		str	r2, [r3, #8]
  1158 00bc B7E7     		b	.L60
-ARM GAS  /tmp/ccNnkPJn.s 			page 35
+ARM GAS  /tmp/ccQ0jBtd.s 			page 35
 
 
  1159              	.L68:
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1203              		.loc 1 284 0
  1204 010a DA68     		ldr	r2, [r3, #12]
  1205 010c 42F40072 		orr	r2, r2, #512
-ARM GAS  /tmp/ccNnkPJn.s 			page 36
+ARM GAS  /tmp/ccQ0jBtd.s 			page 36
 
 
  1206 0110 DA60     		str	r2, [r3, #12]
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1256              		.syntax unified
  1257              		.thumb
  1258              		.thumb_func
-ARM GAS  /tmp/ccNnkPJn.s 			page 37
+ARM GAS  /tmp/ccQ0jBtd.s 			page 37
 
 
  1259              		.fpu fpv4-sp-d16
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1308 002e 002C     		cmp	r4, #0
  1309 0030 F6D0     		beq	.L76
  320:Core/Src/ws2812b.c **** 	}
-ARM GAS  /tmp/ccNnkPJn.s 			page 38
+ARM GAS  /tmp/ccQ0jBtd.s 			page 38
 
 
  1310              		.loc 1 320 0 is_stmt 1
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1354 0006 FFF7FEFF 		bl	DMA2_init
  1355              	.LVL67:
  638:Core/Src/ws2812b.c **** 	TIM1_init();
-ARM GAS  /tmp/ccNnkPJn.s 			page 39
+ARM GAS  /tmp/ccQ0jBtd.s 			page 39
 
 
  1356              		.loc 1 638 0
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  650:Core/Src/ws2812b.c **** 		WS2812_sendbuf();
  1401              		.loc 1 650 0
  1402 0010 FFF7FEFF 		bl	WS2812_sendbuf
-ARM GAS  /tmp/ccNnkPJn.s 			page 40
+ARM GAS  /tmp/ccQ0jBtd.s 			page 40
 
 
  1403              	.LVL69:
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1461 000e 00       		.byte	0
  1462 000f 00       		.byte	0
  1463 0010 00       		.byte	0
-ARM GAS  /tmp/ccNnkPJn.s 			page 41
+ARM GAS  /tmp/ccQ0jBtd.s 			page 41
 
 
  1464 0011 00       		.byte	0
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1518 0047 07       		.byte	7
  1519 0048 07       		.byte	7
  1520 0049 08       		.byte	8
-ARM GAS  /tmp/ccNnkPJn.s 			page 42
+ARM GAS  /tmp/ccQ0jBtd.s 			page 42
 
 
  1521 004a 08       		.byte	8
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1575 0080 25       		.byte	37
  1576 0081 26       		.byte	38
  1577 0082 27       		.byte	39
-ARM GAS  /tmp/ccNnkPJn.s 			page 43
+ARM GAS  /tmp/ccQ0jBtd.s 			page 43
 
 
  1578 0083 27       		.byte	39
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1632 00b9 68       		.byte	104
  1633 00ba 69       		.byte	105
  1634 00bb 6B       		.byte	107
-ARM GAS  /tmp/ccNnkPJn.s 			page 44
+ARM GAS  /tmp/ccQ0jBtd.s 			page 44
 
 
  1635 00bc 6D       		.byte	109
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1689 00f2 DC       		.byte	-36
  1690 00f3 DF       		.byte	-33
  1691 00f4 E1       		.byte	-31
-ARM GAS  /tmp/ccNnkPJn.s 			page 45
+ARM GAS  /tmp/ccQ0jBtd.s 			page 45
 
 
  1692 00f5 E4       		.byte	-28
@@ -2670,67 +2670,67 @@ ARM GAS  /tmp/ccNnkPJn.s 			page 1
  1718              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
  1719              		.file 16 "Core/Inc/ws2812b.h"
  1720              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
-ARM GAS  /tmp/ccNnkPJn.s 			page 46
+ARM GAS  /tmp/ccQ0jBtd.s 			page 46
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 ws2812b.c
-     /tmp/ccNnkPJn.s:18     .text.DMA_TransferError:0000000000000000 $t
-     /tmp/ccNnkPJn.s:25     .text.DMA_TransferError:0000000000000000 DMA_TransferError
-     /tmp/ccNnkPJn.s:54     .text.ws2812b_gpio_init:0000000000000000 $t
-     /tmp/ccNnkPJn.s:60     .text.ws2812b_gpio_init:0000000000000000 ws2812b_gpio_init
-     /tmp/ccNnkPJn.s:148    .text.ws2812b_gpio_init:0000000000000070 $d
-     /tmp/ccNnkPJn.s:154    .text.DMA2_init:0000000000000000 $t
-     /tmp/ccNnkPJn.s:160    .text.DMA2_init:0000000000000000 DMA2_init
-     /tmp/ccNnkPJn.s:362    .text.DMA2_init:0000000000000124 $d
+     /tmp/ccQ0jBtd.s:18     .text.DMA_TransferError:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:25     .text.DMA_TransferError:0000000000000000 DMA_TransferError
+     /tmp/ccQ0jBtd.s:54     .text.ws2812b_gpio_init:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:60     .text.ws2812b_gpio_init:0000000000000000 ws2812b_gpio_init
+     /tmp/ccQ0jBtd.s:148    .text.ws2812b_gpio_init:0000000000000070 $d
+     /tmp/ccQ0jBtd.s:154    .text.DMA2_init:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:160    .text.DMA2_init:0000000000000000 DMA2_init
+     /tmp/ccQ0jBtd.s:362    .text.DMA2_init:0000000000000124 $d
                             *COM*:0000000000000060 dmaUpdate
                             *COM*:0000000000000060 dmaCC1
                             *COM*:0000000000000060 ws2812bDmaBitBuffer
                             *COM*:0000000000000060 dmaCC2
-     /tmp/ccNnkPJn.s:870    .text.DMA_TransferCompleteHandler:0000000000000000 DMA_TransferCompleteHandler
-     /tmp/ccNnkPJn.s:1261   .text.DMA_TransferHalfHandler:0000000000000000 DMA_TransferHalfHandler
-     /tmp/ccNnkPJn.s:381    .text.TIM1_init:0000000000000000 $t
-     /tmp/ccNnkPJn.s:387    .text.TIM1_init:0000000000000000 TIM1_init
-     /tmp/ccNnkPJn.s:545    .text.TIM1_init:00000000000000e0 $d
+     /tmp/ccQ0jBtd.s:870    .text.DMA_TransferCompleteHandler:0000000000000000 DMA_TransferCompleteHandler
+     /tmp/ccQ0jBtd.s:1261   .text.DMA_TransferHalfHandler:0000000000000000 DMA_TransferHalfHandler
+     /tmp/ccQ0jBtd.s:381    .text.TIM1_init:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:387    .text.TIM1_init:0000000000000000 TIM1_init
+     /tmp/ccQ0jBtd.s:545    .text.TIM1_init:00000000000000e0 $d
                             *COM*:0000000000000004 tim_period
                             *COM*:0000000000000004 timer_reset_pulse_period
                             *COM*:0000000000000040 TIM1_handle
                             *COM*:000000000000001c tim2OC1
                             *COM*:000000000000001c tim2OC2
-     /tmp/ccNnkPJn.s:561    .text.DMA2_Stream2_IRQHandler:0000000000000000 $t
-     /tmp/ccNnkPJn.s:568    .text.DMA2_Stream2_IRQHandler:0000000000000000 DMA2_Stream2_IRQHandler
-     /tmp/ccNnkPJn.s:594    .text.DMA2_Stream2_IRQHandler:0000000000000018 $d
-     /tmp/ccNnkPJn.s:600    .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 $t
-     /tmp/ccNnkPJn.s:607    .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 TIM1_UP_TIM10_IRQHandler
-     /tmp/ccNnkPJn.s:633    .text.TIM1_UP_TIM10_IRQHandler:0000000000000018 $d
-     /tmp/ccNnkPJn.s:639    .text.ws2812b_set_pixel:0000000000000000 $t
-     /tmp/ccNnkPJn.s:646    .text.ws2812b_set_pixel:0000000000000000 ws2812b_set_pixel
-     /tmp/ccNnkPJn.s:785    .text.ws2812b_set_pixel:00000000000000f8 $d
-     /tmp/ccNnkPJn.s:791    .text.loadNextFramebufferData:0000000000000000 $t
-     /tmp/ccNnkPJn.s:797    .text.loadNextFramebufferData:0000000000000000 loadNextFramebufferData
-     /tmp/ccNnkPJn.s:863    .text.DMA_TransferCompleteHandler:0000000000000000 $t
-     /tmp/ccNnkPJn.s:1006   .text.DMA_TransferCompleteHandler:00000000000000c0 $d
+     /tmp/ccQ0jBtd.s:561    .text.DMA2_Stream2_IRQHandler:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:568    .text.DMA2_Stream2_IRQHandler:0000000000000000 DMA2_Stream2_IRQHandler
+     /tmp/ccQ0jBtd.s:594    .text.DMA2_Stream2_IRQHandler:0000000000000018 $d
+     /tmp/ccQ0jBtd.s:600    .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:607    .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 TIM1_UP_TIM10_IRQHandler
+     /tmp/ccQ0jBtd.s:633    .text.TIM1_UP_TIM10_IRQHandler:0000000000000018 $d
+     /tmp/ccQ0jBtd.s:639    .text.ws2812b_set_pixel:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:646    .text.ws2812b_set_pixel:0000000000000000 ws2812b_set_pixel
+     /tmp/ccQ0jBtd.s:785    .text.ws2812b_set_pixel:00000000000000f8 $d
+     /tmp/ccQ0jBtd.s:791    .text.loadNextFramebufferData:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:797    .text.loadNextFramebufferData:0000000000000000 loadNextFramebufferData
+     /tmp/ccQ0jBtd.s:863    .text.DMA_TransferCompleteHandler:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:1006   .text.DMA_TransferCompleteHandler:00000000000000c0 $d
                             *COM*:000000000000001c ws2812b
-     /tmp/ccNnkPJn.s:1020   .text.WS2812_sendbuf:0000000000000000 $t
-     /tmp/ccNnkPJn.s:1026   .text.WS2812_sendbuf:0000000000000000 WS2812_sendbuf
-     /tmp/ccNnkPJn.s:1238   .text.WS2812_sendbuf:0000000000000144 $d
-     /tmp/ccNnkPJn.s:1254   .text.DMA_TransferHalfHandler:0000000000000000 $t
-     /tmp/ccNnkPJn.s:1327   .text.DMA_TransferHalfHandler:0000000000000040 $d
-     /tmp/ccNnkPJn.s:1332   .text.ws2812b_init:0000000000000000 $t
-     /tmp/ccNnkPJn.s:1339   .text.ws2812b_init:0000000000000000 ws2812b_init
-     /tmp/ccNnkPJn.s:1367   .text.ws2812b_init:0000000000000018 $d
-     /tmp/ccNnkPJn.s:1372   .text.ws2812b_handle:0000000000000000 $t
-     /tmp/ccNnkPJn.s:1379   .text.ws2812b_handle:0000000000000000 ws2812b_handle
-     /tmp/ccNnkPJn.s:1409   .text.ws2812b_handle:0000000000000018 $d
+     /tmp/ccQ0jBtd.s:1020   .text.WS2812_sendbuf:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:1026   .text.WS2812_sendbuf:0000000000000000 WS2812_sendbuf
+     /tmp/ccQ0jBtd.s:1238   .text.WS2812_sendbuf:0000000000000144 $d
+     /tmp/ccQ0jBtd.s:1254   .text.DMA_TransferHalfHandler:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:1327   .text.DMA_TransferHalfHandler:0000000000000040 $d
+     /tmp/ccQ0jBtd.s:1332   .text.ws2812b_init:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:1339   .text.ws2812b_init:0000000000000000 ws2812b_init
+     /tmp/ccQ0jBtd.s:1367   .text.ws2812b_init:0000000000000018 $d
+     /tmp/ccQ0jBtd.s:1372   .text.ws2812b_handle:0000000000000000 $t
+     /tmp/ccQ0jBtd.s:1379   .text.ws2812b_handle:0000000000000000 ws2812b_handle
+     /tmp/ccQ0jBtd.s:1409   .text.ws2812b_handle:0000000000000018 $d
                             *COM*:0000000000000004 dummy
-     /tmp/ccNnkPJn.s:1446   .rodata.gammaTable:0000000000000000 gammaTable
-     /tmp/ccNnkPJn.s:1439   .data.WS2812_IO_Low:0000000000000000 WS2812_IO_Low
-     /tmp/ccNnkPJn.s:1432   .data.WS2812_IO_High:0000000000000000 WS2812_IO_High
-     /tmp/ccNnkPJn.s:1428   .data.WS2812_IO_High:0000000000000000 $d
-     /tmp/ccNnkPJn.s:1435   .data.WS2812_IO_Low:0000000000000000 $d
-     /tmp/ccNnkPJn.s:1442   .rodata.gammaTable:0000000000000000 $d
+     /tmp/ccQ0jBtd.s:1446   .rodata.gammaTable:0000000000000000 gammaTable
+     /tmp/ccQ0jBtd.s:1439   .data.WS2812_IO_Low:0000000000000000 WS2812_IO_Low
+     /tmp/ccQ0jBtd.s:1432   .data.WS2812_IO_High:0000000000000000 WS2812_IO_High
+     /tmp/ccQ0jBtd.s:1428   .data.WS2812_IO_High:0000000000000000 $d
+     /tmp/ccQ0jBtd.s:1435   .data.WS2812_IO_Low:0000000000000000 $d
+     /tmp/ccQ0jBtd.s:1442   .rodata.gammaTable:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
-ARM GAS  /tmp/ccNnkPJn.s 			page 47
+ARM GAS  /tmp/ccQ0jBtd.s 			page 47
 
 
 

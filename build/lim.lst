@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccVJocmo.s 			page 1
+ARM GAS  /tmp/ccFu8QZk.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -17,114 +17,1012 @@ ARM GAS  /tmp/ccVJocmo.s 			page 1
   14              		.text
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
-  17              		.global	CCS_IntStat
-  18              		.global	CCS_Iso
-  19              		.global	CCS_Stop
-  20              		.global	CCS_Bmalf
-  21              		.global	CCS_Malf
-  22              		.global	CCS_Stat
-  23              		.global	CCS_Vlim
-  24              		.global	CCS_Ilim
-  25              		.global	CCS_Plim
-  26              		.global	ChargeType
-  27              		.comm	PARAM,28,4
-  28              		.comm	charged,1,1
-  29              		.comm	vechicleState,1,1
-  30              		.comm	BMS,492,4
-  31              		.comm	txCycle3,4,4
-  32              		.comm	txCycle2,4,4
-  33              		.comm	txCycle,4,4
-  34              		.comm	canTx3,8,4
-  35              		.comm	canTx2,8,4
-  36              		.comm	canTx,8,4
-  37              		.comm	canMailbox2,4,4
-  38              		.comm	canMailbox,4,4
-  39              		.comm	canRx3,8,4
-  40              		.comm	canRx2,8,4
-  41              		.comm	canRx,8,4
-  42              		.comm	txMsgExt3,24,4
-  43              		.comm	txMsg3,24,4
-  44              		.comm	rxMsg3,28,4
-  45              		.comm	txMsgExt2,24,4
-  46              		.comm	txMsg2,24,4
-  47              		.comm	rxMsg2,28,4
-  48              		.comm	txMsgExt,24,4
-  49              		.comm	txMsg,24,4
-  50              		.comm	rxMsg,28,4
-  51              		.comm	sf5,40,4
-  52              		.comm	sf4,40,4
-  53              		.comm	sf3,40,4
-  54              		.comm	sf2,40,4
-  55              		.comm	sf,40,4
-  56              		.comm	hcan3,40,4
-  57              		.comm	hcan2,40,4
-ARM GAS  /tmp/ccVJocmo.s 			page 2
+  17              		.section	.text.getLimData,"ax",%progbits
+  18              		.align	1
+  19              		.global	getLimData
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	getLimData:
+  26              	.LFB142:
+  27              		.file 1 "Core/Src/lim.c"
+   1:Core/Src/lim.c **** #include "lim.h"
+   2:Core/Src/lim.c **** 
+   3:Core/Src/lim.c **** typedef int fixedPointToFixLater;
+   4:Core/Src/lim.c **** typedef uint8_t ChargeStatus;
+   5:Core/Src/lim.c **** typedef uint8_t ChargeRequest;
+   6:Core/Src/lim.c **** typedef uint8_t ChargeReady;
+   7:Core/Src/lim.c **** 
+   8:Core/Src/lim.c **** #define CCS_STATUS_NOT_READY 0X0
+   9:Core/Src/lim.c **** #define CCS_STATUS_INIT 0X1
+  10:Core/Src/lim.c **** #define CCS_STATUS_READY 0x2
+  11:Core/Src/lim.c **** 
+  12:Core/Src/lim.c **** #define CCS_REQUEST_END_CHARGE 0X0
+  13:Core/Src/lim.c **** #define CCS_REQUEST_CHARGE 0X1
+  14:Core/Src/lim.c **** 
+  15:Core/Src/lim.c **** #define CCS_READY_NOT_RDY 0X0
+  16:Core/Src/lim.c **** #define CCS_READY_RDY 0X1
+  17:Core/Src/lim.c **** 
+  18:Core/Src/lim.c **** #define CCS_PHASE_STANDY 0X0
+  19:Core/Src/lim.c **** #define CCS_PHASE_INITIALIZATION 0X1
+  20:Core/Src/lim.c **** #define CCS_PHASE_SUBPOENA 0X2
+  21:Core/Src/lim.c **** #define CCS_PHASE_ENGERGY_TRANSFER 0X3
+  22:Core/Src/lim.c **** #define CCS_PHASE_SHUTDOWN 0X4
+  23:Core/Src/lim.c **** #define CCS_PHASE_CABLE_TEST 0X9
+  24:Core/Src/lim.c **** #define CCS_PHASE_RESERVED 0XE
+  25:Core/Src/lim.c **** #define CCS_PHASE_INVALID_SIGNAL 0XF
+  26:Core/Src/lim.c **** 
+  27:Core/Src/lim.c **** static uint8_t CP_Mode = 0;
+  28:Core/Src/lim.c **** static uint8_t Chg_Phase = CCS_PHASE_STANDY;
+  29:Core/Src/lim.c **** static uint8_t lim_state = 0;
+  30:Core/Src/lim.c **** static uint8_t lim_stateCnt = 0;
+  31:Core/Src/lim.c **** static uint8_t ctr_1second = 0;
+ARM GAS  /tmp/ccFu8QZk.s 			page 2
 
 
-  58              		.comm	hcan1,40,4
-  59              		.section	.bss.CCS_Bmalf,"aw",%nobits
-  62              	CCS_Bmalf:
-  63 0000 00       		.space	1
-  64              		.section	.bss.CCS_Ilim,"aw",%nobits
-  67              	CCS_Ilim:
-  68 0000 00       		.space	1
-  69              		.section	.bss.CCS_IntStat,"aw",%nobits
-  72              	CCS_IntStat:
-  73 0000 00       		.space	1
-  74              		.section	.bss.CCS_Iso,"aw",%nobits
-  77              	CCS_Iso:
-  78 0000 00       		.space	1
-  79              		.section	.bss.CCS_Malf,"aw",%nobits
-  82              	CCS_Malf:
-  83 0000 00       		.space	1
-  84              		.section	.bss.CCS_Plim,"aw",%nobits
-  87              	CCS_Plim:
-  88 0000 00       		.space	1
-  89              		.section	.bss.CCS_Stat,"aw",%nobits
-  92              	CCS_Stat:
-  93 0000 00       		.space	1
-  94              		.section	.bss.CCS_Stop,"aw",%nobits
-  97              	CCS_Stop:
-  98 0000 00       		.space	1
-  99              		.section	.bss.CCS_Vlim,"aw",%nobits
- 102              	CCS_Vlim:
- 103 0000 00       		.space	1
- 104              		.section	.bss.ChargeType,"aw",%nobits
- 107              	ChargeType:
- 108 0000 00       		.space	1
- 109              		.text
- 110              	.Letext0:
- 111              		.file 1 "/usr/include/newlib/machine/_default_types.h"
- 112              		.file 2 "/usr/include/newlib/sys/_stdint.h"
- 113              		.file 3 "Drivers/CMSIS/Include/core_cm4.h"
- 114              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
- 115              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
- 116              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
- 117              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
- 118              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
- 119              		.file 9 "/usr/include/newlib/sys/lock.h"
- 120              		.file 10 "/usr/include/newlib/sys/_types.h"
- 121              		.file 11 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
- 122              		.file 12 "/usr/include/newlib/sys/reent.h"
- 123              		.file 13 "Core/Inc/can_setup.h"
- 124              		.file 14 "Core/Inc/bms.h"
- 125              		.file 15 "Core/Inc/lim.h"
- 126              		.file 16 "Core/Src/lim.c"
-ARM GAS  /tmp/ccVJocmo.s 			page 3
+  32:Core/Src/lim.c **** static uint8_t ctr_5second = 0;
+  33:Core/Src/lim.c **** static uint8_t ctr_20ms = 0;
+  34:Core/Src/lim.c **** static uint8_t vin_ctr = 0;
+  35:Core/Src/lim.c **** static uint8_t Timer_1Sec = 0;
+  36:Core/Src/lim.c **** static uint8_t Timer_60Sec = 0;
+  37:Core/Src/lim.c **** uint8_t ChargeType = 0;
+  38:Core/Src/lim.c **** uint8_t CCS_Plim = 0;    //ccs power limit flag. 0=no,1=yes,3=invalid.
+  39:Core/Src/lim.c **** uint8_t CCS_Ilim = 0;    //ccs current limit flag. 0=no,1=yes,3=invalid.
+  40:Core/Src/lim.c **** uint8_t CCS_Vlim = 0;    //ccs voltage limit flag. 0=no,1=yes,3=invalid.
+  41:Core/Src/lim.c **** uint8_t CCS_Stat = 0;    //ccs charging status. 0=standby,1=charging,3=invalid.
+  42:Core/Src/lim.c **** uint8_t CCS_Malf = 0;    //ccs malfunction status. 0=normal,1=fail,3=invalid.
+  43:Core/Src/lim.c **** uint8_t CCS_Bmalf = 0;   //ccs battery malfunction status. 0=no,1=yes,3=invalid.
+  44:Core/Src/lim.c **** uint8_t CCS_Stop = 0;    //ccs chargeing stop status. 0=tracking,1=supression,3=invalid.
+  45:Core/Src/lim.c **** uint8_t CCS_Iso = 0;     //ccs isolation status. 0=invalid,1=valid,2=error,3=invalid signal.
+  46:Core/Src/lim.c **** uint8_t CCS_IntStat = 0; //ccs charger internal status. 0=not ready,1=ready,2=switch off charger,3=
+  47:Core/Src/lim.c **** static uint32_t sec_328 = 0;
+  48:Core/Src/lim.c **** static uint16_t Cont_Volts = 0;
+  49:Core/Src/lim.c **** static uint16_t Bulk_SOCt = 0;                         //Time to bulk soc target.
+  50:Core/Src/lim.c **** static uint16_t Full_SOCt = 0;                         //Time to full SOC target.
+  51:Core/Src/lim.c **** static fixedPointToFixLater CHG_Pwr = 0;               //calculated charge power. 12 bit value scal
+  52:Core/Src/lim.c **** static int16_t FC_Cur = 0;                             //10 bit signed int with the ccs dc current 
+  53:Core/Src/lim.c **** static uint8_t EOC_Time = 0x00;                        //end of charge time in minutes.
+  54:Core/Src/lim.c **** static ChargeStatus CHG_Status = CCS_STATUS_NOT_READY; //observed values 0 when not charging , 1 an
+  55:Core/Src/lim.c ****                                                        //seems to control led colour.
+  56:Core/Src/lim.c **** static ChargeRequest CHG_Req = CCS_REQUEST_END_CHARGE; //observed values 0 when not charging , 1 wh
+  57:Core/Src/lim.c **** static ChargeReady CHG_Ready = CCS_READY_NOT_RDY;      //indicator to the LIM that we are ready to 
+  58:Core/Src/lim.c **** static uint8_t CONT_Ctrl = 0;                          //4 bits with DC ccs contactor command.
+  59:Core/Src/lim.c **** static uint8_t CCSI_Spnt = 0;
+  60:Core/Src/lim.c **** 
+  61:Core/Src/lim.c **** void handle3B4(uint32_t data[2]) //Lim data
+  62:Core/Src/lim.c **** {
+  63:Core/Src/lim.c ****     /*
+  64:Core/Src/lim.c ****     0x3B4 D4 low nible: status pilot
+  65:Core/Src/lim.c **** 0=no pilot
+  66:Core/Src/lim.c **** 1=10-96%PWM not charge ready
+  67:Core/Src/lim.c **** 2=10-96%PWM charge ready
+  68:Core/Src/lim.c **** 3=error
+  69:Core/Src/lim.c **** 4=5% not charge ready
+  70:Core/Src/lim.c **** 5=5% charge ready
+  71:Core/Src/lim.c **** 6=pilot static
+  72:Core/Src/lim.c ****     */
+  73:Core/Src/lim.c ****     uint8_t *bytes = (uint8_t *)data; // arrgghhh this converts the two 32bit array into bytes. See
+  74:Core/Src/lim.c ****     uint8_t CP_Amps = bytes[0];
+  75:Core/Src/lim.c ****     PARAM.PilotLim = CP_Amps; //Param::SetInt(Param::PilotLim, CP_Amps);
+  76:Core/Src/lim.c ****     uint8_t PP_Amps = bytes[1];
+  77:Core/Src/lim.c ****     PARAM.CableLim = PP_Amps; //Param::SetInt(Param::CableLim, PP_Amps);
+  78:Core/Src/lim.c ****     bool PP = (bytes[2] & 0x1);
+  79:Core/Src/lim.c ****     PARAM.PlugDet = PP; //Param::SetInt(Param::PlugDet, PP);
+  80:Core/Src/lim.c ****     CP_Mode = (bytes[4] & 0x7);
+  81:Core/Src/lim.c ****     PARAM.PilotType = CP_Mode; //Param::SetInt(Param::PilotTyp, CP_Mode);
+  82:Core/Src/lim.c ****     Cont_Volts = bytes[7] * 2;
+  83:Core/Src/lim.c ****     // Cont_Volts=FP_MUL(Cont_Volts,2);
+  84:Core/Src/lim.c ****     PARAM.CCS_V_Con = Cont_Volts; //Param::SetInt(Param::CCS_V_Con, Cont_Volts); //voltage measured
+  85:Core/Src/lim.c ****     ChargeType = bytes[6];
+  86:Core/Src/lim.c **** }
+  87:Core/Src/lim.c **** 
+  88:Core/Src/lim.c **** void handle29E(uint32_t data[2]) //Lim data. Available current and voltage from the ccs charger
+ARM GAS  /tmp/ccFu8QZk.s 			page 3
+
+
+  89:Core/Src/lim.c **** {
+  90:Core/Src/lim.c ****     uint8_t *bytes = (uint8_t *)data; // arrgghhh this converts the two 32bit array into bytes. See
+  91:Core/Src/lim.c ****     uint16_t V_Avail = ((bytes[2] << 8) | (bytes[1]));
+  92:Core/Src/lim.c ****     V_Avail = FP_TOINT(FP_DIV(V_Avail, 10));
+  93:Core/Src/lim.c ****     PARAM.CCS_V_Avail = V_Avail; //Param::SetInt(Param::CCS_V_Avail,V_Avail);//available voltage fr
+  94:Core/Src/lim.c **** 
+  95:Core/Src/lim.c ****     uint16_t I_Avail = ((bytes[4] << 8) | (bytes[3]));
+  96:Core/Src/lim.c ****     I_Avail = FP_TOINT(FP_DIV(I_Avail, 10));
+  97:Core/Src/lim.c ****     PARAM.CCS_I_Avail = I_Avail; //Param::SetInt(Param::CCS_I_Avail,I_Avail);//available current fr
+  98:Core/Src/lim.c **** 
+  99:Core/Src/lim.c ****     CCS_Iso = (bytes[0] >> 6) & 0x03;
+ 100:Core/Src/lim.c ****     CCS_IntStat = (bytes[0] >> 2) & 0x0f;
+ 101:Core/Src/lim.c ****     PARAM.CCS_COND = CCS_IntStat; //Param::SetInt(Param::CCS_COND,CCS_IntStat);//update evse condit
+ 102:Core/Src/lim.c **** }
+ 103:Core/Src/lim.c **** 
+ 104:Core/Src/lim.c **** void handle2B2(uint32_t data[2]) //Lim data. Current and Votage as measured by the ccs charger
+ 105:Core/Src/lim.c **** {
+ 106:Core/Src/lim.c ****     uint8_t *bytes = (uint8_t *)data; // arrgghhh this converts the two 32bit array into bytes. See
+ 107:Core/Src/lim.c ****     uint16_t CCS_Vmeas = ((bytes[1] << 8) | (bytes[0]));
+ 108:Core/Src/lim.c ****     CCS_Vmeas = FP_TOINT(FP_DIV(CCS_Vmeas, 10));
+ 109:Core/Src/lim.c ****     PARAM.CCS_V = CCS_Vmeas; //Param::SetInt(Param::CCS_V, CCS_Vmeas); //Voltage measurement from c
+ 110:Core/Src/lim.c **** 
+ 111:Core/Src/lim.c ****     uint16_t CCS_Imeas = ((bytes[3] << 8) | (bytes[2]));
+ 112:Core/Src/lim.c ****     CCS_Imeas = FP_TOINT(FP_DIV(CCS_Imeas, 10));
+ 113:Core/Src/lim.c ****     PARAM.CCS_I = CCS_Imeas;            //Param::SetInt(Param::CCS_I, CCS_Imeas);              //Cu
+ 114:Core/Src/lim.c ****                                         //[[maybe_unused]]
+ 115:Core/Src/lim.c ****     uint8_t Batt_Cmp = bytes[4] & 0xc0; //battrery compatability flag from charger? upper two bits 
+ 116:Core/Src/lim.c **** 
+ 117:Core/Src/lim.c ****     CCS_Ilim = (bytes[5] >> 4) & 0x03;
+ 118:Core/Src/lim.c ****     CCS_Vlim = (bytes[5] >> 6) & 0x03;
+ 119:Core/Src/lim.c ****     CCS_Stat = bytes[4] & 0x03;
+ 120:Core/Src/lim.c ****     CCS_Malf = (bytes[4] >> 2) & 0x03;
+ 121:Core/Src/lim.c ****     CCS_Bmalf = bytes[5] & 0x03;
+ 122:Core/Src/lim.c ****     CCS_Stop = (bytes[5] >> 2) & 0x03;
+ 123:Core/Src/lim.c **** }
+ 124:Core/Src/lim.c **** 
+ 125:Core/Src/lim.c **** void handle2EF(uint32_t data[2]) //Lim data. Min available voltage from the ccs charger.
+ 126:Core/Src/lim.c **** {
+ 127:Core/Src/lim.c ****     uint8_t *bytes = (uint8_t *)data; // arrgghhh this converts the two 32bit array into bytes. See
+ 128:Core/Src/lim.c ****     uint16_t minV_Avail = ((bytes[1] << 8) | (bytes[0]));
+ 129:Core/Src/lim.c ****     minV_Avail = FP_TOINT(FP_DIV(minV_Avail, 10));
+ 130:Core/Src/lim.c ****     PARAM.CCS_V_Min = minV_Avail; //Param::SetInt(Param::CCS_V_Min,minV_Avail);//minimum available 
+ 131:Core/Src/lim.c **** 
+ 132:Core/Src/lim.c ****     CCS_Plim = (bytes[6] >> 4) & 0x03;
+ 133:Core/Src/lim.c **** }
+ 134:Core/Src/lim.c **** 
+ 135:Core/Src/lim.c **** void handle272(uint32_t data[2]) //Lim data. CCS contactor state and charge flap open/close status.
+ 136:Core/Src/lim.c **** {
+ 137:Core/Src/lim.c ****     uint8_t *bytes = (uint8_t *)data; // arrgghhh this converts the two 32bit array into bytes. See
+ 138:Core/Src/lim.c ****     // Only the top 6-bits indicate the contactor state
+ 139:Core/Src/lim.c ****     uint8_t Cont_stat = bytes[2] >> 2;
+ 140:Core/Src/lim.c ****     PARAM.CCS_Contactor = Cont_stat; //Param::SetInt(Param::CCS_Contactor, Cont_stat);
+ 141:Core/Src/lim.c **** 
+ 142:Core/Src/lim.c ****     uint8_t drmodes = bytes[2] & 0x03;
+ 143:Core/Src/lim.c ****     PARAM.CP_DOOR = drmodes; //Param::SetInt(Param::CP_DOOR, drmodes);
+ 144:Core/Src/lim.c **** }
+ 145:Core/Src/lim.c **** 
+ARM GAS  /tmp/ccFu8QZk.s 			page 4
+
+
+ 146:Core/Src/lim.c **** void Send10msMessages()
+ 147:Core/Src/lim.c **** {
+ 148:Core/Src/lim.c ****     uint16_t V_Batt = BMS[0].packVolt * 10; //Param::GetInt(Param::udc) * 10;
+ 149:Core/Src/lim.c ****     uint8_t V_Batt2 = BMS[0].packVolt / 4;  //(Param::GetInt(Param::udc)) / 4;
+ 150:Core/Src/lim.c ****     int32_t I_Batt = BMS[0].packVolt;       //(Param::GetInt(Param::idc) + 819) * 10; //(Param::Get
+ 151:Core/Src/lim.c ****     //I_Batt=0xa0a0;
+ 152:Core/Src/lim.c ****     //uint16_t SOC_Local=25*10;//(Param::GetInt(Param::SOC))*10;
+ 153:Core/Src/lim.c ****     uint16_t SOC_Local = BMS[0].SOC * 10; //(Param::GetInt(Param::SOC)) * 10;
+ 154:Core/Src/lim.c ****     uint8_t bytes[8];                     //seems to be from i3 BMS.
+ 155:Core/Src/lim.c ****     txMsg2.StdId = 0x112;
+ 156:Core/Src/lim.c ****     txMsg2.DLC = 8;
+ 157:Core/Src/lim.c ****     bytes[0] = I_Batt & 0xFF;    //Battery current LSB. Scale 0.1 offset 819.2. 16 bit unsigned int
+ 158:Core/Src/lim.c ****     bytes[1] = I_Batt >> 8;      //Battery current MSB. Scale 0.1 offset 819.2.  16 bit unsigned in
+ 159:Core/Src/lim.c ****     bytes[2] = V_Batt & 0xFF;    //Battery voltage LSB. Scale 0.1. 16 bit unsigned int.
+ 160:Core/Src/lim.c ****     bytes[3] = V_Batt >> 8;      //Battery voltage MSB. Scale 0.1. 16 bit unsigned int.
+ 161:Core/Src/lim.c ****     bytes[4] = SOC_Local & 0xFF; //Battery SOC LSB. 12 bit unsigned int. Scale 0.1. 0-100%
+ 162:Core/Src/lim.c ****     bytes[5] = SOC_Local >> 8;   //Battery SOC MSB. 12 bit unsigned int. Scale 0.1. 0-100%
+ 163:Core/Src/lim.c ****     bytes[6] = 0x65;             //Low nibble battery status. Seem to need to be 0x5.
+ 164:Core/Src/lim.c ****     bytes[7] = V_Batt2;          //zwischenkreis. Battery voltage. Scale 4. 8 bit unsigned int.
+ 165:Core/Src/lim.c ****     c2tx(&txMsg2, bytes);
+ 166:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x112, (uint32_t *)bytes, 8); //Send on CAN1
+ 167:Core/Src/lim.c **** 
+ 168:Core/Src/lim.c ****     ctr_20ms++;
+ 169:Core/Src/lim.c ****     if (ctr_20ms == 2)
+ 170:Core/Src/lim.c ****     {
+ 171:Core/Src/lim.c ****         ctr_20ms = 0;
+ 172:Core/Src/lim.c **** 
+ 173:Core/Src/lim.c ****         //Vehicle speed msg should be 20ms. Lets try 10...
+ 174:Core/Src/lim.c ****         txMsg2.StdId = 0x1A1;
+ 175:Core/Src/lim.c ****         txMsg2.DLC = 5;
+ 176:Core/Src/lim.c ****         bytes[0] = 0x7C;
+ 177:Core/Src/lim.c ****         bytes[1] = 0xCB;
+ 178:Core/Src/lim.c ****         bytes[2] = 0x00;
+ 179:Core/Src/lim.c ****         bytes[3] = 0x00;
+ 180:Core/Src/lim.c ****         bytes[4] = 0x8A;
+ 181:Core/Src/lim.c ****         c2tx(&txMsg2, bytes);
+ 182:Core/Src/lim.c ****         //Can::GetInterface(0)->Send(0x1a1, (uint32_t *)bytes, 5); //Send on CAN1. average 20ms
+ 183:Core/Src/lim.c ****     }
+ 184:Core/Src/lim.c **** }
+ 185:Core/Src/lim.c **** 
+ 186:Core/Src/lim.c **** void Send200msMessages()
+ 187:Core/Src/lim.c **** {
+ 188:Core/Src/lim.c **** 
+ 189:Core/Src/lim.c ****     txMsg2.StdId = 0x2FA;
+ 190:Core/Src/lim.c ****     txMsg2.DLC = 8;
+ 191:Core/Src/lim.c ****     uint8_t bytes[8];
+ 192:Core/Src/lim.c ****     //Lim command 3. Used in DC mode.
+ 193:Core/Src/lim.c ****     if (CP_Mode == 0x4 || CP_Mode == 0x5)
+ 194:Core/Src/lim.c ****         bytes[0] = 0xFC;
+ 195:Core/Src/lim.c ****     else
+ 196:Core/Src/lim.c ****         bytes[0] = 0xFD;
+ 197:Core/Src/lim.c ****     //bytes[0] = 0xFD;// FD at standby, change to FC on 5% pilot. Change back to FD during energy t
+ 198:Core/Src/lim.c ****     bytes[1] = 0xFF;                    //these bytes are used as a timer during energy transfer bu
+ 199:Core/Src/lim.c ****     bytes[2] = (uint8_t)Chg_Phase << 4; //upper nibble seems to be a mode command to the ccs statio
+ 200:Core/Src/lim.c ****                                         //more investigation needed here...
+ 201:Core/Src/lim.c ****                                         //Lower nibble seems to be intended for two end charge comm
+ 202:Core/Src/lim.c **** 
+ARM GAS  /tmp/ccFu8QZk.s 			page 5
+
+
+ 203:Core/Src/lim.c ****     bytes[4] = 0xff;
+ 204:Core/Src/lim.c ****     bytes[5] = 0xff;
+ 205:Core/Src/lim.c ****     bytes[6] = 0xff;
+ 206:Core/Src/lim.c ****     bytes[7] = 0xff;
+ 207:Core/Src/lim.c ****     c2tx(&txMsg2, bytes);
+ 208:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x2fa, (uint32_t*)bytes,8); //Send on CAN1. this msg varies from 8
+ 209:Core/Src/lim.c **** 
+ 210:Core/Src/lim.c ****     //////////////////////////////////////////////////////////////////////////////
+ 211:Core/Src/lim.c ****     //Possibly needed for dc ccs.
+ 212:Core/Src/lim.c ****     ////////////////////////////////////
+ 213:Core/Src/lim.c **** 
+ 214:Core/Src/lim.c ****     txMsg2.StdId = 0x432;
+ 215:Core/Src/lim.c ****     txMsg2.DLC = 8;
+ 216:Core/Src/lim.c ****     uint16_t SOC_Local = BMS[0].SOC * 2; //(Param::GetInt(Param::SOC))*2;
+ 217:Core/Src/lim.c ****     bytes[0] = 0x2c;                     //BMS soc msg. May need to be dynamic
+ 218:Core/Src/lim.c ****     bytes[1] = 0xe2;
+ 219:Core/Src/lim.c ****     bytes[2] = 0x10;
+ 220:Core/Src/lim.c ****     bytes[3] = 0xa3;
+ 221:Core/Src/lim.c ****     //bytes[4] = 0x30;    //display soc. scale 0.5.
+ 222:Core/Src/lim.c ****     bytes[4] = SOC_Local; //display soc. scale 0.5.
+ 223:Core/Src/lim.c ****     bytes[5] = 0xff;
+ 224:Core/Src/lim.c ****     bytes[6] = 0x02;
+ 225:Core/Src/lim.c ****     bytes[7] = 0xff;
+ 226:Core/Src/lim.c ****     c2tx(&txMsg2, bytes);
+ 227:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x432, (uint32_t*)bytes,8); //Send on CAN1. average 190ms
+ 228:Core/Src/lim.c **** 
+ 229:Core/Src/lim.c ****     txMsg2.StdId = 0x51A;
+ 230:Core/Src/lim.c ****     txMsg2.DLC = 8;
+ 231:Core/Src/lim.c ****     bytes[0] = 0x00; //network management
+ 232:Core/Src/lim.c ****     bytes[1] = 0x00;
+ 233:Core/Src/lim.c ****     bytes[2] = 0x00;
+ 234:Core/Src/lim.c ****     bytes[3] = 0x00;
+ 235:Core/Src/lim.c ****     bytes[4] = 0x50;
+ 236:Core/Src/lim.c ****     bytes[5] = 0x00;
+ 237:Core/Src/lim.c ****     bytes[6] = 0x00;
+ 238:Core/Src/lim.c ****     bytes[7] = 0x1a;
+ 239:Core/Src/lim.c ****     c2tx(&txMsg2, bytes);
+ 240:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x51a, (uint32_t*)bytes,8); //Send on CAN1. average 640ms
+ 241:Core/Src/lim.c **** 
+ 242:Core/Src/lim.c ****     txMsg2.StdId = 0x540;
+ 243:Core/Src/lim.c ****     txMsg2.DLC = 8;
+ 244:Core/Src/lim.c ****     bytes[0] = 0x00; //network management.May need to be dynamic
+ 245:Core/Src/lim.c ****     bytes[1] = 0x00;
+ 246:Core/Src/lim.c ****     bytes[2] = 0x00;
+ 247:Core/Src/lim.c ****     bytes[3] = 0x00;
+ 248:Core/Src/lim.c ****     bytes[4] = 0xfd;
+ 249:Core/Src/lim.c ****     bytes[5] = 0x3c;
+ 250:Core/Src/lim.c ****     bytes[6] = 0xff;
+ 251:Core/Src/lim.c ****     bytes[7] = 0x40;
+ 252:Core/Src/lim.c ****     c2tx(&txMsg2, bytes);
+ 253:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x540, (uint32_t*)bytes,8); //Send on CAN1. average 640ms
+ 254:Core/Src/lim.c **** 
+ 255:Core/Src/lim.c ****     txMsg2.StdId = 0x510;
+ 256:Core/Src/lim.c ****     txMsg2.DLC = 8;
+ 257:Core/Src/lim.c ****     bytes[0] = 0x40; //network management zgw
+ 258:Core/Src/lim.c ****     bytes[1] = 0x10;
+ 259:Core/Src/lim.c ****     bytes[2] = 0x20;
+ARM GAS  /tmp/ccFu8QZk.s 			page 6
+
+
+ 260:Core/Src/lim.c ****     bytes[3] = 0x00;
+ 261:Core/Src/lim.c ****     bytes[4] = 0x00;
+ 262:Core/Src/lim.c ****     bytes[5] = 0x00;
+ 263:Core/Src/lim.c ****     bytes[6] = 0x00;
+ 264:Core/Src/lim.c ****     bytes[7] = 0x00;
+ 265:Core/Src/lim.c ****     c2tx(&txMsg2, bytes);
+ 266:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x510, (uint32_t*)bytes,8); //Send on CAN1. average 640ms
+ 267:Core/Src/lim.c **** 
+ 268:Core/Src/lim.c ****     ctr_1second++;
+ 269:Core/Src/lim.c ****     if (ctr_1second == 5) //only send every 1 second.
+ 270:Core/Src/lim.c ****     {
+ 271:Core/Src/lim.c ****         ctr_1second = 0;
+ 272:Core/Src/lim.c ****         sec_328++; //increment seconds counter.
+ 273:Core/Src/lim.c ****         txMsg2.StdId = 0x328;
+ 274:Core/Src/lim.c ****         txMsg2.DLC = 6;
+ 275:Core/Src/lim.c ****         bytes[0] = sec_328; //rtc msg. needs to be every 1 sec. first 32 bits are 1 second wrap cou
+ 276:Core/Src/lim.c ****         bytes[1] = sec_328 << 8;
+ 277:Core/Src/lim.c ****         bytes[2] = sec_328 << 16;
+ 278:Core/Src/lim.c ****         bytes[3] = sec_328 << 24;
+ 279:Core/Src/lim.c ****         bytes[4] = 0x87; //day counter 16 bit.
+ 280:Core/Src/lim.c ****         bytes[5] = 0x1e;
+ 281:Core/Src/lim.c ****         c2tx(&txMsg2, bytes);
+ 282:Core/Src/lim.c ****         //Can::GetInterface(0)->Send(0x328, (uint32_t*)bytes,6); //Send on CAN1
+ 283:Core/Src/lim.c **** 
+ 284:Core/Src/lim.c ****         //if(Param::GetInt(Param::opmode)==MOD_RUN) bytes[0] = 0xfb;//f1=no obd reset. fb=obd reset
+ 285:Core/Src/lim.c ****         //if(Param::GetInt(Param::opmode)!=MOD_RUN) bytes[0] = 0xf1;//f1=no obd reset. fb=obd reset
+ 286:Core/Src/lim.c ****         txMsg2.StdId = 0xE8;
+ 287:Core/Src/lim.c ****         txMsg2.DLC = 2;
+ 288:Core/Src/lim.c ****         bytes[0] = 0xf1;
+ 289:Core/Src/lim.c ****         bytes[1] = 0xff;
+ 290:Core/Src/lim.c ****         c2tx(&txMsg2, bytes);
+ 291:Core/Src/lim.c ****         //Can::GetInterface(0)->Send(0x3e8, (uint32_t*)bytes,2); //Send on CAN1
+ 292:Core/Src/lim.c **** 
+ 293:Core/Src/lim.c ****         txMsg2.StdId = 0x3F9;
+ 294:Core/Src/lim.c ****         bytes[0] = 0xc0; //engine info? rex?
+ 295:Core/Src/lim.c ****         bytes[1] = 0xf9;
+ 296:Core/Src/lim.c ****         bytes[2] = 0x80;
+ 297:Core/Src/lim.c ****         bytes[3] = 0xe0;
+ 298:Core/Src/lim.c ****         bytes[4] = 0x43;
+ 299:Core/Src/lim.c ****         bytes[5] = 0x3c;
+ 300:Core/Src/lim.c ****         bytes[6] = 0xc3; //0x3=park
+ 301:Core/Src/lim.c ****         bytes[7] = 0xff;
+ 302:Core/Src/lim.c ****         c2tx(&txMsg2, bytes);
+ 303:Core/Src/lim.c ****         //Can::GetInterface(0)->Send(0x3f9, (uint32_t*)bytes,8); //Send on CAN1.average 1s
+ 304:Core/Src/lim.c **** 
+ 305:Core/Src/lim.c ****         ctr_5second++;
+ 306:Core/Src/lim.c ****         if (ctr_5second == 4) //only send every 4 second.
+ 307:Core/Src/lim.c ****         {
+ 308:Core/Src/lim.c ****             ctr_5second = 0;
+ 309:Core/Src/lim.c **** 
+ 310:Core/Src/lim.c ****             //central locking status message.
+ 311:Core/Src/lim.c ****             txMsg2.StdId = 0x2FC;
+ 312:Core/Src/lim.c ****             txMsg2.DLC = 8;
+ 313:Core/Src/lim.c ****             bytes[0] = 0x81; //81=flap unlock, 80=flap lock.
+ 314:Core/Src/lim.c ****             bytes[1] = 0x00;
+ 315:Core/Src/lim.c ****             bytes[2] = 0x04;
+ 316:Core/Src/lim.c ****             bytes[3] = 0xff;
+ARM GAS  /tmp/ccFu8QZk.s 			page 7
+
+
+ 317:Core/Src/lim.c ****             bytes[4] = 0xff;
+ 318:Core/Src/lim.c ****             bytes[5] = 0xff;
+ 319:Core/Src/lim.c ****             bytes[6] = 0xff;
+ 320:Core/Src/lim.c ****             bytes[7] = 0xff;
+ 321:Core/Src/lim.c ****             c2tx(&txMsg2, bytes);
+ 322:Core/Src/lim.c ****             //Can::GetInterface(0)->Send(0x2fc, (uint32_t*)bytes,8); //Send on CAN1. average 5s.
+ 323:Core/Src/lim.c **** 
+ 324:Core/Src/lim.c ****             txMsg2.StdId = 0x2A0;
+ 325:Core/Src/lim.c ****             txMsg2.DLC = 8;
+ 326:Core/Src/lim.c ****             bytes[0] = 0x88; //central locking
+ 327:Core/Src/lim.c ****             bytes[1] = 0x88;
+ 328:Core/Src/lim.c ****             bytes[2] = 0xf8;
+ 329:Core/Src/lim.c ****             bytes[3] = 0x0f;
+ 330:Core/Src/lim.c ****             bytes[4] = 0xff;
+ 331:Core/Src/lim.c ****             bytes[5] = 0xff;
+ 332:Core/Src/lim.c ****             bytes[6] = 0xff;
+ 333:Core/Src/lim.c ****             bytes[7] = 0xff;
+ 334:Core/Src/lim.c ****             c2tx(&txMsg2, bytes);
+ 335:Core/Src/lim.c ****             //Can::GetInterface(0)->Send(0x2a0, (uint32_t*)bytes,8); //Send on CAN1. average 5s.
+ 336:Core/Src/lim.c **** 
+ 337:Core/Src/lim.c ****             txMsg2.StdId = 0x3A0;
+ 338:Core/Src/lim.c ****             txMsg2.DLC = 8;
+ 339:Core/Src/lim.c ****             bytes[0] = 0xff; //vehicle condition
+ 340:Core/Src/lim.c ****             bytes[1] = 0xff;
+ 341:Core/Src/lim.c ****             bytes[2] = 0xc0;
+ 342:Core/Src/lim.c ****             bytes[3] = 0xff;
+ 343:Core/Src/lim.c ****             bytes[4] = 0xff;
+ 344:Core/Src/lim.c ****             bytes[5] = 0xff;
+ 345:Core/Src/lim.c ****             bytes[6] = 0xff;
+ 346:Core/Src/lim.c ****             bytes[7] = 0xfc;
+ 347:Core/Src/lim.c ****             c2tx(&txMsg2, bytes);
+ 348:Core/Src/lim.c ****             //Can::GetInterface(0)->Send(0x3a0, (uint32_t*)bytes,8); //Send on CAN1. average 4s.
+ 349:Core/Src/lim.c ****         }
+ 350:Core/Src/lim.c ****     }
+ 351:Core/Src/lim.c **** 
+ 352:Core/Src/lim.c ****     /*not needed msgs at least on efacec
+ 353:Core/Src/lim.c **** bytes[0] = 0x00;//network management edme
+ 354:Core/Src/lim.c **** bytes[1] = 0x00;
+ 355:Core/Src/lim.c **** bytes[2] = 0x00;
+ 356:Core/Src/lim.c **** bytes[3] = 0x00;
+ 357:Core/Src/lim.c **** bytes[4] = 0x00;
+ 358:Core/Src/lim.c **** bytes[5] = 0x00;
+ 359:Core/Src/lim.c **** bytes[6] = 0x00;
+ 360:Core/Src/lim.c **** bytes[7] = 0x12;
+ 361:Core/Src/lim.c **** Can::GetInterface(0)->Send(0x512, (uint32_t*)bytes,8); //Send on CAN1. only sent once on 19 log.
+ 362:Core/Src/lim.c **** 
+ 363:Core/Src/lim.c **** bytes[0] = 0x00;//network management kombi
+ 364:Core/Src/lim.c **** bytes[1] = 0x00;
+ 365:Core/Src/lim.c **** bytes[2] = 0x00;
+ 366:Core/Src/lim.c **** bytes[3] = 0x00;
+ 367:Core/Src/lim.c **** bytes[4] = 0xfe;
+ 368:Core/Src/lim.c **** bytes[5] = 0x00;
+ 369:Core/Src/lim.c **** bytes[6] = 0x00;
+ 370:Core/Src/lim.c **** bytes[7] = 0x60;
+ 371:Core/Src/lim.c **** Can::GetInterface(0)->Send(0x560, (uint32_t*)bytes,8); //Send on CAN1. not on is 2019 log
+ 372:Core/Src/lim.c **** 
+ 373:Core/Src/lim.c **** bytes[0] = 0xa8;//range info, milage display
+ARM GAS  /tmp/ccFu8QZk.s 			page 8
+
+
+ 374:Core/Src/lim.c **** bytes[1] = 0x86;
+ 375:Core/Src/lim.c **** bytes[2] = 0x01;
+ 376:Core/Src/lim.c **** bytes[3] = 0x02;
+ 377:Core/Src/lim.c **** bytes[4] = 0x00;
+ 378:Core/Src/lim.c **** bytes[5] = 0x05;
+ 379:Core/Src/lim.c **** bytes[6] = 0xac;
+ 380:Core/Src/lim.c **** bytes[7] = 0x03;
+ 381:Core/Src/lim.c **** Can::GetInterface(0)->Send(0x330, (uint32_t*)bytes,8); //Send on CAN1. not on is 2019 log
+ 382:Core/Src/lim.c **** 
+ 383:Core/Src/lim.c **** bytes[0] = 0x00;//obd msg
+ 384:Core/Src/lim.c **** bytes[1] = 0x2a;
+ 385:Core/Src/lim.c **** bytes[2] = 0x00;
+ 386:Core/Src/lim.c **** bytes[3] = 0x6c;
+ 387:Core/Src/lim.c **** bytes[4] = 0x0f;
+ 388:Core/Src/lim.c **** bytes[5] = 0x55;
+ 389:Core/Src/lim.c **** bytes[6] = 0x00;
+ 390:Core/Src/lim.c **** Can::GetInterface(0)->Send(0x397, (uint32_t*)bytes,7); //Send on CAN1. not on 19 log
+ 391:Core/Src/lim.c **** 
+ 392:Core/Src/lim.c **** */
+ 393:Core/Src/lim.c **** }
+ 394:Core/Src/lim.c **** ////////////////////////////////////////////////////////////////////////////////
+ 395:Core/Src/lim.c **** 
+ 396:Core/Src/lim.c **** void Send100msMessages()
+ 397:Core/Src/lim.c **** {
+ 398:Core/Src/lim.c ****     uint8_t bytes[8];
+ 399:Core/Src/lim.c ****     bytes[0] = 0xff; //vehicle status msg
+ 400:Core/Src/lim.c ****     bytes[1] = 0x5f;
+ 401:Core/Src/lim.c ****     bytes[2] = 0x00;
+ 402:Core/Src/lim.c ****     bytes[3] = 0x00;
+ 403:Core/Src/lim.c ****     bytes[4] = 0x00;
+ 404:Core/Src/lim.c ****     bytes[5] = 0x00;
+ 405:Core/Src/lim.c ****     bytes[6] = 0xff;
+ 406:Core/Src/lim.c ****     bytes[7] = 0xff;
+ 407:Core/Src/lim.c ****     can2tx(0x03C, 8, bytes);
+ 408:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x03c, (uint32_t *)bytes, 8); //Send on CAN1. average 100ms
+ 409:Core/Src/lim.c **** 
+ 410:Core/Src/lim.c ****     uint16_t Wh_Local = PARAM.BattCap; //Param::GetInt(Param::BattCap);
+ 411:Core/Src/lim.c ****     CHG_Pwr = (CHG_Pwr & 0xFFF);
+ 412:Core/Src/lim.c ****     bytes[0] = Wh_Local & 0xFF;                                   //Battery Wh lowbyte
+ 413:Core/Src/lim.c ****     bytes[1] = Wh_Local >> 8;                                     //BAttery Wh high byte
+ 414:Core/Src/lim.c ****     bytes[2] = (((uint8_t)CHG_Status << 4) | ((uint8_t)CHG_Req)); //charge status in bits 4-7.goes 
+ 415:Core/Src/lim.c ****     bytes[3] = (((CHG_Pwr) << 4) | (uint8_t)CHG_Ready);           //charge readiness in bits 0 and 
+ 416:Core/Src/lim.c ****     bytes[4] = CHG_Pwr >> 4;                                      //MSB of charge power.in this cas
+ 417:Core/Src/lim.c ****     bytes[5] = FC_Cur & 0xff;                                     //LSB of the DC ccs current comma
+ 418:Core/Src/lim.c ****     bytes[6] = ((CONT_Ctrl << 4) | (FC_Cur >> 12));               //bits 0 and 1 MSB of the DC ccs 
+ 419:Core/Src/lim.c ****                                                                   //transitions from 0 to 2 and sta
+ 420:Core/Src/lim.c ****     bytes[7] = EOC_Time;                                          // end of charge timer.
+ 421:Core/Src/lim.c ****     can2tx(0x3E9, 8, bytes);
+ 422:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x3E9, (uint32_t *)bytes, 8); //Send on CAN1. average 128ms
+ 423:Core/Src/lim.c **** 
+ 424:Core/Src/lim.c ****     //LIM needs to see this but doesnt control anything...
+ 425:Core/Src/lim.c ****     bytes[0] = 0xca;
+ 426:Core/Src/lim.c ****     bytes[1] = 0xff;
+ 427:Core/Src/lim.c ****     bytes[2] = 0x0b;
+ 428:Core/Src/lim.c ****     bytes[3] = 0x02;
+ 429:Core/Src/lim.c ****     bytes[4] = 0x69;
+ 430:Core/Src/lim.c ****     bytes[5] = 0x26;
+ARM GAS  /tmp/ccFu8QZk.s 			page 9
+
+
+ 431:Core/Src/lim.c ****     bytes[6] = 0xf3;
+ 432:Core/Src/lim.c ****     bytes[7] = 0x4b;
+ 433:Core/Src/lim.c ****     can2tx(0x431, 8, bytes);
+ 434:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x431, (uint32_t *)bytes, 8); //Send on CAN1.average 197ms but as 
+ 435:Core/Src/lim.c **** 
+ 436:Core/Src/lim.c ****     bytes[0] = 0xf5; //Wake up message.
+ 437:Core/Src/lim.c ****     bytes[1] = 0x28;
+ 438:Core/Src/lim.c ****     if (PARAM.opmode == MOD_RUN) //Param::GetInt(Param::opmode) == MOD_RUN)
+ 439:Core/Src/lim.c ****         bytes[2] = 0x8a;         //ignition on
+ 440:Core/Src/lim.c ****     if (PARAM.opmode != MOD_RUN) //Param::GetInt(Param::opmode) != MOD_RUN)
+ 441:Core/Src/lim.c ****         bytes[2] = 0x86;         //ignition off 86
+ 442:Core/Src/lim.c ****     bytes[3] = 0x1d;
+ 443:Core/Src/lim.c ****     bytes[4] = 0xf1;
+ 444:Core/Src/lim.c ****     bytes[5] = 0x35;
+ 445:Core/Src/lim.c ****     bytes[6] = 0x30;
+ 446:Core/Src/lim.c ****     bytes[7] = 0x80;
+ 447:Core/Src/lim.c ****     can2tx(0x12F, 8, bytes);
+ 448:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x12f, (uint32_t *)bytes, 8); //Send on CAN1. average 100ms
+ 449:Core/Src/lim.c **** 
+ 450:Core/Src/lim.c ****     //Lim command 2. Used in DC mode
+ 451:Core/Src/lim.c ****     uint16_t V_limit = 0;
+ 452:Core/Src/lim.c ****     //if(lim_state==6) V_limit=401*10;//set to 400v in energy transfer state
+ 453:Core/Src/lim.c ****     //if(lim_state!=6) V_limit=Param::GetInt(Param::udc)*10;
+ 454:Core/Src/lim.c ****     if (lim_state == 4)
+ 455:Core/Src/lim.c ****         V_limit = BMS->packVolt * 10; //Param::GetInt(Param::udc) * 10; // drop vlim only during pr
+ 456:Core/Src/lim.c ****     else
+ 457:Core/Src/lim.c ****         V_limit = 415 * 10;      //set to 415v in all other states
+ 458:Core/Src/lim.c ****     uint8_t I_limit = 125;       //125A limit. may not work
+ 459:Core/Src/lim.c ****     bytes[0] = V_limit & 0xFF;   //Charge voltage limit LSB. 14 bit signed int.scale 0.1 0xfa2=4002
+ 460:Core/Src/lim.c ****     bytes[1] = V_limit >> 8;     //Charge voltage limit MSB. 14 bit signed int.scale 0.1
+ 461:Core/Src/lim.c ****     bytes[2] = I_limit;          //Fast charge current limit. Not used in logs from 2014-15 vehicle
+ 462:Core/Src/lim.c ****     bytes[3] = Full_SOCt & 0xFF; //time remaining in seconds to hit soc target from byte 7 in AC mo
+ 463:Core/Src/lim.c ****     bytes[4] = Full_SOCt >> 8;   //time remaining in seconds to hit soc target from byte 7 in AC mo
+ 464:Core/Src/lim.c ****     bytes[5] = Bulk_SOCt & 0xFF; //time remaining in seconds to hit soc target from byte 7 in ccs m
+ 465:Core/Src/lim.c ****     bytes[6] = Bulk_SOCt >> 8;   //time remaining in seconds to hit soc target from byte 7 in ccs m
+ 466:Core/Src/lim.c ****     bytes[7] = 0xA0;             //Fast charge SOC target. 8 bit unsigned int. scale 0.5. 0xA0=160*
+ 467:Core/Src/lim.c ****     can2tx(0x2F1, 8, bytes);
+ 468:Core/Src/lim.c ****     //Can::GetInterface(0)->Send(0x2f1, (uint32_t *)bytes, 8); //Send on CAN1. average 100ms
+ 469:Core/Src/lim.c **** 
+ 470:Core/Src/lim.c ****     if (PARAM.opmode != MOD_RUN) //Param::GetInt(Param::opmode) != MOD_RUN)
+ 471:Core/Src/lim.c ****         vin_ctr = 0;
+ 472:Core/Src/lim.c ****     if ((PARAM.opmode == MOD_RUN) && vin_ctr < 5)
+ 473:Core/Src/lim.c ****     {
+ 474:Core/Src/lim.c ****         /*
+ 475:Core/Src/lim.c **** bytes[0] = 0x56;                //vin in ascii from 2017 i3 : VB87926
+ 476:Core/Src/lim.c **** bytes[1] = 0x42;
+ 477:Core/Src/lim.c **** bytes[2] = 0x38;
+ 478:Core/Src/lim.c **** bytes[3] = 0x37;
+ 479:Core/Src/lim.c **** bytes[4] = 0x39;
+ 480:Core/Src/lim.c **** bytes[5] = 0x32;
+ 481:Core/Src/lim.c **** bytes[6] = 0x36;
+ 482:Core/Src/lim.c **** Can::GetInterface(0)->Send(0x380, (uint32_t*)bytes,7); //Send on CAN1
+ 483:Core/Src/lim.c **** vin_ctr++;
+ 484:Core/Src/lim.c **** */
+ 485:Core/Src/lim.c ****     }
+ 486:Core/Src/lim.c **** }
+ 487:Core/Src/lim.c **** 
+ARM GAS  /tmp/ccFu8QZk.s 			page 10
+
+
+ 488:Core/Src/lim.c **** i3LIMChargingState Control_Charge(bool RunCh)
+ 489:Core/Src/lim.c **** {
+ 490:Core/Src/lim.c ****     int opmode = PARAM.opmode; //Param::GetInt(Param::opmode);
+ 491:Core/Src/lim.c ****     if (opmode != MOD_RUN)     //only do this if we are not in run mode
+ 492:Core/Src/lim.c ****     {
+ 493:Core/Src/lim.c ****         //if (Param::GetBool(Param::PlugDet) && (CP_Mode == 0x1 || CP_Mode == 0x2)) //if we have an
+ 494:Core/Src/lim.c ****         if (PARAM.PlugDet && (CP_Mode == 0x1 || CP_Mode == 0x2)) //if we have an enable and a plug 
+ 495:Core/Src/lim.c ****         {
+ 496:Core/Src/lim.c ****             lim_state = 0;                //return to state 0
+ 497:Core/Src/lim.c ****             PARAM.CCS_State = lim_state;  //Param::SetInt(Param::CCS_State, lim_state);
+ 498:Core/Src/lim.c ****             Chg_Phase = CCS_PHASE_STANDY; //ChargePhase::Standby;
+ 499:Core/Src/lim.c ****             CONT_Ctrl = 0x0;              //dc contactor mode 0 in AC
+ 500:Core/Src/lim.c ****             FC_Cur = 0;                   //ccs current request zero
+ 501:Core/Src/lim.c ****             EOC_Time = 0xFE;
+ 502:Core/Src/lim.c ****             CHG_Status = CCS_STATUS_READY; //ChargeStatus::Rdy;
+ 503:Core/Src/lim.c ****             CHG_Req = CCS_REQUEST_CHARGE;  //ChargeRequest::Charge;
+ 504:Core/Src/lim.c ****             CHG_Ready = CCS_READY_RDY;     //ChargeReady::Rdy;
+ 505:Core/Src/lim.c ****             CHG_Pwr = 6500 / 25;           //approx 6.5kw ac
+ 506:Core/Src/lim.c **** 
+ 507:Core/Src/lim.c ****             if (RunCh)
+ 508:Core/Src/lim.c ****                 return AC_Chg; //set ac charge mode if we are enabled on webui
+ 509:Core/Src/lim.c **** 
+ 510:Core/Src/lim.c ****             if (!RunCh)
+ 511:Core/Src/lim.c ****             {
+ 512:Core/Src/lim.c ****                 lim_state = 0;                //return to state 0
+ 513:Core/Src/lim.c ****                 PARAM.CCS_State = lim_state;  //Param::SetInt(Param::CCS_State, lim_state);
+ 514:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_STANDY; //ChargePhase::Standby;
+ 515:Core/Src/lim.c ****                 CONT_Ctrl = 0x0;              //dc contactor mode 0 in off
+ 516:Core/Src/lim.c ****                 FC_Cur = 0;                   //ccs current request zero
+ 517:Core/Src/lim.c ****                 EOC_Time = 0x00;
+ 518:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_NOT_READY; //ChargeStatus::NotRdy;
+ 519:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_END_CHARGE;  //ChargeRequest::EndCharge;
+ 520:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_NOT_RDY;     //ChargeReady::NotRdy;
+ 521:Core/Src/lim.c ****                 CHG_Pwr = 0;
+ 522:Core/Src/lim.c ****                 return No_Chg; //set no charge mode if we are disabled on webui and in state 9 of d
+ 523:Core/Src/lim.c ****             }
+ 524:Core/Src/lim.c ****         }
+ 525:Core/Src/lim.c **** 
+ 526:Core/Src/lim.c ****         //if (Param::GetBool(Param::PlugDet) && (CP_Mode == 0x4 || CP_Mode == 0x5 || CP_Mode == 0x6
+ 527:Core/Src/lim.c ****         if (PARAM.PlugDet && (CP_Mode == 0x4 || CP_Mode == 0x5 || CP_Mode == 0x6)) //if we have an 
+ 528:Core/Src/lim.c ****         {
+ 529:Core/Src/lim.c ****             /*
+ 530:Core/Src/lim.c **** 
+ 531:Core/Src/lim.c **** 0=no pilot
+ 532:Core/Src/lim.c **** 1=10-96%PWM not charge ready
+ 533:Core/Src/lim.c **** 2=10-96%PWM charge ready
+ 534:Core/Src/lim.c **** 3=error
+ 535:Core/Src/lim.c **** 4=5% not charge ready
+ 536:Core/Src/lim.c **** 5=5% charge ready
+ 537:Core/Src/lim.c **** 6=pilot static
+ 538:Core/Src/lim.c **** 
+ 539:Core/Src/lim.c **** */
+ 540:Core/Src/lim.c **** 
+ 541:Core/Src/lim.c ****             PARAM.CCS_State = lim_state; //Param::SetInt(Param::CCS_State, lim_state); //update sta
+ 542:Core/Src/lim.c ****             switch (lim_state)
+ 543:Core/Src/lim.c ****             {
+ 544:Core/Src/lim.c **** 
+ARM GAS  /tmp/ccFu8QZk.s 			page 11
+
+
+ 545:Core/Src/lim.c ****             case 0:
+ 546:Core/Src/lim.c ****             {
+ 547:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_STANDY;  //ChargePhase::Standby;
+ 548:Core/Src/lim.c ****                 CONT_Ctrl = 0x0;               //dc contactor mode control required in DC
+ 549:Core/Src/lim.c ****                 FC_Cur = 0;                    //ccs current request from web ui for now.
+ 550:Core/Src/lim.c ****                 EOC_Time = 0x00;               //end of charge timer
+ 551:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;  //ChargeStatus::Init;
+ 552:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_CHARGE;  //ChargeRequest::Charge;
+ 553:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_NOT_RDY; //ChargeReady::NotRdy;
+ 554:Core/Src/lim.c ****                 CHG_Pwr = 0;                   //0 power
+ 555:Core/Src/lim.c ****                 CCSI_Spnt = 0;                 //No current
+ 556:Core/Src/lim.c ****                                                //if(CP_Mode==0x4 && opmode==MOD_CHARGE) lim_state++
+ 557:Core/Src/lim.c ****                 lim_stateCnt++;                //increment state timer counter
+ 558:Core/Src/lim.c ****                 if (lim_stateCnt > 20)         //2 second delay
+ 559:Core/Src/lim.c ****                 {
+ 560:Core/Src/lim.c ****                     lim_state++; //next state after 2 secs
+ 561:Core/Src/lim.c ****                     lim_stateCnt = 0;
+ 562:Core/Src/lim.c ****                 }
+ 563:Core/Src/lim.c ****             }
+ 564:Core/Src/lim.c ****             break;
+ 565:Core/Src/lim.c **** 
+ 566:Core/Src/lim.c ****             case 1:
+ 567:Core/Src/lim.c ****             {
+ 568:Core/Src/lim.c ****                 //uint16_t I_avail_tmp=Param::GetInt(Param::CCS_I_Avail);
+ 569:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_INITIALIZATION; //ChargePhase::Initialisation;
+ 570:Core/Src/lim.c ****                 CONT_Ctrl = 0x0;                      //dc contactor mode control required in DC
+ 571:Core/Src/lim.c ****                 FC_Cur = 0;                           //ccs current request from web ui for now.
+ 572:Core/Src/lim.c ****                 EOC_Time = 0x00;                      //end of charge timer
+ 573:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;         //ChargeStatus::Init;
+ 574:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_CHARGE;         //ChargeRequest::Charge;
+ 575:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_NOT_RDY;        //ChargeReady::NotRdy;
+ 576:Core/Src/lim.c ****                 CHG_Pwr = 0;                          //0 power
+ 577:Core/Src/lim.c ****                 CCSI_Spnt = 0;                        //No current
+ 578:Core/Src/lim.c ****                 if (CP_Mode == 0x6)
+ 579:Core/Src/lim.c ****                     lim_state = 0; //Reset to state 0 if we get a static pilot
+ 580:Core/Src/lim.c ****                                    //if(I_avail_tmp>10 && I_avail_tmp<500) lim_stateCnt++;
+ 581:Core/Src/lim.c **** 
+ 582:Core/Src/lim.c ****                 if (ChargeType == 0x09)
+ 583:Core/Src/lim.c ****                     lim_stateCnt++;
+ 584:Core/Src/lim.c ****                 if (lim_stateCnt > 25) //2 secs efacec critical! 20 works. 50 does not.
+ 585:Core/Src/lim.c ****                 {
+ 586:Core/Src/lim.c ****                     lim_state++; //next state after 4 secs
+ 587:Core/Src/lim.c ****                     lim_stateCnt = 0;
+ 588:Core/Src/lim.c ****                 }
+ 589:Core/Src/lim.c ****             }
+ 590:Core/Src/lim.c ****             break;
+ 591:Core/Src/lim.c **** 
+ 592:Core/Src/lim.c ****             case 2:
+ 593:Core/Src/lim.c ****             {                                     //
+ 594:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_CABLE_TEST; //ChargePhase::CableTest;
+ 595:Core/Src/lim.c ****                 CONT_Ctrl = 0x0;                  //dc contactor mode control required in DC
+ 596:Core/Src/lim.c ****                 FC_Cur = 0;                       //ccs current request from web ui for now.
+ 597:Core/Src/lim.c ****                 EOC_Time = 0x1E;                  //end of charge timer 30 mins
+ 598:Core/Src/lim.c ****                 Bulk_SOCt = 1800;                 //Set bulk SOC timer to 30 minutes.
+ 599:Core/Src/lim.c ****                 Full_SOCt = 2400;                 //Set full SOC timer to 40 minutes.
+ 600:Core/Src/lim.c ****                 Timer_1Sec = 5;                   //Load the 1 second loop counter. 5 loops=1sec.
+ 601:Core/Src/lim.c ****                 Timer_60Sec = 60;                 //Load the 60 second loop counter. 5 loops=1sec.
+ARM GAS  /tmp/ccFu8QZk.s 			page 12
+
+
+ 602:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;     //ChargeStatus::Init;
+ 603:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_CHARGE;     //ChargeRequest::Charge;
+ 604:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_RDY;        //ChargeReady::Rdy;
+ 605:Core/Src/lim.c ****                 CHG_Pwr = 44000 / 25;             //44kw approx power
+ 606:Core/Src/lim.c ****                 CCSI_Spnt = 0;                    //No current
+ 607:Core/Src/lim.c ****                 if (Cont_Volts > 0)
+ 608:Core/Src/lim.c ****                     lim_state++; //we wait for the contactor voltage to rise before hitting next st
+ 609:Core/Src/lim.c ****             }
+ 610:Core/Src/lim.c ****             break;
+ 611:Core/Src/lim.c **** 
+ 612:Core/Src/lim.c ****             case 3:
+ 613:Core/Src/lim.c ****             {                                     //I don't like this state CableTest here. Should 
+ 614:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_CABLE_TEST; //ChargePhase::CableTest;
+ 615:Core/Src/lim.c ****                 CONT_Ctrl = 0x0;                  //dc contactor mode control required in DC
+ 616:Core/Src/lim.c ****                 FC_Cur = 0;                       //ccs current request from web ui for now.
+ 617:Core/Src/lim.c ****                                                   // EOC_Time=0x1E;//end of charge timer
+ 618:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;     //ChargeStatus::Init;
+ 619:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_CHARGE;     //ChargeRequest::Charge;
+ 620:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_RDY;        //ChargeReady::Rdy;
+ 621:Core/Src/lim.c ****                 CHG_Pwr = 44000 / 25;             //39kw approx power
+ 622:Core/Src/lim.c ****                 CCSI_Spnt = 0;                    //No current
+ 623:Core/Src/lim.c **** 
+ 624:Core/Src/lim.c ****                 if (Cont_Volts == 0)
+ 625:Core/Src/lim.c ****                     lim_stateCnt++; //we wait for the contactor voltage to return to 0 to indicate 
+ 626:Core/Src/lim.c ****                 if (lim_stateCnt > 20)
+ 627:Core/Src/lim.c ****                 {
+ 628:Core/Src/lim.c ****                     if (CCS_Iso == 0x1)
+ 629:Core/Src/lim.c ****                         lim_state++; //next state after 2 secs if we have valid iso test
+ 630:Core/Src/lim.c ****                     lim_stateCnt = 0;
+ 631:Core/Src/lim.c ****                 }
+ 632:Core/Src/lim.c ****             }
+ 633:Core/Src/lim.c ****             break;
+ 634:Core/Src/lim.c **** 
+ 635:Core/Src/lim.c ****             case 4:
+ 636:Core/Src/lim.c ****             {
+ 637:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_SUBPOENA; //ChargePhase::Subpoena; //precharge phase in this 
+ 638:Core/Src/lim.c ****                 CONT_Ctrl = 0x0;                //dc contactor mode control required in DC
+ 639:Core/Src/lim.c ****                 FC_Cur = 0;                     //ccs current request from web ui for now.
+ 640:Core/Src/lim.c ****                                                 // EOC_Time=0x1E;//end of charge timer
+ 641:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;   //ChargeStatus::Init;
+ 642:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_CHARGE;   //ChargeRequest::Charge;
+ 643:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_RDY;      //ChargeReady::Rdy;
+ 644:Core/Src/lim.c ****                 CHG_Pwr = 44000 / 25;           //49kw approx power
+ 645:Core/Src/lim.c ****                 CCSI_Spnt = 0;                  //No current
+ 646:Core/Src/lim.c **** 
+ 647:Core/Src/lim.c ****                 //if ((Param::GetInt(Param::udc) - Cont_Volts) < 20)
+ 648:Core/Src/lim.c ****                 if ((BMS[0].packVolt - Cont_Volts) < 20)
+ 649:Core/Src/lim.c ****                 {
+ 650:Core/Src/lim.c ****                     lim_stateCnt++; //we wait for the contactor voltage to be 20v or less diff to m
+ 651:Core/Src/lim.c ****                 }
+ 652:Core/Src/lim.c ****                 else
+ 653:Core/Src/lim.c ****                 {
+ 654:Core/Src/lim.c ****                     // If the contactor voltage wanders out of range start again
+ 655:Core/Src/lim.c ****                     lim_stateCnt = 0;
+ 656:Core/Src/lim.c ****                 }
+ 657:Core/Src/lim.c **** 
+ 658:Core/Src/lim.c ****                 // Wait for contactor voltage to be stable for 2 seconds
+ARM GAS  /tmp/ccFu8QZk.s 			page 13
+
+
+ 659:Core/Src/lim.c ****                 if (lim_stateCnt > 20)
+ 660:Core/Src/lim.c ****                 {
+ 661:Core/Src/lim.c ****                     lim_state++; //next state after 2 secs
+ 662:Core/Src/lim.c ****                     lim_stateCnt = 0;
+ 663:Core/Src/lim.c ****                 }
+ 664:Core/Src/lim.c ****             }
+ 665:Core/Src/lim.c ****             break;
+ 666:Core/Src/lim.c ****             case 5:
+ 667:Core/Src/lim.c ****             {
+ 668:Core/Src/lim.c ****                 //precharge phase in this state but voltage close enough to close contactors
+ 669:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_SUBPOENA; //ChargePhase::Subpoena;
+ 670:Core/Src/lim.c ****                 CONT_Ctrl = 0x2;                //dc contactor closed
+ 671:Core/Src/lim.c ****                 FC_Cur = 0;                     //ccs current request from web ui for now.
+ 672:Core/Src/lim.c ****                                                 // EOC_Time=0x1E;//end of charge timer
+ 673:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;   //ChargeStatus::Init;
+ 674:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_CHARGE;   //ChargeRequest::Charge;
+ 675:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_RDY;      //ChargeReady::Rdy;
+ 676:Core/Src/lim.c ****                 CHG_Pwr = 44000 / 25;           //49kw approx power
+ 677:Core/Src/lim.c ****                 CCSI_Spnt = 0;                  //No current
+ 678:Core/Src/lim.c **** 
+ 679:Core/Src/lim.c ****                 // Once the contactors report as closed we're OK to proceed to energy transfer
+ 680:Core/Src/lim.c ****                 if (PARAM.CCS_Contactor) //(Param::GetBool(Param::CCS_Contactor))
+ 681:Core/Src/lim.c ****                 {
+ 682:Core/Src/lim.c ****                     lim_state++;
+ 683:Core/Src/lim.c ****                 }
+ 684:Core/Src/lim.c ****             }
+ 685:Core/Src/lim.c ****             break;
+ 686:Core/Src/lim.c **** 
+ 687:Core/Src/lim.c ****             case 6:
+ 688:Core/Src/lim.c ****             {
+ 689:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_ENGERGY_TRANSFER; //ChargePhase::EnergyTransfer;
+ 690:Core/Src/lim.c ****                 CONT_Ctrl = 0x2;                        //dc contactor to close mode
+ 691:Core/Src/lim.c ****                 //FC_Cur=Param::GetInt(Param::CCS_ICmd);//ccs manual control
+ 692:Core/Src/lim.c ****                 FC_Cur = CCSI_Spnt;            //Param::GetInt(Param::CCS_ICmd);//ccs auto ramp
+ 693:Core/Src/lim.c ****                 CCS_Pwr_Con();                 //ccs power control subroutine
+ 694:Core/Src/lim.c ****                 Chg_Timers();                  //Handle remaining time timers.
+ 695:Core/Src/lim.c ****                                                //  EOC_Time=0x1E;//end of charge timer
+ 696:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_READY; //ChargeStatus::Rdy;
+ 697:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_CHARGE;  //ChargeRequest::Charge;
+ 698:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_RDY;     //ChargeReady::Rdy;
+ 699:Core/Src/lim.c ****                 CHG_Pwr = 44000 / 25;          //49kw approx power
+ 700:Core/Src/lim.c ****                 //we chill out here charging.
+ 701:Core/Src/lim.c **** 
+ 702:Core/Src/lim.c ****                 if ((!RunCh) || CCS_IntStat == 0x02) //if we have a request to terminate from the w
+ 703:Core/Src/lim.c ****                 {
+ 704:Core/Src/lim.c ****                     FC_Cur = 0;  //set current to 0
+ 705:Core/Src/lim.c ****                     lim_state++; //move to state 7 (shutdown)
+ 706:Core/Src/lim.c ****                 }
+ 707:Core/Src/lim.c ****             }
+ 708:Core/Src/lim.c ****             break;
+ 709:Core/Src/lim.c **** 
+ 710:Core/Src/lim.c ****             case 7: //shutdown state
+ 711:Core/Src/lim.c ****             {
+ 712:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_SHUTDOWN; //ChargePhase::Shutdown;
+ 713:Core/Src/lim.c ****                 CONT_Ctrl = 0x2;                //dc contactor to close mode
+ 714:Core/Src/lim.c ****                 FC_Cur = 0;                     //current command to 0
+ 715:Core/Src/lim.c ****                 EOC_Time = 0x1E;                //end of charge timer
+ARM GAS  /tmp/ccFu8QZk.s 			page 14
+
+
+ 716:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;
+ 717:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_CHARGE; //ChargeRequest::Charge;
+ 718:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_RDY;    //ChargeReady::Rdy;
+ 719:Core/Src/lim.c ****                 CHG_Pwr = 44000 / 25;         //49kw approx power
+ 720:Core/Src/lim.c ****                 lim_stateCnt++;
+ 721:Core/Src/lim.c ****                 if (lim_stateCnt > 10) //wait 2 seconds
+ 722:Core/Src/lim.c ****                 {
+ 723:Core/Src/lim.c ****                     lim_state++; //next state after 2 secs
+ 724:Core/Src/lim.c ****                     lim_stateCnt = 0;
+ 725:Core/Src/lim.c ****                 }
+ 726:Core/Src/lim.c ****             }
+ 727:Core/Src/lim.c ****             break;
+ 728:Core/Src/lim.c **** 
+ 729:Core/Src/lim.c ****             case 8: //shutdown state
+ 730:Core/Src/lim.c ****             {
+ 731:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_SHUTDOWN; //ChargePhase::Shutdown;
+ 732:Core/Src/lim.c ****                 CONT_Ctrl = 0x1;                //dc contactor to open with diag mode
+ 733:Core/Src/lim.c ****                 FC_Cur = 0;                     //current command to 0
+ 734:Core/Src/lim.c ****                 EOC_Time = 0x1E;                //end of charge timer
+ 735:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;
+ 736:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_CHARGE;  //ChargeRequest::Charge;
+ 737:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_NOT_RDY; //ChargeReady::NotRdy;
+ 738:Core/Src/lim.c ****                 CHG_Pwr = 44000 / 25;          //49kw approx power
+ 739:Core/Src/lim.c ****                 lim_stateCnt++;
+ 740:Core/Src/lim.c ****                 if (Cont_Volts == 0)
+ 741:Core/Src/lim.c ****                     lim_stateCnt++; //we wait for the contactor voltage to return to 0 to indicate 
+ 742:Core/Src/lim.c ****                 if (lim_stateCnt > 10)
+ 743:Core/Src/lim.c ****                 {
+ 744:Core/Src/lim.c ****                     lim_state++; //next state after 2 secs
+ 745:Core/Src/lim.c ****                     lim_stateCnt = 0;
+ 746:Core/Src/lim.c ****                 }
+ 747:Core/Src/lim.c ****             }
+ 748:Core/Src/lim.c ****             break;
+ 749:Core/Src/lim.c **** 
+ 750:Core/Src/lim.c ****             case 9: //shutdown state
+ 751:Core/Src/lim.c ****             {
+ 752:Core/Src/lim.c ****                 Chg_Phase = CCS_PHASE_STANDY; //ChargePhase::Standby;
+ 753:Core/Src/lim.c ****                 CONT_Ctrl = 0x0;              //dc contactor to open mode
+ 754:Core/Src/lim.c ****                 FC_Cur = 0;                   //current command to 0
+ 755:Core/Src/lim.c ****                 EOC_Time = 0x1E;              //end of charge timer
+ 756:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;
+ 757:Core/Src/lim.c ****                 CHG_Req = CCS_REQUEST_END_CHARGE; //ChargeRequest::EndCharge;
+ 758:Core/Src/lim.c ****                 CHG_Ready = CCS_READY_NOT_RDY;    //ChargeReady::NotRdy;
+ 759:Core/Src/lim.c ****                 CHG_Pwr = 0;                      //0 power
+ 760:Core/Src/lim.c ****                 return No_Chg;
+ 761:Core/Src/lim.c ****             }
+ 762:Core/Src/lim.c ****             break;
+ 763:Core/Src/lim.c ****             }
+ 764:Core/Src/lim.c **** 
+ 765:Core/Src/lim.c ****             if (RunCh)
+ 766:Core/Src/lim.c ****                 return DC_Chg; //set dc charge mode if we are enabled on webui
+ 767:Core/Src/lim.c ****             if ((!RunCh) && lim_state == 9)
+ 768:Core/Src/lim.c ****                 return No_Chg; //set no charge mode if we are disabled on webui and in state 9 of d
+ 769:Core/Src/lim.c ****         }
+ 770:Core/Src/lim.c **** 
+ 771:Core/Src/lim.c ****         if (!PARAM.PlugDet) //(!Param::GetBool(Param::PlugDet)) //if we  plug remove shut down
+ 772:Core/Src/lim.c ****         {
+ARM GAS  /tmp/ccFu8QZk.s 			page 15
+
+
+ 773:Core/Src/lim.c ****             lim_state = 0;                //return to state 0
+ 774:Core/Src/lim.c ****             PARAM.CCS_State = lim_state;  //Param::SetInt(Param::CCS_State, lim_state);
+ 775:Core/Src/lim.c ****             Chg_Phase = CCS_PHASE_STANDY; //ChargePhase::Standby;
+ 776:Core/Src/lim.c ****             CONT_Ctrl = 0x0;              //dc contactor mode 0 in off
+ 777:Core/Src/lim.c ****             FC_Cur = 0;                   //ccs current request zero
+ 778:Core/Src/lim.c ****             EOC_Time = 0x00;
+ 779:Core/Src/lim.c ****             CHG_Status = CCS_STATUS_NOT_READY; //ChargeStatus::NotRdy;
+ 780:Core/Src/lim.c ****             CHG_Req = CCS_REQUEST_END_CHARGE;  //ChargeRequest::EndCharge;
+ 781:Core/Src/lim.c ****             CHG_Ready = CCS_READY_RDY;         //ChargeReady::NotRdy;
+ 782:Core/Src/lim.c ****             CHG_Pwr = 0;
+ 783:Core/Src/lim.c ****             return No_Chg;
+ 784:Core/Src/lim.c ****         }
+ 785:Core/Src/lim.c ****     }
+ 786:Core/Src/lim.c ****     // If nothing matches then we aren't charging
+ 787:Core/Src/lim.c ****     return No_Chg;
+ 788:Core/Src/lim.c **** }
+ 789:Core/Src/lim.c **** 
+ 790:Core/Src/lim.c **** void CCS_Pwr_Con() //here we control ccs charging during state 6.
+ 791:Core/Src/lim.c **** {
+ 792:Core/Src/lim.c ****     uint16_t Tmp_Vbatt = BMS[0].packVolt;        //Param::GetInt(Param::udc); //Actual measured bat
+ 793:Core/Src/lim.c ****     uint16_t Tmp_Vbatt_Spnt = Voltspnt;          //Param::GetInt(Param::Voltspnt);
+ 794:Core/Src/lim.c ****     uint16_t Tmp_ICCS_Lim = PARAM.CCS_ILim;      //Param::GetInt(Param::CCS_ILim);
+ 795:Core/Src/lim.c ****     uint16_t Tmp_ICCS_Avail = PARAM.CCS_I_Avail; //Param::GetInt(Param::CCS_I_Avail);
+ 796:Core/Src/lim.c ****     //int16_t Tmp_Ibatt=Param::GetInt(Param::idc);
+ 797:Core/Src/lim.c **** 
+ 798:Core/Src/lim.c ****     if (CCSI_Spnt > Tmp_ICCS_Lim)
+ 799:Core/Src/lim.c ****         CCSI_Spnt = Tmp_ICCS_Lim; //clamp setpoint to current lim paramater.
+ 800:Core/Src/lim.c ****     if (CCSI_Spnt > 150)
+ 801:Core/Src/lim.c ****         CCSI_Spnt = 150; //never exceed 150amps for now.
+ 802:Core/Src/lim.c ****     if (CCSI_Spnt >= Tmp_ICCS_Avail)
+ 803:Core/Src/lim.c ****         CCSI_Spnt = Tmp_ICCS_Avail; //never exceed available current
+ 804:Core/Src/lim.c ****     if (CCSI_Spnt > 250)
+ 805:Core/Src/lim.c ****         CCSI_Spnt = 0; //crude way to prevent rollover
+ 806:Core/Src/lim.c ****     if ((Tmp_Vbatt < Tmp_Vbatt_Spnt) && (CCS_Ilim == 0x0) && (CCS_Plim == 0x0))
+ 807:Core/Src/lim.c ****         CCSI_Spnt++; //increment if voltage lower than setpoint and power and current limts not set
+ 808:Core/Src/lim.c ****     if (Tmp_Vbatt > Tmp_Vbatt_Spnt)
+ 809:Core/Src/lim.c ****         CCSI_Spnt--; //decrement if voltage equal to or greater than setpoint.
+ 810:Core/Src/lim.c ****     if (CCS_Ilim == 0x1)
+ 811:Core/Src/lim.c ****         CCSI_Spnt--; //decrement if current limit flag is set
+ 812:Core/Src/lim.c ****     if (CCS_Plim == 0x1)
+ 813:Core/Src/lim.c ****         CCSI_Spnt--;            //decrement if Power limit flag is set
+ 814:Core/Src/lim.c ****     PARAM.CCS_Ireq = CCSI_Spnt; //Param::SetInt(Param::CCS_Ireq, CCSI_Spnt);
+ 815:Core/Src/lim.c **** }
+ 816:Core/Src/lim.c **** 
+ 817:Core/Src/lim.c **** void Chg_Timers()
+ 818:Core/Src/lim.c **** {
+ 819:Core/Src/lim.c ****     Timer_1Sec--; //decrement the loop counter
+ 820:Core/Src/lim.c **** 
+ 821:Core/Src/lim.c ****     if (Timer_1Sec == 0) //1 second has elapsed
+ 822:Core/Src/lim.c ****     {
+ 823:Core/Src/lim.c ****         Timer_1Sec = 5;
+ 824:Core/Src/lim.c ****         Bulk_SOCt--; //Decrement timers. Just on time for now will be current based in final versio
+ 825:Core/Src/lim.c ****         Full_SOCt--;
+ 826:Core/Src/lim.c ****         Timer_60Sec--; //decrement the 1 minute counter
+ 827:Core/Src/lim.c ****         if (Timer_60Sec == 0)
+ 828:Core/Src/lim.c ****         {
+ 829:Core/Src/lim.c ****             Timer_60Sec = 60;
+ARM GAS  /tmp/ccFu8QZk.s 			page 16
+
+
+ 830:Core/Src/lim.c ****             EOC_Time--; //decrement end of charge minutes timer
+ 831:Core/Src/lim.c ****         }
+ 832:Core/Src/lim.c ****     }
+ 833:Core/Src/lim.c **** }
+ 834:Core/Src/lim.c **** 
+ 835:Core/Src/lim.c **** void getLimData(void)
+ 836:Core/Src/lim.c **** {
+  28              		.loc 1 836 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 7047     		bx	lr
+  34              		.cfi_endproc
+  35              	.LFE142:
+  37              		.global	CCS_IntStat
+  38              		.global	CCS_Iso
+  39              		.global	CCS_Stop
+  40              		.global	CCS_Bmalf
+  41              		.global	CCS_Malf
+  42              		.global	CCS_Stat
+  43              		.global	CCS_Vlim
+  44              		.global	CCS_Ilim
+  45              		.global	CCS_Plim
+  46              		.global	ChargeType
+  47              		.comm	PARAM,28,4
+  48              		.comm	charged,1,1
+  49              		.comm	vechicleState,1,1
+  50              		.comm	BMS,492,4
+  51              		.comm	txCycle3,4,4
+  52              		.comm	txCycle2,4,4
+  53              		.comm	txCycle,4,4
+  54              		.comm	canMailbox3,4,4
+  55              		.comm	canMailbox2,4,4
+  56              		.comm	canMailbox,4,4
+  57              		.comm	canRx3,8,4
+  58              		.comm	canRx2,8,4
+  59              		.comm	canRx,8,4
+  60              		.comm	txMsgExt3,24,4
+  61              		.comm	txMsg3,24,4
+  62              		.comm	rxMsg3,28,4
+  63              		.comm	txMsgExt2,24,4
+  64              		.comm	txMsg2,24,4
+  65              		.comm	rxMsg2,28,4
+  66              		.comm	txMsgExt,24,4
+  67              		.comm	txMsg,24,4
+  68              		.comm	rxMsg,28,4
+  69              		.comm	sf5,40,4
+  70              		.comm	sf4,40,4
+  71              		.comm	sf3,40,4
+  72              		.comm	sf2,40,4
+  73              		.comm	sf,40,4
+  74              		.comm	hcan3,40,4
+  75              		.comm	hcan2,40,4
+  76              		.comm	hcan1,40,4
+  77              		.section	.bss.CCS_Bmalf,"aw",%nobits
+  80              	CCS_Bmalf:
+ARM GAS  /tmp/ccFu8QZk.s 			page 17
+
+
+  81 0000 00       		.space	1
+  82              		.section	.bss.CCS_Ilim,"aw",%nobits
+  85              	CCS_Ilim:
+  86 0000 00       		.space	1
+  87              		.section	.bss.CCS_IntStat,"aw",%nobits
+  90              	CCS_IntStat:
+  91 0000 00       		.space	1
+  92              		.section	.bss.CCS_Iso,"aw",%nobits
+  95              	CCS_Iso:
+  96 0000 00       		.space	1
+  97              		.section	.bss.CCS_Malf,"aw",%nobits
+ 100              	CCS_Malf:
+ 101 0000 00       		.space	1
+ 102              		.section	.bss.CCS_Plim,"aw",%nobits
+ 105              	CCS_Plim:
+ 106 0000 00       		.space	1
+ 107              		.section	.bss.CCS_Stat,"aw",%nobits
+ 110              	CCS_Stat:
+ 111 0000 00       		.space	1
+ 112              		.section	.bss.CCS_Stop,"aw",%nobits
+ 115              	CCS_Stop:
+ 116 0000 00       		.space	1
+ 117              		.section	.bss.CCS_Vlim,"aw",%nobits
+ 120              	CCS_Vlim:
+ 121 0000 00       		.space	1
+ 122              		.section	.bss.ChargeType,"aw",%nobits
+ 125              	ChargeType:
+ 126 0000 00       		.space	1
+ 127              		.text
+ 128              	.Letext0:
+ 129              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 130              		.file 3 "/usr/include/newlib/sys/_stdint.h"
+ 131              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 132              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 133              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
+ 134              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 135              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 136              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 137              		.file 10 "/usr/include/newlib/sys/lock.h"
+ 138              		.file 11 "/usr/include/newlib/sys/_types.h"
+ 139              		.file 12 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
+ 140              		.file 13 "/usr/include/newlib/sys/reent.h"
+ 141              		.file 14 "Core/Inc/can_setup.h"
+ 142              		.file 15 "Core/Inc/bms.h"
+ 143              		.file 16 "Core/Inc/lim.h"
+ARM GAS  /tmp/ccFu8QZk.s 			page 18
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 lim.c
-     /tmp/ccVJocmo.s:72     .bss.CCS_IntStat:0000000000000000 CCS_IntStat
-     /tmp/ccVJocmo.s:77     .bss.CCS_Iso:0000000000000000 CCS_Iso
-     /tmp/ccVJocmo.s:97     .bss.CCS_Stop:0000000000000000 CCS_Stop
-     /tmp/ccVJocmo.s:62     .bss.CCS_Bmalf:0000000000000000 CCS_Bmalf
-     /tmp/ccVJocmo.s:82     .bss.CCS_Malf:0000000000000000 CCS_Malf
-     /tmp/ccVJocmo.s:92     .bss.CCS_Stat:0000000000000000 CCS_Stat
-     /tmp/ccVJocmo.s:102    .bss.CCS_Vlim:0000000000000000 CCS_Vlim
-     /tmp/ccVJocmo.s:67     .bss.CCS_Ilim:0000000000000000 CCS_Ilim
-     /tmp/ccVJocmo.s:87     .bss.CCS_Plim:0000000000000000 CCS_Plim
-     /tmp/ccVJocmo.s:107    .bss.ChargeType:0000000000000000 ChargeType
+     /tmp/ccFu8QZk.s:18     .text.getLimData:0000000000000000 $t
+     /tmp/ccFu8QZk.s:25     .text.getLimData:0000000000000000 getLimData
+     /tmp/ccFu8QZk.s:90     .bss.CCS_IntStat:0000000000000000 CCS_IntStat
+     /tmp/ccFu8QZk.s:95     .bss.CCS_Iso:0000000000000000 CCS_Iso
+     /tmp/ccFu8QZk.s:115    .bss.CCS_Stop:0000000000000000 CCS_Stop
+     /tmp/ccFu8QZk.s:80     .bss.CCS_Bmalf:0000000000000000 CCS_Bmalf
+     /tmp/ccFu8QZk.s:100    .bss.CCS_Malf:0000000000000000 CCS_Malf
+     /tmp/ccFu8QZk.s:110    .bss.CCS_Stat:0000000000000000 CCS_Stat
+     /tmp/ccFu8QZk.s:120    .bss.CCS_Vlim:0000000000000000 CCS_Vlim
+     /tmp/ccFu8QZk.s:85     .bss.CCS_Ilim:0000000000000000 CCS_Ilim
+     /tmp/ccFu8QZk.s:105    .bss.CCS_Plim:0000000000000000 CCS_Plim
+     /tmp/ccFu8QZk.s:125    .bss.ChargeType:0000000000000000 ChargeType
                             *COM*:000000000000001c PARAM
                             *COM*:0000000000000001 charged
                             *COM*:0000000000000001 vechicleState
@@ -132,9 +1030,7 @@ DEFINED SYMBOLS
                             *COM*:0000000000000004 txCycle3
                             *COM*:0000000000000004 txCycle2
                             *COM*:0000000000000004 txCycle
-                            *COM*:0000000000000008 canTx3
-                            *COM*:0000000000000008 canTx2
-                            *COM*:0000000000000008 canTx
+                            *COM*:0000000000000004 canMailbox3
                             *COM*:0000000000000004 canMailbox2
                             *COM*:0000000000000004 canMailbox
                             *COM*:0000000000000008 canRx3
@@ -157,15 +1053,19 @@ DEFINED SYMBOLS
                             *COM*:0000000000000028 hcan3
                             *COM*:0000000000000028 hcan2
                             *COM*:0000000000000028 hcan1
-     /tmp/ccVJocmo.s:63     .bss.CCS_Bmalf:0000000000000000 $d
-     /tmp/ccVJocmo.s:68     .bss.CCS_Ilim:0000000000000000 $d
-     /tmp/ccVJocmo.s:73     .bss.CCS_IntStat:0000000000000000 $d
-     /tmp/ccVJocmo.s:78     .bss.CCS_Iso:0000000000000000 $d
-     /tmp/ccVJocmo.s:83     .bss.CCS_Malf:0000000000000000 $d
-     /tmp/ccVJocmo.s:88     .bss.CCS_Plim:0000000000000000 $d
-     /tmp/ccVJocmo.s:93     .bss.CCS_Stat:0000000000000000 $d
-     /tmp/ccVJocmo.s:98     .bss.CCS_Stop:0000000000000000 $d
-     /tmp/ccVJocmo.s:103    .bss.CCS_Vlim:0000000000000000 $d
-     /tmp/ccVJocmo.s:108    .bss.ChargeType:0000000000000000 $d
+     /tmp/ccFu8QZk.s:81     .bss.CCS_Bmalf:0000000000000000 $d
+     /tmp/ccFu8QZk.s:86     .bss.CCS_Ilim:0000000000000000 $d
+     /tmp/ccFu8QZk.s:91     .bss.CCS_IntStat:0000000000000000 $d
+     /tmp/ccFu8QZk.s:96     .bss.CCS_Iso:0000000000000000 $d
+     /tmp/ccFu8QZk.s:101    .bss.CCS_Malf:0000000000000000 $d
+     /tmp/ccFu8QZk.s:106    .bss.CCS_Plim:0000000000000000 $d
+     /tmp/ccFu8QZk.s:111    .bss.CCS_Stat:0000000000000000 $d
+     /tmp/ccFu8QZk.s:116    .bss.CCS_Stop:0000000000000000 $d
+     /tmp/ccFu8QZk.s:121    .bss.CCS_Vlim:0000000000000000 $d
+     /tmp/ccFu8QZk.s:126    .bss.ChargeType:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
 
 NO UNDEFINED SYMBOLS
+ARM GAS  /tmp/ccFu8QZk.s 			page 19
+
+

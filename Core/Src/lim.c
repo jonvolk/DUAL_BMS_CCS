@@ -195,10 +195,10 @@ void Send200msMessages()
     else
         bytes[0] = 0xFD;
     //bytes[0] = 0xFD;// FD at standby, change to FC on 5% pilot. Change back to FD during energy transfer
-    bytes[1] = 0xFF;                     //these bytes are used as a timer during energy transfer but not at setup
+    bytes[1] = 0xFF;                    //these bytes are used as a timer during energy transfer but not at setup
     bytes[2] = (uint8_t)Chg_Phase << 4; //upper nibble seems to be a mode command to the ccs station. 0 when off, 9 when in constant current phase of cycle.
-                                         //more investigation needed here...
-                                         //Lower nibble seems to be intended for two end charge commands each of 2 bits.
+                                        //more investigation needed here...
+                                        //Lower nibble seems to be intended for two end charge commands each of 2 bits.
 
     bytes[4] = 0xff;
     bytes[5] = 0xff;
@@ -487,37 +487,37 @@ vin_ctr++;
 
 i3LIMChargingState Control_Charge(bool RunCh)
 {
-    int opmode = PARAM.opmode;//Param::GetInt(Param::opmode);
-    if (opmode != MOD_RUN) //only do this if we are not in run mode
+    int opmode = PARAM.opmode; //Param::GetInt(Param::opmode);
+    if (opmode != MOD_RUN)     //only do this if we are not in run mode
     {
         //if (Param::GetBool(Param::PlugDet) && (CP_Mode == 0x1 || CP_Mode == 0x2)) //if we have an enable and a plug in and a std ac pilot lets go AC charge mode.
         if (PARAM.PlugDet && (CP_Mode == 0x1 || CP_Mode == 0x2)) //if we have an enable and a plug in and a std ac pilot lets go AC charge mode.
         {
-            lim_state = 0; //return to state 0
-            PARAM.CCS_State = lim_state;//Param::SetInt(Param::CCS_State, lim_state);
-            Chg_Phase = CCS_PHASE_STANDY;//ChargePhase::Standby;
-            CONT_Ctrl = 0x0; //dc contactor mode 0 in AC
-            FC_Cur = 0;      //ccs current request zero
+            lim_state = 0;                //return to state 0
+            PARAM.CCS_State = lim_state;  //Param::SetInt(Param::CCS_State, lim_state);
+            Chg_Phase = CCS_PHASE_STANDY; //ChargePhase::Standby;
+            CONT_Ctrl = 0x0;              //dc contactor mode 0 in AC
+            FC_Cur = 0;                   //ccs current request zero
             EOC_Time = 0xFE;
-            CHG_Status = CCS_STATUS_READY;//ChargeStatus::Rdy;
-            CHG_Req = CCS_REQUEST_CHARGE;//ChargeRequest::Charge;
-            CHG_Ready = CCS_READY_RDY;//ChargeReady::Rdy;
-            CHG_Pwr = 6500 / 25; //approx 6.5kw ac
+            CHG_Status = CCS_STATUS_READY; //ChargeStatus::Rdy;
+            CHG_Req = CCS_REQUEST_CHARGE;  //ChargeRequest::Charge;
+            CHG_Ready = CCS_READY_RDY;     //ChargeReady::Rdy;
+            CHG_Pwr = 6500 / 25;           //approx 6.5kw ac
 
             if (RunCh)
                 return AC_Chg; //set ac charge mode if we are enabled on webui
 
             if (!RunCh)
             {
-                lim_state = 0; //return to state 0
-                PARAM.CCS_State = lim_state;//Param::SetInt(Param::CCS_State, lim_state);
-                Chg_Phase = CCS_PHASE_STANDY;//ChargePhase::Standby;
-                CONT_Ctrl = 0x0; //dc contactor mode 0 in off
-                FC_Cur = 0;      //ccs current request zero
+                lim_state = 0;                //return to state 0
+                PARAM.CCS_State = lim_state;  //Param::SetInt(Param::CCS_State, lim_state);
+                Chg_Phase = CCS_PHASE_STANDY; //ChargePhase::Standby;
+                CONT_Ctrl = 0x0;              //dc contactor mode 0 in off
+                FC_Cur = 0;                   //ccs current request zero
                 EOC_Time = 0x00;
-                CHG_Status = CCS_STATUS_NOT_READY;//ChargeStatus::NotRdy;
-                CHG_Req = CCS_REQUEST_END_CHARGE;//ChargeRequest::EndCharge;
-                CHG_Ready = CCS_READY_NOT_RDY;//ChargeReady::NotRdy;
+                CHG_Status = CCS_STATUS_NOT_READY; //ChargeStatus::NotRdy;
+                CHG_Req = CCS_REQUEST_END_CHARGE;  //ChargeRequest::EndCharge;
+                CHG_Ready = CCS_READY_NOT_RDY;     //ChargeReady::NotRdy;
                 CHG_Pwr = 0;
                 return No_Chg; //set no charge mode if we are disabled on webui and in state 9 of dc machine
             }
@@ -538,24 +538,24 @@ i3LIMChargingState Control_Charge(bool RunCh)
 
 */
 
-            PARAM.CCS_State = lim_state;//Param::SetInt(Param::CCS_State, lim_state); //update state machine level on webui
+            PARAM.CCS_State = lim_state; //Param::SetInt(Param::CCS_State, lim_state); //update state machine level on webui
             switch (lim_state)
             {
 
             case 0:
             {
-                Chg_Phase = CCS_PHASE_STANDY;//ChargePhase::Standby;
-                CONT_Ctrl = 0x0; //dc contactor mode control required in DC
-                FC_Cur = 0;      //ccs current request from web ui for now.
-                EOC_Time = 0x00; //end of charge timer
-                CHG_Status = CCS_STATUS_INIT;//ChargeStatus::Init;
-                CHG_Req = CCS_REQUEST_CHARGE;//ChargeRequest::Charge;
-                CHG_Ready = CCS_READY_NOT_RDY;//ChargeReady::NotRdy;
-                CHG_Pwr = 0;           //0 power
-                CCSI_Spnt = 0;         //No current
-                                       //if(CP_Mode==0x4 && opmode==MOD_CHARGE) lim_state++;
-                lim_stateCnt++;        //increment state timer counter
-                if (lim_stateCnt > 20) //2 second delay
+                Chg_Phase = CCS_PHASE_STANDY;  //ChargePhase::Standby;
+                CONT_Ctrl = 0x0;               //dc contactor mode control required in DC
+                FC_Cur = 0;                    //ccs current request from web ui for now.
+                EOC_Time = 0x00;               //end of charge timer
+                CHG_Status = CCS_STATUS_INIT;  //ChargeStatus::Init;
+                CHG_Req = CCS_REQUEST_CHARGE;  //ChargeRequest::Charge;
+                CHG_Ready = CCS_READY_NOT_RDY; //ChargeReady::NotRdy;
+                CHG_Pwr = 0;                   //0 power
+                CCSI_Spnt = 0;                 //No current
+                                               //if(CP_Mode==0x4 && opmode==MOD_CHARGE) lim_state++;
+                lim_stateCnt++;                //increment state timer counter
+                if (lim_stateCnt > 20)         //2 second delay
                 {
                     lim_state++; //next state after 2 secs
                     lim_stateCnt = 0;
@@ -566,15 +566,15 @@ i3LIMChargingState Control_Charge(bool RunCh)
             case 1:
             {
                 //uint16_t I_avail_tmp=Param::GetInt(Param::CCS_I_Avail);
-                Chg_Phase = CCS_PHASE_INITIALIZATION;//ChargePhase::Initialisation;
-                CONT_Ctrl = 0x0; //dc contactor mode control required in DC
-                FC_Cur = 0;      //ccs current request from web ui for now.
-                EOC_Time = 0x00; //end of charge timer
-                CHG_Status = CCS_STATUS_INIT;//ChargeStatus::Init;
-                CHG_Req = CCS_REQUEST_CHARGE;//ChargeRequest::Charge;
-                CHG_Ready = CCS_READY_NOT_RDY;//ChargeReady::NotRdy;
-                CHG_Pwr = 0;   //0 power
-                CCSI_Spnt = 0; //No current
+                Chg_Phase = CCS_PHASE_INITIALIZATION; //ChargePhase::Initialisation;
+                CONT_Ctrl = 0x0;                      //dc contactor mode control required in DC
+                FC_Cur = 0;                           //ccs current request from web ui for now.
+                EOC_Time = 0x00;                      //end of charge timer
+                CHG_Status = CCS_STATUS_INIT;         //ChargeStatus::Init;
+                CHG_Req = CCS_REQUEST_CHARGE;         //ChargeRequest::Charge;
+                CHG_Ready = CCS_READY_NOT_RDY;        //ChargeReady::NotRdy;
+                CHG_Pwr = 0;                          //0 power
+                CCSI_Spnt = 0;                        //No current
                 if (CP_Mode == 0x6)
                     lim_state = 0; //Reset to state 0 if we get a static pilot
                                    //if(I_avail_tmp>10 && I_avail_tmp<500) lim_stateCnt++;
@@ -590,36 +590,36 @@ i3LIMChargingState Control_Charge(bool RunCh)
             break;
 
             case 2:
-            { //
-                Chg_Phase = CCS_PHASE_CABLE_TEST;//ChargePhase::CableTest;
-                CONT_Ctrl = 0x0;  //dc contactor mode control required in DC
-                FC_Cur = 0;       //ccs current request from web ui for now.
-                EOC_Time = 0x1E;  //end of charge timer 30 mins
-                Bulk_SOCt = 1800; //Set bulk SOC timer to 30 minutes.
-                Full_SOCt = 2400; //Set full SOC timer to 40 minutes.
-                Timer_1Sec = 5;   //Load the 1 second loop counter. 5 loops=1sec.
-                Timer_60Sec = 60; //Load the 60 second loop counter. 5 loops=1sec.
-                CHG_Status = CCS_STATUS_INIT;//ChargeStatus::Init;
-                CHG_Req = CCS_REQUEST_CHARGE;//ChargeRequest::Charge;
-                CHG_Ready = CCS_READY_RDY;//ChargeReady::Rdy;
-                CHG_Pwr = 44000 / 25; //44kw approx power
-                CCSI_Spnt = 0;        //No current
+            {                                     //
+                Chg_Phase = CCS_PHASE_CABLE_TEST; //ChargePhase::CableTest;
+                CONT_Ctrl = 0x0;                  //dc contactor mode control required in DC
+                FC_Cur = 0;                       //ccs current request from web ui for now.
+                EOC_Time = 0x1E;                  //end of charge timer 30 mins
+                Bulk_SOCt = 1800;                 //Set bulk SOC timer to 30 minutes.
+                Full_SOCt = 2400;                 //Set full SOC timer to 40 minutes.
+                Timer_1Sec = 5;                   //Load the 1 second loop counter. 5 loops=1sec.
+                Timer_60Sec = 60;                 //Load the 60 second loop counter. 5 loops=1sec.
+                CHG_Status = CCS_STATUS_INIT;     //ChargeStatus::Init;
+                CHG_Req = CCS_REQUEST_CHARGE;     //ChargeRequest::Charge;
+                CHG_Ready = CCS_READY_RDY;        //ChargeReady::Rdy;
+                CHG_Pwr = 44000 / 25;             //44kw approx power
+                CCSI_Spnt = 0;                    //No current
                 if (Cont_Volts > 0)
                     lim_state++; //we wait for the contactor voltage to rise before hitting next state.
             }
             break;
 
             case 3:
-            { //I don't like this state CableTest here. Should it remain in Initialisation ....
-                Chg_Phase = CCS_PHASE_CABLE_TEST;//ChargePhase::CableTest;
-                CONT_Ctrl = 0x0; //dc contactor mode control required in DC
-                FC_Cur = 0;      //ccs current request from web ui for now.
-                                 // EOC_Time=0x1E;//end of charge timer
-                CHG_Status = CCS_STATUS_INIT;//ChargeStatus::Init;
-                CHG_Req = CCS_REQUEST_CHARGE;//ChargeRequest::Charge;
-                CHG_Ready = CCS_READY_RDY;//ChargeReady::Rdy;
-                CHG_Pwr = 44000 / 25; //39kw approx power
-                CCSI_Spnt = 0;        //No current
+            {                                     //I don't like this state CableTest here. Should it remain in Initialisation ....
+                Chg_Phase = CCS_PHASE_CABLE_TEST; //ChargePhase::CableTest;
+                CONT_Ctrl = 0x0;                  //dc contactor mode control required in DC
+                FC_Cur = 0;                       //ccs current request from web ui for now.
+                                                  // EOC_Time=0x1E;//end of charge timer
+                CHG_Status = CCS_STATUS_INIT;     //ChargeStatus::Init;
+                CHG_Req = CCS_REQUEST_CHARGE;     //ChargeRequest::Charge;
+                CHG_Ready = CCS_READY_RDY;        //ChargeReady::Rdy;
+                CHG_Pwr = 44000 / 25;             //39kw approx power
+                CCSI_Spnt = 0;                    //No current
 
                 if (Cont_Volts == 0)
                     lim_stateCnt++; //we wait for the contactor voltage to return to 0 to indicate end of cable test
@@ -634,18 +634,18 @@ i3LIMChargingState Control_Charge(bool RunCh)
 
             case 4:
             {
-                Chg_Phase = CCS_PHASE_SUBPOENA;//ChargePhase::Subpoena; //precharge phase in this state
-                CONT_Ctrl = 0x0;                   //dc contactor mode control required in DC
-                FC_Cur = 0;                        //ccs current request from web ui for now.
-                                                   // EOC_Time=0x1E;//end of charge timer
-                CHG_Status = CCS_STATUS_INIT;//ChargeStatus::Init;
-                CHG_Req = CCS_REQUEST_CHARGE;//ChargeRequest::Charge;
-                CHG_Ready = CCS_READY_RDY;//ChargeReady::Rdy;
-                CHG_Pwr = 44000 / 25; //49kw approx power
-                CCSI_Spnt = 0;        //No current
+                Chg_Phase = CCS_PHASE_SUBPOENA; //ChargePhase::Subpoena; //precharge phase in this state
+                CONT_Ctrl = 0x0;                //dc contactor mode control required in DC
+                FC_Cur = 0;                     //ccs current request from web ui for now.
+                                                // EOC_Time=0x1E;//end of charge timer
+                CHG_Status = CCS_STATUS_INIT;   //ChargeStatus::Init;
+                CHG_Req = CCS_REQUEST_CHARGE;   //ChargeRequest::Charge;
+                CHG_Ready = CCS_READY_RDY;      //ChargeReady::Rdy;
+                CHG_Pwr = 44000 / 25;           //49kw approx power
+                CCSI_Spnt = 0;                  //No current
 
                 //if ((Param::GetInt(Param::udc) - Cont_Volts) < 20)
-                 if ((BMS[0].packVolt - Cont_Volts) < 20)
+                if ((BMS[0].packVolt - Cont_Volts) < 20)
                 {
                     lim_stateCnt++; //we wait for the contactor voltage to be 20v or less diff to main batt v
                 }
@@ -666,18 +666,18 @@ i3LIMChargingState Control_Charge(bool RunCh)
             case 5:
             {
                 //precharge phase in this state but voltage close enough to close contactors
-                Chg_Phase = CCS_PHASE_SUBPOENA;//ChargePhase::Subpoena;
-                CONT_Ctrl = 0x2; //dc contactor closed
-                FC_Cur = 0;      //ccs current request from web ui for now.
-                                 // EOC_Time=0x1E;//end of charge timer
-                CHG_Status = CCS_STATUS_INIT;//ChargeStatus::Init;
-                CHG_Req = CCS_REQUEST_CHARGE;//ChargeRequest::Charge;
-                CHG_Ready = CCS_READY_RDY;//ChargeReady::Rdy;
-                CHG_Pwr = 44000 / 25; //49kw approx power
-                CCSI_Spnt = 0;        //No current
+                Chg_Phase = CCS_PHASE_SUBPOENA; //ChargePhase::Subpoena;
+                CONT_Ctrl = 0x2;                //dc contactor closed
+                FC_Cur = 0;                     //ccs current request from web ui for now.
+                                                // EOC_Time=0x1E;//end of charge timer
+                CHG_Status = CCS_STATUS_INIT;   //ChargeStatus::Init;
+                CHG_Req = CCS_REQUEST_CHARGE;   //ChargeRequest::Charge;
+                CHG_Ready = CCS_READY_RDY;      //ChargeReady::Rdy;
+                CHG_Pwr = 44000 / 25;           //49kw approx power
+                CCSI_Spnt = 0;                  //No current
 
                 // Once the contactors report as closed we're OK to proceed to energy transfer
-                if (PARAM.CCS_Contactor)//(Param::GetBool(Param::CCS_Contactor))
+                if (PARAM.CCS_Contactor) //(Param::GetBool(Param::CCS_Contactor))
                 {
                     lim_state++;
                 }
@@ -686,17 +686,17 @@ i3LIMChargingState Control_Charge(bool RunCh)
 
             case 6:
             {
-                Chg_Phase = CCS_PHASE_ENGERGY_TRANSFER;//ChargePhase::EnergyTransfer;
-                CONT_Ctrl = 0x2; //dc contactor to close mode
+                Chg_Phase = CCS_PHASE_ENGERGY_TRANSFER; //ChargePhase::EnergyTransfer;
+                CONT_Ctrl = 0x2;                        //dc contactor to close mode
                 //FC_Cur=Param::GetInt(Param::CCS_ICmd);//ccs manual control
-                FC_Cur = CCSI_Spnt; //Param::GetInt(Param::CCS_ICmd);//ccs auto ramp
-                CCS_Pwr_Con();      //ccs power control subroutine
-                Chg_Timers();       //Handle remaining time timers.
-                                    //  EOC_Time=0x1E;//end of charge timer
-                CHG_Status = CCS_STATUS_READY;//ChargeStatus::Rdy;
-                CHG_Req = CCS_REQUEST_CHARGE;//ChargeRequest::Charge;
-                CHG_Ready = CCS_READY_RDY;//ChargeReady::Rdy;
-                CHG_Pwr = 44000 / 25; //49kw approx power
+                FC_Cur = CCSI_Spnt;            //Param::GetInt(Param::CCS_ICmd);//ccs auto ramp
+                CCS_Pwr_Con();                 //ccs power control subroutine
+                Chg_Timers();                  //Handle remaining time timers.
+                                               //  EOC_Time=0x1E;//end of charge timer
+                CHG_Status = CCS_STATUS_READY; //ChargeStatus::Rdy;
+                CHG_Req = CCS_REQUEST_CHARGE;  //ChargeRequest::Charge;
+                CHG_Ready = CCS_READY_RDY;     //ChargeReady::Rdy;
+                CHG_Pwr = 44000 / 25;          //49kw approx power
                 //we chill out here charging.
 
                 if ((!RunCh) || CCS_IntStat == 0x02) //if we have a request to terminate from the web ui or the evse then move to next state.
@@ -709,14 +709,14 @@ i3LIMChargingState Control_Charge(bool RunCh)
 
             case 7: //shutdown state
             {
-                Chg_Phase = CCS_PHASE_SHUTDOWN;//ChargePhase::Shutdown;
-                CONT_Ctrl = 0x2; //dc contactor to close mode
-                FC_Cur = 0;      //current command to 0
-                EOC_Time = 0x1E; //end of charge timer
+                Chg_Phase = CCS_PHASE_SHUTDOWN; //ChargePhase::Shutdown;
+                CONT_Ctrl = 0x2;                //dc contactor to close mode
+                FC_Cur = 0;                     //current command to 0
+                EOC_Time = 0x1E;                //end of charge timer
                 CHG_Status = CCS_STATUS_INIT;
-                CHG_Req = CCS_REQUEST_CHARGE;//ChargeRequest::Charge;
-                CHG_Ready = CCS_READY_RDY;//ChargeReady::Rdy;
-                CHG_Pwr = 44000 / 25; //49kw approx power
+                CHG_Req = CCS_REQUEST_CHARGE; //ChargeRequest::Charge;
+                CHG_Ready = CCS_READY_RDY;    //ChargeReady::Rdy;
+                CHG_Pwr = 44000 / 25;         //49kw approx power
                 lim_stateCnt++;
                 if (lim_stateCnt > 10) //wait 2 seconds
                 {
@@ -728,14 +728,14 @@ i3LIMChargingState Control_Charge(bool RunCh)
 
             case 8: //shutdown state
             {
-                Chg_Phase = CCS_PHASE_SHUTDOWN;//ChargePhase::Shutdown;
-                CONT_Ctrl = 0x1; //dc contactor to open with diag mode
-                FC_Cur = 0;      //current command to 0
-                EOC_Time = 0x1E; //end of charge timer
+                Chg_Phase = CCS_PHASE_SHUTDOWN; //ChargePhase::Shutdown;
+                CONT_Ctrl = 0x1;                //dc contactor to open with diag mode
+                FC_Cur = 0;                     //current command to 0
+                EOC_Time = 0x1E;                //end of charge timer
                 CHG_Status = CCS_STATUS_INIT;
-                CHG_Req = CCS_REQUEST_CHARGE;//ChargeRequest::Charge;
-                CHG_Ready = CCS_READY_NOT_RDY;//ChargeReady::NotRdy;
-                CHG_Pwr = 44000 / 25; //49kw approx power
+                CHG_Req = CCS_REQUEST_CHARGE;  //ChargeRequest::Charge;
+                CHG_Ready = CCS_READY_NOT_RDY; //ChargeReady::NotRdy;
+                CHG_Pwr = 44000 / 25;          //49kw approx power
                 lim_stateCnt++;
                 if (Cont_Volts == 0)
                     lim_stateCnt++; //we wait for the contactor voltage to return to 0 to indicate contactors open
@@ -749,14 +749,14 @@ i3LIMChargingState Control_Charge(bool RunCh)
 
             case 9: //shutdown state
             {
-                Chg_Phase = CCS_PHASE_STANDY;//ChargePhase::Standby;
-                CONT_Ctrl = 0x0; //dc contactor to open mode
-                FC_Cur = 0;      //current command to 0
-                EOC_Time = 0x1E; //end of charge timer
+                Chg_Phase = CCS_PHASE_STANDY; //ChargePhase::Standby;
+                CONT_Ctrl = 0x0;              //dc contactor to open mode
+                FC_Cur = 0;                   //current command to 0
+                EOC_Time = 0x1E;              //end of charge timer
                 CHG_Status = CCS_STATUS_INIT;
-                CHG_Req = CCS_REQUEST_END_CHARGE;//ChargeRequest::EndCharge;
-                CHG_Ready = CCS_READY_NOT_RDY;//ChargeReady::NotRdy;
-                CHG_Pwr = 0; //0 power
+                CHG_Req = CCS_REQUEST_END_CHARGE; //ChargeRequest::EndCharge;
+                CHG_Ready = CCS_READY_NOT_RDY;    //ChargeReady::NotRdy;
+                CHG_Pwr = 0;                      //0 power
                 return No_Chg;
             }
             break;
@@ -768,17 +768,17 @@ i3LIMChargingState Control_Charge(bool RunCh)
                 return No_Chg; //set no charge mode if we are disabled on webui and in state 9 of dc machine
         }
 
-        if (!PARAM.PlugDet)//(!Param::GetBool(Param::PlugDet)) //if we  plug remove shut down
+        if (!PARAM.PlugDet) //(!Param::GetBool(Param::PlugDet)) //if we  plug remove shut down
         {
-            lim_state = 0; //return to state 0
-            PARAM.CCS_State =  lim_state;   //Param::SetInt(Param::CCS_State, lim_state);
-            Chg_Phase = CCS_PHASE_STANDY;//ChargePhase::Standby;
-            CONT_Ctrl = 0x0; //dc contactor mode 0 in off
-            FC_Cur = 0;      //ccs current request zero
+            lim_state = 0;                //return to state 0
+            PARAM.CCS_State = lim_state;  //Param::SetInt(Param::CCS_State, lim_state);
+            Chg_Phase = CCS_PHASE_STANDY; //ChargePhase::Standby;
+            CONT_Ctrl = 0x0;              //dc contactor mode 0 in off
+            FC_Cur = 0;                   //ccs current request zero
             EOC_Time = 0x00;
-            CHG_Status = CCS_STATUS_NOT_READY;//ChargeStatus::NotRdy;
-            CHG_Req = CCS_REQUEST_END_CHARGE;//ChargeRequest::EndCharge;
-            CHG_Ready = CCS_READY_RDY;//ChargeReady::NotRdy;
+            CHG_Status = CCS_STATUS_NOT_READY; //ChargeStatus::NotRdy;
+            CHG_Req = CCS_REQUEST_END_CHARGE;  //ChargeRequest::EndCharge;
+            CHG_Ready = CCS_READY_RDY;         //ChargeReady::NotRdy;
             CHG_Pwr = 0;
             return No_Chg;
         }
@@ -789,10 +789,10 @@ i3LIMChargingState Control_Charge(bool RunCh)
 
 void CCS_Pwr_Con() //here we control ccs charging during state 6.
 {
-    uint16_t Tmp_Vbatt = BMS[0].packVolt;//Param::GetInt(Param::udc); //Actual measured battery voltage by isa shunt
-    uint16_t Tmp_Vbatt_Spnt = Voltspnt;//Param::GetInt(Param::Voltspnt);
-    uint16_t Tmp_ICCS_Lim = PARAM.CCS_ILim;//Param::GetInt(Param::CCS_ILim);
-    uint16_t Tmp_ICCS_Avail = PARAM.CCS_I_Avail;//Param::GetInt(Param::CCS_I_Avail);
+    uint16_t Tmp_Vbatt = BMS[0].packVolt;        //Param::GetInt(Param::udc); //Actual measured battery voltage by isa shunt
+    uint16_t Tmp_Vbatt_Spnt = Voltspnt;          //Param::GetInt(Param::Voltspnt);
+    uint16_t Tmp_ICCS_Lim = PARAM.CCS_ILim;      //Param::GetInt(Param::CCS_ILim);
+    uint16_t Tmp_ICCS_Avail = PARAM.CCS_I_Avail; //Param::GetInt(Param::CCS_I_Avail);
     //int16_t Tmp_Ibatt=Param::GetInt(Param::idc);
 
     if (CCSI_Spnt > Tmp_ICCS_Lim)
@@ -810,8 +810,8 @@ void CCS_Pwr_Con() //here we control ccs charging during state 6.
     if (CCS_Ilim == 0x1)
         CCSI_Spnt--; //decrement if current limit flag is set
     if (CCS_Plim == 0x1)
-        CCSI_Spnt--; //decrement if Power limit flag is set
-    PARAM.CCS_Ireq =  CCSI_Spnt;//Param::SetInt(Param::CCS_Ireq, CCSI_Spnt);
+        CCSI_Spnt--;            //decrement if Power limit flag is set
+    PARAM.CCS_Ireq = CCSI_Spnt; //Param::SetInt(Param::CCS_Ireq, CCSI_Spnt);
 }
 
 void Chg_Timers()
@@ -830,4 +830,14 @@ void Chg_Timers()
             EOC_Time--; //decrement end of charge minutes timer
         }
     }
+}
+
+void getLimData(void)
+{
+
+    //handle3B4(uint32_t data[2]);
+    //handle29E(uint32_t data[2]);
+    //handle2B2(uint32_t data[2]);
+    //handle2EF(uint32_t data[2]);
+    //handle272(uint32_t data[2]);
 }

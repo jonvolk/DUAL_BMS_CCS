@@ -1,4 +1,5 @@
 {
     "cortex-debug.armToolchainPath": "/usr/bin/",
-    "cortex-debug.openocdPath": "/usr/local/bin/openocd"
+    "cortex-debug.openocdPath": "/usr/local/bin/openocd",
+    "cortex-debug.variableUseNaturalFormat": true
 }

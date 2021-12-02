@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccrBDBin.s 			page 1
+ARM GAS  /tmp/ccQzEoPs.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
   29:Core/Src/main.c **** #include "ws2812b.h"
   30:Core/Src/main.c **** 
   31:Core/Src/main.c **** //#include "visEffect.h"
-ARM GAS  /tmp/ccrBDBin.s 			page 2
+ARM GAS  /tmp/ccQzEoPs.s 			page 2
 
 
   32:Core/Src/main.c **** /* USER CODE END Includes */
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
   86:Core/Src/main.c **** void StartDefaultTask(void *argument);
   87:Core/Src/main.c **** void StartsendCommand(void *argument);
   88:Core/Src/main.c **** void StartbalanceCommand(void *argument);
-ARM GAS  /tmp/ccrBDBin.s 			page 3
+ARM GAS  /tmp/ccQzEoPs.s 			page 3
 
 
   89:Core/Src/main.c **** void StartprocessData(void *argument);
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  143:Core/Src/main.c ****   /* USER CODE END RTOS_MUTEX */
  144:Core/Src/main.c **** 
  145:Core/Src/main.c ****   /* USER CODE BEGIN RTOS_SEMAPHORES */
-ARM GAS  /tmp/ccrBDBin.s 			page 4
+ARM GAS  /tmp/ccQzEoPs.s 			page 4
 
 
  146:Core/Src/main.c ****   /* add semaphores, ... */
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  200:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
  201:Core/Src/main.c **** 
  202:Core/Src/main.c ****   /** Configure the main internal regulator output voltage
-ARM GAS  /tmp/ccrBDBin.s 			page 5
+ARM GAS  /tmp/ccQzEoPs.s 			page 5
 
 
  203:Core/Src/main.c ****   */
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  257:Core/Src/main.c ****   hcan1.Init.TimeSeg2 = CAN_BS2_3TQ;
  258:Core/Src/main.c ****   hcan1.Init.TimeTriggeredMode = DISABLE;
  259:Core/Src/main.c ****   hcan1.Init.AutoBusOff = DISABLE;
-ARM GAS  /tmp/ccrBDBin.s 			page 6
+ARM GAS  /tmp/ccQzEoPs.s 			page 6
 
 
  260:Core/Src/main.c ****   hcan1.Init.AutoWakeUp = DISABLE;
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  314:Core/Src/main.c **** static void MX_CAN3_Init(void)
  315:Core/Src/main.c **** {
  316:Core/Src/main.c **** 
-ARM GAS  /tmp/ccrBDBin.s 			page 7
+ARM GAS  /tmp/ccQzEoPs.s 			page 7
 
 
  317:Core/Src/main.c ****   /* USER CODE BEGIN CAN3_Init 0 */
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  358:Core/Src/main.c ****   {
  359:Core/Src/main.c ****     //bmsStateHandler();
  360:Core/Src/main.c ****     visHandle();
-ARM GAS  /tmp/ccrBDBin.s 			page 8
+ARM GAS  /tmp/ccQzEoPs.s 			page 8
 
 
   41              		.loc 1 360 0 discriminator 1
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
   79              		@ frame_needed = 0, uses_anonymous_args = 0
   80              	.LVL6:
   81 0000 08B5     		push	{r3, lr}
-ARM GAS  /tmp/ccrBDBin.s 			page 9
+ARM GAS  /tmp/ccQzEoPs.s 			page 9
 
 
   82              	.LCFI1:
@@ -537,8 +537,8 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  117              		.cfi_def_cfa_offset 8
  118              		.cfi_offset 3, -8
  119              		.cfi_offset 14, -4
- 120 0002 08E0     		b	.L12
-ARM GAS  /tmp/ccrBDBin.s 			page 10
+ 120 0002 07E0     		b	.L12
+ARM GAS  /tmp/ccQzEoPs.s 			page 10
 
 
  121              	.LVL11:
@@ -555,7 +555,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  125 0006 0B48     		ldr	r0, .L15
  126 0008 FFF7FEFF 		bl	balanceCommand
  127              	.LVL12:
- 128 000c 08E0     		b	.L10
+ 128 000c 07E0     		b	.L10
  129              	.L11:
  406:Core/Src/main.c ****     }
  407:Core/Src/main.c **** 
@@ -564,41 +564,41 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  410:Core/Src/main.c ****       balanceCommand(&BMS[1], 1);
  411:Core/Src/main.c ****     }
  412:Core/Src/main.c **** 
- 413:Core/Src/main.c ****     osDelay(15000);
+ 413:Core/Src/main.c ****     osDelay(200);
  130              		.loc 1 413 0
- 131 000e 43F69820 		movw	r0, #15000
- 132 0012 FFF7FEFF 		bl	osDelay
+ 131 000e C820     		movs	r0, #200
+ 132 0010 FFF7FEFF 		bl	osDelay
  133              	.LVL13:
  134              	.L12:
  403:Core/Src/main.c ****     {
  135              		.loc 1 403 0
- 136 0016 074B     		ldr	r3, .L15
- 137 0018 93F8F530 		ldrb	r3, [r3, #245]	@ zero_extendqisi2
- 138 001c 002B     		cmp	r3, #0
- 139 001e F1D1     		bne	.L14
+ 136 0014 074B     		ldr	r3, .L15
+ 137 0016 93F8F530 		ldrb	r3, [r3, #245]	@ zero_extendqisi2
+ 138 001a 002B     		cmp	r3, #0
+ 139 001c F2D1     		bne	.L14
  140              	.L10:
  408:Core/Src/main.c ****     {
  141              		.loc 1 408 0
- 142 0020 044B     		ldr	r3, .L15
- 143 0022 93F8EB31 		ldrb	r3, [r3, #491]	@ zero_extendqisi2
- 144 0026 002B     		cmp	r3, #0
- 145 0028 F1D0     		beq	.L11
+ 142 001e 054B     		ldr	r3, .L15
+ 143 0020 93F8EB31 		ldrb	r3, [r3, #491]	@ zero_extendqisi2
+ 144 0024 002B     		cmp	r3, #0
+ 145 0026 F2D0     		beq	.L11
  410:Core/Src/main.c ****     }
  146              		.loc 1 410 0
- 147 002a 0121     		movs	r1, #1
- 148 002c 0248     		ldr	r0, .L15+4
- 149 002e FFF7FEFF 		bl	balanceCommand
+ 147 0028 0121     		movs	r1, #1
+ 148 002a 0348     		ldr	r0, .L15+4
+ 149 002c FFF7FEFF 		bl	balanceCommand
  150              	.LVL14:
- 151 0032 ECE7     		b	.L11
+ 151 0030 EDE7     		b	.L11
  152              	.L16:
- 153              		.align	2
+ 153 0032 00BF     		.align	2
  154              	.L15:
  155 0034 00000000 		.word	BMS
  156 0038 F6000000 		.word	BMS+246
  157              		.cfi_endproc
  158              	.LFE142:
  160              		.section	.text.StartprocessData,"ax",%progbits
-ARM GAS  /tmp/ccrBDBin.s 			page 11
+ARM GAS  /tmp/ccQzEoPs.s 			page 11
 
 
  161              		.align	1
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  194              		.cfi_endproc
  195              	.LFE143:
  197              		.section	.text.HAL_TIM_PeriodElapsedCallback,"ax",%progbits
-ARM GAS  /tmp/ccrBDBin.s 			page 12
+ARM GAS  /tmp/ccQzEoPs.s 			page 12
 
 
  198              		.align	1
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  466:Core/Src/main.c ****     // set transfer_complete flag
  467:Core/Src/main.c ****     ws2812b.transferComplete = 1;
  468:Core/Src/main.c ****   }
-ARM GAS  /tmp/ccrBDBin.s 			page 13
+ARM GAS  /tmp/ccQzEoPs.s 			page 13
 
 
  469:Core/Src/main.c **** 
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  476:Core/Src/main.c **** 
  477:Core/Src/main.c ****   /* USER CODE END Callback 1 */
  478:Core/Src/main.c **** }
-ARM GAS  /tmp/ccrBDBin.s 			page 14
+ARM GAS  /tmp/ccQzEoPs.s 			page 14
 
 
  263              		.loc 1 478 0
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
   18:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Unless required by applicable law or agreed to in writing, software
   19:Drivers/CMSIS/Include/cmsis_gcc.h ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
   20:Drivers/CMSIS/Include/cmsis_gcc.h ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-ARM GAS  /tmp/ccrBDBin.s 			page 15
+ARM GAS  /tmp/ccQzEoPs.s 			page 15
 
 
   21:Drivers/CMSIS/Include/cmsis_gcc.h ****  * See the License for the specific language governing permissions and
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
   75:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
   76:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
   77:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
-ARM GAS  /tmp/ccrBDBin.s 			page 16
+ARM GAS  /tmp/ccQzEoPs.s 			page 16
 
 
   78:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_WRITE
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  132:Drivers/CMSIS/Include/cmsis_gcc.h **** }
  133:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  134:Drivers/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  /tmp/ccrBDBin.s 			page 17
+ARM GAS  /tmp/ccQzEoPs.s 			page 17
 
 
  135:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  338 0010 C360     		str	r3, [r0, #12]
  256:Core/Src/main.c ****   hcan1.Init.TimeSeg2 = CAN_BS2_3TQ;
  339              		.loc 1 256 0
-ARM GAS  /tmp/ccrBDBin.s 			page 18
+ARM GAS  /tmp/ccQzEoPs.s 			page 18
 
 
  340 0012 4FF48032 		mov	r2, #65536
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  386              		@ frame_needed = 0, uses_anonymous_args = 0
  387 0000 08B5     		push	{r3, lr}
  388              	.LCFI6:
-ARM GAS  /tmp/ccrBDBin.s 			page 19
+ARM GAS  /tmp/ccQzEoPs.s 			page 19
 
 
  389              		.cfi_def_cfa_offset 8
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  429 0032 FFF7FEFF 		bl	Error_Handler
  430              	.LVL27:
  431              	.L41:
-ARM GAS  /tmp/ccrBDBin.s 			page 20
+ARM GAS  /tmp/ccQzEoPs.s 			page 20
 
 
  432 0036 00BF     		.align	2
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  332:Core/Src/main.c ****   hcan3.Init.AutoRetransmission = DISABLE;
  479              		.loc 1 332 0
  480 0022 8376     		strb	r3, [r0, #26]
-ARM GAS  /tmp/ccrBDBin.s 			page 21
+ARM GAS  /tmp/ccQzEoPs.s 			page 21
 
 
  333:Core/Src/main.c ****   hcan3.Init.ReceiveFifoLocked = DISABLE;
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  530              	.LVL30:
  200:Core/Src/main.c **** 
  531              		.loc 1 200 0
-ARM GAS  /tmp/ccrBDBin.s 			page 22
+ARM GAS  /tmp/ccQzEoPs.s 			page 22
 
 
  532 000e 0023     		movs	r3, #0
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  215:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
  578              		.loc 1 215 0
  579 005a 4823     		movs	r3, #72
-ARM GAS  /tmp/ccrBDBin.s 			page 23
+ARM GAS  /tmp/ccQzEoPs.s 			page 23
 
 
  580 005c 1093     		str	r3, [sp, #64]
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  622 008e FFF7FEFF 		bl	Error_Handler
  623              	.LVL33:
  624              	.L53:
-ARM GAS  /tmp/ccrBDBin.s 			page 24
+ARM GAS  /tmp/ccQzEoPs.s 			page 24
 
 
  233:Core/Src/main.c ****   }
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  673              	.LVL40:
  134:Core/Src/main.c ****   initBMS();
  674              		.loc 1 134 0
-ARM GAS  /tmp/ccrBDBin.s 			page 25
+ARM GAS  /tmp/ccQzEoPs.s 			page 25
 
 
  675 001a FFF7FEFF 		bl	visInit
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  722              	.L59:
  723 0064 00000000 		.word	.LANCHOR0
  724 0068 00000000 		.word	StartDefaultTask
-ARM GAS  /tmp/ccrBDBin.s 			page 26
+ARM GAS  /tmp/ccQzEoPs.s 			page 26
 
 
  725 006c 00000000 		.word	defaultTaskHandle
@@ -1533,183 +1533,181 @@ ARM GAS  /tmp/ccrBDBin.s 			page 1
  755              		.comm	txCycle3,4,4
  756              		.comm	txCycle2,4,4
  757              		.comm	txCycle,4,4
- 758              		.comm	canTx3,8,4
- 759              		.comm	canTx2,8,4
- 760              		.comm	canTx,8,4
- 761              		.comm	canMailbox2,4,4
- 762              		.comm	canMailbox,4,4
- 763              		.comm	canRx3,8,4
- 764              		.comm	canRx2,8,4
- 765              		.comm	canRx,8,4
- 766              		.comm	txMsgExt3,24,4
- 767              		.comm	txMsg3,24,4
- 768              		.comm	rxMsg3,28,4
- 769              		.comm	txMsgExt2,24,4
- 770              		.comm	txMsg2,24,4
- 771              		.comm	rxMsg2,28,4
- 772              		.comm	txMsgExt,24,4
- 773              		.comm	txMsg,24,4
- 774              		.comm	rxMsg,28,4
- 775              		.comm	sf5,40,4
- 776              		.comm	sf4,40,4
- 777              		.comm	sf3,40,4
- 778              		.comm	sf2,40,4
- 779              		.comm	sf,40,4
- 780              		.comm	hcan3,40,4
- 781              		.comm	hcan2,40,4
- 782              		.comm	hcan1,40,4
-ARM GAS  /tmp/ccrBDBin.s 			page 27
+ 758              		.comm	canMailbox3,4,4
+ 759              		.comm	canMailbox2,4,4
+ 760              		.comm	canMailbox,4,4
+ 761              		.comm	canRx3,8,4
+ 762              		.comm	canRx2,8,4
+ 763              		.comm	canRx,8,4
+ 764              		.comm	txMsgExt3,24,4
+ 765              		.comm	txMsg3,24,4
+ 766              		.comm	rxMsg3,28,4
+ 767              		.comm	txMsgExt2,24,4
+ 768              		.comm	txMsg2,24,4
+ 769              		.comm	rxMsg2,28,4
+ 770              		.comm	txMsgExt,24,4
+ 771              		.comm	txMsg,24,4
+ 772              		.comm	rxMsg,28,4
+ 773              		.comm	sf5,40,4
+ 774              		.comm	sf4,40,4
+ 775              		.comm	sf3,40,4
+ 776              		.comm	sf2,40,4
+ 777              		.comm	sf,40,4
+ 778              		.comm	hcan3,40,4
+ 779              		.comm	hcan2,40,4
+ 780              		.comm	hcan1,40,4
+ 781              		.section	.rodata.balanceCommand_attributes,"a",%progbits
+ 782              		.align	2
+ARM GAS  /tmp/ccQzEoPs.s 			page 27
 
 
- 783              		.section	.rodata.balanceCommand_attributes,"a",%progbits
- 784              		.align	2
- 785              		.set	.LANCHOR2,. + 0
- 788              	balanceCommand_attributes:
- 789 0000 0C000000 		.word	.LC1
- 790 0004 00000000 		.space	16
- 790      00000000 
- 790      00000000 
- 790      00000000 
- 791 0014 00020000 		.word	512
- 792 0018 08000000 		.word	8
- 793 001c 00000000 		.space	8
- 793      00000000 
- 794              		.section	.rodata.defaultTask_attributes,"a",%progbits
- 795              		.align	2
- 796              		.set	.LANCHOR0,. + 0
- 799              	defaultTask_attributes:
- 800 0000 28000000 		.word	.LC3
- 801 0004 00000000 		.space	16
- 801      00000000 
- 801      00000000 
- 801      00000000 
- 802 0014 00020000 		.word	512
- 803 0018 18000000 		.word	24
- 804 001c 00000000 		.space	8
- 804      00000000 
- 805              		.section	.rodata.processData_attributes,"a",%progbits
- 806              		.align	2
- 807              		.set	.LANCHOR3,. + 0
- 810              	processData_attributes:
- 811 0000 00000000 		.word	.LC0
- 812 0004 00000000 		.space	16
- 812      00000000 
- 812      00000000 
- 812      00000000 
- 813 0014 00020000 		.word	512
- 814 0018 08000000 		.word	8
- 815 001c 00000000 		.space	8
- 815      00000000 
- 816              		.section	.rodata.sendCommand_attributes,"a",%progbits
- 817              		.align	2
- 818              		.set	.LANCHOR1,. + 0
- 821              	sendCommand_attributes:
- 822 0000 1C000000 		.word	.LC2
- 823 0004 00000000 		.space	16
- 823      00000000 
- 823      00000000 
- 823      00000000 
- 824 0014 00020000 		.word	512
- 825 0018 18000000 		.word	24
- 826 001c 00000000 		.space	8
- 826      00000000 
- 827              		.section	.rodata.str1.4,"aMS",%progbits,1
- 828              		.align	2
- 829              	.LC0:
- 830 0000 70726F63 		.ascii	"processData\000"
- 830      65737344 
-ARM GAS  /tmp/ccrBDBin.s 			page 28
+ 783              		.set	.LANCHOR2,. + 0
+ 786              	balanceCommand_attributes:
+ 787 0000 0C000000 		.word	.LC1
+ 788 0004 00000000 		.space	16
+ 788      00000000 
+ 788      00000000 
+ 788      00000000 
+ 789 0014 00020000 		.word	512
+ 790 0018 08000000 		.word	8
+ 791 001c 00000000 		.space	8
+ 791      00000000 
+ 792              		.section	.rodata.defaultTask_attributes,"a",%progbits
+ 793              		.align	2
+ 794              		.set	.LANCHOR0,. + 0
+ 797              	defaultTask_attributes:
+ 798 0000 28000000 		.word	.LC3
+ 799 0004 00000000 		.space	16
+ 799      00000000 
+ 799      00000000 
+ 799      00000000 
+ 800 0014 00020000 		.word	512
+ 801 0018 18000000 		.word	24
+ 802 001c 00000000 		.space	8
+ 802      00000000 
+ 803              		.section	.rodata.processData_attributes,"a",%progbits
+ 804              		.align	2
+ 805              		.set	.LANCHOR3,. + 0
+ 808              	processData_attributes:
+ 809 0000 00000000 		.word	.LC0
+ 810 0004 00000000 		.space	16
+ 810      00000000 
+ 810      00000000 
+ 810      00000000 
+ 811 0014 00020000 		.word	512
+ 812 0018 08000000 		.word	8
+ 813 001c 00000000 		.space	8
+ 813      00000000 
+ 814              		.section	.rodata.sendCommand_attributes,"a",%progbits
+ 815              		.align	2
+ 816              		.set	.LANCHOR1,. + 0
+ 819              	sendCommand_attributes:
+ 820 0000 1C000000 		.word	.LC2
+ 821 0004 00000000 		.space	16
+ 821      00000000 
+ 821      00000000 
+ 821      00000000 
+ 822 0014 00020000 		.word	512
+ 823 0018 18000000 		.word	24
+ 824 001c 00000000 		.space	8
+ 824      00000000 
+ 825              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 826              		.align	2
+ 827              	.LC0:
+ 828 0000 70726F63 		.ascii	"processData\000"
+ 828      65737344 
+ 828      61746100 
+ 829              	.LC1:
+ARM GAS  /tmp/ccQzEoPs.s 			page 28
 
 
- 830      61746100 
- 831              	.LC1:
- 832 000c 62616C61 		.ascii	"balanceCommand\000"
- 832      6E636543 
- 832      6F6D6D61 
- 832      6E6400
- 833 001b 00       		.space	1
- 834              	.LC2:
- 835 001c 73656E64 		.ascii	"sendCommand\000"
- 835      436F6D6D 
- 835      616E6400 
- 836              	.LC3:
- 837 0028 64656661 		.ascii	"defaultTask\000"
- 837      756C7454 
- 837      61736B00 
- 838              		.text
- 839              	.Letext0:
- 840              		.file 3 "/usr/include/newlib/machine/_default_types.h"
- 841              		.file 4 "/usr/include/newlib/sys/_stdint.h"
- 842              		.file 5 "Drivers/CMSIS/Include/core_cm4.h"
- 843              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
- 844              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
- 845              		.file 8 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
- 846              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
- 847              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h"
- 848              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h"
- 849              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
- 850              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
- 851              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
- 852              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
- 853              		.file 16 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h"
- 854              		.file 17 "/usr/include/newlib/sys/lock.h"
- 855              		.file 18 "/usr/include/newlib/sys/_types.h"
- 856              		.file 19 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
- 857              		.file 20 "/usr/include/newlib/sys/reent.h"
- 858              		.file 21 "Core/Inc/can_setup.h"
- 859              		.file 22 "Core/Inc/bms.h"
- 860              		.file 23 "Core/Inc/ws2812b.h"
- 861              		.file 24 "Core/Inc/visEffect.h"
-ARM GAS  /tmp/ccrBDBin.s 			page 29
+ 830 000c 62616C61 		.ascii	"balanceCommand\000"
+ 830      6E636543 
+ 830      6F6D6D61 
+ 830      6E6400
+ 831 001b 00       		.space	1
+ 832              	.LC2:
+ 833 001c 73656E64 		.ascii	"sendCommand\000"
+ 833      436F6D6D 
+ 833      616E6400 
+ 834              	.LC3:
+ 835 0028 64656661 		.ascii	"defaultTask\000"
+ 835      756C7454 
+ 835      61736B00 
+ 836              		.text
+ 837              	.Letext0:
+ 838              		.file 3 "/usr/include/newlib/machine/_default_types.h"
+ 839              		.file 4 "/usr/include/newlib/sys/_stdint.h"
+ 840              		.file 5 "Drivers/CMSIS/Include/core_cm4.h"
+ 841              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 842              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
+ 843              		.file 8 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 844              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 845              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h"
+ 846              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h"
+ 847              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 848              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 849              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 850              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 851              		.file 16 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h"
+ 852              		.file 17 "/usr/include/newlib/sys/lock.h"
+ 853              		.file 18 "/usr/include/newlib/sys/_types.h"
+ 854              		.file 19 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
+ 855              		.file 20 "/usr/include/newlib/sys/reent.h"
+ 856              		.file 21 "Core/Inc/can_setup.h"
+ 857              		.file 22 "Core/Inc/bms.h"
+ 858              		.file 23 "Core/Inc/ws2812b.h"
+ 859              		.file 24 "Core/Inc/visEffect.h"
+ARM GAS  /tmp/ccQzEoPs.s 			page 29
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/ccrBDBin.s:18     .text.StartDefaultTask:0000000000000000 $t
-     /tmp/ccrBDBin.s:25     .text.StartDefaultTask:0000000000000000 StartDefaultTask
-     /tmp/ccrBDBin.s:61     .text.StartDefaultTask:0000000000000020 $d
+     /tmp/ccQzEoPs.s:18     .text.StartDefaultTask:0000000000000000 $t
+     /tmp/ccQzEoPs.s:25     .text.StartDefaultTask:0000000000000000 StartDefaultTask
+     /tmp/ccQzEoPs.s:61     .text.StartDefaultTask:0000000000000020 $d
                             *COM*:00000000000001ec BMS
-     /tmp/ccrBDBin.s:66     .text.StartsendCommand:0000000000000000 $t
-     /tmp/ccrBDBin.s:73     .text.StartsendCommand:0000000000000000 StartsendCommand
-     /tmp/ccrBDBin.s:100    .text.StartbalanceCommand:0000000000000000 $t
-     /tmp/ccrBDBin.s:107    .text.StartbalanceCommand:0000000000000000 StartbalanceCommand
-     /tmp/ccrBDBin.s:155    .text.StartbalanceCommand:0000000000000034 $d
-     /tmp/ccrBDBin.s:161    .text.StartprocessData:0000000000000000 $t
-     /tmp/ccrBDBin.s:168    .text.StartprocessData:0000000000000000 StartprocessData
-     /tmp/ccrBDBin.s:198    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 $t
-     /tmp/ccrBDBin.s:205    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 HAL_TIM_PeriodElapsedCallback
-     /tmp/ccrBDBin.s:268    .text.HAL_TIM_PeriodElapsedCallback:0000000000000044 $d
+     /tmp/ccQzEoPs.s:66     .text.StartsendCommand:0000000000000000 $t
+     /tmp/ccQzEoPs.s:73     .text.StartsendCommand:0000000000000000 StartsendCommand
+     /tmp/ccQzEoPs.s:100    .text.StartbalanceCommand:0000000000000000 $t
+     /tmp/ccQzEoPs.s:107    .text.StartbalanceCommand:0000000000000000 StartbalanceCommand
+     /tmp/ccQzEoPs.s:155    .text.StartbalanceCommand:0000000000000034 $d
+     /tmp/ccQzEoPs.s:161    .text.StartprocessData:0000000000000000 $t
+     /tmp/ccQzEoPs.s:168    .text.StartprocessData:0000000000000000 StartprocessData
+     /tmp/ccQzEoPs.s:198    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 $t
+     /tmp/ccQzEoPs.s:205    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 HAL_TIM_PeriodElapsedCallback
+     /tmp/ccQzEoPs.s:268    .text.HAL_TIM_PeriodElapsedCallback:0000000000000044 $d
                             *COM*:000000000000001c ws2812b
                             *COM*:0000000000000040 TIM1_handle
                             *COM*:0000000000000004 tim_period
-     /tmp/ccrBDBin.s:277    .text.Error_Handler:0000000000000000 $t
-     /tmp/ccrBDBin.s:284    .text.Error_Handler:0000000000000000 Error_Handler
-     /tmp/ccrBDBin.s:310    .text.MX_CAN1_Init:0000000000000000 $t
-     /tmp/ccrBDBin.s:316    .text.MX_CAN1_Init:0000000000000000 MX_CAN1_Init
-     /tmp/ccrBDBin.s:369    .text.MX_CAN1_Init:0000000000000038 $d
+     /tmp/ccQzEoPs.s:277    .text.Error_Handler:0000000000000000 $t
+     /tmp/ccQzEoPs.s:284    .text.Error_Handler:0000000000000000 Error_Handler
+     /tmp/ccQzEoPs.s:310    .text.MX_CAN1_Init:0000000000000000 $t
+     /tmp/ccQzEoPs.s:316    .text.MX_CAN1_Init:0000000000000000 MX_CAN1_Init
+     /tmp/ccQzEoPs.s:369    .text.MX_CAN1_Init:0000000000000038 $d
                             *COM*:0000000000000028 hcan1
-     /tmp/ccrBDBin.s:375    .text.MX_CAN2_Init:0000000000000000 $t
-     /tmp/ccrBDBin.s:381    .text.MX_CAN2_Init:0000000000000000 MX_CAN2_Init
-     /tmp/ccrBDBin.s:434    .text.MX_CAN2_Init:0000000000000038 $d
+     /tmp/ccQzEoPs.s:375    .text.MX_CAN2_Init:0000000000000000 $t
+     /tmp/ccQzEoPs.s:381    .text.MX_CAN2_Init:0000000000000000 MX_CAN2_Init
+     /tmp/ccQzEoPs.s:434    .text.MX_CAN2_Init:0000000000000038 $d
                             *COM*:0000000000000028 hcan2
-     /tmp/ccrBDBin.s:440    .text.MX_CAN3_Init:0000000000000000 $t
-     /tmp/ccrBDBin.s:446    .text.MX_CAN3_Init:0000000000000000 MX_CAN3_Init
-     /tmp/ccrBDBin.s:499    .text.MX_CAN3_Init:0000000000000038 $d
+     /tmp/ccQzEoPs.s:440    .text.MX_CAN3_Init:0000000000000000 $t
+     /tmp/ccQzEoPs.s:446    .text.MX_CAN3_Init:0000000000000000 MX_CAN3_Init
+     /tmp/ccQzEoPs.s:499    .text.MX_CAN3_Init:0000000000000038 $d
                             *COM*:0000000000000028 hcan3
-     /tmp/ccrBDBin.s:505    .text.SystemClock_Config:0000000000000000 $t
-     /tmp/ccrBDBin.s:512    .text.SystemClock_Config:0000000000000000 SystemClock_Config
-     /tmp/ccrBDBin.s:631    .text.SystemClock_Config:0000000000000098 $d
-     /tmp/ccrBDBin.s:637    .text.main:0000000000000000 $t
-     /tmp/ccrBDBin.s:644    .text.main:0000000000000000 main
-     /tmp/ccrBDBin.s:723    .text.main:0000000000000064 $d
+     /tmp/ccQzEoPs.s:505    .text.SystemClock_Config:0000000000000000 $t
+     /tmp/ccQzEoPs.s:512    .text.SystemClock_Config:0000000000000000 SystemClock_Config
+     /tmp/ccQzEoPs.s:631    .text.SystemClock_Config:0000000000000098 $d
+     /tmp/ccQzEoPs.s:637    .text.main:0000000000000000 $t
+     /tmp/ccQzEoPs.s:644    .text.main:0000000000000000 main
+     /tmp/ccQzEoPs.s:723    .text.main:0000000000000064 $d
                             *COM*:0000000000000004 defaultTaskHandle
                             *COM*:0000000000000004 sendCommandHandle
                             *COM*:0000000000000004 balanceCommandHandle
                             *COM*:0000000000000004 processDataHandle
-     /tmp/ccrBDBin.s:810    .rodata.processData_attributes:0000000000000000 processData_attributes
-     /tmp/ccrBDBin.s:788    .rodata.balanceCommand_attributes:0000000000000000 balanceCommand_attributes
-     /tmp/ccrBDBin.s:821    .rodata.sendCommand_attributes:0000000000000000 sendCommand_attributes
-     /tmp/ccrBDBin.s:799    .rodata.defaultTask_attributes:0000000000000000 defaultTask_attributes
+     /tmp/ccQzEoPs.s:808    .rodata.processData_attributes:0000000000000000 processData_attributes
+     /tmp/ccQzEoPs.s:786    .rodata.balanceCommand_attributes:0000000000000000 balanceCommand_attributes
+     /tmp/ccQzEoPs.s:819    .rodata.sendCommand_attributes:0000000000000000 sendCommand_attributes
+     /tmp/ccQzEoPs.s:797    .rodata.defaultTask_attributes:0000000000000000 defaultTask_attributes
                             *COM*:0000000000000004 timer_reset_pulse_period
                             *COM*:000000000000001c tim2OC2
                             *COM*:000000000000001c tim2OC1
@@ -1718,13 +1716,11 @@ DEFINED SYMBOLS
                             *COM*:0000000000000004 txCycle3
                             *COM*:0000000000000004 txCycle2
                             *COM*:0000000000000004 txCycle
-                            *COM*:0000000000000008 canTx3
-                            *COM*:0000000000000008 canTx2
-ARM GAS  /tmp/ccrBDBin.s 			page 30
-
-
-                            *COM*:0000000000000008 canTx
+                            *COM*:0000000000000004 canMailbox3
                             *COM*:0000000000000004 canMailbox2
+ARM GAS  /tmp/ccQzEoPs.s 			page 30
+
+
                             *COM*:0000000000000004 canMailbox
                             *COM*:0000000000000008 canRx3
                             *COM*:0000000000000008 canRx2
@@ -1743,11 +1739,11 @@ DEFINED SYMBOLS
                             *COM*:0000000000000028 sf3
                             *COM*:0000000000000028 sf2
                             *COM*:0000000000000028 sf
-     /tmp/ccrBDBin.s:784    .rodata.balanceCommand_attributes:0000000000000000 $d
-     /tmp/ccrBDBin.s:795    .rodata.defaultTask_attributes:0000000000000000 $d
-     /tmp/ccrBDBin.s:806    .rodata.processData_attributes:0000000000000000 $d
-     /tmp/ccrBDBin.s:817    .rodata.sendCommand_attributes:0000000000000000 $d
-     /tmp/ccrBDBin.s:828    .rodata.str1.4:0000000000000000 $d
+     /tmp/ccQzEoPs.s:782    .rodata.balanceCommand_attributes:0000000000000000 $d
+     /tmp/ccQzEoPs.s:793    .rodata.defaultTask_attributes:0000000000000000 $d
+     /tmp/ccQzEoPs.s:804    .rodata.processData_attributes:0000000000000000 $d
+     /tmp/ccQzEoPs.s:815    .rodata.sendCommand_attributes:0000000000000000 $d
+     /tmp/ccQzEoPs.s:826    .rodata.str1.4:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS

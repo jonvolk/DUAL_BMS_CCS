@@ -410,7 +410,7 @@ void StartbalanceCommand(void *argument)
       balanceCommand(&BMS[1], 1);
     }
 
-    osDelay(15000);
+    osDelay(200);
   }
   /* USER CODE END StartbalanceCommand */
 }

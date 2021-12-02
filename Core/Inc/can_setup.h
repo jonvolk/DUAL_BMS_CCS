@@ -36,23 +36,24 @@ uint8_t canRx3[8];
 
 uint32_t canMailbox; //CAN Bus Mail box variable
 uint32_t canMailbox2;
+uint32_t canMailbox3;
 
-uint8_t canTx[8];
-uint8_t canTx2[8];
-uint8_t canTx3[8];
+//uint8_t canTx[8];
+//uint8_t canTx2[8];
+//uint8_t canTx3[8];
 
 
-int txCycle; //CAN TX counter
+int txCycle; //CAN TX fill level counter
 int txCycle2;
 int txCycle3;
 
 
 void canSettings(void);
-void c1tx(CAN_TxHeaderTypeDef *txMsg, uint8_t *canTx);
+//void c1tx(CAN_TxHeaderTypeDef *txMsg, uint8_t *canTx);
 void can1tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx);
-void c2tx(CAN_TxHeaderTypeDef *txMsg2, uint8_t *canTx2);
+//void c2tx(CAN_TxHeaderTypeDef *txMsg2, uint8_t *canTx2);
 void can2tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx2);
-void c3tx(CAN_TxHeaderTypeDef *txMsg3, uint8_t *canTx3);
+//void c3tx(CAN_TxHeaderTypeDef *txMsg3, uint8_t *canTx3);
 void can3tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx3);
 void c1txExt(CAN_TxHeaderTypeDef *txMsgExt, uint8_t *canTx);
 void c2txExt(CAN_TxHeaderTypeDef *txMsg2Ext, uint8_t *canTx2);

@@ -58,20 +58,21 @@ static const uint8_t balanceByte[96] =
      3, 3, 3, 3, 3, 3,
      4, 4, 4, 4, 4, 4};
 
-static const uint8_t balanceShift[96] =
-    {1, 2, 4, 8, 10, 20,
-     1, 2, 4, 8, 10, 20, 40, 80,
-     1, 2, 4, 8, 10, 20, 40, 80,
-     1, 2, 4, 8, 10, 20, 40, 80,
-     1, 2, 4, 8, 10, 20, 40, 80,
-     1, 2, 4, 8, 10, 20, 40, 80,
-     1, 2, 4, 8, 10, 20, 40, 80,
-     1, 2, 4, 8, 10, 20, 40, 80,
-     1, 2, 4, 8, 10, 20, 40, 80,
-     1, 2, 4, 8, 10, 20, 40, 80,
-     1, 2, 4, 8, 10, 20,
-     1, 2, 4, 8, 10, 20,
-     1, 2, 4, 8, 10, 20};
+
+    static const uint8_t balanceShift[96] =
+    {0x01, 0x02, 0x04, 0x08, 0x10, 0x20,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20,
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20,};
 
 // Initialize BMS //////////////////////////////////////////////////////////////////
 void initBMS(void)
@@ -91,12 +92,12 @@ void initBMS(void)
 
         for (size_t j = 0; j < 96; j++)
         {
-            BMS[i].cellVolt[j] = 0; /* code */
+            BMS[i].cellVolt[j] = 0; 
         }
 
         for (size_t j = 0; j < 16; j++)
         {
-            BMS[i].tempSensor[j] = 0; /* code */
+            BMS[i].tempSensor[j] = 0; 
         }
     }
     vechicleState = off;
@@ -118,7 +119,7 @@ void bmsStateHandler(bms_t *bms)
 
         if (bms->avgCellVolt > BALANCE_VOLTAGE)
         {
-            if ((bms->highCellVolt - bms->lowCellVolt) > (BALANCE_HYS * 1.5)) // was 2.5
+            if ((bms->highCellVolt - bms->lowCellVolt) > (BALANCE_HYS)) 
             {
                 bms->balancecells = true;
             }
@@ -138,7 +139,7 @@ void bmsStateHandler(bms_t *bms)
             bms->state = Charge;
         }
 
-        if (vechicleState == idle || run)
+        if (vechicleState != off) //idle || run)
         {
             bms->balancecells = false;
             bms->state = Drive;
@@ -196,13 +197,13 @@ void bmsStateHandler(bms_t *bms)
 // 10kw Tesla Charger /////////////////////////////////////////////////////////////////////
 void acChargeCommand(void)
 {
-
+    uint8_t canTx2[8];
     if (BMS[0].chargeRequest && BMS[1].chargeRequest)
     {
         charged = false;
         int val = 32;
-        txMsg2.StdId = 0x605; //set parameter ID
-        txMsg2.DLC = 8;
+        //txMsg2.StdId = 0x605; //set parameter ID
+        //txMsg2.DLC = 8;
         canTx2[0] = 0x40;
         canTx2[1] = 0x00;
         canTx2[2] = 0x20;
@@ -211,14 +212,15 @@ void acChargeCommand(void)
         canTx2[5] = (val >> 8) & 0xFF;
         canTx2[6] = (val >> 16) & 0xFF;
         canTx2[7] = (val >> 24) & 0xFF;
-        c2tx(&txMsg2, canTx2);
+        //c2tx(&txMsg2, canTx2);
+        can2tx(0x605,8,canTx2);
     }
 
     if (!BMS[0].chargeRequest || !BMS[1].chargeRequest)
     {
         int val = 0;
-        txMsg2.StdId = 0x605; //set parameter ID
-        txMsg2.DLC = 8;
+        //txMsg2.StdId = 0x605; //set parameter ID
+        //txMsg2.DLC = 8;
         canTx2[0] = 0x40;
         canTx2[1] = 0x00;
         canTx2[2] = 0x20;
@@ -227,7 +229,8 @@ void acChargeCommand(void)
         canTx2[5] = (val >> 8) & 0xFF;
         canTx2[6] = (val >> 16) & 0xFF;
         canTx2[7] = (val >> 24) & 0xFF;
-        c2tx(&txMsg2, canTx2);
+        can2tx(0x605,8,canTx2);
+        //c2tx(&txMsg2, canTx2);
         charged = true;
     }
 }
@@ -237,28 +240,29 @@ void tx500kData(void)
 
     //txMsg2.StdId = 0x138; //BMS1
     //txMsg2.DLC = 8;
-    uint8_t bytes[8];
-    bytes[0] = BMS[0].packVolt & 0xFF;
-    bytes[1] = (BMS[0].packVolt >> 8) & 0xFF;
-    bytes[2] = BMS[0].avgCellTemp & 0XFF;
-    bytes[3] = (BMS[0].avgCellTemp >> 8) & 0XFF;
-    bytes[4] = BMS[0].cellDelta & 0XFF;
-    bytes[5] = (BMS[0].cellDelta >> 8) & 0XFF;
-    bytes[6] = (BMS[0].SOC);
-    bytes[7] = 0;
-    can2tx(0x138, 8, bytes);
+    uint8_t bms0[8];
+    bms0[0] = BMS[0].packVolt & 0xFF;
+    bms0[1] = (BMS[0].packVolt >> 8) & 0xFF;
+    bms0[2] = BMS[0].avgCellTemp & 0XFF;
+    bms0[3] = (BMS[0].avgCellTemp >> 8) & 0XFF;
+    bms0[4] = BMS[0].cellDelta & 0XFF;
+    bms0[5] = (BMS[0].cellDelta >> 8) & 0XFF;
+    bms0[6] = (BMS[0].SOC);
+    bms0[7] = 0;
+    can2tx(0x138, 8, bms0);
 
     //txMsg2.StdId = 0x139; //BMS2
     //txMsg2.DLC = 8;
-    bytes[0] = BMS[1].packVolt & 0xFF;
-    bytes[1] = (BMS[1].packVolt >> 8) & 0xFF;
-    bytes[2] = BMS[1].avgCellTemp & 0XFF;
-    bytes[3] = (BMS[1].avgCellTemp >> 8) & 0XFF;
-    bytes[4] = BMS[1].cellDelta & 0XFF;
-    bytes[5] = (BMS[1].cellDelta >> 8) & 0XFF;
-    bytes[6] = (BMS[1].SOC);
-    bytes[7] = 0;
-    can2tx(0x139, 8, bytes);
+    uint8_t bms1[8];
+    bms1[0] = BMS[1].packVolt & 0xFF;
+    bms1[1] = (BMS[1].packVolt >> 8) & 0xFF;
+    bms1[2] = BMS[1].avgCellTemp & 0XFF;
+    bms1[3] = (BMS[1].avgCellTemp >> 8) & 0XFF;
+    bms1[4] = BMS[1].cellDelta & 0XFF;
+    bms1[5] = (BMS[1].cellDelta >> 8) & 0XFF;
+    bms1[6] = (BMS[1].SOC);
+    bms1[7] = 0;
+    can2tx(0x139, 8, bms1);
     //c2tx(&txMsg2, canTx2);
 }
 
@@ -286,44 +290,54 @@ void refreshData(void)
 // send every 200ms //////////////////////////////////////////////////////////////////
 void sendCommand(void)
 {
-    txMsg.StdId = 0x200;
-    txMsg.DLC = 3;
+    uint8_t canTx[8];
+    //txMsg.StdId = 0x200;
+    //txMsg.DLC = 3;
     canTx[0] = 0x02;
     canTx[1] = 0x00;
     canTx[2] = 0x00;
-    c1tx(&txMsg, canTx); //pack 1
-    txMsg3.StdId = 0x200;
-    txMsg3.DLC = 3;
+    can1tx(0x200,3,canTx);
+    //c1tx(&txMsg, canTx); //pack 1
+
+    uint8_t canTx3[8];
+    //txMsg3.StdId = 0x200;
+    //txMsg3.DLC = 3;
     canTx3[0] = 0x02;
     canTx3[1] = 0x00;
     canTx3[2] = 0x00;
-    c3tx(&txMsg3, canTx3); // pack 2
+    can3tx(0x200,3,canTx3);
+    //c3tx(&txMsg3, canTx3); // pack 2
 }
 
 void requestBICMdata(bms_t *bms)
 {
     sendCommand();
-
+    uint8_t canTx[8];
     if (!bms->balancecells)
     {
 
-        txMsg.StdId = 0x300;
-        txMsg.DLC = 8;
+        //txMsg.StdId = 0x300;
+        //txMsg.DLC = 8;
         for (size_t i = 0; i < 8; i++)
         {
             canTx[i] = 0x00;
         }
-        c1tx(&txMsg, canTx); //pack 1
+        can1tx(0x300,8,canTx);
+        can3tx(0x300,8,canTx);
+        //c1tx(&txMsg, canTx); //pack 1
 
-        txMsg.StdId = 0x310;
-        txMsg.DLC = 5;
+        //txMsg.StdId = 0x310;
+        //txMsg.DLC = 5;
         for (size_t i = 0; i < 5; i++)
         {
             canTx[i] = 0x00;
         }
-        c1tx(&txMsg, canTx); //pack 1
+        can1tx(0x310,5,canTx);
+        can3tx(0x310,5,canTx);
+        //c1tx(&txMsg, canTx); //pack 1
     }
-
+    /*
+    uint8_t canTx3[8];
     if (!bms->balancecells)
     {
         txMsg3.StdId = 0x300;
@@ -342,15 +356,17 @@ void requestBICMdata(bms_t *bms)
         }
         c3tx(&txMsg3, canTx3); //pack 2
     }
+    */
 }
 
 // send every 200ms //////////////////////////////////////////////////////////////////
 void balanceCommand(bms_t *bms, int pack)
 {
+    uint8_t canTx[8];
     if (pack == 0)
     {
-        txMsg.StdId = 0x300;
-        txMsg.DLC = 8;
+        //txMsg.StdId = 0x300;
+        //txMsg.DLC = 8;
         for (size_t i = 0; i < 62; i++)
         {
             if (bms->avgCellVolt < bms->cellVolt[i])
@@ -358,10 +374,11 @@ void balanceCommand(bms_t *bms, int pack)
                 canTx[balanceByte[i]] |= balanceShift[i];
             }
         }
-        c1tx(&txMsg, canTx);
+        can1tx(0x300,8,canTx);
+        //c1tx(&txMsg, canTx);
 
-        txMsg.StdId = 0x310;
-        txMsg.DLC = 5;
+        //txMsg.StdId = 0x310;
+        //txMsg.DLC = 5;
         for (size_t i = 62; i < 96; i++)
         {
             if (bms->avgCellVolt < bms->cellVolt[i])
@@ -369,13 +386,15 @@ void balanceCommand(bms_t *bms, int pack)
                 canTx[balanceByte[i]] |= balanceShift[i];
             }
         }
-        c1tx(&txMsg, canTx);
+        can1tx(0x310,5,canTx);
+        //c1tx(&txMsg, canTx);
     }
 
+    uint8_t canTx3[8];
     if (pack == 1)
     {
-        txMsg3.StdId = 0x300;
-        txMsg3.DLC = 8;
+        //txMsg3.StdId = 0x300;
+        //txMsg3.DLC = 8;
         for (size_t i = 0; i < 62; i++)
         {
             if (bms->avgCellVolt < bms->cellVolt[i])
@@ -383,10 +402,11 @@ void balanceCommand(bms_t *bms, int pack)
                 canTx3[balanceByte[i]] |= balanceShift[i];
             }
         }
-        c3tx(&txMsg3, canTx3);
+        can3tx(0x300,8,canTx3);
+        //c3tx(&txMsg3, canTx3);
 
-        txMsg3.StdId = 0x310;
-        txMsg3.DLC = 5;
+        //txMsg3.StdId = 0x310;
+        //txMsg3.DLC = 5;
         for (size_t i = 62; i < 96; i++)
         {
             if (bms->avgCellVolt < bms->cellVolt[i])
@@ -394,7 +414,8 @@ void balanceCommand(bms_t *bms, int pack)
                 canTx3[balanceByte[i]] |= balanceShift[i];
             }
         }
-        c3tx(&txMsg3, canTx3);
+        can3tx(0x310,5,canTx3);
+        //c3tx(&txMsg3, canTx3);
     }
 }
 
