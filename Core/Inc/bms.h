@@ -26,8 +26,9 @@ typedef struct bms
 } bms_t;
 bms_t BMS[2];
 
-uint8_t vechicleState; //CAN signal from VCU to get key/run state
+//uint8_t vehicleState; //CAN signal from VCU to get key/run state
 bool charged; // flag to synch both packs
+uint8_t watchdogBits;
 
 void sendCommand(void);
 void requestBICMdata(bms_t *bms);
@@ -40,5 +41,6 @@ void decodeTemp(bms_t *bms, CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx);
 void bmsStateHandler(bms_t *bms);
 void tx500kData(void);
 void initBMS(void);
+void synchChargers(void);
 
 #endif // __BMS_H_

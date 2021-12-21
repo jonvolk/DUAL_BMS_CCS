@@ -14,6 +14,8 @@ static void getTempDelta(bms_t *bms);
 static void getCellCount(bms_t *bms, int pack);
 static void getSOC(bms_t *bms);
 
+
+
 enum
 {
     Boot,
@@ -100,7 +102,8 @@ void initBMS(void)
             BMS[i].tempSensor[j] = 0; 
         }
     }
-    vechicleState = off;
+    //vehicleState = off;
+    watchdogBits = 0b0000;
     charged = false;
 }
 
@@ -138,22 +141,23 @@ void bmsStateHandler(bms_t *bms)
         {
             bms->state = Charge;
         }
-
-        if (vechicleState != off) //idle || run)
+        /*
+        if (vehicleState != off) //idle || run)
         {
             bms->balancecells = false;
             bms->state = Drive;
-        }
+        }*/
         break;
-
+/*
     case Drive:
 
-        if (vechicleState == off)
+    
+        if (vehicleState == off)
         {
             bms->state = Ready;
         }
         break;
-
+*/
     case Charge:
         bms->balancecells = false;
         bms->chargeRequest = 1;
@@ -171,12 +175,13 @@ void bmsStateHandler(bms_t *bms)
             bms->chargeRequest = 0;
             bms->state = Ready;
         }
-
+        /*
         if (charged)
         {
             bms->chargeRequest = 0;
             bms->state = Ready;
         }
+        */
 
         break;
 
@@ -198,9 +203,8 @@ void bmsStateHandler(bms_t *bms)
 void acChargeCommand(void)
 {
     uint8_t canTx2[8];
-    if (BMS[0].chargeRequest && BMS[1].chargeRequest)
+    if (BMS[0].chargeRequest == 1)//(!charged)
     {
-        charged = false;
         int val = 32;
         //txMsg2.StdId = 0x605; //set parameter ID
         //txMsg2.DLC = 8;
@@ -216,7 +220,7 @@ void acChargeCommand(void)
         can2tx(0x605,8,canTx2);
     }
 
-    if (!BMS[0].chargeRequest || !BMS[1].chargeRequest)
+    if (BMS[0].chargeRequest == 0)
     {
         int val = 0;
         //txMsg2.StdId = 0x605; //set parameter ID
@@ -231,7 +235,7 @@ void acChargeCommand(void)
         canTx2[7] = (val >> 24) & 0xFF;
         can2tx(0x605,8,canTx2);
         //c2tx(&txMsg2, canTx2);
-        charged = true;
+        
     }
 }
 // Send CAN Data /////////////////////////////////////////////////////////////////////
@@ -573,12 +577,28 @@ void vehicleComms(CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
     switch (rxMsg->StdId)
     {
     case 0x313:
-        vechicleState = canRx[0];
+        //vehicleState = canRx[0];
         break;
 
     default:
         break;
     }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+void synchChargers(void)
+{
+    if(BMS[0].chargeRequest && BMS[1].chargeRequest)
+    {
+        charged == false;
+    }
+
+    if (!BMS[0].chargeRequest || !BMS[1].chargeRequest)
+    {
+        charged == true;
+    }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

@@ -357,10 +357,11 @@ void StartDefaultTask(void *argument)
   for (;;)
   {
     //bmsStateHandler();
-    visHandle();
-    
+    //visHandle();
+
     bmsStateHandler(&BMS[0]);
     bmsStateHandler(&BMS[1]);
+    acChargeCommand();
 
     osDelay(1);
   }
@@ -382,6 +383,16 @@ void StartsendCommand(void *argument)
   {
     sendCommand();
 
+    if (BMS[0].balancecells)
+    {
+      balanceCommand(&BMS[0], 0);
+    }
+
+    if (BMS[1].balancecells)
+    {
+      balanceCommand(&BMS[1], 1);
+    }
+
     osDelay(200);
   }
   /* USER CODE END StartsendCommand */
@@ -400,6 +411,7 @@ void StartbalanceCommand(void *argument)
   /* Infinite loop */
   for (;;)
   {
+   /*
     if (BMS[0].balancecells)
     {
       balanceCommand(&BMS[0], 0);
@@ -409,8 +421,11 @@ void StartbalanceCommand(void *argument)
     {
       balanceCommand(&BMS[1], 1);
     }
+    */
+   synchChargers();
+   
 
-    osDelay(200);
+    osDelay(5000);
   }
   /* USER CODE END StartbalanceCommand */
 }
