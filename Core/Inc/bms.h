@@ -30,8 +30,8 @@ bms_t BMS[2];
 bool charged; // flag to synch both packs
 uint8_t watchdogBits;
 
-void sendCommand(void);
-void requestBICMdata(bms_t *bms);
+void sendCommand(int pack);
+void requestBICMdata(bms_t *bms, int pack);
 void refreshData(void);
 void acChargeCommand(void);
 void balanceCommand(bms_t *bms, int pack);

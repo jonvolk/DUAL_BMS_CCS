@@ -56,10 +56,10 @@ const osThreadAttr_t defaultTask_attributes = {
     .name = "defaultTask",
     .priority = (osPriority_t)osPriorityNormal,
     .stack_size = 128 * 4};
-/* Definitions for sendCommand */
-osThreadId_t sendCommandHandle;
-const osThreadAttr_t sendCommand_attributes = {
-    .name = "sendCommand",
+/* Definitions for synchCommand */
+osThreadId_t synchCommandHandle;
+const osThreadAttr_t synchCommand_attributes = {
+    .name = "synchCommand",
     .priority = (osPriority_t)osPriorityNormal,
     .stack_size = 128 * 4};
 /* Definitions for balanceCommand */
@@ -84,7 +84,7 @@ static void MX_CAN1_Init(void);
 static void MX_CAN2_Init(void);
 static void MX_CAN3_Init(void);
 void StartDefaultTask(void *argument);
-void StartsendCommand(void *argument);
+void StartsynchCommand(void *argument);
 void StartbalanceCommand(void *argument);
 void StartprocessData(void *argument);
 
@@ -158,8 +158,8 @@ int main(void)
   /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
-  /* creation of sendCommand */
-  sendCommandHandle = osThreadNew(StartsendCommand, NULL, &sendCommand_attributes);
+  /* creation of synchCommand */
+  synchCommandHandle = osThreadNew(StartsynchCommand, NULL, &synchCommand_attributes);
 
   /* creation of balanceCommand */
   balanceCommandHandle = osThreadNew(StartbalanceCommand, NULL, &balanceCommand_attributes);
@@ -356,9 +356,7 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for (;;)
   {
-    //bmsStateHandler();
-    //visHandle();
-
+    visHandle();
     bmsStateHandler(&BMS[0]);
     bmsStateHandler(&BMS[1]);
     acChargeCommand();
@@ -368,34 +366,23 @@ void StartDefaultTask(void *argument)
   /* USER CODE END 5 */
 }
 
-/* USER CODE BEGIN Header_StartsendCommand */
+/* USER CODE BEGIN Header_StartsynchhCommand */
 /**
-* @brief Function implementing the sendCommand thread.
+* @brief Function implementing the synchCommand thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartsendCommand */
-void StartsendCommand(void *argument)
+/* USER CODE END Header_StartsynchCommand */
+void StartsynchCommand(void *argument)
 {
-  /* USER CODE BEGIN StartsendCommand */
+  /* USER CODE BEGIN StartsynchCommand */
   /* Infinite loop */
   for (;;)
   {
-    sendCommand();
-
-    if (BMS[0].balancecells)
-    {
-      balanceCommand(&BMS[0], 0);
-    }
-
-    if (BMS[1].balancecells)
-    {
-      balanceCommand(&BMS[1], 1);
-    }
-
-    osDelay(200);
+    synchChargers();
+    osDelay(5000);
   }
-  /* USER CODE END StartsendCommand */
+  /* USER CODE END StartsynchCommand */
 }
 
 /* USER CODE BEGIN Header_StartbalanceCommand */
@@ -411,7 +398,6 @@ void StartbalanceCommand(void *argument)
   /* Infinite loop */
   for (;;)
   {
-   /*
     if (BMS[0].balancecells)
     {
       balanceCommand(&BMS[0], 0);
@@ -421,11 +407,7 @@ void StartbalanceCommand(void *argument)
     {
       balanceCommand(&BMS[1], 1);
     }
-    */
-   synchChargers();
-   
-
-    osDelay(5000);
+    osDelay(200);
   }
   /* USER CODE END StartbalanceCommand */
 }
@@ -443,10 +425,8 @@ void StartprocessData(void *argument)
   /* Infinite loop */
   for (;;)
   {
-
     refreshData();
     tx500kData();
-
     osDelay(1000);
   }
   /* USER CODE END StartprocessData */

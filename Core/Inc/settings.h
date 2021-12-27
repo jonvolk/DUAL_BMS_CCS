@@ -12,7 +12,7 @@
 #define IGNORE_TEMP 28700    // 0 - use both sensors, 1 or 2 only use that sensor
 #define IGNORE_VOLT 500      //
 #define BALANCE_VOLTAGE 3850 //Balance allowed over this voltage
-#define BALANCE_HYS 17        // Minimum cell delta to begin balance in mV
+#define BALANCE_HYS 5        // Minimum cell delta to begin balance in mV
 #define S_CELLS 96           //Cells in series
 #define SOC_VOLT_10 3100     //Voltage and SOC curve for voltage based SOC calc. Cell volt at 10% SOC, Cell volt at 90% SOC
 #define SOC_VOLT_90 4100

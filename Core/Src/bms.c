@@ -14,8 +14,6 @@ static void getTempDelta(bms_t *bms);
 static void getCellCount(bms_t *bms, int pack);
 static void getSOC(bms_t *bms);
 
-
-
 enum
 {
     Boot,
@@ -60,8 +58,7 @@ static const uint8_t balanceByte[96] =
      3, 3, 3, 3, 3, 3,
      4, 4, 4, 4, 4, 4};
 
-
-    static const uint8_t balanceShift[96] =
+static const uint8_t balanceShift[96] =
     {0x01, 0x02, 0x04, 0x08, 0x10, 0x20,
      0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
      0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
@@ -74,7 +71,7 @@ static const uint8_t balanceByte[96] =
      0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
      0x01, 0x02, 0x04, 0x08, 0x10, 0x20,
      0x01, 0x02, 0x04, 0x08, 0x10, 0x20,
-     0x01, 0x02, 0x04, 0x08, 0x10, 0x20,};
+     0x01, 0x02, 0x04, 0x08, 0x10, 0x20};
 
 // Initialize BMS //////////////////////////////////////////////////////////////////
 void initBMS(void)
@@ -94,12 +91,12 @@ void initBMS(void)
 
         for (size_t j = 0; j < 96; j++)
         {
-            BMS[i].cellVolt[j] = 0; 
+            BMS[i].cellVolt[j] = 0;
         }
 
         for (size_t j = 0; j < 16; j++)
         {
-            BMS[i].tempSensor[j] = 0; 
+            BMS[i].tempSensor[j] = 0;
         }
     }
     //vehicleState = off;
@@ -115,6 +112,7 @@ void bmsStateHandler(bms_t *bms)
     case Boot:
         bms->chargeRequest = 0;
         bms->state = Ready;
+       
         break;
 
     case Ready:
@@ -122,7 +120,7 @@ void bmsStateHandler(bms_t *bms)
 
         if (bms->avgCellVolt > BALANCE_VOLTAGE)
         {
-            if ((bms->highCellVolt - bms->lowCellVolt) > (BALANCE_HYS)) 
+            if ((bms->highCellVolt - bms->lowCellVolt) > (BALANCE_HYS))
             {
                 bms->balancecells = true;
             }
@@ -148,7 +146,7 @@ void bmsStateHandler(bms_t *bms)
             bms->state = Drive;
         }*/
         break;
-/*
+        /*
     case Drive:
 
     
@@ -164,6 +162,7 @@ void bmsStateHandler(bms_t *bms)
 
         if (bms->highCellVolt > CHARGE_V_SETPOINT || bms->highCellTemp > OVER_T_SETPOINT)
         {
+            /*
             if (bms->avgCellVolt > CHARGE_V_SETPOINT - BALANCE_HYS)
             {
                 //SOC charged func
@@ -172,17 +171,10 @@ void bmsStateHandler(bms_t *bms)
             {
                 //SOC charged func
             }
+            */
             bms->chargeRequest = 0;
             bms->state = Ready;
         }
-        /*
-        if (charged)
-        {
-            bms->chargeRequest = 0;
-            bms->state = Ready;
-        }
-        */
-
         break;
 
     case Error:
@@ -203,7 +195,7 @@ void bmsStateHandler(bms_t *bms)
 void acChargeCommand(void)
 {
     uint8_t canTx2[8];
-    if (BMS[0].chargeRequest == 1)//(!charged)
+    if (!charged)
     {
         int val = 32;
         //txMsg2.StdId = 0x605; //set parameter ID
@@ -217,10 +209,10 @@ void acChargeCommand(void)
         canTx2[6] = (val >> 16) & 0xFF;
         canTx2[7] = (val >> 24) & 0xFF;
         //c2tx(&txMsg2, canTx2);
-        can2tx(0x605,8,canTx2);
+        can2tx(0x605, 8, canTx2);
     }
 
-    if (BMS[0].chargeRequest == 0)
+    else
     {
         int val = 0;
         //txMsg2.StdId = 0x605; //set parameter ID
@@ -233,17 +225,14 @@ void acChargeCommand(void)
         canTx2[5] = (val >> 8) & 0xFF;
         canTx2[6] = (val >> 16) & 0xFF;
         canTx2[7] = (val >> 24) & 0xFF;
-        can2tx(0x605,8,canTx2);
+        can2tx(0x605, 8, canTx2);
         //c2tx(&txMsg2, canTx2);
-        
     }
 }
 // Send CAN Data /////////////////////////////////////////////////////////////////////
 void tx500kData(void)
 {
 
-    //txMsg2.StdId = 0x138; //BMS1
-    //txMsg2.DLC = 8;
     uint8_t bms0[8];
     bms0[0] = BMS[0].packVolt & 0xFF;
     bms0[1] = (BMS[0].packVolt >> 8) & 0xFF;
@@ -255,8 +244,6 @@ void tx500kData(void)
     bms0[7] = 0;
     can2tx(0x138, 8, bms0);
 
-    //txMsg2.StdId = 0x139; //BMS2
-    //txMsg2.DLC = 8;
     uint8_t bms1[8];
     bms1[0] = BMS[1].packVolt & 0xFF;
     bms1[1] = (BMS[1].packVolt >> 8) & 0xFF;
@@ -267,7 +254,6 @@ void tx500kData(void)
     bms1[6] = (BMS[1].SOC);
     bms1[7] = 0;
     can2tx(0x139, 8, bms1);
-    //c2tx(&txMsg2, canTx2);
 }
 
 void refreshData(void)
@@ -275,7 +261,7 @@ void refreshData(void)
 
     for (size_t i = 0; i < 2; i++)
     {
-        requestBICMdata(&BMS[i]);
+        requestBICMdata(&BMS[i], i);
         getPackVolt(&BMS[i]);
         getAvgCellVolt(&BMS[i]);
         getLowCellVolt(&BMS[i]);
@@ -287,139 +273,147 @@ void refreshData(void)
         getTempDelta(&BMS[i]);
         getCellCount(&BMS[i], i);
         getSOC(&BMS[i]);
-        acChargeCommand();
     }
 }
 
 // send every 200ms //////////////////////////////////////////////////////////////////
-void sendCommand(void)
+void sendCommand(int pack)
 {
-    uint8_t canTx[8];
-    //txMsg.StdId = 0x200;
-    //txMsg.DLC = 3;
+    uint8_t canTx[3];
     canTx[0] = 0x02;
     canTx[1] = 0x00;
     canTx[2] = 0x00;
-    can1tx(0x200,3,canTx);
-    //c1tx(&txMsg, canTx); //pack 1
 
-    uint8_t canTx3[8];
-    //txMsg3.StdId = 0x200;
-    //txMsg3.DLC = 3;
-    canTx3[0] = 0x02;
-    canTx3[1] = 0x00;
-    canTx3[2] = 0x00;
-    can3tx(0x200,3,canTx3);
-    //c3tx(&txMsg3, canTx3); // pack 2
+    switch (pack)
+    {
+    case 0:
+        can1tx(0x200, 3, canTx);
+        break;
+
+    case 1:
+        can3tx(0x200, 3, canTx);
+        break;
+
+    default:
+        break;
+    }
 }
 
-void requestBICMdata(bms_t *bms)
+void requestBICMdata(bms_t *bms, int pack)
 {
-    sendCommand();
+
     uint8_t canTx[8];
     if (!bms->balancecells)
     {
-
-        //txMsg.StdId = 0x300;
-        //txMsg.DLC = 8;
+        sendCommand(pack);
         for (size_t i = 0; i < 8; i++)
         {
             canTx[i] = 0x00;
         }
-        can1tx(0x300,8,canTx);
-        can3tx(0x300,8,canTx);
-        //c1tx(&txMsg, canTx); //pack 1
+        switch (pack)
+        {
+        case 0:
+            can1tx(0x300, 8, canTx);
+            break;
 
-        //txMsg.StdId = 0x310;
-        //txMsg.DLC = 5;
+        case 1:
+            can3tx(0x300, 8, canTx);
+            break;
+
+        default:
+            break;
+        }
+
         for (size_t i = 0; i < 5; i++)
         {
             canTx[i] = 0x00;
         }
-        can1tx(0x310,5,canTx);
-        can3tx(0x310,5,canTx);
-        //c1tx(&txMsg, canTx); //pack 1
-    }
-    /*
-    uint8_t canTx3[8];
-    if (!bms->balancecells)
-    {
-        txMsg3.StdId = 0x300;
-        txMsg3.DLC = 8;
-        for (size_t i = 0; i < 8; i++)
-        {
-            canTx3[i] = 0x00;
-        }
-        c3tx(&txMsg3, canTx3); //pack 2
 
-        txMsg3.StdId = 0x310;
-        txMsg3.DLC = 5;
-        for (size_t i = 0; i < 5; i++)
+        switch (pack)
         {
-            canTx3[i] = 0x00;
+        case 0:
+            can1tx(0x310, 5, canTx);
+            break;
+
+        case 1:
+            can3tx(0x310, 5, canTx);
+            break;
+
+        default:
+            break;
         }
-        c3tx(&txMsg3, canTx3); //pack 2
     }
-    */
 }
 
 // send every 200ms //////////////////////////////////////////////////////////////////
 void balanceCommand(bms_t *bms, int pack)
 {
-    uint8_t canTx[8];
-    if (pack == 0)
+    sendCommand(pack);
+    uint8_t balance[8];
+
+    switch (pack)
     {
-        //txMsg.StdId = 0x300;
-        //txMsg.DLC = 8;
+    case 0:
+        for (size_t i = 0; i < 8; i++)
+        {
+            balance[i] = 0;
+        }
+
         for (size_t i = 0; i < 62; i++)
         {
             if (bms->avgCellVolt < bms->cellVolt[i])
             {
-                canTx[balanceByte[i]] |= balanceShift[i];
+                balance[balanceByte[i]] |= balanceShift[i];
             }
         }
-        can1tx(0x300,8,canTx);
-        //c1tx(&txMsg, canTx);
+        can1tx(0x300, 8, balance);
 
-        //txMsg.StdId = 0x310;
-        //txMsg.DLC = 5;
+        for (size_t i = 0; i < 8; i++)
+        {
+            balance[i] = 0;
+        }
+
         for (size_t i = 62; i < 96; i++)
         {
             if (bms->avgCellVolt < bms->cellVolt[i])
             {
-                canTx[balanceByte[i]] |= balanceShift[i];
+                balance[balanceByte[i]] |= balanceShift[i];
             }
         }
-        can1tx(0x310,5,canTx);
-        //c1tx(&txMsg, canTx);
-    }
+        can1tx(0x310, 5, balance);
+        break;
 
-    uint8_t canTx3[8];
-    if (pack == 1)
-    {
-        //txMsg3.StdId = 0x300;
-        //txMsg3.DLC = 8;
+    case 1:
+
+        for (size_t i = 0; i < 8; i++)
+        {
+            balance[i] = 0;
+        }
         for (size_t i = 0; i < 62; i++)
         {
             if (bms->avgCellVolt < bms->cellVolt[i])
             {
-                canTx3[balanceByte[i]] |= balanceShift[i];
+                balance[balanceByte[i]] |= balanceShift[i];
             }
         }
-        can3tx(0x300,8,canTx3);
-        //c3tx(&txMsg3, canTx3);
+        can3tx(0x300, 8, balance);
 
-        //txMsg3.StdId = 0x310;
-        //txMsg3.DLC = 5;
+        for (size_t i = 0; i < 8; i++)
+        {
+            balance[i] = 0;
+        }
         for (size_t i = 62; i < 96; i++)
         {
             if (bms->avgCellVolt < bms->cellVolt[i])
             {
-                canTx3[balanceByte[i]] |= balanceShift[i];
+                balance[balanceByte[i]] |= balanceShift[i];
             }
         }
-        can3tx(0x310,5,canTx3);
-        //c3tx(&txMsg3, canTx3);
+        can3tx(0x310, 5, balance);
+        break;
+
+    default:
+        break;
     }
 }
 
@@ -585,20 +579,18 @@ void vehicleComms(CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
     }
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////////////
 void synchChargers(void)
 {
-    if(BMS[0].chargeRequest && BMS[1].chargeRequest)
+    if (BMS[0].chargeRequest && BMS[1].chargeRequest)
     {
-        charged == false;
+        charged = false;
     }
 
-    if (!BMS[0].chargeRequest || !BMS[1].chargeRequest)
+    if ((!BMS[0].chargeRequest) || (!BMS[1].chargeRequest))
     {
-        charged == true;
+        charged = true;
     }
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

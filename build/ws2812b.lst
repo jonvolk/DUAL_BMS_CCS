@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccQ0jBtd.s 			page 1
+ARM GAS  /tmp/ccNuG5kw.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
   29:Core/Src/ws2812b.c **** // Gamma correction table
   30:Core/Src/ws2812b.c **** const uint8_t gammaTable[] = {
   31:Core/Src/ws2812b.c ****     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-ARM GAS  /tmp/ccQ0jBtd.s 			page 2
+ARM GAS  /tmp/ccNuG5kw.s 			page 2
 
 
   32:Core/Src/ws2812b.c ****     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
   86:Core/Src/ws2812b.c **** 	uint32_t cc1 = (10 * tim_period) / 36;
   87:Core/Src/ws2812b.c **** 	uint32_t cc2 = (10 * tim_period) / 15;
   88:Core/Src/ws2812b.c **** 
-ARM GAS  /tmp/ccQ0jBtd.s 			page 3
+ARM GAS  /tmp/ccNuG5kw.s 			page 3
 
 
   89:Core/Src/ws2812b.c **** 	TIM1_handle.Instance = TIM1;
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  143:Core/Src/ws2812b.c **** 	dmaUpdate.Init.MemInc = DMA_MINC_DISABLE;
  144:Core/Src/ws2812b.c **** 	dmaUpdate.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
  145:Core/Src/ws2812b.c **** 	dmaUpdate.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-ARM GAS  /tmp/ccQ0jBtd.s 			page 4
+ARM GAS  /tmp/ccNuG5kw.s 			page 4
 
 
  146:Core/Src/ws2812b.c **** 	dmaUpdate.Init.Mode = DMA_CIRCULAR;
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  200:Core/Src/ws2812b.c **** 	dmaCC2.Init.Mode = DMA_CIRCULAR;
  201:Core/Src/ws2812b.c **** 	dmaCC2.Init.Priority = DMA_PRIORITY_VERY_HIGH;
  202:Core/Src/ws2812b.c **** 	dmaCC2.Init.Channel = DMA_CHANNEL_6;
-ARM GAS  /tmp/ccQ0jBtd.s 			page 5
+ARM GAS  /tmp/ccNuG5kw.s 			page 5
 
 
  203:Core/Src/ws2812b.c **** 
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  257:Core/Src/ws2812b.c **** 
  258:Core/Src/ws2812b.c **** 		loadNextFramebufferData(&ws2812b.item[i], 0); // ROW 0
  259:Core/Src/ws2812b.c **** 		loadNextFramebufferData(&ws2812b.item[i], 1); // ROW 0
-ARM GAS  /tmp/ccQ0jBtd.s 			page 6
+ARM GAS  /tmp/ccNuG5kw.s 			page 6
 
 
  260:Core/Src/ws2812b.c **** 	}
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  298:Core/Src/ws2812b.c **** }
   44              		.loc 1 298 0
   45 000c 02B0     		add	sp, sp, #8
-ARM GAS  /tmp/ccQ0jBtd.s 			page 7
+ARM GAS  /tmp/ccNuG5kw.s 			page 7
 
 
   46              	.LCFI1:
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
   97 0026 0595     		str	r5, [sp, #20]
   56:Core/Src/ws2812b.c **** 	HAL_GPIO_Init(WS2812B_PORT, &GPIO_InitStruct);
   98              		.loc 1 56 0
-ARM GAS  /tmp/ccQ0jBtd.s 			page 8
+ARM GAS  /tmp/ccNuG5kw.s 			page 8
 
 
   99 0028 0695     		str	r5, [sp, #24]
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  143              		@ sp needed
  144 006c F0BD     		pop	{r4, r5, r6, r7, pc}
  145              	.L6:
-ARM GAS  /tmp/ccQ0jBtd.s 			page 9
+ARM GAS  /tmp/ccNuG5kw.s 			page 9
 
 
  146 006e 00BF     		.align	2
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  198              		.loc 1 142 0
  199 0028 E560     		str	r5, [r4, #12]
  143:Core/Src/ws2812b.c **** 	dmaUpdate.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-ARM GAS  /tmp/ccQ0jBtd.s 			page 10
+ARM GAS  /tmp/ccNuG5kw.s 			page 10
 
 
  200              		.loc 1 143 0
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  241 0070 2046     		mov	r0, r4
  242 0072 FFF7FEFF 		bl	HAL_DMA_Start
  243              	.LVL6:
-ARM GAS  /tmp/ccQ0jBtd.s 			page 11
+ARM GAS  /tmp/ccNuG5kw.s 			page 11
 
 
  168:Core/Src/ws2812b.c **** 	dmaCC1.Init.PeriphInc = DMA_PINC_DISABLE;
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  190:Core/Src/ws2812b.c **** 	//HAL_DMA_Start(&dmaCC1, (uint32_t)ws2812bDmaBitBuffer, (uint32_t)&dummy, BUFFER_SIZE); //BRR
  283              		.loc 1 190 0
  284 00b2 3023     		movs	r3, #48
-ARM GAS  /tmp/ccQ0jBtd.s 			page 12
+ARM GAS  /tmp/ccNuG5kw.s 			page 12
 
 
  285 00b4 224A     		ldr	r2, .L9+28
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  324 00ee 184B     		ldr	r3, .L9+44
  325 00f0 E363     		str	r3, [r4, #60]
  214:Core/Src/ws2812b.c **** 	dmaCC2.XferErrorCallback = DMA_TransferError;
-ARM GAS  /tmp/ccQ0jBtd.s 			page 13
+ARM GAS  /tmp/ccNuG5kw.s 			page 13
 
 
  326              		.loc 1 214 0
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  374 0154 00000000 		.word	DMA_TransferHalfHandler
  375 0158 00000000 		.word	DMA_TransferError
  376 015c 00000000 		.word	.LANCHOR1
-ARM GAS  /tmp/ccQ0jBtd.s 			page 14
+ARM GAS  /tmp/ccNuG5kw.s 			page 14
 
 
  377              		.cfi_endproc
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  429 0032 A1FB0212 		umull	r1, r2, r1, r2
  430 0036 D20A     		lsrs	r2, r2, #11
  431 0038 2E49     		ldr	r1, .L14+20
-ARM GAS  /tmp/ccQ0jBtd.s 			page 15
+ARM GAS  /tmp/ccNuG5kw.s 			page 15
 
 
  432 003a 0A60     		str	r2, [r1]
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  474 0078 2349     		ldr	r1, .L14+40
  475 007a 4FF06008 		mov	r8, #96
  476 007e C1F80080 		str	r8, [r1]
-ARM GAS  /tmp/ccQ0jBtd.s 			page 16
+ARM GAS  /tmp/ccNuG5kw.s 			page 16
 
 
  102:Core/Src/ws2812b.c **** 	tim2OC1.Pulse        = cc1;
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  516 00b4 2846     		mov	r0, r5
  517 00b6 FFF7FEFF 		bl	HAL_TIM_PWM_Start
  518              	.LVL23:
-ARM GAS  /tmp/ccQ0jBtd.s 			page 17
+ARM GAS  /tmp/ccNuG5kw.s 			page 17
 
 
  121:Core/Src/ws2812b.c **** 
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  300:Core/Src/ws2812b.c **** 
  301:Core/Src/ws2812b.c **** void DMA_TransferHalfHandler(DMA_HandleTypeDef *DmaHandle)
  302:Core/Src/ws2812b.c **** {
-ARM GAS  /tmp/ccQ0jBtd.s 			page 18
+ARM GAS  /tmp/ccNuG5kw.s 			page 18
 
 
  303:Core/Src/ws2812b.c **** 
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  357:Core/Src/ws2812b.c **** 
  358:Core/Src/ws2812b.c **** 		// Generate an update event to reload the prescaler value immediately
  359:Core/Src/ws2812b.c **** 		TIM1->EGR = TIM_EGR_UG;
-ARM GAS  /tmp/ccQ0jBtd.s 			page 19
+ARM GAS  /tmp/ccNuG5kw.s 			page 19
 
 
  360:Core/Src/ws2812b.c **** 		__HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE);
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  586              	.LVL25:
  398:Core/Src/ws2812b.c **** 
  399:Core/Src/ws2812b.c **** 	#if defined(LED_BLUE_PORT)
-ARM GAS  /tmp/ccQ0jBtd.s 			page 20
+ARM GAS  /tmp/ccNuG5kw.s 			page 20
 
 
  400:Core/Src/ws2812b.c **** 		LED_BLUE_PORT->BSRR = LED_BLUE_PIN << 16;
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  629 0016 10BD     		pop	{r4, pc}
  630              	.L23:
  631              		.align	2
-ARM GAS  /tmp/ccQ0jBtd.s 			page 21
+ARM GAS  /tmp/ccNuG5kw.s 			page 21
 
 
  632              	.L22:
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  454:Core/Src/ws2812b.c ****     ws2812b.transferComplete = 1;
  455:Core/Src/ws2812b.c **** 
  456:Core/Src/ws2812b.c **** }
-ARM GAS  /tmp/ccQ0jBtd.s 			page 22
+ARM GAS  /tmp/ccNuG5kw.s 			page 22
 
 
  457:Core/Src/ws2812b.c **** */ 
@@ -1272,78 +1272,140 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  650              		@ args = 4, pretend = 0, frame = 0
  651              		@ frame_needed = 0, uses_anonymous_args = 0
  652              	.LVL27:
- 653 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 653 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
  654              	.LCFI13:
- 655              		.cfi_def_cfa_offset 20
- 656              		.cfi_offset 4, -20
- 657              		.cfi_offset 5, -16
- 658              		.cfi_offset 6, -12
- 659              		.cfi_offset 7, -8
- 660              		.cfi_offset 14, -4
+ 655              		.cfi_def_cfa_offset 32
+ 656              		.cfi_offset 4, -32
+ 657              		.cfi_offset 5, -28
+ 658              		.cfi_offset 6, -24
+ 659              		.cfi_offset 7, -20
+ 660              		.cfi_offset 8, -16
+ 661              		.cfi_offset 9, -12
+ 662              		.cfi_offset 10, -8
+ 663              		.cfi_offset 14, -4
  463:Core/Src/ws2812b.c **** 
  464:Core/Src/ws2812b.c **** 	// Apply gamma
  465:Core/Src/ws2812b.c **** 	red = gammaTable[red];
- 661              		.loc 1 465 0
- 662 0002 3D4C     		ldr	r4, .L35
- 663 0004 A65C     		ldrb	r6, [r4, r2]	@ zero_extendqisi2
- 664              	.LVL28:
+ 664              		.loc 1 465 0
+ 665 0004 2A4C     		ldr	r4, .L28
+ 666 0006 14F802C0 		ldrb	ip, [r4, r2]	@ zero_extendqisi2
+ 667              	.LVL28:
  466:Core/Src/ws2812b.c **** 	green = gammaTable[green];
- 665              		.loc 1 466 0
- 666 0006 E55C     		ldrb	r5, [r4, r3]	@ zero_extendqisi2
- 667              	.LVL29:
+ 668              		.loc 1 466 0
+ 669 000a 14F803E0 		ldrb	lr, [r4, r3]	@ zero_extendqisi2
+ 670              	.LVL29:
  467:Core/Src/ws2812b.c **** 	blue = gammaTable[blue];
- 668              		.loc 1 467 0
- 669 0008 9DF81430 		ldrb	r3, [sp, #20]	@ zero_extendqisi2
- 670 000c E45C     		ldrb	r4, [r4, r3]	@ zero_extendqisi2
- 671              	.LVL30:
+ 671              		.loc 1 467 0
+ 672 000e 9DF82030 		ldrb	r3, [sp, #32]	@ zero_extendqisi2
+ 673 0012 E75C     		ldrb	r7, [r4, r3]	@ zero_extendqisi2
+ 674              	.LVL30:
  468:Core/Src/ws2812b.c **** 
  469:Core/Src/ws2812b.c **** 
  470:Core/Src/ws2812b.c **** 	uint32_t calcCol = (column*24);
- 672              		.loc 1 470 0
- 673 000e 01EB4103 		add	r3, r1, r1, lsl #1
- 674 0012 D900     		lsls	r1, r3, #3
- 675              	.LVL31:
+ 675              		.loc 1 470 0
+ 676 0014 01EB4101 		add	r1, r1, r1, lsl #1
+ 677              	.LVL31:
+ 678 0018 CE00     		lsls	r6, r1, #3
+ 679              	.LVL32:
  471:Core/Src/ws2812b.c **** 	uint32_t invRed = ~red;
- 676              		.loc 1 471 0
- 677 0014 F643     		mvns	r6, r6
- 678              	.LVL32:
+ 680              		.loc 1 471 0
+ 681 001a 6FEA0C0C 		mvn	ip, ip
+ 682              	.LVL33:
  472:Core/Src/ws2812b.c **** 	uint32_t invGreen = ~green;
- 679              		.loc 1 472 0
- 680 0016 ED43     		mvns	r5, r5
- 681              	.LVL33:
+ 683              		.loc 1 472 0
+ 684 001e 6FEA0E0E 		mvn	lr, lr
+ 685              	.LVL34:
  473:Core/Src/ws2812b.c **** 	uint32_t invBlue = ~blue;
- 682              		.loc 1 473 0
- 683 0018 E443     		mvns	r4, r4
- 684              	.LVL34:
+ 686              		.loc 1 473 0
+ 687 0022 FF43     		mvns	r7, r7
+ARM GAS  /tmp/ccNuG5kw.s 			page 23
+
+
+ 688              	.LVL35:
  474:Core/Src/ws2812b.c **** 
  475:Core/Src/ws2812b.c **** 
  476:Core/Src/ws2812b.c **** #if defined(SETPIX_1)
-ARM GAS  /tmp/ccQ0jBtd.s 			page 23
-
-
  477:Core/Src/ws2812b.c **** 	uint8_t i;
  478:Core/Src/ws2812b.c **** 	uint32_t calcClearRow = ~((0x01<<row) << 0);
+ 689              		.loc 1 478 0
+ 690 0024 0446     		mov	r4, r0
+ 691 0026 0125     		movs	r5, #1
+ 692 0028 8540     		lsls	r5, r5, r0
+ 693 002a ED43     		mvns	r5, r5
+ 694              	.LVL36:
  479:Core/Src/ws2812b.c **** 	for (i = 0; i < 8; i++)
+ 695              		.loc 1 479 0
+ 696 002c 0022     		movs	r2, #0
+ 697 002e 3AE0     		b	.L25
+ 698              	.LVL37:
+ 699              	.L26:
  480:Core/Src/ws2812b.c **** 	{
  481:Core/Src/ws2812b.c **** 		// clear the data for pixel
  482:Core/Src/ws2812b.c **** 
  483:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+i)] &= calcClearRow;
+ 700              		.loc 1 483 0 discriminator 3
+ 701 0030 02EB0609 		add	r9, r2, r6
+ 702 0034 A9B2     		uxth	r1, r5
+ 703 0036 1F4B     		ldr	r3, .L28+4
+ 704 0038 33F81900 		ldrh	r0, [r3, r9, lsl #1]
+ 705 003c 0840     		ands	r0, r0, r1
+ 706 003e 23F81900 		strh	r0, [r3, r9, lsl #1]	@ movhi
  484:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+8+i)] &= calcClearRow;
+ 707              		.loc 1 484 0 discriminator 3
+ 708 0042 09F10808 		add	r8, r9, #8
+ 709 0046 33F81800 		ldrh	r0, [r3, r8, lsl #1]
+ 710 004a 0840     		ands	r0, r0, r1
+ 711 004c 23F81800 		strh	r0, [r3, r8, lsl #1]	@ movhi
  485:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+16+i)] &= calcClearRow;
+ 712              		.loc 1 485 0 discriminator 3
+ 713 0050 09F11000 		add	r0, r9, #16
+ 714 0054 33F810A0 		ldrh	r10, [r3, r0, lsl #1]
+ 715 0058 01EA0A01 		and	r1, r1, r10
+ 716 005c 23F81010 		strh	r1, [r3, r0, lsl #1]	@ movhi
  486:Core/Src/ws2812b.c **** 
  487:Core/Src/ws2812b.c **** 		// write new data for pixel
  488:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+i)] |= (((((invGreen)<<i) & 0x80)>>7)<<(row+0));
+ 717              		.loc 1 488 0 discriminator 3
+ 718 0060 0EFA02F1 		lsl	r1, lr, r2
+ 719 0064 C1F3C011 		ubfx	r1, r1, #7, #1
+ 720 0068 A140     		lsls	r1, r1, r4
+ 721 006a 33F819A0 		ldrh	r10, [r3, r9, lsl #1]
+ 722 006e 41EA0A01 		orr	r1, r1, r10
+ 723 0072 23F81910 		strh	r1, [r3, r9, lsl #1]	@ movhi
  489:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+8+i)] |= (((((invRed)<<i) & 0x80)>>7)<<(row+0));
+ 724              		.loc 1 489 0 discriminator 3
+ 725 0076 0CFA02F1 		lsl	r1, ip, r2
+ 726 007a C1F3C011 		ubfx	r1, r1, #7, #1
+ 727 007e A140     		lsls	r1, r1, r4
+ 728 0080 33F81890 		ldrh	r9, [r3, r8, lsl #1]
+ARM GAS  /tmp/ccNuG5kw.s 			page 24
+
+
+ 729 0084 41EA0901 		orr	r1, r1, r9
+ 730 0088 23F81810 		strh	r1, [r3, r8, lsl #1]	@ movhi
  490:Core/Src/ws2812b.c **** 		ws2812bDmaBitBuffer[(calcCol+16+i)] |= (((((invBlue)<<i) & 0x80)>>7)<<(row+0));
+ 731              		.loc 1 490 0 discriminator 3
+ 732 008c 07FA02F1 		lsl	r1, r7, r2
+ 733 0090 C1F3C011 		ubfx	r1, r1, #7, #1
+ 734 0094 A140     		lsls	r1, r1, r4
+ 735 0096 33F81080 		ldrh	r8, [r3, r0, lsl #1]
+ 736 009a 41EA0801 		orr	r1, r1, r8
+ 737 009e 23F81010 		strh	r1, [r3, r0, lsl #1]	@ movhi
+ 479:Core/Src/ws2812b.c **** 	{
+ 738              		.loc 1 479 0 discriminator 3
+ 739 00a2 0132     		adds	r2, r2, #1
+ 740              	.LVL38:
+ 741 00a4 D2B2     		uxtb	r2, r2
+ 742              	.LVL39:
+ 743              	.L25:
+ 479:Core/Src/ws2812b.c **** 	{
+ 744              		.loc 1 479 0 is_stmt 0 discriminator 1
+ 745 00a6 072A     		cmp	r2, #7
+ 746 00a8 C2D9     		bls	.L26
  491:Core/Src/ws2812b.c **** 	}
  492:Core/Src/ws2812b.c **** #elif defined(SETPIX_2)
  493:Core/Src/ws2812b.c **** 	uint8_t i;
  494:Core/Src/ws2812b.c **** 	for (i = 0; i < 8; i++)
- 685              		.loc 1 494 0
- 686 001a 0023     		movs	r3, #0
- 687 001c 2DE0     		b	.L25
- 688              	.LVL35:
- 689              	.L26:
  495:Core/Src/ws2812b.c **** 	{
  496:Core/Src/ws2812b.c **** 		// Set or clear the data for the pixel
  497:Core/Src/ws2812b.c **** 
@@ -1351,119 +1413,16 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  499:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+i)], row);
  500:Core/Src/ws2812b.c **** 		else
  501:Core/Src/ws2812b.c **** 			varResetBit(ws2812bDmaBitBuffer[(calcCol+i)], row);
- 690              		.loc 1 501 0
- 691 001e 03EB010E 		add	lr, r3, r1
- 692 0022 364F     		ldr	r7, .L35+4
- 693 0024 07EB4E0E 		add	lr, r7, lr, lsl #1
- 694 0028 8700     		lsls	r7, r0, #2
- 695 002a 47EA4E17 		orr	r7, r7, lr, lsl #5
- 696 002e 47F00857 		orr	r7, r7, #570425344
- 697 0032 4FF0000E 		mov	lr, #0
- 698 0036 C7F800E0 		str	lr, [r7]
- 699 003a 34E0     		b	.L27
- 700              	.L28:
  502:Core/Src/ws2812b.c **** 
  503:Core/Src/ws2812b.c **** 		if(((invRed)<<i) & 0x80)
  504:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+8+i)], row);
  505:Core/Src/ws2812b.c **** 		else
  506:Core/Src/ws2812b.c **** 			varResetBit(ws2812bDmaBitBuffer[(calcCol+8+i)], row);
- 701              		.loc 1 506 0
- 702 003c 03EB010E 		add	lr, r3, r1
- 703 0040 0EF1080E 		add	lr, lr, #8
- 704 0044 2D4F     		ldr	r7, .L35+4
- 705 0046 07EB4E0E 		add	lr, r7, lr, lsl #1
- 706 004a 8700     		lsls	r7, r0, #2
- 707 004c 47EA4E17 		orr	r7, r7, lr, lsl #5
- 708 0050 47F00857 		orr	r7, r7, #570425344
- 709 0054 4FF0000E 		mov	lr, #0
- 710 0058 C7F800E0 		str	lr, [r7]
- 711 005c 38E0     		b	.L29
-ARM GAS  /tmp/ccQ0jBtd.s 			page 24
-
-
- 712              	.L30:
  507:Core/Src/ws2812b.c **** 
  508:Core/Src/ws2812b.c **** 		if(((invBlue)<<i) & 0x80)
  509:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+16+i)], row);
  510:Core/Src/ws2812b.c **** 		else
  511:Core/Src/ws2812b.c **** 			varResetBit(ws2812bDmaBitBuffer[(calcCol+16+i)], row);
- 713              		.loc 1 511 0
- 714 005e 5F18     		adds	r7, r3, r1
- 715 0060 1037     		adds	r7, r7, #16
- 716 0062 264A     		ldr	r2, .L35+4
- 717 0064 02EB4707 		add	r7, r2, r7, lsl #1
- 718 0068 8200     		lsls	r2, r0, #2
- 719 006a 42EA4712 		orr	r2, r2, r7, lsl #5
- 720 006e 42F00852 		orr	r2, r2, #570425344
- 721 0072 0027     		movs	r7, #0
- 722 0074 1760     		str	r7, [r2]
- 723              	.L31:
- 494:Core/Src/ws2812b.c **** 	{
- 724              		.loc 1 494 0 discriminator 2
- 725 0076 0133     		adds	r3, r3, #1
- 726              	.LVL36:
- 727 0078 DBB2     		uxtb	r3, r3
- 728              	.LVL37:
- 729              	.L25:
- 494:Core/Src/ws2812b.c **** 	{
- 730              		.loc 1 494 0 is_stmt 0 discriminator 1
- 731 007a 072B     		cmp	r3, #7
- 732 007c 3AD8     		bhi	.L34
- 498:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+i)], row);
- 733              		.loc 1 498 0 is_stmt 1
- 734 007e 1A46     		mov	r2, r3
- 735 0080 05FA03F7 		lsl	r7, r5, r3
- 736 0084 17F0800F 		tst	r7, #128
- 737 0088 C9D0     		beq	.L26
- 499:Core/Src/ws2812b.c **** 		else
- 738              		.loc 1 499 0
- 739 008a 03EB010E 		add	lr, r3, r1
- 740 008e 1B4F     		ldr	r7, .L35+4
- 741 0090 07EB4E0E 		add	lr, r7, lr, lsl #1
- 742 0094 8700     		lsls	r7, r0, #2
- 743 0096 47EA4E17 		orr	r7, r7, lr, lsl #5
- 744 009a 47F00857 		orr	r7, r7, #570425344
- 745 009e 4FF0010E 		mov	lr, #1
- 746 00a2 C7F800E0 		str	lr, [r7]
- 747              	.L27:
- 503:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+8+i)], row);
- 748              		.loc 1 503 0
- 749 00a6 06FA02F7 		lsl	r7, r6, r2
- 750 00aa 17F0800F 		tst	r7, #128
- 751 00ae C5D0     		beq	.L28
- 504:Core/Src/ws2812b.c **** 		else
- 752              		.loc 1 504 0
- 753 00b0 03EB010E 		add	lr, r3, r1
- 754 00b4 0EF1080E 		add	lr, lr, #8
- 755 00b8 104F     		ldr	r7, .L35+4
- 756 00ba 07EB4E0E 		add	lr, r7, lr, lsl #1
- 757 00be 8700     		lsls	r7, r0, #2
-ARM GAS  /tmp/ccQ0jBtd.s 			page 25
-
-
- 758 00c0 47EA4E17 		orr	r7, r7, lr, lsl #5
- 759 00c4 47F00857 		orr	r7, r7, #570425344
- 760 00c8 4FF0010E 		mov	lr, #1
- 761 00cc C7F800E0 		str	lr, [r7]
- 762              	.L29:
- 508:Core/Src/ws2812b.c **** 			varSetBit(ws2812bDmaBitBuffer[(calcCol+16+i)], row);
- 763              		.loc 1 508 0
- 764 00d0 04FA02F2 		lsl	r2, r4, r2
- 765 00d4 12F0800F 		tst	r2, #128
- 766 00d8 C1D0     		beq	.L30
- 509:Core/Src/ws2812b.c **** 		else
- 767              		.loc 1 509 0
- 768 00da 5F18     		adds	r7, r3, r1
- 769 00dc 1037     		adds	r7, r7, #16
- 770 00de 074A     		ldr	r2, .L35+4
- 771 00e0 02EB4707 		add	r7, r2, r7, lsl #1
- 772 00e4 8200     		lsls	r2, r0, #2
- 773 00e6 42EA4712 		orr	r2, r2, r7, lsl #5
- 774 00ea 42F00852 		orr	r2, r2, #570425344
- 775 00ee 0127     		movs	r7, #1
- 776 00f0 1760     		str	r7, [r2]
- 777 00f2 C0E7     		b	.L31
- 778              	.L34:
  512:Core/Src/ws2812b.c **** 
  513:Core/Src/ws2812b.c **** 	}
  514:Core/Src/ws2812b.c **** #elif defined(SETPIX_3)
@@ -1479,6 +1438,9 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  524:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+2)] |= (((((invRed)<<2) & 0x80)>>7)<<row);
  525:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+2)] |= (((((invBlue)<<2) & 0x80)>>7)<<row);
  526:Core/Src/ws2812b.c **** 
+ARM GAS  /tmp/ccNuG5kw.s 			page 25
+
+
  527:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+3)] |= (((((invGreen)<<3) & 0x80)>>7)<<row);
  528:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+3)] |= (((((invRed)<<3) & 0x80)>>7)<<row);
  529:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+3)] |= (((((invBlue)<<3) & 0x80)>>7)<<row);
@@ -1498,9 +1460,6 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  543:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+7)] |= (((((invGreen)<<7) & 0x80)>>7)<<row);
  544:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+8+7)] |= (((((invRed)<<7) & 0x80)>>7)<<row);
  545:Core/Src/ws2812b.c **** 	ws2812bDmaBitBuffer[(calcCol+16+7)] |= (((((invBlue)<<7) & 0x80)>>7)<<row);
-ARM GAS  /tmp/ccQ0jBtd.s 			page 26
-
-
  546:Core/Src/ws2812b.c **** #elif defined(SETPIX_4)
  547:Core/Src/ws2812b.c **** 
  548:Core/Src/ws2812b.c **** 	// Bitband optimizations with pure increments, 5us interrupts
@@ -1539,6 +1498,9 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  581:Core/Src/ws2812b.c **** 
  582:Core/Src/ws2812b.c **** 	*bitBand = (invRed >> 5);
  583:Core/Src/ws2812b.c **** 	bitBand+=16;
+ARM GAS  /tmp/ccNuG5kw.s 			page 26
+
+
  584:Core/Src/ws2812b.c **** 
  585:Core/Src/ws2812b.c **** 	*bitBand = (invRed >> 4);
  586:Core/Src/ws2812b.c **** 	bitBand+=16;
@@ -1558,9 +1520,6 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  600:Core/Src/ws2812b.c **** 	// BLUE
  601:Core/Src/ws2812b.c **** 	*bitBand =  (invBlue >> 7);
  602:Core/Src/ws2812b.c **** 	bitBand+=16;
-ARM GAS  /tmp/ccQ0jBtd.s 			page 27
-
-
  603:Core/Src/ws2812b.c **** 
  604:Core/Src/ws2812b.c **** 	*bitBand = (invBlue >> 6);
  605:Core/Src/ws2812b.c **** 	bitBand+=16;
@@ -1585,1152 +1544,1152 @@ ARM GAS  /tmp/ccQ0jBtd.s 			page 1
  624:Core/Src/ws2812b.c **** 
  625:Core/Src/ws2812b.c **** #endif
  626:Core/Src/ws2812b.c **** }
- 779              		.loc 1 626 0
- 780 00f4 F0BD     		pop	{r4, r5, r6, r7, pc}
- 781              	.LVL38:
- 782              	.L36:
- 783 00f6 00BF     		.align	2
- 784              	.L35:
- 785 00f8 00000000 		.word	.LANCHOR2
- 786 00fc 00000000 		.word	ws2812bDmaBitBuffer
- 787              		.cfi_endproc
- 788              	.LFE140:
- 790              		.section	.text.loadNextFramebufferData,"ax",%progbits
- 791              		.align	1
- 792              		.syntax unified
- 793              		.thumb
- 794              		.thumb_func
- 795              		.fpu fpv4-sp-d16
- 797              	loadNextFramebufferData:
- 798              	.LFB133:
+ 747              		.loc 1 626 0 is_stmt 1
+ 748 00aa BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 749              	.LVL40:
+ 750              	.L29:
+ 751 00ae 00BF     		.align	2
+ 752              	.L28:
+ 753 00b0 00000000 		.word	.LANCHOR2
+ 754 00b4 00000000 		.word	ws2812bDmaBitBuffer
+ 755              		.cfi_endproc
+ 756              	.LFE140:
+ 758              		.section	.text.loadNextFramebufferData,"ax",%progbits
+ 759              		.align	1
+ 760              		.syntax unified
+ 761              		.thumb
+ARM GAS  /tmp/ccNuG5kw.s 			page 27
+
+
+ 762              		.thumb_func
+ 763              		.fpu fpv4-sp-d16
+ 765              	loadNextFramebufferData:
+ 766              	.LFB133:
  233:Core/Src/ws2812b.c **** 
- 799              		.loc 1 233 0
- 800              		.cfi_startproc
- 801              		@ args = 0, pretend = 0, frame = 0
- 802              		@ frame_needed = 0, uses_anonymous_args = 0
- 803              	.LVL39:
- 804 0000 70B5     		push	{r4, r5, r6, lr}
- 805              	.LCFI14:
- 806              		.cfi_def_cfa_offset 16
- 807              		.cfi_offset 4, -16
- 808              		.cfi_offset 5, -12
- 809              		.cfi_offset 6, -8
- 810              		.cfi_offset 14, -4
- 811 0002 82B0     		sub	sp, sp, #8
- 812              	.LCFI15:
-ARM GAS  /tmp/ccQ0jBtd.s 			page 28
-
-
- 813              		.cfi_def_cfa_offset 24
+ 767              		.loc 1 233 0
+ 768              		.cfi_startproc
+ 769              		@ args = 0, pretend = 0, frame = 0
+ 770              		@ frame_needed = 0, uses_anonymous_args = 0
+ 771              	.LVL41:
+ 772 0000 70B5     		push	{r4, r5, r6, lr}
+ 773              	.LCFI14:
+ 774              		.cfi_def_cfa_offset 16
+ 775              		.cfi_offset 4, -16
+ 776              		.cfi_offset 5, -12
+ 777              		.cfi_offset 6, -8
+ 778              		.cfi_offset 14, -4
+ 779 0002 82B0     		sub	sp, sp, #8
+ 780              	.LCFI15:
+ 781              		.cfi_def_cfa_offset 24
  235:Core/Src/ws2812b.c **** 	uint32_t g = bItem->frameBufferPointer[bItem->frameBufferCounter++];
- 814              		.loc 1 235 0
- 815 0004 0568     		ldr	r5, [r0]
- 816 0006 8268     		ldr	r2, [r0, #8]
- 817 0008 531C     		adds	r3, r2, #1
- 818 000a 8360     		str	r3, [r0, #8]
- 819 000c AA5C     		ldrb	r2, [r5, r2]	@ zero_extendqisi2
- 820              	.LVL40:
+ 782              		.loc 1 235 0
+ 783 0004 0568     		ldr	r5, [r0]
+ 784 0006 8268     		ldr	r2, [r0, #8]
+ 785 0008 531C     		adds	r3, r2, #1
+ 786 000a 8360     		str	r3, [r0, #8]
+ 787 000c AA5C     		ldrb	r2, [r5, r2]	@ zero_extendqisi2
+ 788              	.LVL42:
  236:Core/Src/ws2812b.c **** 	uint32_t b = bItem->frameBufferPointer[bItem->frameBufferCounter++];
- 821              		.loc 1 236 0
- 822 000e 5C1C     		adds	r4, r3, #1
- 823 0010 8460     		str	r4, [r0, #8]
- 824 0012 EB5C     		ldrb	r3, [r5, r3]	@ zero_extendqisi2
- 825              	.LVL41:
+ 789              		.loc 1 236 0
+ 790 000e 5C1C     		adds	r4, r3, #1
+ 791 0010 8460     		str	r4, [r0, #8]
+ 792 0012 EB5C     		ldrb	r3, [r5, r3]	@ zero_extendqisi2
+ 793              	.LVL43:
  237:Core/Src/ws2812b.c **** 
- 826              		.loc 1 237 0
- 827 0014 661C     		adds	r6, r4, #1
- 828 0016 8660     		str	r6, [r0, #8]
- 829 0018 2C5D     		ldrb	r4, [r5, r4]	@ zero_extendqisi2
- 830              	.LVL42:
+ 794              		.loc 1 237 0
+ 795 0014 661C     		adds	r6, r4, #1
+ 796 0016 8660     		str	r6, [r0, #8]
+ 797 0018 2C5D     		ldrb	r4, [r5, r4]	@ zero_extendqisi2
+ 798              	.LVL44:
  239:Core/Src/ws2812b.c **** 		bItem->frameBufferCounter = 0;
- 831              		.loc 1 239 0
- 832 001a 4568     		ldr	r5, [r0, #4]
- 833 001c AE42     		cmp	r6, r5
- 834 001e 06D0     		beq	.L40
- 835              	.L38:
+ 799              		.loc 1 239 0
+ 800 001a 4568     		ldr	r5, [r0, #4]
+ 801 001c AE42     		cmp	r6, r5
+ 802 001e 06D0     		beq	.L33
+ 803              	.L31:
  242:Core/Src/ws2812b.c **** }
- 836              		.loc 1 242 0
- 837 0020 007B     		ldrb	r0, [r0, #12]	@ zero_extendqisi2
- 838              	.LVL43:
- 839 0022 0094     		str	r4, [sp]
- 840 0024 89B2     		uxth	r1, r1
- 841              	.LVL44:
- 842 0026 FFF7FEFF 		bl	ws2812b_set_pixel
- 843              	.LVL45:
+ 804              		.loc 1 242 0
+ 805 0020 007B     		ldrb	r0, [r0, #12]	@ zero_extendqisi2
+ 806              	.LVL45:
+ 807 0022 0094     		str	r4, [sp]
+ 808 0024 89B2     		uxth	r1, r1
+ 809              	.LVL46:
+ 810 0026 FFF7FEFF 		bl	ws2812b_set_pixel
+ 811              	.LVL47:
  243:Core/Src/ws2812b.c **** 
- 844              		.loc 1 243 0
- 845 002a 02B0     		add	sp, sp, #8
- 846              	.LCFI16:
- 847              		.cfi_remember_state
- 848              		.cfi_def_cfa_offset 16
- 849              		@ sp needed
- 850 002c 70BD     		pop	{r4, r5, r6, pc}
- 851              	.LVL46:
- 852              	.L40:
- 853              	.LCFI17:
- 854              		.cfi_restore_state
+ 812              		.loc 1 243 0
+ARM GAS  /tmp/ccNuG5kw.s 			page 28
+
+
+ 813 002a 02B0     		add	sp, sp, #8
+ 814              	.LCFI16:
+ 815              		.cfi_remember_state
+ 816              		.cfi_def_cfa_offset 16
+ 817              		@ sp needed
+ 818 002c 70BD     		pop	{r4, r5, r6, pc}
+ 819              	.LVL48:
+ 820              	.L33:
+ 821              	.LCFI17:
+ 822              		.cfi_restore_state
  240:Core/Src/ws2812b.c **** 
- 855              		.loc 1 240 0
- 856 002e 0025     		movs	r5, #0
- 857 0030 8560     		str	r5, [r0, #8]
- 858 0032 F5E7     		b	.L38
- 859              		.cfi_endproc
- 860              	.LFE133:
- 862              		.section	.text.DMA_TransferCompleteHandler,"ax",%progbits
- 863              		.align	1
-ARM GAS  /tmp/ccQ0jBtd.s 			page 29
-
-
- 864              		.global	DMA_TransferCompleteHandler
- 865              		.syntax unified
- 866              		.thumb
- 867              		.thumb_func
- 868              		.fpu fpv4-sp-d16
- 870              	DMA_TransferCompleteHandler:
- 871              	.LFB137:
+ 823              		.loc 1 240 0
+ 824 002e 0025     		movs	r5, #0
+ 825 0030 8560     		str	r5, [r0, #8]
+ 826 0032 F5E7     		b	.L31
+ 827              		.cfi_endproc
+ 828              	.LFE133:
+ 830              		.section	.text.DMA_TransferCompleteHandler,"ax",%progbits
+ 831              		.align	1
+ 832              		.global	DMA_TransferCompleteHandler
+ 833              		.syntax unified
+ 834              		.thumb
+ 835              		.thumb_func
+ 836              		.fpu fpv4-sp-d16
+ 838              	DMA_TransferCompleteHandler:
+ 839              	.LFB137:
  328:Core/Src/ws2812b.c **** 
- 872              		.loc 1 328 0
- 873              		.cfi_startproc
- 874              		@ args = 0, pretend = 0, frame = 0
- 875              		@ frame_needed = 0, uses_anonymous_args = 0
- 876              	.LVL47:
+ 840              		.loc 1 328 0
+ 841              		.cfi_startproc
+ 842              		@ args = 0, pretend = 0, frame = 0
+ 843              		@ frame_needed = 0, uses_anonymous_args = 0
+ 844              	.LVL49:
  331:Core/Src/ws2812b.c **** 	#endif
- 877              		.loc 1 331 0
- 878 0000 4FF40052 		mov	r2, #8192
- 879 0004 2E4B     		ldr	r3, .L50
- 880 0006 9A61     		str	r2, [r3, #24]
+ 845              		.loc 1 331 0
+ 846 0000 4FF40052 		mov	r2, #8192
+ 847 0004 2E4B     		ldr	r3, .L43
+ 848 0006 9A61     		str	r2, [r3, #24]
  334:Core/Src/ws2812b.c **** 	{
- 881              		.loc 1 334 0
- 882 0008 2E4B     		ldr	r3, .L50+4
- 883 000a 9B69     		ldr	r3, [r3, #24]
- 884 000c 042B     		cmp	r3, #4
- 885 000e 02D0     		beq	.L49
+ 849              		.loc 1 334 0
+ 850 0008 2E4B     		ldr	r3, .L43+4
+ 851 000a 9B69     		ldr	r3, [r3, #24]
+ 852 000c 042B     		cmp	r3, #4
+ 853 000e 02D0     		beq	.L42
  328:Core/Src/ws2812b.c **** 
- 886              		.loc 1 328 0
- 887 0010 10B5     		push	{r4, lr}
- 888              	.LCFI18:
- 889              		.cfi_def_cfa_offset 8
- 890              		.cfi_offset 4, -8
- 891              		.cfi_offset 14, -4
- 892 0012 0024     		movs	r4, #0
- 893 0014 48E0     		b	.L42
- 894              	.L49:
- 895              	.LCFI19:
- 896              		.cfi_def_cfa_offset 0
- 897              		.cfi_restore 4
- 898              		.cfi_restore 14
+ 854              		.loc 1 328 0
+ 855 0010 10B5     		push	{r4, lr}
+ 856              	.LCFI18:
+ 857              		.cfi_def_cfa_offset 8
+ 858              		.cfi_offset 4, -8
+ 859              		.cfi_offset 14, -4
+ 860 0012 0024     		movs	r4, #0
+ 861 0014 48E0     		b	.L35
+ 862              	.L42:
+ 863              	.LCFI19:
+ 864              		.cfi_def_cfa_offset 0
+ 865              		.cfi_restore 4
+ 866              		.cfi_restore 14
+ARM GAS  /tmp/ccNuG5kw.s 			page 29
+
+
  337:Core/Src/ws2812b.c **** 
- 899              		.loc 1 337 0
- 900 0016 0020     		movs	r0, #0
- 901              	.LVL48:
- 902 0018 2A4B     		ldr	r3, .L50+4
- 903 001a 9861     		str	r0, [r3, #24]
+ 867              		.loc 1 337 0
+ 868 0016 0020     		movs	r0, #0
+ 869              	.LVL50:
+ 870 0018 2A4B     		ldr	r3, .L43+4
+ 871 001a 9861     		str	r0, [r3, #24]
  340:Core/Src/ws2812b.c **** 
- 904              		.loc 1 340 0
- 905 001c 2A4A     		ldr	r2, .L50+8
- 906 001e 1368     		ldr	r3, [r2]
- 907 0020 23F00103 		bic	r3, r3, #1
- 908 0024 1360     		str	r3, [r2]
+ 872              		.loc 1 340 0
+ 873 001c 2A4A     		ldr	r2, .L43+8
+ 874 001e 1368     		ldr	r3, [r2]
+ 875 0020 23F00103 		bic	r3, r3, #1
+ 876 0024 1360     		str	r3, [r2]
  343:Core/Src/ws2812b.c **** 		__HAL_DMA_DISABLE(&dmaCC1);
- 909              		.loc 1 343 0
- 910 0026 294B     		ldr	r3, .L50+12
- 911 0028 1968     		ldr	r1, [r3]
- 912 002a 0B68     		ldr	r3, [r1]
- 913 002c 23F00103 		bic	r3, r3, #1
- 914 0030 0B60     		str	r3, [r1]
-ARM GAS  /tmp/ccQ0jBtd.s 			page 30
-
-
+ 877              		.loc 1 343 0
+ 878 0026 294B     		ldr	r3, .L43+12
+ 879 0028 1968     		ldr	r1, [r3]
+ 880 002a 0B68     		ldr	r3, [r1]
+ 881 002c 23F00103 		bic	r3, r3, #1
+ 882 0030 0B60     		str	r3, [r1]
  344:Core/Src/ws2812b.c **** 		__HAL_DMA_DISABLE(&dmaCC2);
- 915              		.loc 1 344 0
- 916 0032 274B     		ldr	r3, .L50+16
- 917 0034 1968     		ldr	r1, [r3]
- 918 0036 0B68     		ldr	r3, [r1]
- 919 0038 23F00103 		bic	r3, r3, #1
- 920 003c 0B60     		str	r3, [r1]
+ 883              		.loc 1 344 0
+ 884 0032 274B     		ldr	r3, .L43+16
+ 885 0034 1968     		ldr	r1, [r3]
+ 886 0036 0B68     		ldr	r3, [r1]
+ 887 0038 23F00103 		bic	r3, r3, #1
+ 888 003c 0B60     		str	r3, [r1]
  345:Core/Src/ws2812b.c **** 
- 921              		.loc 1 345 0
- 922 003e 254B     		ldr	r3, .L50+20
- 923 0040 1968     		ldr	r1, [r3]
- 924 0042 0B68     		ldr	r3, [r1]
- 925 0044 23F00103 		bic	r3, r3, #1
- 926 0048 0B60     		str	r3, [r1]
+ 889              		.loc 1 345 0
+ 890 003e 254B     		ldr	r3, .L43+20
+ 891 0040 1968     		ldr	r1, [r3]
+ 892 0042 0B68     		ldr	r3, [r1]
+ 893 0044 23F00103 		bic	r3, r3, #1
+ 894 0048 0B60     		str	r3, [r1]
  348:Core/Src/ws2812b.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_CC1);
- 927              		.loc 1 348 0
- 928 004a 234B     		ldr	r3, .L50+24
- 929 004c 1B68     		ldr	r3, [r3]
- 930 004e D968     		ldr	r1, [r3, #12]
- 931 0050 21F48071 		bic	r1, r1, #256
- 932 0054 D960     		str	r1, [r3, #12]
+ 895              		.loc 1 348 0
+ 896 004a 234B     		ldr	r3, .L43+24
+ 897 004c 1B68     		ldr	r3, [r3]
+ 898 004e D968     		ldr	r1, [r3, #12]
+ 899 0050 21F48071 		bic	r1, r1, #256
+ 900 0054 D960     		str	r1, [r3, #12]
  349:Core/Src/ws2812b.c **** 		__HAL_TIM_DISABLE_DMA(&TIM1_handle, TIM_DMA_CC2);
- 933              		.loc 1 349 0
- 934 0056 D968     		ldr	r1, [r3, #12]
- 935 0058 21F40071 		bic	r1, r1, #512
- 936 005c D960     		str	r1, [r3, #12]
+ 901              		.loc 1 349 0
+ 902 0056 D968     		ldr	r1, [r3, #12]
+ 903 0058 21F40071 		bic	r1, r1, #512
+ 904 005c D960     		str	r1, [r3, #12]
  350:Core/Src/ws2812b.c **** 
- 937              		.loc 1 350 0
- 938 005e D968     		ldr	r1, [r3, #12]
- 939 0060 21F48061 		bic	r1, r1, #1024
- 940 0064 D960     		str	r1, [r3, #12]
+ 905              		.loc 1 350 0
+ 906 005e D968     		ldr	r1, [r3, #12]
+ 907 0060 21F48061 		bic	r1, r1, #1024
+ 908 0064 D960     		str	r1, [r3, #12]
  354:Core/Src/ws2812b.c **** 		// Reset the timer
- 941              		.loc 1 354 0
- 942 0066 1D49     		ldr	r1, .L50+28
- 943 0068 0968     		ldr	r1, [r1]
- 944 006a D162     		str	r1, [r2, #44]
+ 909              		.loc 1 354 0
+ 910 0066 1D49     		ldr	r1, .L43+28
+ 911 0068 0968     		ldr	r1, [r1]
+ 912 006a D162     		str	r1, [r2, #44]
  356:Core/Src/ws2812b.c **** 
- 945              		.loc 1 356 0
- 946 006c 5062     		str	r0, [r2, #36]
+ 913              		.loc 1 356 0
+ARM GAS  /tmp/ccNuG5kw.s 			page 30
+
+
+ 914 006c 5062     		str	r0, [r2, #36]
  359:Core/Src/ws2812b.c **** 		__HAL_TIM_CLEAR_FLAG(&TIM1_handle, TIM_FLAG_UPDATE);
- 947              		.loc 1 359 0
- 948 006e 0121     		movs	r1, #1
- 949 0070 5161     		str	r1, [r2, #20]
+ 915              		.loc 1 359 0
+ 916 006e 0121     		movs	r1, #1
+ 917 0070 5161     		str	r1, [r2, #20]
  360:Core/Src/ws2812b.c **** 
- 950              		.loc 1 360 0
- 951 0072 6FF00101 		mvn	r1, #1
- 952 0076 1961     		str	r1, [r3, #16]
+ 918              		.loc 1 360 0
+ 919 0072 6FF00101 		mvn	r1, #1
+ 920 0076 1961     		str	r1, [r3, #16]
  363:Core/Src/ws2812b.c **** 		// Enable timer
- 953              		.loc 1 363 0
- 954 0078 D968     		ldr	r1, [r3, #12]
- 955 007a 41F00101 		orr	r1, r1, #1
- 956 007e D960     		str	r1, [r3, #12]
+ 921              		.loc 1 363 0
+ 922 0078 D968     		ldr	r1, [r3, #12]
+ 923 007a 41F00101 		orr	r1, r1, #1
+ 924 007e D960     		str	r1, [r3, #12]
  365:Core/Src/ws2812b.c **** 
- 957              		.loc 1 365 0
- 958 0080 1368     		ldr	r3, [r2]
- 959 0082 43F00103 		orr	r3, r3, #1
- 960 0086 1360     		str	r3, [r2]
-ARM GAS  /tmp/ccQ0jBtd.s 			page 31
-
-
+ 925              		.loc 1 365 0
+ 926 0080 1368     		ldr	r3, [r2]
+ 927 0082 43F00103 		orr	r3, r3, #1
+ 928 0086 1360     		str	r3, [r2]
  368:Core/Src/ws2812b.c **** 	} else {
- 961              		.loc 1 368 0
- 962 0088 154B     		ldr	r3, .L50+32
- 963 008a 1A68     		ldr	r2, [r3]
- 964 008c 154B     		ldr	r3, .L50+36
- 965 008e 9A61     		str	r2, [r3, #24]
+ 929              		.loc 1 368 0
+ 930 0088 154B     		ldr	r3, .L43+32
+ 931 008a 1A68     		ldr	r2, [r3]
+ 932 008c 154B     		ldr	r3, .L43+36
+ 933 008e 9A61     		str	r2, [r3, #24]
  384:Core/Src/ws2812b.c **** 	#endif
- 966              		.loc 1 384 0
- 967 0090 4FF00052 		mov	r2, #536870912
- 968 0094 0A4B     		ldr	r3, .L50
- 969 0096 9A61     		str	r2, [r3, #24]
- 970 0098 7047     		bx	lr
- 971              	.LVL49:
- 972              	.L44:
- 973              	.LCFI20:
- 974              		.cfi_def_cfa_offset 8
- 975              		.cfi_offset 4, -8
- 976              		.cfi_offset 14, -4
- 977              	.LBB6:
+ 934              		.loc 1 384 0
+ 935 0090 4FF00052 		mov	r2, #536870912
+ 936 0094 0A4B     		ldr	r3, .L43
+ 937 0096 9A61     		str	r2, [r3, #24]
+ 938 0098 7047     		bx	lr
+ 939              	.LVL51:
+ 940              	.L37:
+ 941              	.LCFI20:
+ 942              		.cfi_def_cfa_offset 8
+ 943              		.cfi_offset 4, -8
+ 944              		.cfi_offset 14, -4
+ 945              	.LBB6:
  375:Core/Src/ws2812b.c **** 		}
- 978              		.loc 1 375 0 discriminator 3
- 979 009a 0121     		movs	r1, #1
- 980 009c 0948     		ldr	r0, .L50+4
- 981 009e 00EB0410 		add	r0, r0, r4, lsl #4
- 982 00a2 FFF7FEFF 		bl	loadNextFramebufferData
- 983              	.LVL50:
+ 946              		.loc 1 375 0 discriminator 3
+ 947 009a 0121     		movs	r1, #1
+ 948 009c 0948     		ldr	r0, .L43+4
+ 949 009e 00EB0410 		add	r0, r0, r4, lsl #4
+ 950 00a2 FFF7FEFF 		bl	loadNextFramebufferData
+ 951              	.LVL52:
  373:Core/Src/ws2812b.c **** 		{
- 984              		.loc 1 373 0 discriminator 3
- 985 00a6 0134     		adds	r4, r4, #1
- 986              	.LVL51:
- 987              	.L42:
+ 952              		.loc 1 373 0 discriminator 3
+ 953 00a6 0134     		adds	r4, r4, #1
+ 954              	.LVL53:
+ 955              	.L35:
  373:Core/Src/ws2812b.c **** 		{
- 988              		.loc 1 373 0 is_stmt 0 discriminator 1
- 989 00a8 002C     		cmp	r4, #0
- 990 00aa F6D0     		beq	.L44
+ 956              		.loc 1 373 0 is_stmt 0 discriminator 1
+ 957 00a8 002C     		cmp	r4, #0
+ 958 00aa F6D0     		beq	.L37
  378:Core/Src/ws2812b.c **** 	}
- 991              		.loc 1 378 0 is_stmt 1
- 992 00ac 054A     		ldr	r2, .L50+4
- 993 00ae 9369     		ldr	r3, [r2, #24]
- 994 00b0 0133     		adds	r3, r3, #1
- 995 00b2 9361     		str	r3, [r2, #24]
- 996              	.LBE6:
+ 959              		.loc 1 378 0 is_stmt 1
+ 960 00ac 054A     		ldr	r2, .L43+4
+ARM GAS  /tmp/ccNuG5kw.s 			page 31
+
+
+ 961 00ae 9369     		ldr	r3, [r2, #24]
+ 962 00b0 0133     		adds	r3, r3, #1
+ 963 00b2 9361     		str	r3, [r2, #24]
+ 964              	.LBE6:
  384:Core/Src/ws2812b.c **** 	#endif
- 997              		.loc 1 384 0
- 998 00b4 4FF00052 		mov	r2, #536870912
- 999 00b8 014B     		ldr	r3, .L50
- 1000 00ba 9A61     		str	r2, [r3, #24]
- 1001 00bc 10BD     		pop	{r4, pc}
- 1002              	.LVL52:
- 1003              	.L51:
- 1004 00be 00BF     		.align	2
- 1005              	.L50:
- 1006 00c0 000C0240 		.word	1073875968
- 1007 00c4 00000000 		.word	ws2812b
- 1008 00c8 00000140 		.word	1073807360
- 1009 00cc 00000000 		.word	dmaUpdate
- 1010 00d0 00000000 		.word	dmaCC1
-ARM GAS  /tmp/ccQ0jBtd.s 			page 32
-
-
- 1011 00d4 00000000 		.word	dmaCC2
- 1012 00d8 00000000 		.word	TIM1_handle
- 1013 00dc 00000000 		.word	timer_reset_pulse_period
- 1014 00e0 00000000 		.word	.LANCHOR1
- 1015 00e4 00080240 		.word	1073874944
- 1016              		.cfi_endproc
- 1017              	.LFE137:
- 1019              		.section	.text.WS2812_sendbuf,"ax",%progbits
- 1020              		.align	1
- 1021              		.syntax unified
- 1022              		.thumb
- 1023              		.thumb_func
- 1024              		.fpu fpv4-sp-d16
- 1026              	WS2812_sendbuf:
- 1027              	.LFB134:
+ 965              		.loc 1 384 0
+ 966 00b4 4FF00052 		mov	r2, #536870912
+ 967 00b8 014B     		ldr	r3, .L43
+ 968 00ba 9A61     		str	r2, [r3, #24]
+ 969 00bc 10BD     		pop	{r4, pc}
+ 970              	.LVL54:
+ 971              	.L44:
+ 972 00be 00BF     		.align	2
+ 973              	.L43:
+ 974 00c0 000C0240 		.word	1073875968
+ 975 00c4 00000000 		.word	ws2812b
+ 976 00c8 00000140 		.word	1073807360
+ 977 00cc 00000000 		.word	dmaUpdate
+ 978 00d0 00000000 		.word	dmaCC1
+ 979 00d4 00000000 		.word	dmaCC2
+ 980 00d8 00000000 		.word	TIM1_handle
+ 981 00dc 00000000 		.word	timer_reset_pulse_period
+ 982 00e0 00000000 		.word	.LANCHOR1
+ 983 00e4 00080240 		.word	1073874944
+ 984              		.cfi_endproc
+ 985              	.LFE137:
+ 987              		.section	.text.WS2812_sendbuf,"ax",%progbits
+ 988              		.align	1
+ 989              		.syntax unified
+ 990              		.thumb
+ 991              		.thumb_func
+ 992              		.fpu fpv4-sp-d16
+ 994              	WS2812_sendbuf:
+ 995              	.LFB134:
  248:Core/Src/ws2812b.c **** 	// transmission complete flag
- 1028              		.loc 1 248 0
- 1029              		.cfi_startproc
- 1030              		@ args = 0, pretend = 0, frame = 0
- 1031              		@ frame_needed = 0, uses_anonymous_args = 0
- 1032 0000 38B5     		push	{r3, r4, r5, lr}
- 1033              	.LCFI21:
- 1034              		.cfi_def_cfa_offset 16
- 1035              		.cfi_offset 3, -16
- 1036              		.cfi_offset 4, -12
- 1037              		.cfi_offset 5, -8
- 1038              		.cfi_offset 14, -4
+ 996              		.loc 1 248 0
+ 997              		.cfi_startproc
+ 998              		@ args = 0, pretend = 0, frame = 0
+ 999              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1000 0000 38B5     		push	{r3, r4, r5, lr}
+ 1001              	.LCFI21:
+ 1002              		.cfi_def_cfa_offset 16
+ 1003              		.cfi_offset 3, -16
+ 1004              		.cfi_offset 4, -12
+ 1005              		.cfi_offset 5, -8
+ 1006              		.cfi_offset 14, -4
  250:Core/Src/ws2812b.c **** 
- 1039              		.loc 1 250 0
- 1040 0002 0024     		movs	r4, #0
- 1041 0004 4F4B     		ldr	r3, .L71
- 1042 0006 1C74     		strb	r4, [r3, #16]
- 1043              	.LVL53:
- 1044              	.L53:
+ 1007              		.loc 1 250 0
+ 1008 0002 0024     		movs	r4, #0
+ 1009 0004 4F4B     		ldr	r3, .L64
+ 1010 0006 1C74     		strb	r4, [r3, #16]
+ 1011              	.LVL55:
+ 1012              	.L46:
  254:Core/Src/ws2812b.c **** 	{
- 1045              		.loc 1 254 0 discriminator 1
- 1046 0008 0CB3     		cbz	r4, .L54
+ 1013              		.loc 1 254 0 discriminator 1
+ 1014 0008 0CB3     		cbz	r4, .L47
  263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
- 1047              		.loc 1 263 0
- 1048 000a 4F4B     		ldr	r3, .L71+4
- 1049 000c 1B68     		ldr	r3, [r3]
- 1050 000e 4F4A     		ldr	r2, .L71+8
- 1051 0010 9342     		cmp	r3, r2
- 1052 0012 2AD9     		bls	.L55
- 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
- 1053              		.loc 1 263 0 is_stmt 0 discriminator 1
- 1054 0014 4FF46062 		mov	r2, #3584
- 1055 0018 4D4B     		ldr	r3, .L71+12
- 1056 001a DA60     		str	r2, [r3, #12]
- 1057              	.L56:
- 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
- 1058              		.loc 1 264 0 is_stmt 1
- 1059 001c 4D4B     		ldr	r3, .L71+16
- 1060 001e 1B68     		ldr	r3, [r3]
- 1061 0020 4A4A     		ldr	r2, .L71+8
- 1062 0022 9342     		cmp	r3, r2
- 1063 0024 36D9     		bls	.L59
-ARM GAS  /tmp/ccQ0jBtd.s 			page 33
+ARM GAS  /tmp/ccNuG5kw.s 			page 32
 
 
+ 1015              		.loc 1 263 0
+ 1016 000a 4F4B     		ldr	r3, .L64+4
+ 1017 000c 1B68     		ldr	r3, [r3]
+ 1018 000e 4F4A     		ldr	r2, .L64+8
+ 1019 0010 9342     		cmp	r3, r2
+ 1020 0012 2AD9     		bls	.L48
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1021              		.loc 1 263 0 is_stmt 0 discriminator 1
+ 1022 0014 4FF46062 		mov	r2, #3584
+ 1023 0018 4D4B     		ldr	r3, .L64+12
+ 1024 001a DA60     		str	r2, [r3, #12]
+ 1025              	.L49:
  264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
- 1064              		.loc 1 264 0 is_stmt 0 discriminator 1
- 1065 0026 4FF46062 		mov	r2, #3584
- 1066 002a 494B     		ldr	r3, .L71+12
- 1067 002c DA60     		str	r2, [r3, #12]
- 1068              	.L60:
+ 1026              		.loc 1 264 0 is_stmt 1
+ 1027 001c 4D4B     		ldr	r3, .L64+16
+ 1028 001e 1B68     		ldr	r3, [r3]
+ 1029 0020 4A4A     		ldr	r2, .L64+8
+ 1030 0022 9342     		cmp	r3, r2
+ 1031 0024 36D9     		bls	.L52
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 1032              		.loc 1 264 0 is_stmt 0 discriminator 1
+ 1033 0026 4FF46062 		mov	r2, #3584
+ 1034 002a 494B     		ldr	r3, .L64+12
+ 1035 002c DA60     		str	r2, [r3, #12]
+ 1036              	.L53:
  265:Core/Src/ws2812b.c **** 
- 1069              		.loc 1 265 0 is_stmt 1
- 1070 002e 4A4B     		ldr	r3, .L71+20
- 1071 0030 1B68     		ldr	r3, [r3]
- 1072 0032 464A     		ldr	r2, .L71+8
- 1073 0034 9342     		cmp	r3, r2
- 1074 0036 42D8     		bhi	.L68
+ 1037              		.loc 1 265 0 is_stmt 1
+ 1038 002e 4A4B     		ldr	r3, .L64+20
+ 1039 0030 1B68     		ldr	r3, [r3]
+ 1040 0032 464A     		ldr	r2, .L64+8
+ 1041 0034 9342     		cmp	r3, r2
+ 1042 0036 42D8     		bhi	.L61
  265:Core/Src/ws2812b.c **** 
- 1075              		.loc 1 265 0 is_stmt 0 discriminator 2
- 1076 0038 484A     		ldr	r2, .L71+24
- 1077 003a 9342     		cmp	r3, r2
- 1078 003c 77D8     		bhi	.L69
+ 1043              		.loc 1 265 0 is_stmt 0 discriminator 2
+ 1044 0038 484A     		ldr	r2, .L64+24
+ 1045 003a 9342     		cmp	r3, r2
+ 1046 003c 77D8     		bhi	.L62
  265:Core/Src/ws2812b.c **** 
- 1079              		.loc 1 265 0 discriminator 4
- 1080 003e 484A     		ldr	r2, .L71+28
- 1081 0040 9342     		cmp	r3, r2
- 1082 0042 79D8     		bhi	.L70
+ 1047              		.loc 1 265 0 discriminator 4
+ 1048 003e 484A     		ldr	r2, .L64+28
+ 1049 0040 9342     		cmp	r3, r2
+ 1050 0042 79D8     		bhi	.L63
  265:Core/Src/ws2812b.c **** 
- 1083              		.loc 1 265 0 discriminator 7
- 1084 0044 4FF46012 		mov	r2, #3670016
- 1085 0048 464B     		ldr	r3, .L71+32
- 1086 004a 9A60     		str	r2, [r3, #8]
- 1087 004c 3BE0     		b	.L64
- 1088              	.L54:
+ 1051              		.loc 1 265 0 discriminator 7
+ 1052 0044 4FF46012 		mov	r2, #3670016
+ 1053 0048 464B     		ldr	r3, .L64+32
+ 1054 004a 9A60     		str	r2, [r3, #8]
+ 1055 004c 3BE0     		b	.L57
+ 1056              	.L47:
  256:Core/Src/ws2812b.c **** 
- 1089              		.loc 1 256 0 is_stmt 1 discriminator 3
- 1090 004e 3D4D     		ldr	r5, .L71
- 1091 0050 05EB0415 		add	r5, r5, r4, lsl #4
- 1092 0054 0021     		movs	r1, #0
- 1093 0056 A960     		str	r1, [r5, #8]
+ 1057              		.loc 1 256 0 is_stmt 1 discriminator 3
+ 1058 004e 3D4D     		ldr	r5, .L64
+ 1059 0050 05EB0415 		add	r5, r5, r4, lsl #4
+ 1060 0054 0021     		movs	r1, #0
+ 1061 0056 A960     		str	r1, [r5, #8]
  258:Core/Src/ws2812b.c **** 		loadNextFramebufferData(&ws2812b.item[i], 1); // ROW 0
- 1094              		.loc 1 258 0 discriminator 3
- 1095 0058 2846     		mov	r0, r5
- 1096 005a FFF7FEFF 		bl	loadNextFramebufferData
- 1097              	.LVL54:
+ 1062              		.loc 1 258 0 discriminator 3
+ARM GAS  /tmp/ccNuG5kw.s 			page 33
+
+
+ 1063 0058 2846     		mov	r0, r5
+ 1064 005a FFF7FEFF 		bl	loadNextFramebufferData
+ 1065              	.LVL56:
  259:Core/Src/ws2812b.c **** 	}
- 1098              		.loc 1 259 0 discriminator 3
- 1099 005e 0121     		movs	r1, #1
- 1100 0060 2846     		mov	r0, r5
- 1101 0062 FFF7FEFF 		bl	loadNextFramebufferData
- 1102              	.LVL55:
+ 1066              		.loc 1 259 0 discriminator 3
+ 1067 005e 0121     		movs	r1, #1
+ 1068 0060 2846     		mov	r0, r5
+ 1069 0062 FFF7FEFF 		bl	loadNextFramebufferData
+ 1070              	.LVL57:
  254:Core/Src/ws2812b.c **** 	{
- 1103              		.loc 1 254 0 discriminator 3
- 1104 0066 0134     		adds	r4, r4, #1
- 1105              	.LVL56:
- 1106 0068 CEE7     		b	.L53
- 1107              	.L55:
+ 1071              		.loc 1 254 0 discriminator 3
+ 1072 0066 0134     		adds	r4, r4, #1
+ 1073              	.LVL58:
+ 1074 0068 CEE7     		b	.L46
+ 1075              	.L48:
  263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
- 1108              		.loc 1 263 0 discriminator 2
- 1109 006a 3C4A     		ldr	r2, .L71+24
- 1110 006c 9342     		cmp	r3, r2
-ARM GAS  /tmp/ccQ0jBtd.s 			page 34
+ 1076              		.loc 1 263 0 discriminator 2
+ 1077 006a 3C4A     		ldr	r2, .L64+24
+ 1078 006c 9342     		cmp	r3, r2
+ 1079 006e 04D9     		bls	.L50
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1080              		.loc 1 263 0 is_stmt 0 discriminator 3
+ 1081 0070 4FF46062 		mov	r2, #3584
+ 1082 0074 364B     		ldr	r3, .L64+12
+ 1083 0076 9A60     		str	r2, [r3, #8]
+ 1084 0078 D0E7     		b	.L49
+ 1085              	.L50:
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1086              		.loc 1 263 0 discriminator 4
+ 1087 007a 394A     		ldr	r2, .L64+28
+ 1088 007c 9342     		cmp	r3, r2
+ 1089 007e 04D9     		bls	.L51
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1090              		.loc 1 263 0 discriminator 6
+ 1091 0080 4FF46062 		mov	r2, #3584
+ 1092 0084 374B     		ldr	r3, .L64+32
+ 1093 0086 DA60     		str	r2, [r3, #12]
+ 1094 0088 C8E7     		b	.L49
+ 1095              	.L51:
+ 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
+ 1096              		.loc 1 263 0 discriminator 7
+ 1097 008a 4FF46062 		mov	r2, #3584
+ 1098 008e 354B     		ldr	r3, .L64+32
+ 1099 0090 9A60     		str	r2, [r3, #8]
+ 1100 0092 C3E7     		b	.L49
+ 1101              	.L52:
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 1102              		.loc 1 264 0 is_stmt 1 discriminator 2
+ 1103 0094 314A     		ldr	r2, .L64+24
+ 1104 0096 9342     		cmp	r3, r2
+ 1105 0098 04D9     		bls	.L54
+ 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
+ 1106              		.loc 1 264 0 is_stmt 0 discriminator 3
+ 1107 009a 4FF46062 		mov	r2, #3584
+ 1108 009e 2C4B     		ldr	r3, .L64+12
+ 1109 00a0 9A60     		str	r2, [r3, #8]
+ 1110 00a2 C4E7     		b	.L53
+ARM GAS  /tmp/ccNuG5kw.s 			page 34
 
 
- 1111 006e 04D9     		bls	.L57
- 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
- 1112              		.loc 1 263 0 is_stmt 0 discriminator 3
- 1113 0070 4FF46062 		mov	r2, #3584
- 1114 0074 364B     		ldr	r3, .L71+12
- 1115 0076 9A60     		str	r2, [r3, #8]
- 1116 0078 D0E7     		b	.L56
- 1117              	.L57:
- 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
- 1118              		.loc 1 263 0 discriminator 4
- 1119 007a 394A     		ldr	r2, .L71+28
- 1120 007c 9342     		cmp	r3, r2
- 1121 007e 04D9     		bls	.L58
- 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
- 1122              		.loc 1 263 0 discriminator 6
- 1123 0080 4FF46062 		mov	r2, #3584
- 1124 0084 374B     		ldr	r3, .L71+32
- 1125 0086 DA60     		str	r2, [r3, #12]
- 1126 0088 C8E7     		b	.L56
- 1127              	.L58:
- 263:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC1, DMA_FLAG_TCIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TEIF1_5);
- 1128              		.loc 1 263 0 discriminator 7
- 1129 008a 4FF46062 		mov	r2, #3584
- 1130 008e 354B     		ldr	r3, .L71+32
- 1131 0090 9A60     		str	r2, [r3, #8]
- 1132 0092 C3E7     		b	.L56
- 1133              	.L59:
+ 1111              	.L54:
  264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
- 1134              		.loc 1 264 0 is_stmt 1 discriminator 2
- 1135 0094 314A     		ldr	r2, .L71+24
- 1136 0096 9342     		cmp	r3, r2
- 1137 0098 04D9     		bls	.L61
+ 1112              		.loc 1 264 0 discriminator 4
+ 1113 00a4 2E4A     		ldr	r2, .L64+28
+ 1114 00a6 9342     		cmp	r3, r2
+ 1115 00a8 04D9     		bls	.L55
  264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
- 1138              		.loc 1 264 0 is_stmt 0 discriminator 3
- 1139 009a 4FF46062 		mov	r2, #3584
- 1140 009e 2C4B     		ldr	r3, .L71+12
- 1141 00a0 9A60     		str	r2, [r3, #8]
- 1142 00a2 C4E7     		b	.L60
- 1143              	.L61:
+ 1116              		.loc 1 264 0 discriminator 6
+ 1117 00aa 4FF46062 		mov	r2, #3584
+ 1118 00ae 2D4B     		ldr	r3, .L64+32
+ 1119 00b0 DA60     		str	r2, [r3, #12]
+ 1120 00b2 BCE7     		b	.L53
+ 1121              	.L55:
  264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
- 1144              		.loc 1 264 0 discriminator 4
- 1145 00a4 2E4A     		ldr	r2, .L71+28
- 1146 00a6 9342     		cmp	r3, r2
- 1147 00a8 04D9     		bls	.L62
- 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
- 1148              		.loc 1 264 0 discriminator 6
- 1149 00aa 4FF46062 		mov	r2, #3584
- 1150 00ae 2D4B     		ldr	r3, .L71+32
- 1151 00b0 DA60     		str	r2, [r3, #12]
- 1152 00b2 BCE7     		b	.L60
- 1153              	.L62:
- 264:Core/Src/ws2812b.c **** 	__HAL_DMA_CLEAR_FLAG(&dmaCC2, DMA_FLAG_TCIF2_6 | DMA_FLAG_HTIF2_6 | DMA_FLAG_TEIF2_6);
- 1154              		.loc 1 264 0 discriminator 7
- 1155 00b4 4FF46062 		mov	r2, #3584
- 1156 00b8 2A4B     		ldr	r3, .L71+32
- 1157 00ba 9A60     		str	r2, [r3, #8]
- 1158 00bc B7E7     		b	.L60
-ARM GAS  /tmp/ccQ0jBtd.s 			page 35
-
-
- 1159              	.L68:
+ 1122              		.loc 1 264 0 discriminator 7
+ 1123 00b4 4FF46062 		mov	r2, #3584
+ 1124 00b8 2A4B     		ldr	r3, .L64+32
+ 1125 00ba 9A60     		str	r2, [r3, #8]
+ 1126 00bc B7E7     		b	.L53
+ 1127              	.L61:
  265:Core/Src/ws2812b.c **** 
- 1160              		.loc 1 265 0 is_stmt 1 discriminator 1
- 1161 00be 4FF46012 		mov	r2, #3670016
- 1162 00c2 234B     		ldr	r3, .L71+12
- 1163 00c4 DA60     		str	r2, [r3, #12]
- 1164              	.L64:
+ 1128              		.loc 1 265 0 is_stmt 1 discriminator 1
+ 1129 00be 4FF46012 		mov	r2, #3670016
+ 1130 00c2 234B     		ldr	r3, .L64+12
+ 1131 00c4 DA60     		str	r2, [r3, #12]
+ 1132              	.L57:
  270:Core/Src/ws2812b.c **** 	dmaCC1.Instance->NDTR = BUFFER_SIZE;
- 1165              		.loc 1 270 0
- 1166 00c6 204B     		ldr	r3, .L71+4
- 1167 00c8 1B68     		ldr	r3, [r3]
- 1168 00ca 3022     		movs	r2, #48
- 1169 00cc 5A60     		str	r2, [r3, #4]
+ 1133              		.loc 1 270 0
+ 1134 00c6 204B     		ldr	r3, .L64+4
+ 1135 00c8 1B68     		ldr	r3, [r3]
+ 1136 00ca 3022     		movs	r2, #48
+ 1137 00cc 5A60     		str	r2, [r3, #4]
  271:Core/Src/ws2812b.c **** 	dmaCC2.Instance->NDTR = BUFFER_SIZE;
- 1170              		.loc 1 271 0
- 1171 00ce 214C     		ldr	r4, .L71+16
- 1172              	.LVL57:
- 1173 00d0 2168     		ldr	r1, [r4]
- 1174 00d2 4A60     		str	r2, [r1, #4]
+ 1138              		.loc 1 271 0
+ 1139 00ce 214C     		ldr	r4, .L64+16
+ 1140              	.LVL59:
+ 1141 00d0 2168     		ldr	r1, [r4]
+ 1142 00d2 4A60     		str	r2, [r1, #4]
  272:Core/Src/ws2812b.c **** 
- 1175              		.loc 1 272 0
- 1176 00d4 2048     		ldr	r0, .L71+20
- 1177 00d6 0168     		ldr	r1, [r0]
- 1178 00d8 4A60     		str	r2, [r1, #4]
+ 1143              		.loc 1 272 0
+ 1144 00d4 2048     		ldr	r0, .L64+20
+ 1145 00d6 0168     		ldr	r1, [r0]
+ 1146 00d8 4A60     		str	r2, [r1, #4]
  275:Core/Src/ws2812b.c **** 
- 1179              		.loc 1 275 0
- 1180 00da 2349     		ldr	r1, .L71+36
- 1181 00dc 0A68     		ldr	r2, [r1]
- 1182 00de 6FF01F05 		mvn	r5, #31
- 1183 00e2 1561     		str	r5, [r2, #16]
+ 1147              		.loc 1 275 0
+ 1148 00da 2349     		ldr	r1, .L64+36
+ 1149 00dc 0A68     		ldr	r2, [r1]
+ 1150 00de 6FF01F05 		mvn	r5, #31
+ 1151 00e2 1561     		str	r5, [r2, #16]
  278:Core/Src/ws2812b.c **** 	__HAL_DMA_ENABLE(&dmaCC1);
- 1184              		.loc 1 278 0
- 1185 00e4 1A68     		ldr	r2, [r3]
- 1186 00e6 42F00102 		orr	r2, r2, #1
- 1187 00ea 1A60     		str	r2, [r3]
+ 1152              		.loc 1 278 0
+ 1153 00e4 1A68     		ldr	r2, [r3]
+ 1154 00e6 42F00102 		orr	r2, r2, #1
+ 1155 00ea 1A60     		str	r2, [r3]
  279:Core/Src/ws2812b.c **** 	__HAL_DMA_ENABLE(&dmaCC2);
- 1188              		.loc 1 279 0
- 1189 00ec 2268     		ldr	r2, [r4]
- 1190 00ee 1368     		ldr	r3, [r2]
- 1191 00f0 43F00103 		orr	r3, r3, #1
- 1192 00f4 1360     		str	r3, [r2]
+ 1156              		.loc 1 279 0
+ 1157 00ec 2268     		ldr	r2, [r4]
+ARM GAS  /tmp/ccNuG5kw.s 			page 35
+
+
+ 1158 00ee 1368     		ldr	r3, [r2]
+ 1159 00f0 43F00103 		orr	r3, r3, #1
+ 1160 00f4 1360     		str	r3, [r2]
  280:Core/Src/ws2812b.c **** 
- 1193              		.loc 1 280 0
- 1194 00f6 0268     		ldr	r2, [r0]
- 1195 00f8 1368     		ldr	r3, [r2]
- 1196 00fa 43F00103 		orr	r3, r3, #1
- 1197 00fe 1360     		str	r3, [r2]
+ 1161              		.loc 1 280 0
+ 1162 00f6 0268     		ldr	r2, [r0]
+ 1163 00f8 1368     		ldr	r3, [r2]
+ 1164 00fa 43F00103 		orr	r3, r3, #1
+ 1165 00fe 1360     		str	r3, [r2]
  283:Core/Src/ws2812b.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_CC1);
- 1198              		.loc 1 283 0
- 1199 0100 0B68     		ldr	r3, [r1]
- 1200 0102 DA68     		ldr	r2, [r3, #12]
- 1201 0104 42F48072 		orr	r2, r2, #256
- 1202 0108 DA60     		str	r2, [r3, #12]
+ 1166              		.loc 1 283 0
+ 1167 0100 0B68     		ldr	r3, [r1]
+ 1168 0102 DA68     		ldr	r2, [r3, #12]
+ 1169 0104 42F48072 		orr	r2, r2, #256
+ 1170 0108 DA60     		str	r2, [r3, #12]
  284:Core/Src/ws2812b.c **** 	__HAL_TIM_ENABLE_DMA(&TIM1_handle, TIM_DMA_CC2);
- 1203              		.loc 1 284 0
- 1204 010a DA68     		ldr	r2, [r3, #12]
- 1205 010c 42F40072 		orr	r2, r2, #512
-ARM GAS  /tmp/ccQ0jBtd.s 			page 36
-
-
- 1206 0110 DA60     		str	r2, [r3, #12]
+ 1171              		.loc 1 284 0
+ 1172 010a DA68     		ldr	r2, [r3, #12]
+ 1173 010c 42F40072 		orr	r2, r2, #512
+ 1174 0110 DA60     		str	r2, [r3, #12]
  285:Core/Src/ws2812b.c **** 
- 1207              		.loc 1 285 0
- 1208 0112 DA68     		ldr	r2, [r3, #12]
- 1209 0114 42F48062 		orr	r2, r2, #1024
- 1210 0118 DA60     		str	r2, [r3, #12]
+ 1175              		.loc 1 285 0
+ 1176 0112 DA68     		ldr	r2, [r3, #12]
+ 1177 0114 42F48062 		orr	r2, r2, #1024
+ 1178 0118 DA60     		str	r2, [r3, #12]
  287:Core/Src/ws2812b.c **** 
- 1211              		.loc 1 287 0
- 1212 011a 144A     		ldr	r2, .L71+40
- 1213 011c 1268     		ldr	r2, [r2]
- 1214 011e 013A     		subs	r2, r2, #1
- 1215 0120 1349     		ldr	r1, .L71+44
- 1216 0122 4A62     		str	r2, [r1, #36]
+ 1179              		.loc 1 287 0
+ 1180 011a 144A     		ldr	r2, .L64+40
+ 1181 011c 1268     		ldr	r2, [r2]
+ 1182 011e 013A     		subs	r2, r2, #1
+ 1183 0120 1349     		ldr	r1, .L64+44
+ 1184 0122 4A62     		str	r2, [r1, #36]
  290:Core/Src/ws2812b.c **** }
- 1217              		.loc 1 290 0
- 1218 0124 1A68     		ldr	r2, [r3]
- 1219 0126 42F00102 		orr	r2, r2, #1
- 1220 012a 1A60     		str	r2, [r3]
- 1221 012c 38BD     		pop	{r3, r4, r5, pc}
- 1222              	.LVL58:
- 1223              	.L69:
+ 1185              		.loc 1 290 0
+ 1186 0124 1A68     		ldr	r2, [r3]
+ 1187 0126 42F00102 		orr	r2, r2, #1
+ 1188 012a 1A60     		str	r2, [r3]
+ 1189 012c 38BD     		pop	{r3, r4, r5, pc}
+ 1190              	.LVL60:
+ 1191              	.L62:
  265:Core/Src/ws2812b.c **** 
- 1224              		.loc 1 265 0 discriminator 3
- 1225 012e 4FF46012 		mov	r2, #3670016
- 1226 0132 074B     		ldr	r3, .L71+12
- 1227 0134 9A60     		str	r2, [r3, #8]
- 1228 0136 C6E7     		b	.L64
- 1229              	.L70:
+ 1192              		.loc 1 265 0 discriminator 3
+ 1193 012e 4FF46012 		mov	r2, #3670016
+ 1194 0132 074B     		ldr	r3, .L64+12
+ 1195 0134 9A60     		str	r2, [r3, #8]
+ 1196 0136 C6E7     		b	.L57
+ 1197              	.L63:
  265:Core/Src/ws2812b.c **** 
- 1230              		.loc 1 265 0 is_stmt 0 discriminator 6
- 1231 0138 4FF46012 		mov	r2, #3670016
- 1232 013c 094B     		ldr	r3, .L71+32
- 1233 013e DA60     		str	r2, [r3, #12]
- 1234 0140 C1E7     		b	.L64
- 1235              	.L72:
- 1236 0142 00BF     		.align	2
- 1237              	.L71:
- 1238 0144 00000000 		.word	ws2812b
- 1239 0148 00000000 		.word	dmaUpdate
- 1240 014c 58640240 		.word	1073898584
- 1241 0150 00640240 		.word	1073898496
- 1242 0154 00000000 		.word	dmaCC1
- 1243 0158 00000000 		.word	dmaCC2
- 1244 015c B8600240 		.word	1073897656
- 1245 0160 58600240 		.word	1073897560
- 1246 0164 00600240 		.word	1073897472
- 1247 0168 00000000 		.word	TIM1_handle
- 1248 016c 00000000 		.word	tim_period
- 1249 0170 00000140 		.word	1073807360
- 1250              		.cfi_endproc
- 1251              	.LFE134:
- 1253              		.section	.text.DMA_TransferHalfHandler,"ax",%progbits
- 1254              		.align	1
- 1255              		.global	DMA_TransferHalfHandler
- 1256              		.syntax unified
- 1257              		.thumb
- 1258              		.thumb_func
-ARM GAS  /tmp/ccQ0jBtd.s 			page 37
+ 1198              		.loc 1 265 0 is_stmt 0 discriminator 6
+ 1199 0138 4FF46012 		mov	r2, #3670016
+ 1200 013c 094B     		ldr	r3, .L64+32
+ 1201 013e DA60     		str	r2, [r3, #12]
+ 1202 0140 C1E7     		b	.L57
+ 1203              	.L65:
+ 1204 0142 00BF     		.align	2
+ 1205              	.L64:
+ 1206 0144 00000000 		.word	ws2812b
+ARM GAS  /tmp/ccNuG5kw.s 			page 36
 
 
- 1259              		.fpu fpv4-sp-d16
- 1261              	DMA_TransferHalfHandler:
- 1262              	.LFB136:
+ 1207 0148 00000000 		.word	dmaUpdate
+ 1208 014c 58640240 		.word	1073898584
+ 1209 0150 00640240 		.word	1073898496
+ 1210 0154 00000000 		.word	dmaCC1
+ 1211 0158 00000000 		.word	dmaCC2
+ 1212 015c B8600240 		.word	1073897656
+ 1213 0160 58600240 		.word	1073897560
+ 1214 0164 00600240 		.word	1073897472
+ 1215 0168 00000000 		.word	TIM1_handle
+ 1216 016c 00000000 		.word	tim_period
+ 1217 0170 00000140 		.word	1073807360
+ 1218              		.cfi_endproc
+ 1219              	.LFE134:
+ 1221              		.section	.text.DMA_TransferHalfHandler,"ax",%progbits
+ 1222              		.align	1
+ 1223              		.global	DMA_TransferHalfHandler
+ 1224              		.syntax unified
+ 1225              		.thumb
+ 1226              		.thumb_func
+ 1227              		.fpu fpv4-sp-d16
+ 1229              	DMA_TransferHalfHandler:
+ 1230              	.LFB136:
  302:Core/Src/ws2812b.c **** 
- 1263              		.loc 1 302 0 is_stmt 1
- 1264              		.cfi_startproc
- 1265              		@ args = 0, pretend = 0, frame = 0
- 1266              		@ frame_needed = 0, uses_anonymous_args = 0
- 1267              	.LVL59:
- 1268 0000 10B5     		push	{r4, lr}
- 1269              	.LCFI22:
- 1270              		.cfi_def_cfa_offset 8
- 1271              		.cfi_offset 4, -8
- 1272              		.cfi_offset 14, -4
- 1273 0002 82B0     		sub	sp, sp, #8
- 1274              	.LCFI23:
- 1275              		.cfi_def_cfa_offset 16
+ 1231              		.loc 1 302 0 is_stmt 1
+ 1232              		.cfi_startproc
+ 1233              		@ args = 0, pretend = 0, frame = 0
+ 1234              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1235              	.LVL61:
+ 1236 0000 10B5     		push	{r4, lr}
+ 1237              	.LCFI22:
+ 1238              		.cfi_def_cfa_offset 8
+ 1239              		.cfi_offset 4, -8
+ 1240              		.cfi_offset 14, -4
+ 1241 0002 82B0     		sub	sp, sp, #8
+ 1242              	.LCFI23:
+ 1243              		.cfi_def_cfa_offset 16
  305:Core/Src/ws2812b.c **** 	 {
- 1276              		.loc 1 305 0
- 1277 0004 0E4B     		ldr	r3, .L80
- 1278 0006 9B69     		ldr	r3, [r3, #24]
- 1279 0008 042B     		cmp	r3, #4
- 1280 000a 01D0     		beq	.L79
- 1281 000c 0024     		movs	r4, #0
- 1282 000e 0EE0     		b	.L74
- 1283              	.L79:
+ 1244              		.loc 1 305 0
+ 1245 0004 0E4B     		ldr	r3, .L73
+ 1246 0006 9B69     		ldr	r3, [r3, #24]
+ 1247 0008 042B     		cmp	r3, #4
+ 1248 000a 01D0     		beq	.L72
+ 1249 000c 0024     		movs	r4, #0
+ 1250 000e 0EE0     		b	.L67
+ 1251              	.L72:
  310:Core/Src/ws2812b.c **** 
- 1284              		.loc 1 310 0
- 1285 0010 0020     		movs	r0, #0
- 1286              	.LVL60:
- 1287 0012 0090     		str	r0, [sp]
- 1288 0014 0346     		mov	r3, r0
- 1289 0016 0246     		mov	r2, r0
- 1290 0018 0146     		mov	r1, r0
- 1291 001a FFF7FEFF 		bl	ws2812b_set_pixel
- 1292              	.LVL61:
- 1293 001e 0CE0     		b	.L73
- 1294              	.LVL62:
- 1295              	.L76:
- 1296              	.LBB7:
+ 1252              		.loc 1 310 0
+ 1253 0010 0020     		movs	r0, #0
+ 1254              	.LVL62:
+ 1255 0012 0090     		str	r0, [sp]
+ 1256 0014 0346     		mov	r3, r0
+ 1257 0016 0246     		mov	r2, r0
+ 1258 0018 0146     		mov	r1, r0
+ 1259 001a FFF7FEFF 		bl	ws2812b_set_pixel
+ 1260              	.LVL63:
+ 1261 001e 0CE0     		b	.L66
+ 1262              	.LVL64:
+ARM GAS  /tmp/ccNuG5kw.s 			page 37
+
+
+ 1263              	.L69:
+ 1264              	.LBB7:
  317:Core/Src/ws2812b.c **** 		}
- 1297              		.loc 1 317 0 discriminator 3
- 1298 0020 0021     		movs	r1, #0
- 1299 0022 0748     		ldr	r0, .L80
- 1300 0024 00EB0410 		add	r0, r0, r4, lsl #4
- 1301 0028 FFF7FEFF 		bl	loadNextFramebufferData
- 1302              	.LVL63:
+ 1265              		.loc 1 317 0 discriminator 3
+ 1266 0020 0021     		movs	r1, #0
+ 1267 0022 0748     		ldr	r0, .L73
+ 1268 0024 00EB0410 		add	r0, r0, r4, lsl #4
+ 1269 0028 FFF7FEFF 		bl	loadNextFramebufferData
+ 1270              	.LVL65:
  315:Core/Src/ws2812b.c **** 		{
- 1303              		.loc 1 315 0 discriminator 3
- 1304 002c 0134     		adds	r4, r4, #1
- 1305              	.LVL64:
- 1306              	.L74:
+ 1271              		.loc 1 315 0 discriminator 3
+ 1272 002c 0134     		adds	r4, r4, #1
+ 1273              	.LVL66:
+ 1274              	.L67:
  315:Core/Src/ws2812b.c **** 		{
- 1307              		.loc 1 315 0 is_stmt 0 discriminator 1
- 1308 002e 002C     		cmp	r4, #0
- 1309 0030 F6D0     		beq	.L76
+ 1275              		.loc 1 315 0 is_stmt 0 discriminator 1
+ 1276 002e 002C     		cmp	r4, #0
+ 1277 0030 F6D0     		beq	.L69
  320:Core/Src/ws2812b.c **** 	}
-ARM GAS  /tmp/ccQ0jBtd.s 			page 38
-
-
- 1310              		.loc 1 320 0 is_stmt 1
- 1311 0032 034A     		ldr	r2, .L80
- 1312 0034 9369     		ldr	r3, [r2, #24]
- 1313 0036 0133     		adds	r3, r3, #1
- 1314 0038 9361     		str	r3, [r2, #24]
- 1315              	.LVL65:
- 1316              	.L73:
- 1317              	.LBE7:
+ 1278              		.loc 1 320 0 is_stmt 1
+ 1279 0032 034A     		ldr	r2, .L73
+ 1280 0034 9369     		ldr	r3, [r2, #24]
+ 1281 0036 0133     		adds	r3, r3, #1
+ 1282 0038 9361     		str	r3, [r2, #24]
+ 1283              	.LVL67:
+ 1284              	.L66:
+ 1285              	.LBE7:
  325:Core/Src/ws2812b.c **** 
- 1318              		.loc 1 325 0
- 1319 003a 02B0     		add	sp, sp, #8
- 1320              	.LCFI24:
- 1321              		.cfi_def_cfa_offset 8
- 1322              		@ sp needed
- 1323 003c 10BD     		pop	{r4, pc}
- 1324              	.L81:
- 1325 003e 00BF     		.align	2
- 1326              	.L80:
- 1327 0040 00000000 		.word	ws2812b
- 1328              		.cfi_endproc
- 1329              	.LFE136:
- 1331              		.section	.text.ws2812b_init,"ax",%progbits
- 1332              		.align	1
- 1333              		.global	ws2812b_init
- 1334              		.syntax unified
- 1335              		.thumb
- 1336              		.thumb_func
- 1337              		.fpu fpv4-sp-d16
- 1339              	ws2812b_init:
- 1340              	.LFB141:
+ 1286              		.loc 1 325 0
+ 1287 003a 02B0     		add	sp, sp, #8
+ 1288              	.LCFI24:
+ 1289              		.cfi_def_cfa_offset 8
+ 1290              		@ sp needed
+ 1291 003c 10BD     		pop	{r4, pc}
+ 1292              	.L74:
+ 1293 003e 00BF     		.align	2
+ 1294              	.L73:
+ 1295 0040 00000000 		.word	ws2812b
+ 1296              		.cfi_endproc
+ 1297              	.LFE136:
+ 1299              		.section	.text.ws2812b_init,"ax",%progbits
+ 1300              		.align	1
+ 1301              		.global	ws2812b_init
+ 1302              		.syntax unified
+ 1303              		.thumb
+ 1304              		.thumb_func
+ 1305              		.fpu fpv4-sp-d16
+ 1307              	ws2812b_init:
+ 1308              	.LFB141:
  627:Core/Src/ws2812b.c **** 
  628:Core/Src/ws2812b.c **** 
  629:Core/Src/ws2812b.c **** void ws2812b_init()
  630:Core/Src/ws2812b.c **** {
- 1341              		.loc 1 630 0
- 1342              		.cfi_startproc
- 1343              		@ args = 0, pretend = 0, frame = 0
- 1344              		@ frame_needed = 0, uses_anonymous_args = 0
- 1345 0000 08B5     		push	{r3, lr}
- 1346              	.LCFI25:
- 1347              		.cfi_def_cfa_offset 8
- 1348              		.cfi_offset 3, -8
- 1349              		.cfi_offset 14, -4
+ 1309              		.loc 1 630 0
+ 1310              		.cfi_startproc
+ 1311              		@ args = 0, pretend = 0, frame = 0
+ 1312              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccNuG5kw.s 			page 38
+
+
+ 1313 0000 08B5     		push	{r3, lr}
+ 1314              	.LCFI25:
+ 1315              		.cfi_def_cfa_offset 8
+ 1316              		.cfi_offset 3, -8
+ 1317              		.cfi_offset 14, -4
  631:Core/Src/ws2812b.c **** 	ws2812b_gpio_init();
- 1350              		.loc 1 631 0
- 1351 0002 FFF7FEFF 		bl	ws2812b_gpio_init
- 1352              	.LVL66:
+ 1318              		.loc 1 631 0
+ 1319 0002 FFF7FEFF 		bl	ws2812b_gpio_init
+ 1320              	.LVL68:
  632:Core/Src/ws2812b.c **** 
  633:Core/Src/ws2812b.c **** 	/*TIM2_init();
  634:Core/Src/ws2812b.c **** 	DMA_init();*/
  635:Core/Src/ws2812b.c **** 
  636:Core/Src/ws2812b.c **** 
  637:Core/Src/ws2812b.c **** 	DMA2_init();
- 1353              		.loc 1 637 0
- 1354 0006 FFF7FEFF 		bl	DMA2_init
- 1355              	.LVL67:
+ 1321              		.loc 1 637 0
+ 1322 0006 FFF7FEFF 		bl	DMA2_init
+ 1323              	.LVL69:
  638:Core/Src/ws2812b.c **** 	TIM1_init();
-ARM GAS  /tmp/ccQ0jBtd.s 			page 39
-
-
- 1356              		.loc 1 638 0
- 1357 000a FFF7FEFF 		bl	TIM1_init
- 1358              	.LVL68:
+ 1324              		.loc 1 638 0
+ 1325 000a FFF7FEFF 		bl	TIM1_init
+ 1326              	.LVL70:
  639:Core/Src/ws2812b.c **** 
  640:Core/Src/ws2812b.c **** 
  641:Core/Src/ws2812b.c **** 	// Need to start the first transfer
  642:Core/Src/ws2812b.c **** 	ws2812b.transferComplete = 1;
- 1359              		.loc 1 642 0
- 1360 000e 0122     		movs	r2, #1
- 1361 0010 014B     		ldr	r3, .L84
- 1362 0012 1A74     		strb	r2, [r3, #16]
- 1363 0014 08BD     		pop	{r3, pc}
- 1364              	.L85:
- 1365 0016 00BF     		.align	2
- 1366              	.L84:
- 1367 0018 00000000 		.word	ws2812b
- 1368              		.cfi_endproc
- 1369              	.LFE141:
- 1371              		.section	.text.ws2812b_handle,"ax",%progbits
- 1372              		.align	1
- 1373              		.global	ws2812b_handle
- 1374              		.syntax unified
- 1375              		.thumb
- 1376              		.thumb_func
- 1377              		.fpu fpv4-sp-d16
- 1379              	ws2812b_handle:
- 1380              	.LFB142:
+ 1327              		.loc 1 642 0
+ 1328 000e 0122     		movs	r2, #1
+ 1329 0010 014B     		ldr	r3, .L77
+ 1330 0012 1A74     		strb	r2, [r3, #16]
+ 1331 0014 08BD     		pop	{r3, pc}
+ 1332              	.L78:
+ 1333 0016 00BF     		.align	2
+ 1334              	.L77:
+ 1335 0018 00000000 		.word	ws2812b
+ 1336              		.cfi_endproc
+ 1337              	.LFE141:
+ 1339              		.section	.text.ws2812b_handle,"ax",%progbits
+ 1340              		.align	1
+ 1341              		.global	ws2812b_handle
+ 1342              		.syntax unified
+ 1343              		.thumb
+ 1344              		.thumb_func
+ 1345              		.fpu fpv4-sp-d16
+ 1347              	ws2812b_handle:
+ 1348              	.LFB142:
  643:Core/Src/ws2812b.c **** }
  644:Core/Src/ws2812b.c **** 
  645:Core/Src/ws2812b.c **** 
  646:Core/Src/ws2812b.c **** void ws2812b_handle()
  647:Core/Src/ws2812b.c **** {
- 1381              		.loc 1 647 0
- 1382              		.cfi_startproc
- 1383              		@ args = 0, pretend = 0, frame = 0
- 1384              		@ frame_needed = 0, uses_anonymous_args = 0
- 1385 0000 08B5     		push	{r3, lr}
- 1386              	.LCFI26:
- 1387              		.cfi_def_cfa_offset 8
- 1388              		.cfi_offset 3, -8
- 1389              		.cfi_offset 14, -4
+ 1349              		.loc 1 647 0
+ 1350              		.cfi_startproc
+ 1351              		@ args = 0, pretend = 0, frame = 0
+ 1352              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1353 0000 08B5     		push	{r3, lr}
+ 1354              	.LCFI26:
+ARM GAS  /tmp/ccNuG5kw.s 			page 39
+
+
+ 1355              		.cfi_def_cfa_offset 8
+ 1356              		.cfi_offset 3, -8
+ 1357              		.cfi_offset 14, -4
  648:Core/Src/ws2812b.c **** 	if(ws2812b.startTransfer) {
- 1390              		.loc 1 648 0
- 1391 0002 054B     		ldr	r3, .L90
- 1392 0004 5B7C     		ldrb	r3, [r3, #17]	@ zero_extendqisi2
- 1393 0006 03B9     		cbnz	r3, .L89
- 1394              	.L86:
- 1395 0008 08BD     		pop	{r3, pc}
- 1396              	.L89:
+ 1358              		.loc 1 648 0
+ 1359 0002 054B     		ldr	r3, .L83
+ 1360 0004 5B7C     		ldrb	r3, [r3, #17]	@ zero_extendqisi2
+ 1361 0006 03B9     		cbnz	r3, .L82
+ 1362              	.L79:
+ 1363 0008 08BD     		pop	{r3, pc}
+ 1364              	.L82:
  649:Core/Src/ws2812b.c **** 		ws2812b.startTransfer = 0;
- 1397              		.loc 1 649 0
- 1398 000a 0022     		movs	r2, #0
- 1399 000c 024B     		ldr	r3, .L90
- 1400 000e 5A74     		strb	r2, [r3, #17]
+ 1365              		.loc 1 649 0
+ 1366 000a 0022     		movs	r2, #0
+ 1367 000c 024B     		ldr	r3, .L83
+ 1368 000e 5A74     		strb	r2, [r3, #17]
  650:Core/Src/ws2812b.c **** 		WS2812_sendbuf();
- 1401              		.loc 1 650 0
- 1402 0010 FFF7FEFF 		bl	WS2812_sendbuf
-ARM GAS  /tmp/ccQ0jBtd.s 			page 40
-
-
- 1403              	.LVL69:
+ 1369              		.loc 1 650 0
+ 1370 0010 FFF7FEFF 		bl	WS2812_sendbuf
+ 1371              	.LVL71:
  651:Core/Src/ws2812b.c **** 	}
  652:Core/Src/ws2812b.c **** 
  653:Core/Src/ws2812b.c **** }
- 1404              		.loc 1 653 0
- 1405 0014 F8E7     		b	.L86
- 1406              	.L91:
- 1407 0016 00BF     		.align	2
- 1408              	.L90:
- 1409 0018 00000000 		.word	ws2812b
- 1410              		.cfi_endproc
- 1411              	.LFE142:
- 1413              		.comm	dummy,4,4
- 1414              		.comm	dmaCC2,96,4
- 1415              		.comm	dmaCC1,96,4
- 1416              		.comm	dmaUpdate,96,4
- 1417              		.global	gammaTable
- 1418              		.comm	ws2812bDmaBitBuffer,96,4
- 1419              		.global	WS2812_IO_Low
- 1420              		.global	WS2812_IO_High
- 1421              		.comm	ws2812b,28,4
- 1422              		.comm	timer_reset_pulse_period,4,4
- 1423              		.comm	tim_period,4,4
- 1424              		.comm	tim2OC2,28,4
- 1425              		.comm	tim2OC1,28,4
- 1426              		.comm	TIM1_handle,64,4
- 1427              		.section	.data.WS2812_IO_High,"aw",%progbits
- 1428              		.align	2
- 1429              		.set	.LANCHOR0,. + 0
- 1432              	WS2812_IO_High:
- 1433 0000 00200000 		.word	8192
- 1434              		.section	.data.WS2812_IO_Low,"aw",%progbits
- 1435              		.align	2
- 1436              		.set	.LANCHOR1,. + 0
- 1439              	WS2812_IO_Low:
- 1440 0000 00000020 		.word	536870912
- 1441              		.section	.rodata.gammaTable,"a",%progbits
- 1442              		.align	2
- 1443              		.set	.LANCHOR2,. + 0
- 1446              	gammaTable:
- 1447 0000 00       		.byte	0
- 1448 0001 00       		.byte	0
- 1449 0002 00       		.byte	0
- 1450 0003 00       		.byte	0
- 1451 0004 00       		.byte	0
- 1452 0005 00       		.byte	0
- 1453 0006 00       		.byte	0
- 1454 0007 00       		.byte	0
- 1455 0008 00       		.byte	0
- 1456 0009 00       		.byte	0
- 1457 000a 00       		.byte	0
- 1458 000b 00       		.byte	0
- 1459 000c 00       		.byte	0
- 1460 000d 00       		.byte	0
- 1461 000e 00       		.byte	0
- 1462 000f 00       		.byte	0
- 1463 0010 00       		.byte	0
-ARM GAS  /tmp/ccQ0jBtd.s 			page 41
+ 1372              		.loc 1 653 0
+ 1373 0014 F8E7     		b	.L79
+ 1374              	.L84:
+ 1375 0016 00BF     		.align	2
+ 1376              	.L83:
+ 1377 0018 00000000 		.word	ws2812b
+ 1378              		.cfi_endproc
+ 1379              	.LFE142:
+ 1381              		.comm	dummy,4,4
+ 1382              		.comm	dmaCC2,96,4
+ 1383              		.comm	dmaCC1,96,4
+ 1384              		.comm	dmaUpdate,96,4
+ 1385              		.global	gammaTable
+ 1386              		.comm	ws2812bDmaBitBuffer,96,4
+ 1387              		.global	WS2812_IO_Low
+ 1388              		.global	WS2812_IO_High
+ 1389              		.comm	ws2812b,28,4
+ 1390              		.comm	timer_reset_pulse_period,4,4
+ 1391              		.comm	tim_period,4,4
+ 1392              		.comm	tim2OC2,28,4
+ 1393              		.comm	tim2OC1,28,4
+ 1394              		.comm	TIM1_handle,64,4
+ 1395              		.section	.data.WS2812_IO_High,"aw",%progbits
+ 1396              		.align	2
+ 1397              		.set	.LANCHOR0,. + 0
+ 1400              	WS2812_IO_High:
+ 1401 0000 00200000 		.word	8192
+ 1402              		.section	.data.WS2812_IO_Low,"aw",%progbits
+ 1403              		.align	2
+ 1404              		.set	.LANCHOR1,. + 0
+ 1407              	WS2812_IO_Low:
+ 1408 0000 00000020 		.word	536870912
+ 1409              		.section	.rodata.gammaTable,"a",%progbits
+ 1410              		.align	2
+ARM GAS  /tmp/ccNuG5kw.s 			page 40
 
 
- 1464 0011 00       		.byte	0
- 1465 0012 00       		.byte	0
- 1466 0013 00       		.byte	0
- 1467 0014 00       		.byte	0
- 1468 0015 00       		.byte	0
- 1469 0016 00       		.byte	0
- 1470 0017 00       		.byte	0
- 1471 0018 00       		.byte	0
- 1472 0019 00       		.byte	0
- 1473 001a 00       		.byte	0
- 1474 001b 00       		.byte	0
- 1475 001c 01       		.byte	1
- 1476 001d 01       		.byte	1
- 1477 001e 01       		.byte	1
- 1478 001f 01       		.byte	1
- 1479 0020 01       		.byte	1
- 1480 0021 01       		.byte	1
- 1481 0022 01       		.byte	1
- 1482 0023 01       		.byte	1
- 1483 0024 01       		.byte	1
- 1484 0025 01       		.byte	1
- 1485 0026 01       		.byte	1
- 1486 0027 01       		.byte	1
- 1487 0028 01       		.byte	1
- 1488 0029 02       		.byte	2
- 1489 002a 02       		.byte	2
- 1490 002b 02       		.byte	2
- 1491 002c 02       		.byte	2
- 1492 002d 02       		.byte	2
- 1493 002e 02       		.byte	2
- 1494 002f 02       		.byte	2
- 1495 0030 02       		.byte	2
- 1496 0031 03       		.byte	3
- 1497 0032 03       		.byte	3
- 1498 0033 03       		.byte	3
- 1499 0034 03       		.byte	3
- 1500 0035 03       		.byte	3
- 1501 0036 03       		.byte	3
- 1502 0037 03       		.byte	3
- 1503 0038 04       		.byte	4
- 1504 0039 04       		.byte	4
- 1505 003a 04       		.byte	4
- 1506 003b 04       		.byte	4
- 1507 003c 04       		.byte	4
- 1508 003d 05       		.byte	5
- 1509 003e 05       		.byte	5
- 1510 003f 05       		.byte	5
- 1511 0040 05       		.byte	5
- 1512 0041 06       		.byte	6
- 1513 0042 06       		.byte	6
- 1514 0043 06       		.byte	6
- 1515 0044 06       		.byte	6
- 1516 0045 07       		.byte	7
- 1517 0046 07       		.byte	7
- 1518 0047 07       		.byte	7
- 1519 0048 07       		.byte	7
- 1520 0049 08       		.byte	8
-ARM GAS  /tmp/ccQ0jBtd.s 			page 42
+ 1411              		.set	.LANCHOR2,. + 0
+ 1414              	gammaTable:
+ 1415 0000 00       		.byte	0
+ 1416 0001 00       		.byte	0
+ 1417 0002 00       		.byte	0
+ 1418 0003 00       		.byte	0
+ 1419 0004 00       		.byte	0
+ 1420 0005 00       		.byte	0
+ 1421 0006 00       		.byte	0
+ 1422 0007 00       		.byte	0
+ 1423 0008 00       		.byte	0
+ 1424 0009 00       		.byte	0
+ 1425 000a 00       		.byte	0
+ 1426 000b 00       		.byte	0
+ 1427 000c 00       		.byte	0
+ 1428 000d 00       		.byte	0
+ 1429 000e 00       		.byte	0
+ 1430 000f 00       		.byte	0
+ 1431 0010 00       		.byte	0
+ 1432 0011 00       		.byte	0
+ 1433 0012 00       		.byte	0
+ 1434 0013 00       		.byte	0
+ 1435 0014 00       		.byte	0
+ 1436 0015 00       		.byte	0
+ 1437 0016 00       		.byte	0
+ 1438 0017 00       		.byte	0
+ 1439 0018 00       		.byte	0
+ 1440 0019 00       		.byte	0
+ 1441 001a 00       		.byte	0
+ 1442 001b 00       		.byte	0
+ 1443 001c 01       		.byte	1
+ 1444 001d 01       		.byte	1
+ 1445 001e 01       		.byte	1
+ 1446 001f 01       		.byte	1
+ 1447 0020 01       		.byte	1
+ 1448 0021 01       		.byte	1
+ 1449 0022 01       		.byte	1
+ 1450 0023 01       		.byte	1
+ 1451 0024 01       		.byte	1
+ 1452 0025 01       		.byte	1
+ 1453 0026 01       		.byte	1
+ 1454 0027 01       		.byte	1
+ 1455 0028 01       		.byte	1
+ 1456 0029 02       		.byte	2
+ 1457 002a 02       		.byte	2
+ 1458 002b 02       		.byte	2
+ 1459 002c 02       		.byte	2
+ 1460 002d 02       		.byte	2
+ 1461 002e 02       		.byte	2
+ 1462 002f 02       		.byte	2
+ 1463 0030 02       		.byte	2
+ 1464 0031 03       		.byte	3
+ 1465 0032 03       		.byte	3
+ 1466 0033 03       		.byte	3
+ 1467 0034 03       		.byte	3
+ 1468 0035 03       		.byte	3
+ 1469 0036 03       		.byte	3
+ARM GAS  /tmp/ccNuG5kw.s 			page 41
 
 
- 1521 004a 08       		.byte	8
- 1522 004b 08       		.byte	8
- 1523 004c 09       		.byte	9
- 1524 004d 09       		.byte	9
- 1525 004e 09       		.byte	9
- 1526 004f 0A       		.byte	10
- 1527 0050 0A       		.byte	10
- 1528 0051 0A       		.byte	10
- 1529 0052 0B       		.byte	11
- 1530 0053 0B       		.byte	11
- 1531 0054 0B       		.byte	11
- 1532 0055 0C       		.byte	12
- 1533 0056 0C       		.byte	12
- 1534 0057 0D       		.byte	13
- 1535 0058 0D       		.byte	13
- 1536 0059 0D       		.byte	13
- 1537 005a 0E       		.byte	14
- 1538 005b 0E       		.byte	14
- 1539 005c 0F       		.byte	15
- 1540 005d 0F       		.byte	15
- 1541 005e 10       		.byte	16
- 1542 005f 10       		.byte	16
- 1543 0060 11       		.byte	17
- 1544 0061 11       		.byte	17
- 1545 0062 12       		.byte	18
- 1546 0063 12       		.byte	18
- 1547 0064 13       		.byte	19
- 1548 0065 13       		.byte	19
- 1549 0066 14       		.byte	20
- 1550 0067 14       		.byte	20
- 1551 0068 15       		.byte	21
- 1552 0069 15       		.byte	21
- 1553 006a 16       		.byte	22
- 1554 006b 16       		.byte	22
- 1555 006c 17       		.byte	23
- 1556 006d 18       		.byte	24
- 1557 006e 18       		.byte	24
- 1558 006f 19       		.byte	25
- 1559 0070 19       		.byte	25
- 1560 0071 1A       		.byte	26
- 1561 0072 1B       		.byte	27
- 1562 0073 1B       		.byte	27
- 1563 0074 1C       		.byte	28
- 1564 0075 1D       		.byte	29
- 1565 0076 1D       		.byte	29
- 1566 0077 1E       		.byte	30
- 1567 0078 1F       		.byte	31
- 1568 0079 20       		.byte	32
- 1569 007a 20       		.byte	32
- 1570 007b 21       		.byte	33
- 1571 007c 22       		.byte	34
- 1572 007d 23       		.byte	35
- 1573 007e 23       		.byte	35
- 1574 007f 24       		.byte	36
- 1575 0080 25       		.byte	37
- 1576 0081 26       		.byte	38
- 1577 0082 27       		.byte	39
-ARM GAS  /tmp/ccQ0jBtd.s 			page 43
+ 1470 0037 03       		.byte	3
+ 1471 0038 04       		.byte	4
+ 1472 0039 04       		.byte	4
+ 1473 003a 04       		.byte	4
+ 1474 003b 04       		.byte	4
+ 1475 003c 04       		.byte	4
+ 1476 003d 05       		.byte	5
+ 1477 003e 05       		.byte	5
+ 1478 003f 05       		.byte	5
+ 1479 0040 05       		.byte	5
+ 1480 0041 06       		.byte	6
+ 1481 0042 06       		.byte	6
+ 1482 0043 06       		.byte	6
+ 1483 0044 06       		.byte	6
+ 1484 0045 07       		.byte	7
+ 1485 0046 07       		.byte	7
+ 1486 0047 07       		.byte	7
+ 1487 0048 07       		.byte	7
+ 1488 0049 08       		.byte	8
+ 1489 004a 08       		.byte	8
+ 1490 004b 08       		.byte	8
+ 1491 004c 09       		.byte	9
+ 1492 004d 09       		.byte	9
+ 1493 004e 09       		.byte	9
+ 1494 004f 0A       		.byte	10
+ 1495 0050 0A       		.byte	10
+ 1496 0051 0A       		.byte	10
+ 1497 0052 0B       		.byte	11
+ 1498 0053 0B       		.byte	11
+ 1499 0054 0B       		.byte	11
+ 1500 0055 0C       		.byte	12
+ 1501 0056 0C       		.byte	12
+ 1502 0057 0D       		.byte	13
+ 1503 0058 0D       		.byte	13
+ 1504 0059 0D       		.byte	13
+ 1505 005a 0E       		.byte	14
+ 1506 005b 0E       		.byte	14
+ 1507 005c 0F       		.byte	15
+ 1508 005d 0F       		.byte	15
+ 1509 005e 10       		.byte	16
+ 1510 005f 10       		.byte	16
+ 1511 0060 11       		.byte	17
+ 1512 0061 11       		.byte	17
+ 1513 0062 12       		.byte	18
+ 1514 0063 12       		.byte	18
+ 1515 0064 13       		.byte	19
+ 1516 0065 13       		.byte	19
+ 1517 0066 14       		.byte	20
+ 1518 0067 14       		.byte	20
+ 1519 0068 15       		.byte	21
+ 1520 0069 15       		.byte	21
+ 1521 006a 16       		.byte	22
+ 1522 006b 16       		.byte	22
+ 1523 006c 17       		.byte	23
+ 1524 006d 18       		.byte	24
+ 1525 006e 18       		.byte	24
+ 1526 006f 19       		.byte	25
+ARM GAS  /tmp/ccNuG5kw.s 			page 42
 
 
- 1578 0083 27       		.byte	39
- 1579 0084 28       		.byte	40
- 1580 0085 29       		.byte	41
- 1581 0086 2A       		.byte	42
- 1582 0087 2B       		.byte	43
- 1583 0088 2C       		.byte	44
- 1584 0089 2D       		.byte	45
- 1585 008a 2E       		.byte	46
- 1586 008b 2F       		.byte	47
- 1587 008c 30       		.byte	48
- 1588 008d 31       		.byte	49
- 1589 008e 32       		.byte	50
- 1590 008f 32       		.byte	50
- 1591 0090 33       		.byte	51
- 1592 0091 34       		.byte	52
- 1593 0092 36       		.byte	54
- 1594 0093 37       		.byte	55
- 1595 0094 38       		.byte	56
- 1596 0095 39       		.byte	57
- 1597 0096 3A       		.byte	58
- 1598 0097 3B       		.byte	59
- 1599 0098 3C       		.byte	60
- 1600 0099 3D       		.byte	61
- 1601 009a 3E       		.byte	62
- 1602 009b 3F       		.byte	63
- 1603 009c 40       		.byte	64
- 1604 009d 42       		.byte	66
- 1605 009e 43       		.byte	67
- 1606 009f 44       		.byte	68
- 1607 00a0 45       		.byte	69
- 1608 00a1 46       		.byte	70
- 1609 00a2 48       		.byte	72
- 1610 00a3 49       		.byte	73
- 1611 00a4 4A       		.byte	74
- 1612 00a5 4B       		.byte	75
- 1613 00a6 4D       		.byte	77
- 1614 00a7 4E       		.byte	78
- 1615 00a8 4F       		.byte	79
- 1616 00a9 51       		.byte	81
- 1617 00aa 52       		.byte	82
- 1618 00ab 53       		.byte	83
- 1619 00ac 55       		.byte	85
- 1620 00ad 56       		.byte	86
- 1621 00ae 57       		.byte	87
- 1622 00af 59       		.byte	89
- 1623 00b0 5A       		.byte	90
- 1624 00b1 5C       		.byte	92
- 1625 00b2 5D       		.byte	93
- 1626 00b3 5F       		.byte	95
- 1627 00b4 60       		.byte	96
- 1628 00b5 62       		.byte	98
- 1629 00b6 63       		.byte	99
- 1630 00b7 65       		.byte	101
- 1631 00b8 66       		.byte	102
- 1632 00b9 68       		.byte	104
- 1633 00ba 69       		.byte	105
- 1634 00bb 6B       		.byte	107
-ARM GAS  /tmp/ccQ0jBtd.s 			page 44
+ 1527 0070 19       		.byte	25
+ 1528 0071 1A       		.byte	26
+ 1529 0072 1B       		.byte	27
+ 1530 0073 1B       		.byte	27
+ 1531 0074 1C       		.byte	28
+ 1532 0075 1D       		.byte	29
+ 1533 0076 1D       		.byte	29
+ 1534 0077 1E       		.byte	30
+ 1535 0078 1F       		.byte	31
+ 1536 0079 20       		.byte	32
+ 1537 007a 20       		.byte	32
+ 1538 007b 21       		.byte	33
+ 1539 007c 22       		.byte	34
+ 1540 007d 23       		.byte	35
+ 1541 007e 23       		.byte	35
+ 1542 007f 24       		.byte	36
+ 1543 0080 25       		.byte	37
+ 1544 0081 26       		.byte	38
+ 1545 0082 27       		.byte	39
+ 1546 0083 27       		.byte	39
+ 1547 0084 28       		.byte	40
+ 1548 0085 29       		.byte	41
+ 1549 0086 2A       		.byte	42
+ 1550 0087 2B       		.byte	43
+ 1551 0088 2C       		.byte	44
+ 1552 0089 2D       		.byte	45
+ 1553 008a 2E       		.byte	46
+ 1554 008b 2F       		.byte	47
+ 1555 008c 30       		.byte	48
+ 1556 008d 31       		.byte	49
+ 1557 008e 32       		.byte	50
+ 1558 008f 32       		.byte	50
+ 1559 0090 33       		.byte	51
+ 1560 0091 34       		.byte	52
+ 1561 0092 36       		.byte	54
+ 1562 0093 37       		.byte	55
+ 1563 0094 38       		.byte	56
+ 1564 0095 39       		.byte	57
+ 1565 0096 3A       		.byte	58
+ 1566 0097 3B       		.byte	59
+ 1567 0098 3C       		.byte	60
+ 1568 0099 3D       		.byte	61
+ 1569 009a 3E       		.byte	62
+ 1570 009b 3F       		.byte	63
+ 1571 009c 40       		.byte	64
+ 1572 009d 42       		.byte	66
+ 1573 009e 43       		.byte	67
+ 1574 009f 44       		.byte	68
+ 1575 00a0 45       		.byte	69
+ 1576 00a1 46       		.byte	70
+ 1577 00a2 48       		.byte	72
+ 1578 00a3 49       		.byte	73
+ 1579 00a4 4A       		.byte	74
+ 1580 00a5 4B       		.byte	75
+ 1581 00a6 4D       		.byte	77
+ 1582 00a7 4E       		.byte	78
+ 1583 00a8 4F       		.byte	79
+ARM GAS  /tmp/ccNuG5kw.s 			page 43
 
 
- 1635 00bc 6D       		.byte	109
- 1636 00bd 6E       		.byte	110
- 1637 00be 70       		.byte	112
- 1638 00bf 72       		.byte	114
- 1639 00c0 73       		.byte	115
- 1640 00c1 75       		.byte	117
- 1641 00c2 77       		.byte	119
- 1642 00c3 78       		.byte	120
- 1643 00c4 7A       		.byte	122
- 1644 00c5 7C       		.byte	124
- 1645 00c6 7E       		.byte	126
- 1646 00c7 7F       		.byte	127
- 1647 00c8 81       		.byte	-127
- 1648 00c9 83       		.byte	-125
- 1649 00ca 85       		.byte	-123
- 1650 00cb 87       		.byte	-121
- 1651 00cc 89       		.byte	-119
- 1652 00cd 8A       		.byte	-118
- 1653 00ce 8C       		.byte	-116
- 1654 00cf 8E       		.byte	-114
- 1655 00d0 90       		.byte	-112
- 1656 00d1 92       		.byte	-110
- 1657 00d2 94       		.byte	-108
- 1658 00d3 96       		.byte	-106
- 1659 00d4 98       		.byte	-104
- 1660 00d5 9A       		.byte	-102
- 1661 00d6 9C       		.byte	-100
- 1662 00d7 9E       		.byte	-98
- 1663 00d8 A0       		.byte	-96
- 1664 00d9 A2       		.byte	-94
- 1665 00da A4       		.byte	-92
- 1666 00db A7       		.byte	-89
- 1667 00dc A9       		.byte	-87
- 1668 00dd AB       		.byte	-85
- 1669 00de AD       		.byte	-83
- 1670 00df AF       		.byte	-81
- 1671 00e0 B1       		.byte	-79
- 1672 00e1 B4       		.byte	-76
- 1673 00e2 B6       		.byte	-74
- 1674 00e3 B8       		.byte	-72
- 1675 00e4 BA       		.byte	-70
- 1676 00e5 BD       		.byte	-67
- 1677 00e6 BF       		.byte	-65
- 1678 00e7 C1       		.byte	-63
- 1679 00e8 C4       		.byte	-60
- 1680 00e9 C6       		.byte	-58
- 1681 00ea C8       		.byte	-56
- 1682 00eb CB       		.byte	-53
- 1683 00ec CD       		.byte	-51
- 1684 00ed D0       		.byte	-48
- 1685 00ee D2       		.byte	-46
- 1686 00ef D5       		.byte	-43
- 1687 00f0 D7       		.byte	-41
- 1688 00f1 DA       		.byte	-38
- 1689 00f2 DC       		.byte	-36
- 1690 00f3 DF       		.byte	-33
- 1691 00f4 E1       		.byte	-31
-ARM GAS  /tmp/ccQ0jBtd.s 			page 45
+ 1584 00a9 51       		.byte	81
+ 1585 00aa 52       		.byte	82
+ 1586 00ab 53       		.byte	83
+ 1587 00ac 55       		.byte	85
+ 1588 00ad 56       		.byte	86
+ 1589 00ae 57       		.byte	87
+ 1590 00af 59       		.byte	89
+ 1591 00b0 5A       		.byte	90
+ 1592 00b1 5C       		.byte	92
+ 1593 00b2 5D       		.byte	93
+ 1594 00b3 5F       		.byte	95
+ 1595 00b4 60       		.byte	96
+ 1596 00b5 62       		.byte	98
+ 1597 00b6 63       		.byte	99
+ 1598 00b7 65       		.byte	101
+ 1599 00b8 66       		.byte	102
+ 1600 00b9 68       		.byte	104
+ 1601 00ba 69       		.byte	105
+ 1602 00bb 6B       		.byte	107
+ 1603 00bc 6D       		.byte	109
+ 1604 00bd 6E       		.byte	110
+ 1605 00be 70       		.byte	112
+ 1606 00bf 72       		.byte	114
+ 1607 00c0 73       		.byte	115
+ 1608 00c1 75       		.byte	117
+ 1609 00c2 77       		.byte	119
+ 1610 00c3 78       		.byte	120
+ 1611 00c4 7A       		.byte	122
+ 1612 00c5 7C       		.byte	124
+ 1613 00c6 7E       		.byte	126
+ 1614 00c7 7F       		.byte	127
+ 1615 00c8 81       		.byte	-127
+ 1616 00c9 83       		.byte	-125
+ 1617 00ca 85       		.byte	-123
+ 1618 00cb 87       		.byte	-121
+ 1619 00cc 89       		.byte	-119
+ 1620 00cd 8A       		.byte	-118
+ 1621 00ce 8C       		.byte	-116
+ 1622 00cf 8E       		.byte	-114
+ 1623 00d0 90       		.byte	-112
+ 1624 00d1 92       		.byte	-110
+ 1625 00d2 94       		.byte	-108
+ 1626 00d3 96       		.byte	-106
+ 1627 00d4 98       		.byte	-104
+ 1628 00d5 9A       		.byte	-102
+ 1629 00d6 9C       		.byte	-100
+ 1630 00d7 9E       		.byte	-98
+ 1631 00d8 A0       		.byte	-96
+ 1632 00d9 A2       		.byte	-94
+ 1633 00da A4       		.byte	-92
+ 1634 00db A7       		.byte	-89
+ 1635 00dc A9       		.byte	-87
+ 1636 00dd AB       		.byte	-85
+ 1637 00de AD       		.byte	-83
+ 1638 00df AF       		.byte	-81
+ 1639 00e0 B1       		.byte	-79
+ 1640 00e1 B4       		.byte	-76
+ARM GAS  /tmp/ccNuG5kw.s 			page 44
 
 
- 1692 00f5 E4       		.byte	-28
- 1693 00f6 E7       		.byte	-25
- 1694 00f7 E9       		.byte	-23
- 1695 00f8 EC       		.byte	-20
- 1696 00f9 EF       		.byte	-17
- 1697 00fa F1       		.byte	-15
- 1698 00fb F4       		.byte	-12
- 1699 00fc F7       		.byte	-9
- 1700 00fd F9       		.byte	-7
- 1701 00fe FC       		.byte	-4
- 1702 00ff FF       		.byte	-1
- 1703              		.text
- 1704              	.Letext0:
- 1705              		.file 2 "/usr/include/newlib/machine/_default_types.h"
- 1706              		.file 3 "/usr/include/newlib/sys/lock.h"
- 1707              		.file 4 "/usr/include/newlib/sys/_types.h"
- 1708              		.file 5 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
- 1709              		.file 6 "/usr/include/newlib/sys/reent.h"
- 1710              		.file 7 "/usr/include/newlib/sys/_stdint.h"
- 1711              		.file 8 "Drivers/CMSIS/Include/core_cm4.h"
- 1712              		.file 9 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
- 1713              		.file 10 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
- 1714              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
- 1715              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
- 1716              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
- 1717              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
- 1718              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
- 1719              		.file 16 "Core/Inc/ws2812b.h"
- 1720              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
-ARM GAS  /tmp/ccQ0jBtd.s 			page 46
+ 1641 00e2 B6       		.byte	-74
+ 1642 00e3 B8       		.byte	-72
+ 1643 00e4 BA       		.byte	-70
+ 1644 00e5 BD       		.byte	-67
+ 1645 00e6 BF       		.byte	-65
+ 1646 00e7 C1       		.byte	-63
+ 1647 00e8 C4       		.byte	-60
+ 1648 00e9 C6       		.byte	-58
+ 1649 00ea C8       		.byte	-56
+ 1650 00eb CB       		.byte	-53
+ 1651 00ec CD       		.byte	-51
+ 1652 00ed D0       		.byte	-48
+ 1653 00ee D2       		.byte	-46
+ 1654 00ef D5       		.byte	-43
+ 1655 00f0 D7       		.byte	-41
+ 1656 00f1 DA       		.byte	-38
+ 1657 00f2 DC       		.byte	-36
+ 1658 00f3 DF       		.byte	-33
+ 1659 00f4 E1       		.byte	-31
+ 1660 00f5 E4       		.byte	-28
+ 1661 00f6 E7       		.byte	-25
+ 1662 00f7 E9       		.byte	-23
+ 1663 00f8 EC       		.byte	-20
+ 1664 00f9 EF       		.byte	-17
+ 1665 00fa F1       		.byte	-15
+ 1666 00fb F4       		.byte	-12
+ 1667 00fc F7       		.byte	-9
+ 1668 00fd F9       		.byte	-7
+ 1669 00fe FC       		.byte	-4
+ 1670 00ff FF       		.byte	-1
+ 1671              		.text
+ 1672              	.Letext0:
+ 1673              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 1674              		.file 3 "/usr/include/newlib/sys/lock.h"
+ 1675              		.file 4 "/usr/include/newlib/sys/_types.h"
+ 1676              		.file 5 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
+ 1677              		.file 6 "/usr/include/newlib/sys/reent.h"
+ 1678              		.file 7 "/usr/include/newlib/sys/_stdint.h"
+ 1679              		.file 8 "Drivers/CMSIS/Include/core_cm4.h"
+ 1680              		.file 9 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 1681              		.file 10 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
+ 1682              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 1683              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 1684              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 1685              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 1686              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 1687              		.file 16 "Core/Inc/ws2812b.h"
+ 1688              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
+ARM GAS  /tmp/ccNuG5kw.s 			page 45
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 ws2812b.c
-     /tmp/ccQ0jBtd.s:18     .text.DMA_TransferError:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:25     .text.DMA_TransferError:0000000000000000 DMA_TransferError
-     /tmp/ccQ0jBtd.s:54     .text.ws2812b_gpio_init:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:60     .text.ws2812b_gpio_init:0000000000000000 ws2812b_gpio_init
-     /tmp/ccQ0jBtd.s:148    .text.ws2812b_gpio_init:0000000000000070 $d
-     /tmp/ccQ0jBtd.s:154    .text.DMA2_init:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:160    .text.DMA2_init:0000000000000000 DMA2_init
-     /tmp/ccQ0jBtd.s:362    .text.DMA2_init:0000000000000124 $d
+     /tmp/ccNuG5kw.s:18     .text.DMA_TransferError:0000000000000000 $t
+     /tmp/ccNuG5kw.s:25     .text.DMA_TransferError:0000000000000000 DMA_TransferError
+     /tmp/ccNuG5kw.s:54     .text.ws2812b_gpio_init:0000000000000000 $t
+     /tmp/ccNuG5kw.s:60     .text.ws2812b_gpio_init:0000000000000000 ws2812b_gpio_init
+     /tmp/ccNuG5kw.s:148    .text.ws2812b_gpio_init:0000000000000070 $d
+     /tmp/ccNuG5kw.s:154    .text.DMA2_init:0000000000000000 $t
+     /tmp/ccNuG5kw.s:160    .text.DMA2_init:0000000000000000 DMA2_init
+     /tmp/ccNuG5kw.s:362    .text.DMA2_init:0000000000000124 $d
                             *COM*:0000000000000060 dmaUpdate
                             *COM*:0000000000000060 dmaCC1
                             *COM*:0000000000000060 ws2812bDmaBitBuffer
                             *COM*:0000000000000060 dmaCC2
-     /tmp/ccQ0jBtd.s:870    .text.DMA_TransferCompleteHandler:0000000000000000 DMA_TransferCompleteHandler
-     /tmp/ccQ0jBtd.s:1261   .text.DMA_TransferHalfHandler:0000000000000000 DMA_TransferHalfHandler
-     /tmp/ccQ0jBtd.s:381    .text.TIM1_init:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:387    .text.TIM1_init:0000000000000000 TIM1_init
-     /tmp/ccQ0jBtd.s:545    .text.TIM1_init:00000000000000e0 $d
+     /tmp/ccNuG5kw.s:838    .text.DMA_TransferCompleteHandler:0000000000000000 DMA_TransferCompleteHandler
+     /tmp/ccNuG5kw.s:1229   .text.DMA_TransferHalfHandler:0000000000000000 DMA_TransferHalfHandler
+     /tmp/ccNuG5kw.s:381    .text.TIM1_init:0000000000000000 $t
+     /tmp/ccNuG5kw.s:387    .text.TIM1_init:0000000000000000 TIM1_init
+     /tmp/ccNuG5kw.s:545    .text.TIM1_init:00000000000000e0 $d
                             *COM*:0000000000000004 tim_period
                             *COM*:0000000000000004 timer_reset_pulse_period
                             *COM*:0000000000000040 TIM1_handle
                             *COM*:000000000000001c tim2OC1
                             *COM*:000000000000001c tim2OC2
-     /tmp/ccQ0jBtd.s:561    .text.DMA2_Stream2_IRQHandler:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:568    .text.DMA2_Stream2_IRQHandler:0000000000000000 DMA2_Stream2_IRQHandler
-     /tmp/ccQ0jBtd.s:594    .text.DMA2_Stream2_IRQHandler:0000000000000018 $d
-     /tmp/ccQ0jBtd.s:600    .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:607    .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 TIM1_UP_TIM10_IRQHandler
-     /tmp/ccQ0jBtd.s:633    .text.TIM1_UP_TIM10_IRQHandler:0000000000000018 $d
-     /tmp/ccQ0jBtd.s:639    .text.ws2812b_set_pixel:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:646    .text.ws2812b_set_pixel:0000000000000000 ws2812b_set_pixel
-     /tmp/ccQ0jBtd.s:785    .text.ws2812b_set_pixel:00000000000000f8 $d
-     /tmp/ccQ0jBtd.s:791    .text.loadNextFramebufferData:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:797    .text.loadNextFramebufferData:0000000000000000 loadNextFramebufferData
-     /tmp/ccQ0jBtd.s:863    .text.DMA_TransferCompleteHandler:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:1006   .text.DMA_TransferCompleteHandler:00000000000000c0 $d
+     /tmp/ccNuG5kw.s:561    .text.DMA2_Stream2_IRQHandler:0000000000000000 $t
+     /tmp/ccNuG5kw.s:568    .text.DMA2_Stream2_IRQHandler:0000000000000000 DMA2_Stream2_IRQHandler
+     /tmp/ccNuG5kw.s:594    .text.DMA2_Stream2_IRQHandler:0000000000000018 $d
+     /tmp/ccNuG5kw.s:600    .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 $t
+     /tmp/ccNuG5kw.s:607    .text.TIM1_UP_TIM10_IRQHandler:0000000000000000 TIM1_UP_TIM10_IRQHandler
+     /tmp/ccNuG5kw.s:633    .text.TIM1_UP_TIM10_IRQHandler:0000000000000018 $d
+     /tmp/ccNuG5kw.s:639    .text.ws2812b_set_pixel:0000000000000000 $t
+     /tmp/ccNuG5kw.s:646    .text.ws2812b_set_pixel:0000000000000000 ws2812b_set_pixel
+     /tmp/ccNuG5kw.s:753    .text.ws2812b_set_pixel:00000000000000b0 $d
+     /tmp/ccNuG5kw.s:759    .text.loadNextFramebufferData:0000000000000000 $t
+     /tmp/ccNuG5kw.s:765    .text.loadNextFramebufferData:0000000000000000 loadNextFramebufferData
+     /tmp/ccNuG5kw.s:831    .text.DMA_TransferCompleteHandler:0000000000000000 $t
+     /tmp/ccNuG5kw.s:974    .text.DMA_TransferCompleteHandler:00000000000000c0 $d
                             *COM*:000000000000001c ws2812b
-     /tmp/ccQ0jBtd.s:1020   .text.WS2812_sendbuf:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:1026   .text.WS2812_sendbuf:0000000000000000 WS2812_sendbuf
-     /tmp/ccQ0jBtd.s:1238   .text.WS2812_sendbuf:0000000000000144 $d
-     /tmp/ccQ0jBtd.s:1254   .text.DMA_TransferHalfHandler:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:1327   .text.DMA_TransferHalfHandler:0000000000000040 $d
-     /tmp/ccQ0jBtd.s:1332   .text.ws2812b_init:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:1339   .text.ws2812b_init:0000000000000000 ws2812b_init
-     /tmp/ccQ0jBtd.s:1367   .text.ws2812b_init:0000000000000018 $d
-     /tmp/ccQ0jBtd.s:1372   .text.ws2812b_handle:0000000000000000 $t
-     /tmp/ccQ0jBtd.s:1379   .text.ws2812b_handle:0000000000000000 ws2812b_handle
-     /tmp/ccQ0jBtd.s:1409   .text.ws2812b_handle:0000000000000018 $d
+     /tmp/ccNuG5kw.s:988    .text.WS2812_sendbuf:0000000000000000 $t
+     /tmp/ccNuG5kw.s:994    .text.WS2812_sendbuf:0000000000000000 WS2812_sendbuf
+     /tmp/ccNuG5kw.s:1206   .text.WS2812_sendbuf:0000000000000144 $d
+     /tmp/ccNuG5kw.s:1222   .text.DMA_TransferHalfHandler:0000000000000000 $t
+     /tmp/ccNuG5kw.s:1295   .text.DMA_TransferHalfHandler:0000000000000040 $d
+     /tmp/ccNuG5kw.s:1300   .text.ws2812b_init:0000000000000000 $t
+     /tmp/ccNuG5kw.s:1307   .text.ws2812b_init:0000000000000000 ws2812b_init
+     /tmp/ccNuG5kw.s:1335   .text.ws2812b_init:0000000000000018 $d
+     /tmp/ccNuG5kw.s:1340   .text.ws2812b_handle:0000000000000000 $t
+     /tmp/ccNuG5kw.s:1347   .text.ws2812b_handle:0000000000000000 ws2812b_handle
+     /tmp/ccNuG5kw.s:1377   .text.ws2812b_handle:0000000000000018 $d
                             *COM*:0000000000000004 dummy
-     /tmp/ccQ0jBtd.s:1446   .rodata.gammaTable:0000000000000000 gammaTable
-     /tmp/ccQ0jBtd.s:1439   .data.WS2812_IO_Low:0000000000000000 WS2812_IO_Low
-     /tmp/ccQ0jBtd.s:1432   .data.WS2812_IO_High:0000000000000000 WS2812_IO_High
-     /tmp/ccQ0jBtd.s:1428   .data.WS2812_IO_High:0000000000000000 $d
-     /tmp/ccQ0jBtd.s:1435   .data.WS2812_IO_Low:0000000000000000 $d
-     /tmp/ccQ0jBtd.s:1442   .rodata.gammaTable:0000000000000000 $d
+     /tmp/ccNuG5kw.s:1414   .rodata.gammaTable:0000000000000000 gammaTable
+     /tmp/ccNuG5kw.s:1407   .data.WS2812_IO_Low:0000000000000000 WS2812_IO_Low
+     /tmp/ccNuG5kw.s:1400   .data.WS2812_IO_High:0000000000000000 WS2812_IO_High
+     /tmp/ccNuG5kw.s:1396   .data.WS2812_IO_High:0000000000000000 $d
+     /tmp/ccNuG5kw.s:1403   .data.WS2812_IO_Low:0000000000000000 $d
+     /tmp/ccNuG5kw.s:1410   .rodata.gammaTable:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
-ARM GAS  /tmp/ccQ0jBtd.s 			page 47
+ARM GAS  /tmp/ccNuG5kw.s 			page 46
 
 
 

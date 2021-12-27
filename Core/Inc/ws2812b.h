@@ -31,8 +31,8 @@
 
 // Choose one of the bit-juggling setpixel implementation
 // *******************************************************
-//#define SETPIX_1	// For loop, works everywhere, slow
-#define SETPIX_2	// Bit band in a loop
+#define SETPIX_1	// For loop, works everywhere, slow
+//#define SETPIX_2	// Bit band in a loop
 //#define SETPIX_3	// Like SETPIX_1 but with unrolled loop
 //#define SETPIX_4 // Fastest copying using bit-banding
 
