@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cc6asf4M.s 			page 1
+ARM GAS  /tmp/ccvikT4w.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
   49              	.L2:
    8:Core/Src/can_setup.c ****     {
    9:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg, canRx) != HAL_OK)
-ARM GAS  /tmp/cc6asf4M.s 			page 2
+ARM GAS  /tmp/ccvikT4w.s 			page 2
 
 
   10:Core/Src/can_setup.c ****         {
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
   91              	.L8:
   19:Core/Src/can_setup.c ****     {
   20:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan3, CAN_RX_FIFO0, &rxMsg3, canRx3) != HAL_OK)
-ARM GAS  /tmp/cc6asf4M.s 			page 3
+ARM GAS  /tmp/ccvikT4w.s 			page 3
 
 
   92              		.loc 1 20 0
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  137 009c F6000000 		.word	BMS+246
  138              		.cfi_endproc
  139              	.LFE131:
-ARM GAS  /tmp/cc6asf4M.s 			page 4
+ARM GAS  /tmp/ccvikT4w.s 			page 4
 
 
  141              		.section	.text.HAL_CAN_RxFifo1MsgPendingCallback,"ax",%progbits
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  180              	.L19:
   37:Core/Src/can_setup.c ****         {
  181              		.loc 1 37 0
-ARM GAS  /tmp/cc6asf4M.s 			page 5
+ARM GAS  /tmp/ccvikT4w.s 			page 5
 
 
  182 0016 154B     		ldr	r3, .L23+8
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  226 0058 FFF7FEFF 		bl	decodeTemp
  227              	.LVL26:
   53:Core/Src/can_setup.c ****     }
-ARM GAS  /tmp/cc6asf4M.s 			page 6
+ARM GAS  /tmp/ccvikT4w.s 			page 6
 
 
   54:Core/Src/can_setup.c **** }
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  275 0008 D360     		str	r3, [r2, #12]
   62:Core/Src/can_setup.c ****     txMsg.TransmitGlobalTime = DISABLE;
  276              		.loc 1 62 0
-ARM GAS  /tmp/cc6asf4M.s 			page 7
+ARM GAS  /tmp/ccvikT4w.s 			page 7
 
 
  277 000a 1375     		strb	r3, [r2, #20]
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  315 003e 0028     		cmp	r0, #0
  316 0040 72D1     		bne	.L36
  317              	.L26:
-ARM GAS  /tmp/cc6asf4M.s 			page 8
+ARM GAS  /tmp/ccvikT4w.s 			page 8
 
 
   79:Core/Src/can_setup.c ****     {
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  351              		.loc 1 99 0
  352 0072 404A     		ldr	r2, .L45+20
  353 0074 0421     		movs	r1, #4
-ARM GAS  /tmp/cc6asf4M.s 			page 9
+ARM GAS  /tmp/ccvikT4w.s 			page 9
 
 
  354 0076 9160     		str	r1, [r2, #8]
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  117:Core/Src/can_setup.c **** 
  118:Core/Src/can_setup.c ****     if (HAL_CAN_Start(&hcan2) != HAL_OK)
  391              		.loc 1 118 0
-ARM GAS  /tmp/cc6asf4M.s 			page 10
+ARM GAS  /tmp/ccvikT4w.s 			page 10
 
 
  392 00a8 3448     		ldr	r0, .L45+28
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  428              		.loc 1 136 0
  429 00de D360     		str	r3, [r2, #12]
  137:Core/Src/can_setup.c ****     txMsgExt3.TransmitGlobalTime = DISABLE;
-ARM GAS  /tmp/cc6asf4M.s 			page 11
+ARM GAS  /tmp/ccvikT4w.s 			page 11
 
 
  430              		.loc 1 137 0
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  466              	.L33:
  156:Core/Src/can_setup.c ****     {
  157:Core/Src/can_setup.c ****         Error_Handler();
-ARM GAS  /tmp/cc6asf4M.s 			page 12
+ARM GAS  /tmp/ccvikT4w.s 			page 12
 
 
  158:Core/Src/can_setup.c ****     }
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  508              	.LVL48:
  509 0144 B5E7     		b	.L30
  510              	.L41:
-ARM GAS  /tmp/cc6asf4M.s 			page 13
+ARM GAS  /tmp/ccvikT4w.s 			page 13
 
 
  125:Core/Src/can_setup.c ****     }
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  171:Core/Src/can_setup.c **** {
  172:Core/Src/can_setup.c **** 
  173:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan1, txMsg, canTx, &canMailbox);
-ARM GAS  /tmp/cc6asf4M.s 			page 14
+ARM GAS  /tmp/ccvikT4w.s 			page 14
 
 
  174:Core/Src/can_setup.c ****     txCycle++;
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  594 0022 FFF7FEFF 		bl	HAL_Delay
  595              	.LVL57:
  192:Core/Src/can_setup.c ****         txCycle = 0;
-ARM GAS  /tmp/cc6asf4M.s 			page 15
+ARM GAS  /tmp/ccvikT4w.s 			page 15
 
 
  596              		.loc 1 192 0
@@ -898,7 +898,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  633 0002 0B4C     		ldr	r4, .L57
  634 0004 2060     		str	r0, [r4]
  212:Core/Src/can_setup.c ****     txMsg2.DLC = DLC;
-ARM GAS  /tmp/cc6asf4M.s 			page 16
+ARM GAS  /tmp/ccvikT4w.s 			page 16
 
 
  635              		.loc 1 212 0
@@ -958,7 +958,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  682              		.fpu fpv4-sp-d16
  684              	can3tx:
  685              	.LFB136:
-ARM GAS  /tmp/cc6asf4M.s 			page 17
+ARM GAS  /tmp/ccvikT4w.s 			page 17
 
 
  221:Core/Src/can_setup.c **** 
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  717              	.L59:
  718 001e 10BD     		pop	{r4, pc}
  719              	.L62:
-ARM GAS  /tmp/cc6asf4M.s 			page 18
+ARM GAS  /tmp/ccvikT4w.s 			page 18
 
 
  244:Core/Src/can_setup.c ****     {
@@ -1072,13 +1072,13 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  764              		.comm	hcan2,40,4
  765              		.comm	hcan1,40,4
  766              		.comm	watchdogBits,1,1
- 767              		.comm	charged,1,1
+ 767              		.comm	chargerOn,1,1
  768              		.comm	BMS,492,4
  769              		.text
  770              	.Letext0:
  771              		.file 2 "/usr/include/newlib/machine/_default_types.h"
  772              		.file 3 "/usr/include/newlib/sys/_stdint.h"
-ARM GAS  /tmp/cc6asf4M.s 			page 19
+ARM GAS  /tmp/ccvikT4w.s 			page 19
 
 
  773              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
@@ -1096,14 +1096,14 @@ ARM GAS  /tmp/cc6asf4M.s 			page 1
  785              		.file 16 "Core/Inc/can_setup.h"
  786              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
  787              		.file 18 "Core/Inc/main.h"
-ARM GAS  /tmp/cc6asf4M.s 			page 20
+ARM GAS  /tmp/ccvikT4w.s 			page 20
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 can_setup.c
-     /tmp/cc6asf4M.s:18     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 $t
-     /tmp/cc6asf4M.s:25     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo0MsgPendingCallback
-     /tmp/cc6asf4M.s:128    .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000078 $d
+     /tmp/ccvikT4w.s:18     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 $t
+     /tmp/ccvikT4w.s:25     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo0MsgPendingCallback
+     /tmp/ccvikT4w.s:128    .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000078 $d
                             *COM*:0000000000000008 canRx
                             *COM*:000000000000001c rxMsg
                             *COM*:0000000000000028 hcan1
@@ -1111,15 +1111,15 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 canRx3
                             *COM*:000000000000001c rxMsg3
                             *COM*:0000000000000028 hcan3
-     /tmp/cc6asf4M.s:142    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 $t
-     /tmp/cc6asf4M.s:149    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo1MsgPendingCallback
-     /tmp/cc6asf4M.s:239    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000064 $d
+     /tmp/ccvikT4w.s:142    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 $t
+     /tmp/ccvikT4w.s:149    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo1MsgPendingCallback
+     /tmp/ccvikT4w.s:239    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000064 $d
                             *COM*:0000000000000008 canRx2
                             *COM*:000000000000001c rxMsg2
                             *COM*:0000000000000028 hcan2
-     /tmp/cc6asf4M.s:252    .text.canSettings:0000000000000000 $t
-     /tmp/cc6asf4M.s:259    .text.canSettings:0000000000000000 canSettings
-     /tmp/cc6asf4M.s:533    .text.canSettings:0000000000000160 $d
+     /tmp/ccvikT4w.s:252    .text.canSettings:0000000000000000 $t
+     /tmp/ccvikT4w.s:259    .text.canSettings:0000000000000000 canSettings
+     /tmp/ccvikT4w.s:533    .text.canSettings:0000000000000160 $d
                             *COM*:0000000000000018 txMsg
                             *COM*:0000000000000018 txMsgExt
                             *COM*:0000000000000028 sf
@@ -1129,25 +1129,25 @@ DEFINED SYMBOLS
                             *COM*:0000000000000018 txMsg3
                             *COM*:0000000000000018 txMsgExt3
                             *COM*:0000000000000028 sf3
-     /tmp/cc6asf4M.s:549    .text.can1tx:0000000000000000 $t
-     /tmp/cc6asf4M.s:556    .text.can1tx:0000000000000000 can1tx
-     /tmp/cc6asf4M.s:605    .text.can1tx:0000000000000030 $d
+     /tmp/ccvikT4w.s:549    .text.can1tx:0000000000000000 $t
+     /tmp/ccvikT4w.s:556    .text.can1tx:0000000000000000 can1tx
+     /tmp/ccvikT4w.s:605    .text.can1tx:0000000000000030 $d
                             *COM*:0000000000000004 canMailbox
                             *COM*:0000000000000004 txCycle
-     /tmp/cc6asf4M.s:613    .text.can2tx:0000000000000000 $t
-     /tmp/cc6asf4M.s:620    .text.can2tx:0000000000000000 can2tx
-     /tmp/cc6asf4M.s:669    .text.can2tx:0000000000000030 $d
+     /tmp/ccvikT4w.s:613    .text.can2tx:0000000000000000 $t
+     /tmp/ccvikT4w.s:620    .text.can2tx:0000000000000000 can2tx
+     /tmp/ccvikT4w.s:669    .text.can2tx:0000000000000030 $d
                             *COM*:0000000000000004 canMailbox2
                             *COM*:0000000000000004 txCycle2
-     /tmp/cc6asf4M.s:677    .text.can3tx:0000000000000000 $t
-     /tmp/cc6asf4M.s:684    .text.can3tx:0000000000000000 can3tx
-     /tmp/cc6asf4M.s:733    .text.can3tx:0000000000000030 $d
+     /tmp/ccvikT4w.s:677    .text.can3tx:0000000000000000 $t
+     /tmp/ccvikT4w.s:684    .text.can3tx:0000000000000000 can3tx
+     /tmp/ccvikT4w.s:733    .text.can3tx:0000000000000030 $d
                             *COM*:0000000000000004 canMailbox3
                             *COM*:0000000000000004 txCycle3
                             *COM*:0000000000000028 sf5
                             *COM*:0000000000000028 sf4
                             *COM*:0000000000000001 watchdogBits
-                            *COM*:0000000000000001 charged
+                            *COM*:0000000000000001 chargerOn
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
@@ -1156,7 +1156,7 @@ decodeVolt
 decodeTemp
 Error_Handler
 vehicleComms
-ARM GAS  /tmp/cc6asf4M.s 			page 21
+ARM GAS  /tmp/ccvikT4w.s 			page 21
 
 
 HAL_CAN_ConfigFilter

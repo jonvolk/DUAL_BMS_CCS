@@ -27,7 +27,7 @@ typedef struct bms
 bms_t BMS[2];
 
 //uint8_t vehicleState; //CAN signal from VCU to get key/run state
-bool charged; // flag to synch both packs
+bool chargerOn; // flag to synch both packs
 uint8_t watchdogBits;
 
 void sendCommand(int pack);

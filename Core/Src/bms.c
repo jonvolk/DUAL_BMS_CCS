@@ -73,6 +73,7 @@ static const uint8_t balanceShift[96] =
      0x01, 0x02, 0x04, 0x08, 0x10, 0x20,
      0x01, 0x02, 0x04, 0x08, 0x10, 0x20};
 
+static int errorCount;
 // Initialize BMS //////////////////////////////////////////////////////////////////
 void initBMS(void)
 {
@@ -101,7 +102,9 @@ void initBMS(void)
     }
     //vehicleState = off;
     watchdogBits = 0b0000;
-    charged = false;
+    chargerOn = false;
+    errorCount = 0;
+
 }
 
 // Primary State Machine ///////////////////////////////////////////////////////////////
@@ -112,12 +115,11 @@ void bmsStateHandler(bms_t *bms)
     case Boot:
         bms->chargeRequest = 0;
         bms->state = Ready;
-       
+
         break;
 
     case Ready:
         bms->chargeRequest = 0;
-
         if (bms->avgCellVolt > BALANCE_VOLTAGE)
         {
             if ((bms->highCellVolt - bms->lowCellVolt) > (BALANCE_HYS))
@@ -139,51 +141,20 @@ void bmsStateHandler(bms_t *bms)
         {
             bms->state = Charge;
         }
-        /*
-        if (vehicleState != off) //idle || run)
-        {
-            bms->balancecells = false;
-            bms->state = Drive;
-        }*/
         break;
-        /*
-    case Drive:
 
-    
-        if (vehicleState == off)
-        {
-            bms->state = Ready;
-        }
-        break;
-*/
     case Charge:
         bms->balancecells = false;
-        bms->chargeRequest = 1;
+        bms->chargeRequest = 1;        
 
         if (bms->highCellVolt > CHARGE_V_SETPOINT || bms->highCellTemp > OVER_T_SETPOINT)
         {
-            /*
-            if (bms->avgCellVolt > CHARGE_V_SETPOINT - BALANCE_HYS)
-            {
-                //SOC charged func
-            }
-            else
-            {
-                //SOC charged func
-            }
-            */
-            bms->chargeRequest = 0;
             bms->state = Ready;
         }
         break;
 
     case Error:
-        bms->chargeRequest = 0;
-
-        if (bms->lowCellVolt > UNDER_V_SETPOINT && bms->highCellVolt < OVER_V_SETPOINT)
-        {
-            bms->state = Ready;
-        }
+        HAL_NVIC_SystemReset();
         break;
 
     default:
@@ -195,11 +166,9 @@ void bmsStateHandler(bms_t *bms)
 void acChargeCommand(void)
 {
     uint8_t canTx2[8];
-    if (!charged)
+    if (chargerOn)
     {
         int val = 32;
-        //txMsg2.StdId = 0x605; //set parameter ID
-        //txMsg2.DLC = 8;
         canTx2[0] = 0x40;
         canTx2[1] = 0x00;
         canTx2[2] = 0x20;
@@ -208,15 +177,11 @@ void acChargeCommand(void)
         canTx2[5] = (val >> 8) & 0xFF;
         canTx2[6] = (val >> 16) & 0xFF;
         canTx2[7] = (val >> 24) & 0xFF;
-        //c2tx(&txMsg2, canTx2);
-        can2tx(0x605, 8, canTx2);
+        can2tx(0x605, 8, canTx2); 
     }
-
     else
     {
         int val = 0;
-        //txMsg2.StdId = 0x605; //set parameter ID
-        //txMsg2.DLC = 8;
         canTx2[0] = 0x40;
         canTx2[1] = 0x00;
         canTx2[2] = 0x20;
@@ -226,7 +191,7 @@ void acChargeCommand(void)
         canTx2[6] = (val >> 16) & 0xFF;
         canTx2[7] = (val >> 24) & 0xFF;
         can2tx(0x605, 8, canTx2);
-        //c2tx(&txMsg2, canTx2);
+
     }
 }
 // Send CAN Data /////////////////////////////////////////////////////////////////////
@@ -261,7 +226,7 @@ void refreshData(void)
 
     for (size_t i = 0; i < 2; i++)
     {
-        requestBICMdata(&BMS[i], i);
+        //requestBICMdata(&BMS[i], i);
         getPackVolt(&BMS[i]);
         getAvgCellVolt(&BMS[i]);
         getLowCellVolt(&BMS[i]);
@@ -561,10 +526,14 @@ void getCellCount(bms_t *bms, int pack)
     }
     if (cellCount != 96)
     {
-        BMS[pack].state = Error;
+        //BMS[pack].state = Error;
+        errorCount++;
+        if (errorCount > 5)
+        {
+            BMS[pack].state = Error;
+        }
     }
 }
-
 ///////////////////////////////////////////////////////////////////////////////////////
 void vehicleComms(CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
 {
@@ -582,14 +551,20 @@ void vehicleComms(CAN_RxHeaderTypeDef *rxMsg, uint8_t *canRx)
 ///////////////////////////////////////////////////////////////////////////////////////
 void synchChargers(void)
 {
+
     if (BMS[0].chargeRequest && BMS[1].chargeRequest)
     {
-        charged = false;
+        chargerOn = true;
     }
 
-    if ((!BMS[0].chargeRequest) || (!BMS[1].chargeRequest))
+    if (chargerOn)
     {
-        charged = true;
+        if ((!BMS[0].chargeRequest) || (!BMS[1].chargeRequest))
+        {
+            chargerOn = false;
+            BMS[0].state = Ready;
+            BMS[1].state = Ready;
+        }
     }
 }
 

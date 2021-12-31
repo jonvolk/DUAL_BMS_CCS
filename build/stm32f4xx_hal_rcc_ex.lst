@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccCVFoAx.s 			page 1
+ARM GAS  /tmp/ccsnzjQU.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
   29:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   */
   30:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
   31:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** /** @defgroup RCCEx RCCEx
-ARM GAS  /tmp/ccCVFoAx.s 			page 2
+ARM GAS  /tmp/ccsnzjQU.s 			page 2
 
 
   32:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @brief RCCEx HAL module driver
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
   86:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *
   87:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @retval HAL status
   88:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   */
-ARM GAS  /tmp/ccCVFoAx.s 			page 3
+ARM GAS  /tmp/ccsnzjQU.s 			page 3
 
 
   89:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClkInit)
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  143:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_SAI1_CONFIG(PeriphClkInit->Sai1ClockSelection);
  144:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Enable the PLLI2S when it's used as clock source for SAI */
  145:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if(PeriphClkInit->Sai1ClockSelection == RCC_SAI1CLKSOURCE_PLLI2S)
-ARM GAS  /tmp/ccCVFoAx.s 			page 4
+ARM GAS  /tmp/ccsnzjQU.s 			page 4
 
 
  146:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  200:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     }
  201:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Reset the Backup domain only if the RTC Clock source selection is modified from reset value 
  202:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     tmpreg1 = (RCC->BDCR & RCC_BDCR_RTCSEL);
-ARM GAS  /tmp/ccCVFoAx.s 			page 5
+ARM GAS  /tmp/ccsnzjQU.s 			page 5
 
 
  203:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if((tmpreg1 != 0x00000000U) && ((tmpreg1) != (PeriphClkInit->RTCClockSelection & RCC_BDCR_RTCSE
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  257:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  258:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Configure the CEC clock source */
  259:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_CEC_CONFIG(PeriphClkInit->CecClockSelection);
-ARM GAS  /tmp/ccCVFoAx.s 			page 6
+ARM GAS  /tmp/ccsnzjQU.s 			page 6
 
 
  260:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  314:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Get tick */
  315:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     tickstart = HAL_GetTick();
  316:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Wait till PLLI2S is disabled */
-ARM GAS  /tmp/ccCVFoAx.s 			page 7
+ARM GAS  /tmp/ccsnzjQU.s 			page 7
 
 
  317:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     while(__HAL_RCC_GET_FLAG(RCC_FLAG_PLLI2SRDY)  != RESET)
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  371:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* check for Parameters */
  372:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       assert_param(IS_RCC_PLLI2SP_VALUE(PeriphClkInit->PLLI2S.PLLI2SP));
  373:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Read PLLI2SR value from PLLI2SCFGR register (this value is not need for SAI configuration)
-ARM GAS  /tmp/ccCVFoAx.s 			page 8
+ARM GAS  /tmp/ccsnzjQU.s 			page 8
 
 
  374:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       plli2sq = ((((RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SP) >> RCC_PLLI2SCFGR_PLLI2SP_Pos) + 1U) 
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  428:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  429:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Check the PLLSAI division factors */
  430:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     assert_param(IS_RCC_PLLSAIM_VALUE(PeriphClkInit->PLLSAI.PLLSAIM));
-ARM GAS  /tmp/ccCVFoAx.s 			page 9
+ARM GAS  /tmp/ccsnzjQU.s 			page 9
 
 
  431:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     assert_param(IS_RCC_PLLSAIN_VALUE(PeriphClkInit->PLLSAI.PLLSAIN));
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  485:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @brief  Get the RCC_PeriphCLKInitTypeDef according to the internal
  486:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *         RCC configuration registers.
  487:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @param  PeriphClkInit pointer to an RCC_PeriphCLKInitTypeDef structure that
-ARM GAS  /tmp/ccCVFoAx.s 			page 10
+ARM GAS  /tmp/ccsnzjQU.s 			page 10
 
 
  488:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *         will be configured.
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  542:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  543:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Get the SDIO clock configuration ----------------------------------------*/
  544:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->SdioClockSelection = __HAL_RCC_GET_SDIO_SOURCE();
-ARM GAS  /tmp/ccCVFoAx.s 			page 11
+ARM GAS  /tmp/ccsnzjQU.s 			page 11
 
 
  545:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  599:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             vcoinput = (HSI_VALUE / (uint32_t)(RCC->PLLSAICFGR & RCC_PLLSAICFGR_PLLSAIM));
  600:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           }
  601:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           else
-ARM GAS  /tmp/ccCVFoAx.s 			page 12
+ARM GAS  /tmp/ccsnzjQU.s 			page 12
 
 
  602:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  656:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           }
  657:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  658:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           /* PLL_VCO Output = PLL_VCO Input * PLLN */
-ARM GAS  /tmp/ccCVFoAx.s 			page 13
+ARM GAS  /tmp/ccsnzjQU.s 			page 13
 
 
  659:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           /* SAI_CLK_x = PLL_VCO Output/PLLR */
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  713:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           else
  714:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
  715:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             /* Get the I2S source clock value */
-ARM GAS  /tmp/ccCVFoAx.s 			page 14
+ARM GAS  /tmp/ccsnzjQU.s 			page 14
 
 
  716:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             vcoinput = (uint32_t)(HSI_VALUE / (uint32_t)(RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SM))
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  770:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
  771:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Get the current I2S source */
  772:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       srcclk = __HAL_RCC_GET_I2S_APB2_SOURCE();
-ARM GAS  /tmp/ccCVFoAx.s 			page 15
+ARM GAS  /tmp/ccsnzjQU.s 			page 15
 
 
  773:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       switch (srcclk)
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  827:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       case RCC_I2SAPB2CLKSOURCE_PLLSRC:
  828:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
  829:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           if((RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) == RCC_PLLSOURCE_HSE)
-ARM GAS  /tmp/ccCVFoAx.s 			page 16
+ARM GAS  /tmp/ccsnzjQU.s 			page 16
 
 
  830:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  884:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  885:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Configure the CLK48 clock source */
  886:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_CLK48_CONFIG(PeriphClkInit->Clk48ClockSelection);
-ARM GAS  /tmp/ccCVFoAx.s 			page 17
+ARM GAS  /tmp/ccsnzjQU.s 			page 17
 
 
  887:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  941:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****        be added only for SAI configuration */
  942:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if(((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_SAI_PLLI2S) == (RCC_PERIPHCLK_SAI_PLL
  943:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
-ARM GAS  /tmp/ccCVFoAx.s 			page 18
+ARM GAS  /tmp/ccsnzjQU.s 			page 18
 
 
  944:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Check the PLLI2S division factors */
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  998:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Disable PLLSAI Clock */
  999:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_PLLSAI_DISABLE();
 1000:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Get tick */
-ARM GAS  /tmp/ccCVFoAx.s 			page 19
+ARM GAS  /tmp/ccsnzjQU.s 			page 19
 
 
 1001:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     tickstart = HAL_GetTick();
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1055:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       assert_param(IS_RCC_PLLSAIP_VALUE(PeriphClkInit->PLLSAI.PLLSAIP));
 1056:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1057:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Read PLLSAIQ value from PLLSAICFGR register (this value is not need for SAI configuration)
-ARM GAS  /tmp/ccCVFoAx.s 			page 20
+ARM GAS  /tmp/ccsnzjQU.s 			page 20
 
 
 1058:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       pllsaiq = ((RCC->PLLSAICFGR & RCC_PLLSAICFGR_PLLSAIQ) >> RCC_PLLSAICFGR_PLLSAIQ_Pos);
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1112:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* RTC Clock selection can be changed only if the Backup Domain is reset */
 1113:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       __HAL_RCC_BACKUPRESET_FORCE();
 1114:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       __HAL_RCC_BACKUPRESET_RELEASE();
-ARM GAS  /tmp/ccCVFoAx.s 			page 21
+ARM GAS  /tmp/ccsnzjQU.s 			page 21
 
 
 1115:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Restore the Content of BDCR register */
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1169:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->PLLSAI.PLLSAIR = (uint32_t)((RCC->PLLSAICFGR & RCC_PLLSAICFGR_PLLSAIR) >> RCC_PLLS
 1170:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->PLLSAI.PLLSAIQ = (uint32_t)((RCC->PLLSAICFGR & RCC_PLLSAICFGR_PLLSAIQ) >> RCC_PLLS
 1171:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Get the PLLSAI/PLLI2S division factors ----------------------------------*/
-ARM GAS  /tmp/ccCVFoAx.s 			page 22
+ARM GAS  /tmp/ccsnzjQU.s 			page 22
 
 
 1172:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->PLLI2SDivQ = (uint32_t)((RCC->DCKCFGR & RCC_DCKCFGR_PLLI2SDIVQ) >> RCC_DCKCFGR_PLL
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1226:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         }
 1227:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Check if I2S clock selection is PLLI2S VCO output clock divided by PLLI2SR used as I2S clo
 1228:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       case RCC_I2SCLKSOURCE_PLLI2S:
-ARM GAS  /tmp/ccCVFoAx.s 			page 23
+ARM GAS  /tmp/ccsnzjQU.s 			page 23
 
 
 1229:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
   31              		@ frame_needed = 0, uses_anonymous_args = 0
   32              	.LVL0:
   33 0000 70B5     		push	{r4, r5, r6, lr}
-ARM GAS  /tmp/ccCVFoAx.s 			page 24
+ARM GAS  /tmp/ccsnzjQU.s 			page 24
 
 
   34              	.LCFI0:
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1300:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
 1301:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       plli2sused = 1U;
 1302:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     }
-ARM GAS  /tmp/ccCVFoAx.s 			page 25
+ARM GAS  /tmp/ccsnzjQU.s 			page 25
 
 
 1303:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
   93 0060 A16C     		ldr	r1, [r4, #72]
   94 0062 0B43     		orrs	r3, r3, r1
   95 0064 C2F88C30 		str	r3, [r2, #140]
-ARM GAS  /tmp/ccCVFoAx.s 			page 26
+ARM GAS  /tmp/ccsnzjQU.s 			page 26
 
 
 1331:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Enable the PLLI2S when it's used as clock source for SAI */
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  121              		.loc 1 1359 0
  122 0094 0126     		movs	r6, #1
  123              	.LVL5:
-ARM GAS  /tmp/ccCVFoAx.s 			page 27
+ARM GAS  /tmp/ccsnzjQU.s 			page 27
 
 
  124              	.L7:
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1403:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       __HAL_RCC_BACKUPRESET_FORCE();
 1404:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       __HAL_RCC_BACKUPRESET_RELEASE();
 1405:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Restore the Content of BDCR register */
-ARM GAS  /tmp/ccCVFoAx.s 			page 28
+ARM GAS  /tmp/ccsnzjQU.s 			page 28
 
 
 1406:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       RCC->BDCR = tmpreg1;
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  151 00c6 23F44003 		bic	r3, r3, #12582912
  152 00ca E16A     		ldr	r1, [r4, #44]
  153 00cc 0B43     		orrs	r3, r3, r1
-ARM GAS  /tmp/ccCVFoAx.s 			page 29
+ARM GAS  /tmp/ccsnzjQU.s 			page 29
 
 
  154 00ce C2F89430 		str	r3, [r2, #148]
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  180 0104 23F08053 		bic	r3, r3, #268435456
  181 0108 A16A     		ldr	r1, [r4, #40]
  182 010a 0B43     		orrs	r3, r3, r1
-ARM GAS  /tmp/ccCVFoAx.s 			page 30
+ARM GAS  /tmp/ccsnzjQU.s 			page 30
 
 
  183 010c C2F89430 		str	r3, [r2, #148]
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1515:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     }
 1516:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1517:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** #if defined(STM32F413xx) || defined(STM32F423xx)
-ARM GAS  /tmp/ccCVFoAx.s 			page 31
+ARM GAS  /tmp/ccsnzjQU.s 			page 31
 
 
 1518:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /*------- In Case of PLLI2S is selected as source clock for SAI ----------*/
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  195 011e 2368     		ldr	r3, [r4]
  196 0120 13F4807F 		tst	r3, #256
  197 0124 08D0     		beq	.L36
-ARM GAS  /tmp/ccCVFoAx.s 			page 32
+ARM GAS  /tmp/ccsnzjQU.s 			page 32
 
 
 1571:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   {
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  223 015a 5E4A     		ldr	r2, .L60
  224 015c D2F88C30 		ldr	r3, [r2, #140]
  225 0160 23F00043 		bic	r3, r3, #-2147483648
-ARM GAS  /tmp/ccCVFoAx.s 			page 33
+ARM GAS  /tmp/ccsnzjQU.s 			page 33
 
 
  226 0164 E16B     		ldr	r1, [r4, #60]
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  253              		.loc 1 1626 0
  254 01a2 0020     		movs	r0, #0
  255              	.L10:
-ARM GAS  /tmp/ccCVFoAx.s 			page 34
+ARM GAS  /tmp/ccsnzjQU.s 			page 34
 
 
 1627:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** }
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1384:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  305              		.loc 1 1384 0
  306 01f4 394A     		ldr	r2, .L60+8
-ARM GAS  /tmp/ccCVFoAx.s 			page 35
+ARM GAS  /tmp/ccsnzjQU.s 			page 35
 
 
  307 01f6 1368     		ldr	r3, [r2]
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  352 023a 0120     		movs	r0, #1
  353 023c 0860     		str	r0, [r1]
 1404:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Restore the Content of BDCR register */
-ARM GAS  /tmp/ccCVFoAx.s 			page 36
+ARM GAS  /tmp/ccsnzjQU.s 			page 36
 
 
  354              		.loc 1 1404 0
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  400 0286 401B     		subs	r0, r0, r5
  401 0288 41F28833 		movw	r3, #5000
  402 028c 9842     		cmp	r0, r3
-ARM GAS  /tmp/ccCVFoAx.s 			page 37
+ARM GAS  /tmp/ccsnzjQU.s 			page 37
 
 
  403 028e F3D9     		bls	.L13
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  449              	.L61:
  450 02d2 00BF     		.align	2
  451              	.L60:
-ARM GAS  /tmp/ccCVFoAx.s 			page 38
+ARM GAS  /tmp/ccsnzjQU.s 			page 38
 
 
  452 02d4 00380240 		.word	1073887232
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1514:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     }
  496              		.loc 1 1514 0 is_stmt 1
  497 0324 6368     		ldr	r3, [r4, #4]
-ARM GAS  /tmp/ccCVFoAx.s 			page 39
+ARM GAS  /tmp/ccsnzjQU.s 			page 39
 
 
  498 0326 A268     		ldr	r2, [r4, #8]
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  544              		.loc 1 1541 0
  545 0384 2368     		ldr	r3, [r4]
  546 0386 13F0800F 		tst	r3, #128
-ARM GAS  /tmp/ccCVFoAx.s 			page 40
+ARM GAS  /tmp/ccsnzjQU.s 			page 40
 
 
  547 038a 0CD0     		beq	.L33
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  594              		.cfi_endproc
  595              	.LFE130:
  597              		.section	.text.HAL_RCCEx_GetPeriphCLKConfig,"ax",%progbits
-ARM GAS  /tmp/ccCVFoAx.s 			page 41
+ARM GAS  /tmp/ccsnzjQU.s 			page 41
 
 
  598              		.align	1
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  620 0010 4260     		str	r2, [r0, #4]
 1661:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->PLLI2S.PLLI2SN = (uint32_t)((RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SN) >> RCC_PLLI
  621              		.loc 1 1661 0
-ARM GAS  /tmp/ccCVFoAx.s 			page 42
+ARM GAS  /tmp/ccsnzjQU.s 			page 42
 
 
  622 0012 D3F88420 		ldr	r2, [r3, #132]
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1679:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1680:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Get the FMPI2C1 clock configuration -------------------------------------*/
 1681:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->Fmpi2c1ClockSelection = __HAL_RCC_GET_FMPI2C1_SOURCE();
-ARM GAS  /tmp/ccCVFoAx.s 			page 43
+ARM GAS  /tmp/ccsnzjQU.s 			page 43
 
 
  659              		.loc 1 1681 0
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1704:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1705:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Get the SAI1 Block Aclock configuration ---------------------------------*/
 1706:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->SaiAClockSelection = __HAL_RCC_GET_SAI_BLOCKA_SOURCE();
-ARM GAS  /tmp/ccCVFoAx.s 			page 44
+ARM GAS  /tmp/ccsnzjQU.s 			page 44
 
 
  691              		.loc 1 1706 0
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1724:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @brief  Return the peripheral clock frequency for a given peripheral(I2S..)
 1725:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @note   Return 0 if peripheral clock identifier not managed by this API
 1726:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @param  PeriphClk Peripheral clock identifier
-ARM GAS  /tmp/ccCVFoAx.s 			page 45
+ARM GAS  /tmp/ccsnzjQU.s 			page 45
 
 
 1727:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *         This parameter can be one of the following values:
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1750:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       case RCC_I2SAPB1CLKSOURCE_EXT:
 1751:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
 1752:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           /* Set the I2S clock to the external clock  value */
-ARM GAS  /tmp/ccCVFoAx.s 			page 46
+ARM GAS  /tmp/ccsnzjQU.s 			page 46
 
 
 1753:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           frequency = EXTERNAL_CLOCK_VALUE;
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1807:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Check if I2S clock selection is HSI or HSE depending from PLL source Clock */
 1808:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       case RCC_I2SAPB1CLKSOURCE_PLLSRC:
 1809:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
-ARM GAS  /tmp/ccCVFoAx.s 			page 47
+ARM GAS  /tmp/ccsnzjQU.s 			page 47
 
 
 1810:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           if((RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) == RCC_PLLSOURCE_HSE)
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  804              	.L74:
 1753:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           break;
  805              		.loc 1 1753 0
-ARM GAS  /tmp/ccCVFoAx.s 			page 48
+ARM GAS  /tmp/ccsnzjQU.s 			page 48
 
 
  806 007a 5948     		ldr	r0, .L102+8
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  854 00c4 444A     		ldr	r2, .L102
  855 00c6 5068     		ldr	r0, [r2, #4]
  856 00c8 C0F38810 		ubfx	r0, r0, #6, #9
-ARM GAS  /tmp/ccCVFoAx.s 			page 49
+ARM GAS  /tmp/ccsnzjQU.s 			page 49
 
 
  857 00cc 00FB03F0 		mul	r0, r0, r3
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  887 00fa 2BD0     		beq	.L84
  888 00fc 0CD9     		bls	.L101
  889 00fe B3F1805F 		cmp	r3, #268435456
-ARM GAS  /tmp/ccCVFoAx.s 			page 50
+ARM GAS  /tmp/ccsnzjQU.s 			page 50
 
 
  890 0102 40D0     		beq	.L87
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1885:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           }
 1886:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1887:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           /* PLL_VCO Output = PLL_VCO Input * PLLN */
-ARM GAS  /tmp/ccCVFoAx.s 			page 51
+ARM GAS  /tmp/ccsnzjQU.s 			page 51
 
 
 1888:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           vcooutput = (uint32_t)(vcoinput * (((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6U) & (RCC_PLLCF
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  931              	.LVL78:
  932 014a C3F30273 		ubfx	r3, r3, #28, #3
  933 014e B0FBF3F0 		udiv	r0, r0, r3
-ARM GAS  /tmp/ccCVFoAx.s 			page 52
+ARM GAS  /tmp/ccsnzjQU.s 			page 52
 
 
  934              	.LVL79:
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  981 0194 03F03F03 		and	r3, r3, #63
  982 0198 1048     		ldr	r0, .L102+4
  983              	.LVL90:
-ARM GAS  /tmp/ccCVFoAx.s 			page 53
+ARM GAS  /tmp/ccsnzjQU.s 			page 53
 
 
  984 019a B0FBF3F3 		udiv	r3, r0, r3
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1905:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         }
 1906:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Clock not enabled for I2S*/
 1907:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       default:
-ARM GAS  /tmp/ccCVFoAx.s 			page 54
+ARM GAS  /tmp/ccsnzjQU.s 			page 54
 
 
 1908:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1932:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   */
 1933:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClkInit)
 1934:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** {
-ARM GAS  /tmp/ccCVFoAx.s 			page 55
+ARM GAS  /tmp/ccsnzjQU.s 			page 55
 
 
 1935:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   uint32_t tickstart = 0U;
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 1989:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       }
 1990:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     }
 1991:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_RTC_CONFIG(PeriphClkInit->RTCClockSelection);
-ARM GAS  /tmp/ccCVFoAx.s 			page 56
+ARM GAS  /tmp/ccsnzjQU.s 			page 56
 
 
 1992:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2046:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 2047:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Set all possible values for the extended clock type parameter------------*/
 2048:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->PeriphClockSelection = RCC_PERIPHCLK_FMPI2C1 | RCC_PERIPHCLK_LPTIM1 | RCC_PERIPHCL
-ARM GAS  /tmp/ccCVFoAx.s 			page 57
+ARM GAS  /tmp/ccsnzjQU.s 			page 57
 
 
 2049:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2103:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
 2104:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           /* Configure the PLL division factor R */
 2105:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           /* PLL_VCO Input  = PLL_SOURCE/PLLM */
-ARM GAS  /tmp/ccCVFoAx.s 			page 58
+ARM GAS  /tmp/ccsnzjQU.s 			page 58
 
 
 2106:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           if((RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) == RCC_PLLSOURCE_HSE)
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2160:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *         order to modify the RTC Clock source, as consequence RTC registers (including
 2161:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *         the backup registers) and RCC_BDCR register are set to their reset values.
 2162:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *
-ARM GAS  /tmp/ccCVFoAx.s 			page 59
+ARM GAS  /tmp/ccsnzjQU.s 			page 59
 
 
 2163:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @retval HAL status
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2217:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       assert_param(IS_RCC_PLLI2SQ_VALUE(PeriphClkInit->PLLI2S.PLLI2SQ));
 2218:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       assert_param(IS_RCC_PLLI2S_DIVQ_VALUE(PeriphClkInit->PLLI2SDivQ));
 2219:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
-ARM GAS  /tmp/ccCVFoAx.s 			page 60
+ARM GAS  /tmp/ccsnzjQU.s 			page 60
 
 
 2220:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Read PLLI2SR value from PLLI2SCFGR register (this value is not need for SAI configuration)
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2274:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
 2275:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       if((HAL_GetTick() - tickstart ) > PLLSAI_TIMEOUT_VALUE)
 2276:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       {
-ARM GAS  /tmp/ccCVFoAx.s 			page 61
+ARM GAS  /tmp/ccsnzjQU.s 			page 61
 
 
 2277:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         /* return in case of Timeout detected */
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2331:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /*---------------------------- RTC configuration ---------------------------*/
 2332:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   if(((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_RTC) == (RCC_PERIPHCLK_RTC))
 2333:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   {
-ARM GAS  /tmp/ccCVFoAx.s 			page 62
+ARM GAS  /tmp/ccsnzjQU.s 			page 62
 
 
 2334:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Check for RTC Parameters used to output RTCCLK */
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2388:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_TIMCLKPRESCALER(PeriphClkInit->TIMPresSelection);
 2389:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
 2390:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   return HAL_OK;
-ARM GAS  /tmp/ccCVFoAx.s 			page 63
+ARM GAS  /tmp/ccsnzjQU.s 			page 63
 
 
 2391:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** }
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2445:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* This variable used to store the VCO Input (value in Hz) */
 2446:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   uint32_t vcoinput = 0U;
 2447:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   uint32_t srcclk = 0U;
-ARM GAS  /tmp/ccCVFoAx.s 			page 64
+ARM GAS  /tmp/ccsnzjQU.s 			page 64
 
 
 2448:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* This variable used to store the VCO Output (value in Hz) */
@@ -3838,7 +3838,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2502:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     defined(STM32F401xC) || defined(STM32F401xE) || defined(STM32F411xE)
 2503:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** /**
 2504:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @brief  Initializes the RCC extended peripherals clocks according to the specified parameters i
-ARM GAS  /tmp/ccCVFoAx.s 			page 65
+ARM GAS  /tmp/ccsnzjQU.s 			page 65
 
 
 2505:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *         RCC_PeriphCLKInitTypeDef.
@@ -3898,7 +3898,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2559:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Enable the PLLI2S */
 2560:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_PLLI2S_ENABLE();
 2561:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Get tick */
-ARM GAS  /tmp/ccCVFoAx.s 			page 66
+ARM GAS  /tmp/ccsnzjQU.s 			page 66
 
 
 2562:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     tickstart = HAL_GetTick();
@@ -3958,7 +3958,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2616:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
 2617:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           if((HAL_GetTick() - tickstart ) > RCC_LSE_TIMEOUT_VALUE)
 2618:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
-ARM GAS  /tmp/ccCVFoAx.s 			page 67
+ARM GAS  /tmp/ccsnzjQU.s 			page 67
 
 
 2619:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             return HAL_TIMEOUT;
@@ -4018,7 +4018,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2673:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** /**
 2674:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @brief  Return the peripheral clock frequency for a given peripheral(SAI..)
 2675:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @note   Return 0 if peripheral clock identifier not managed by this API
-ARM GAS  /tmp/ccCVFoAx.s 			page 68
+ARM GAS  /tmp/ccsnzjQU.s 			page 68
 
 
 2676:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @param  PeriphClk Peripheral clock identifier
@@ -4078,7 +4078,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2730:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
 2731:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             /* Get the I2S source clock value */
 2732:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             vcoinput = (uint32_t)(HSI_VALUE / (uint32_t)(RCC->PLLCFGR & RCC_PLLCFGR_PLLM));
-ARM GAS  /tmp/ccCVFoAx.s 			page 69
+ARM GAS  /tmp/ccsnzjQU.s 			page 69
 
 
 2733:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           }
@@ -4138,7 +4138,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2778:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     CLEAR_BIT(RCC->BDCR, RCC_BDCR_LSEMOD);
  1066              		.loc 1 2778 0
  1067 0004 054A     		ldr	r2, .L108
-ARM GAS  /tmp/ccCVFoAx.s 			page 70
+ARM GAS  /tmp/ccsnzjQU.s 			page 70
 
 
  1068 0006 136F     		ldr	r3, [r2, #112]
@@ -4198,7 +4198,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2806:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** {
  1096              		.loc 1 2806 0
  1097              		.cfi_startproc
-ARM GAS  /tmp/ccCVFoAx.s 			page 71
+ARM GAS  /tmp/ccsnzjQU.s 			page 71
 
 
  1098              		@ args = 0, pretend = 0, frame = 0
@@ -4258,7 +4258,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1129 0022 F5D9     		bls	.L111
 2830:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
 2831:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* return in case of Timeout detected */
-ARM GAS  /tmp/ccCVFoAx.s 			page 72
+ARM GAS  /tmp/ccsnzjQU.s 			page 72
 
 
 2832:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       return HAL_TIMEOUT;
@@ -4318,7 +4318,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1147 0044 094B     		ldr	r3, .L121
  1148 0046 1A60     		str	r2, [r3]
 2869:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
-ARM GAS  /tmp/ccCVFoAx.s 			page 73
+ARM GAS  /tmp/ccsnzjQU.s 			page 73
 
 
 2870:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Wait till PLLI2S is ready */
@@ -4378,7 +4378,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1190              		.fpu fpv4-sp-d16
  1192              	HAL_RCCEx_DisablePLLI2S:
  1193              	.LFB135:
-ARM GAS  /tmp/ccCVFoAx.s 			page 74
+ARM GAS  /tmp/ccsnzjQU.s 			page 74
 
 
 2883:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -4438,7 +4438,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2905:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 2906:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   return HAL_OK;
 2907:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** }
-ARM GAS  /tmp/ccCVFoAx.s 			page 75
+ARM GAS  /tmp/ccsnzjQU.s 			page 75
 
 
  1226              		.loc 1 2907 0
@@ -4498,7 +4498,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2937:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 2938:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Wait till PLLSAI is disabled */
 2939:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   tickstart = HAL_GetTick();
-ARM GAS  /tmp/ccCVFoAx.s 			page 76
+ARM GAS  /tmp/ccsnzjQU.s 			page 76
 
 
 2940:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   while(__HAL_RCC_PLLSAI_GET_FLAG() != RESET)
@@ -4558,7 +4558,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 2994:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   uint32_t tickstart;
 2995:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 2996:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Disable the PLLSAI */
-ARM GAS  /tmp/ccCVFoAx.s 			page 77
+ARM GAS  /tmp/ccsnzjQU.s 			page 77
 
 
 2997:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   __HAL_RCC_PLLSAI_DISABLE();
@@ -4618,7 +4618,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3051:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @retval SYSCLK frequency
 3052:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   */
 3053:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** uint32_t HAL_RCC_GetSysClockFreq(void)
-ARM GAS  /tmp/ccCVFoAx.s 			page 78
+ARM GAS  /tmp/ccsnzjQU.s 			page 78
 
 
 3054:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** {
@@ -4678,7 +4678,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3108:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       }
 3109:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       pllr = ((RCC->PLLCFGR & RCC_PLLCFGR_PLLR) >> RCC_PLLCFGR_PLLR_Pos);
 3110:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
-ARM GAS  /tmp/ccCVFoAx.s 			page 79
+ARM GAS  /tmp/ccsnzjQU.s 			page 79
 
 
 3111:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       sysclockfreq = pllvco/pllr;
@@ -4738,7 +4738,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1266 0006 0446     		mov	r4, r0
  1267              	.LVL123:
 3151:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
-ARM GAS  /tmp/ccCVFoAx.s 			page 80
+ARM GAS  /tmp/ccsnzjQU.s 			page 80
 
 
 3152:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Set HSION bit to the reset value */
@@ -4798,7 +4798,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3185:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Clear HSEON, HSEBYP and CSSON bits */
 3186:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   CLEAR_BIT(RCC->CR, RCC_CR_HSEON | RCC_CR_HSEBYP | RCC_CR_CSSON);
 3187:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
-ARM GAS  /tmp/ccCVFoAx.s 			page 81
+ARM GAS  /tmp/ccsnzjQU.s 			page 81
 
 
 3188:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Wait till HSE is disabled */
@@ -4858,7 +4858,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3242:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     }
 3243:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
 3244:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** #endif /* RCC_PLLSAI_SUPPORT */
-ARM GAS  /tmp/ccCVFoAx.s 			page 82
+ARM GAS  /tmp/ccsnzjQU.s 			page 82
 
 
 3245:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -4918,7 +4918,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3299:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 3300:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Reset all CSR flags */
 3301:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   SET_BIT(RCC->CSR, RCC_CSR_RMVF);
-ARM GAS  /tmp/ccCVFoAx.s 			page 83
+ARM GAS  /tmp/ccsnzjQU.s 			page 83
 
 
 3302:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -4978,7 +4978,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1323 005a E5E7     		b	.L134
  1324              	.L151:
 3183:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
-ARM GAS  /tmp/ccCVFoAx.s 			page 84
+ARM GAS  /tmp/ccsnzjQU.s 			page 84
 
 
  1325              		.loc 1 3183 0
@@ -5038,7 +5038,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1371              	.LVL138:
  1372 00a2 001B     		subs	r0, r0, r4
  1373 00a4 0228     		cmp	r0, #2
-ARM GAS  /tmp/ccCVFoAx.s 			page 85
+ARM GAS  /tmp/ccsnzjQU.s 			page 85
 
 
  1374 00a6 F5D9     		bls	.L140
@@ -5098,7 +5098,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1418 00e8 22F40052 		bic	r2, r2, #8192
  1419 00ec DA60     		str	r2, [r3, #12]
 3287:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
-ARM GAS  /tmp/ccCVFoAx.s 			page 86
+ARM GAS  /tmp/ccsnzjQU.s 			page 86
 
 
  1420              		.loc 1 3287 0
@@ -5158,7 +5158,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1470              	HAL_RCC_OscConfig:
  1471              	.LFB137:
 3316:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
-ARM GAS  /tmp/ccCVFoAx.s 			page 87
+ARM GAS  /tmp/ccsnzjQU.s 			page 87
 
 
 3317:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** #if defined(STM32F410Tx) || defined(STM32F410Cx) || defined(STM32F410Rx) || defined(STM32F446xx) ||
@@ -5218,7 +5218,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3350:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       ((__HAL_RCC_GET_SYSCLK_SOURCE() == RCC_CFGR_SWS_PLLR) && ((RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC)
 3351:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** #else
 3352:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if((__HAL_RCC_GET_SYSCLK_SOURCE() == RCC_CFGR_SWS_HSE)                                         
-ARM GAS  /tmp/ccCVFoAx.s 			page 88
+ARM GAS  /tmp/ccsnzjQU.s 			page 88
 
 
  1493              		.loc 1 3352 0
@@ -5278,7 +5278,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1528 004c FFF7FEFF 		bl	HAL_GetTick
  1529              	.LVL146:
  1530 0050 0546     		mov	r5, r0
-ARM GAS  /tmp/ccCVFoAx.s 			page 89
+ARM GAS  /tmp/ccsnzjQU.s 			page 89
 
 
  1531              	.LVL147:
@@ -5338,7 +5338,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3387:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         while(__HAL_RCC_GET_FLAG(RCC_FLAG_HSERDY) != RESET)
 3388:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
 3389:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           if((HAL_GetTick() - tickstart ) > HSE_TIMEOUT_VALUE)
-ARM GAS  /tmp/ccCVFoAx.s 			page 90
+ARM GAS  /tmp/ccsnzjQU.s 			page 90
 
 
 3390:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
@@ -5398,7 +5398,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3426:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     else
 3427:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
 3428:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Check the HSI State */
-ARM GAS  /tmp/ccCVFoAx.s 			page 91
+ARM GAS  /tmp/ccsnzjQU.s 			page 91
 
 
 3429:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       if((RCC_OscInitStruct->HSIState)!= RCC_HSI_OFF)
@@ -5458,7 +5458,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1621 00da 744B     		ldr	r3, .L238
  1622 00dc 1A68     		ldr	r2, [r3]
  1623 00de 42F48022 		orr	r2, r2, #262144
-ARM GAS  /tmp/ccCVFoAx.s 			page 92
+ARM GAS  /tmp/ccsnzjQU.s 			page 92
 
 
  1624 00e2 1A60     		str	r2, [r3]
@@ -5518,7 +5518,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1670              	.L173:
 3423:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       }
  1671              		.loc 1 3423 0
-ARM GAS  /tmp/ccCVFoAx.s 			page 93
+ARM GAS  /tmp/ccsnzjQU.s 			page 93
 
 
  1672 012a 604A     		ldr	r2, .L238
@@ -5578,7 +5578,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3479:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 3480:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Get Start Tick*/
 3481:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       tickstart = HAL_GetTick();
-ARM GAS  /tmp/ccCVFoAx.s 			page 94
+ARM GAS  /tmp/ccsnzjQU.s 			page 94
 
 
  1690              		.loc 1 3481 0
@@ -5638,7 +5638,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1733 018a 1B68     		ldr	r3, [r3]
  1734 018c 13F0020F 		tst	r3, #2
  1735 0190 D3D0     		beq	.L170
-ARM GAS  /tmp/ccCVFoAx.s 			page 95
+ARM GAS  /tmp/ccsnzjQU.s 			page 95
 
 
 3460:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
@@ -5698,7 +5698,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1771              	.LVL170:
  1772              	.L179:
 3506:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         }
-ARM GAS  /tmp/ccCVFoAx.s 			page 96
+ARM GAS  /tmp/ccsnzjQU.s 			page 96
 
 
 3507:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       }
@@ -5758,7 +5758,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1807              	.L187:
 3527:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
 3528:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Enable write access to Backup domain */
-ARM GAS  /tmp/ccCVFoAx.s 			page 97
+ARM GAS  /tmp/ccsnzjQU.s 			page 97
 
 
 3529:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       SET_BIT(PWR->CR, PWR_CR_DBP);
@@ -5818,7 +5818,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1838 022a 47D1     		bne	.L196
 3553:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       {
 3554:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         if((HAL_GetTick() - tickstart ) > RCC_LSE_TIMEOUT_VALUE)
-ARM GAS  /tmp/ccCVFoAx.s 			page 98
+ARM GAS  /tmp/ccsnzjQU.s 			page 98
 
 
  1839              		.loc 1 3554 0
@@ -5878,7 +5878,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1884 026a 104A     		ldr	r2, .L238
  1885 026c 136F     		ldr	r3, [r2, #112]
  1886 026e 43F00103 		orr	r3, r3, #1
-ARM GAS  /tmp/ccCVFoAx.s 			page 99
+ARM GAS  /tmp/ccsnzjQU.s 			page 99
 
 
  1887 0272 1367     		str	r3, [r2, #112]
@@ -5938,7 +5938,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1926 02b4 800E4742 		.word	1111953024
  1927 02b8 00700040 		.word	1073770496
  1928              	.L196:
-ARM GAS  /tmp/ccCVFoAx.s 			page 100
+ARM GAS  /tmp/ccsnzjQU.s 			page 100
 
 
 3571:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         }
@@ -5998,7 +5998,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3607:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
 3608:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           if((HAL_GetTick() - tickstart ) > PLL_TIMEOUT_VALUE)
 3609:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
-ARM GAS  /tmp/ccCVFoAx.s 			page 101
+ARM GAS  /tmp/ccsnzjQU.s 			page 101
 
 
 3610:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             return HAL_TIMEOUT;
@@ -6058,7 +6058,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  1962              		.loc 1 3648 0
  1963 02ea FFF7FEFF 		bl	HAL_GetTick
  1964              	.LVL189:
-ARM GAS  /tmp/ccCVFoAx.s 			page 102
+ARM GAS  /tmp/ccsnzjQU.s 			page 102
 
 
  1965 02ee 001B     		subs	r0, r0, r4
@@ -6118,7 +6118,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  2010 032a 226A     		ldr	r2, [r4, #32]
  2011 032c 1343     		orrs	r3, r3, r2
  2012 032e 626A     		ldr	r2, [r4, #36]
-ARM GAS  /tmp/ccCVFoAx.s 			page 103
+ARM GAS  /tmp/ccsnzjQU.s 			page 103
 
 
  2013 0330 43EA8213 		orr	r3, r3, r2, lsl #6
@@ -6178,7 +6178,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  2052              	.L235:
  2053 0376 0020     		movs	r0, #0
  2054 0378 02E0     		b	.L161
-ARM GAS  /tmp/ccCVFoAx.s 			page 104
+ARM GAS  /tmp/ccsnzjQU.s 			page 104
 
 
  2055              	.LVL198:
@@ -6238,7 +6238,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3671:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   */
 3672:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** void HAL_RCC_GetOscConfig(RCC_OscInitTypeDef  *RCC_OscInitStruct)
 3673:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** {
-ARM GAS  /tmp/ccCVFoAx.s 			page 105
+ARM GAS  /tmp/ccsnzjQU.s 			page 105
 
 
  2099              		.loc 1 3673 0
@@ -6298,7 +6298,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3701:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   RCC_OscInitStruct->HSICalibrationValue = (uint32_t)((RCC->CR &RCC_CR_HSITRIM) >> RCC_CR_HSITRIM_P
  2126              		.loc 1 3701 0
  2127 0022 2B4A     		ldr	r2, .L256
-ARM GAS  /tmp/ccCVFoAx.s 			page 106
+ARM GAS  /tmp/ccsnzjQU.s 			page 106
 
 
  2128 0024 1368     		ldr	r3, [r2]
@@ -6358,7 +6358,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3731:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
 3732:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   else
 3733:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   {
-ARM GAS  /tmp/ccCVFoAx.s 			page 107
+ARM GAS  /tmp/ccsnzjQU.s 			page 107
 
 
 3734:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     RCC_OscInitStruct->PLL.PLLState = RCC_PLL_OFF;
@@ -6418,7 +6418,7 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
 3688:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
  2197              		.loc 1 3688 0
  2198 00a2 0023     		movs	r3, #0
-ARM GAS  /tmp/ccCVFoAx.s 			page 108
+ARM GAS  /tmp/ccsnzjQU.s 			page 108
 
 
  2199 00a4 4360     		str	r3, [r0, #4]
@@ -6477,42 +6477,42 @@ ARM GAS  /tmp/ccCVFoAx.s 			page 1
  2247              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h"
  2248              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h"
  2249              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
-ARM GAS  /tmp/ccCVFoAx.s 			page 109
+ARM GAS  /tmp/ccsnzjQU.s 			page 109
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f4xx_hal_rcc_ex.c
-     /tmp/ccCVFoAx.s:18     .text.HAL_RCCEx_PeriphCLKConfig:0000000000000000 $t
-     /tmp/ccCVFoAx.s:25     .text.HAL_RCCEx_PeriphCLKConfig:0000000000000000 HAL_RCCEx_PeriphCLKConfig
-     /tmp/ccCVFoAx.s:452    .text.HAL_RCCEx_PeriphCLKConfig:00000000000002d4 $d
-     /tmp/ccCVFoAx.s:459    .text.HAL_RCCEx_PeriphCLKConfig:00000000000002e8 $t
-     /tmp/ccCVFoAx.s:591    .text.HAL_RCCEx_PeriphCLKConfig:00000000000003d0 $d
-     /tmp/ccCVFoAx.s:598    .text.HAL_RCCEx_GetPeriphCLKConfig:0000000000000000 $t
-     /tmp/ccCVFoAx.s:605    .text.HAL_RCCEx_GetPeriphCLKConfig:0000000000000000 HAL_RCCEx_GetPeriphCLKConfig
-     /tmp/ccCVFoAx.s:715    .text.HAL_RCCEx_GetPeriphCLKConfig:00000000000000e8 $d
-     /tmp/ccCVFoAx.s:720    .text.HAL_RCCEx_GetPeriphCLKFreq:0000000000000000 $t
-     /tmp/ccCVFoAx.s:727    .text.HAL_RCCEx_GetPeriphCLKFreq:0000000000000000 HAL_RCCEx_GetPeriphCLKFreq
-     /tmp/ccCVFoAx.s:1040   .text.HAL_RCCEx_GetPeriphCLKFreq:00000000000001d8 $d
-     /tmp/ccCVFoAx.s:1048   .text.HAL_RCCEx_SelectLSEMode:0000000000000000 $t
-     /tmp/ccCVFoAx.s:1055   .text.HAL_RCCEx_SelectLSEMode:0000000000000000 HAL_RCCEx_SelectLSEMode
-     /tmp/ccCVFoAx.s:1082   .text.HAL_RCCEx_SelectLSEMode:000000000000001c $d
-     /tmp/ccCVFoAx.s:1087   .text.HAL_RCCEx_EnablePLLI2S:0000000000000000 $t
-     /tmp/ccCVFoAx.s:1094   .text.HAL_RCCEx_EnablePLLI2S:0000000000000000 HAL_RCCEx_EnablePLLI2S
-     /tmp/ccCVFoAx.s:1179   .text.HAL_RCCEx_EnablePLLI2S:000000000000006c $d
-     /tmp/ccCVFoAx.s:1185   .text.HAL_RCCEx_DisablePLLI2S:0000000000000000 $t
-     /tmp/ccCVFoAx.s:1192   .text.HAL_RCCEx_DisablePLLI2S:0000000000000000 HAL_RCCEx_DisablePLLI2S
-     /tmp/ccCVFoAx.s:1237   .text.HAL_RCCEx_DisablePLLI2S:000000000000002c $d
-     /tmp/ccCVFoAx.s:1243   .text.HAL_RCC_DeInit:0000000000000000 $t
-     /tmp/ccCVFoAx.s:1250   .text.HAL_RCC_DeInit:0000000000000000 HAL_RCC_DeInit
-     /tmp/ccCVFoAx.s:1454   .text.HAL_RCC_DeInit:0000000000000128 $d
-     /tmp/ccCVFoAx.s:1463   .text.HAL_RCC_OscConfig:0000000000000000 $t
-     /tmp/ccCVFoAx.s:1470   .text.HAL_RCC_OscConfig:0000000000000000 HAL_RCC_OscConfig
-     /tmp/ccCVFoAx.s:1924   .text.HAL_RCC_OscConfig:00000000000002ac $d
-     /tmp/ccCVFoAx.s:1930   .text.HAL_RCC_OscConfig:00000000000002bc $t
-     /tmp/ccCVFoAx.s:2084   .text.HAL_RCC_OscConfig:0000000000000388 $d
-     /tmp/ccCVFoAx.s:2090   .text.HAL_RCC_GetOscConfig:0000000000000000 $t
-     /tmp/ccCVFoAx.s:2097   .text.HAL_RCC_GetOscConfig:0000000000000000 HAL_RCC_GetOscConfig
-     /tmp/ccCVFoAx.s:2234   .text.HAL_RCC_GetOscConfig:00000000000000d0 $d
+     /tmp/ccsnzjQU.s:18     .text.HAL_RCCEx_PeriphCLKConfig:0000000000000000 $t
+     /tmp/ccsnzjQU.s:25     .text.HAL_RCCEx_PeriphCLKConfig:0000000000000000 HAL_RCCEx_PeriphCLKConfig
+     /tmp/ccsnzjQU.s:452    .text.HAL_RCCEx_PeriphCLKConfig:00000000000002d4 $d
+     /tmp/ccsnzjQU.s:459    .text.HAL_RCCEx_PeriphCLKConfig:00000000000002e8 $t
+     /tmp/ccsnzjQU.s:591    .text.HAL_RCCEx_PeriphCLKConfig:00000000000003d0 $d
+     /tmp/ccsnzjQU.s:598    .text.HAL_RCCEx_GetPeriphCLKConfig:0000000000000000 $t
+     /tmp/ccsnzjQU.s:605    .text.HAL_RCCEx_GetPeriphCLKConfig:0000000000000000 HAL_RCCEx_GetPeriphCLKConfig
+     /tmp/ccsnzjQU.s:715    .text.HAL_RCCEx_GetPeriphCLKConfig:00000000000000e8 $d
+     /tmp/ccsnzjQU.s:720    .text.HAL_RCCEx_GetPeriphCLKFreq:0000000000000000 $t
+     /tmp/ccsnzjQU.s:727    .text.HAL_RCCEx_GetPeriphCLKFreq:0000000000000000 HAL_RCCEx_GetPeriphCLKFreq
+     /tmp/ccsnzjQU.s:1040   .text.HAL_RCCEx_GetPeriphCLKFreq:00000000000001d8 $d
+     /tmp/ccsnzjQU.s:1048   .text.HAL_RCCEx_SelectLSEMode:0000000000000000 $t
+     /tmp/ccsnzjQU.s:1055   .text.HAL_RCCEx_SelectLSEMode:0000000000000000 HAL_RCCEx_SelectLSEMode
+     /tmp/ccsnzjQU.s:1082   .text.HAL_RCCEx_SelectLSEMode:000000000000001c $d
+     /tmp/ccsnzjQU.s:1087   .text.HAL_RCCEx_EnablePLLI2S:0000000000000000 $t
+     /tmp/ccsnzjQU.s:1094   .text.HAL_RCCEx_EnablePLLI2S:0000000000000000 HAL_RCCEx_EnablePLLI2S
+     /tmp/ccsnzjQU.s:1179   .text.HAL_RCCEx_EnablePLLI2S:000000000000006c $d
+     /tmp/ccsnzjQU.s:1185   .text.HAL_RCCEx_DisablePLLI2S:0000000000000000 $t
+     /tmp/ccsnzjQU.s:1192   .text.HAL_RCCEx_DisablePLLI2S:0000000000000000 HAL_RCCEx_DisablePLLI2S
+     /tmp/ccsnzjQU.s:1237   .text.HAL_RCCEx_DisablePLLI2S:000000000000002c $d
+     /tmp/ccsnzjQU.s:1243   .text.HAL_RCC_DeInit:0000000000000000 $t
+     /tmp/ccsnzjQU.s:1250   .text.HAL_RCC_DeInit:0000000000000000 HAL_RCC_DeInit
+     /tmp/ccsnzjQU.s:1454   .text.HAL_RCC_DeInit:0000000000000128 $d
+     /tmp/ccsnzjQU.s:1463   .text.HAL_RCC_OscConfig:0000000000000000 $t
+     /tmp/ccsnzjQU.s:1470   .text.HAL_RCC_OscConfig:0000000000000000 HAL_RCC_OscConfig
+     /tmp/ccsnzjQU.s:1924   .text.HAL_RCC_OscConfig:00000000000002ac $d
+     /tmp/ccsnzjQU.s:1930   .text.HAL_RCC_OscConfig:00000000000002bc $t
+     /tmp/ccsnzjQU.s:2084   .text.HAL_RCC_OscConfig:0000000000000388 $d
+     /tmp/ccsnzjQU.s:2090   .text.HAL_RCC_GetOscConfig:0000000000000000 $t
+     /tmp/ccsnzjQU.s:2097   .text.HAL_RCC_GetOscConfig:0000000000000000 HAL_RCC_GetOscConfig
+     /tmp/ccsnzjQU.s:2234   .text.HAL_RCC_GetOscConfig:00000000000000d0 $d
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
