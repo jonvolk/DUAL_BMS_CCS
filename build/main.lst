@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cchqiea9.s 			page 1
+ARM GAS  /tmp/cc0lww7A.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
   30:Core/Src/main.c **** 
   31:Core/Src/main.c **** //#include "visEffect.h"
   32:Core/Src/main.c **** /* USER CODE END Includes */
-ARM GAS  /tmp/cchqiea9.s 			page 2
+ARM GAS  /tmp/cc0lww7A.s 			page 2
 
 
   33:Core/Src/main.c **** 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
   87:Core/Src/main.c **** osThreadId_t kickTheDogHandle;
   88:Core/Src/main.c **** const osThreadAttr_t kickTheDog_attributes = {
   89:Core/Src/main.c ****     .name = "kickTheDog",
-ARM GAS  /tmp/cchqiea9.s 			page 3
+ARM GAS  /tmp/cc0lww7A.s 			page 3
 
 
   90:Core/Src/main.c ****     .priority = (osPriority_t)osPriorityRealtime,
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  144:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
  145:Core/Src/main.c **** 
  146:Core/Src/main.c ****   /* USER CODE END 1 */
-ARM GAS  /tmp/cchqiea9.s 			page 4
+ARM GAS  /tmp/cc0lww7A.s 			page 4
 
 
  147:Core/Src/main.c **** 
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  201:Core/Src/main.c **** 
  202:Core/Src/main.c ****   /* Create the thread(s) */
  203:Core/Src/main.c ****   /* creation of defaultTask */
-ARM GAS  /tmp/cchqiea9.s 			page 5
+ARM GAS  /tmp/cc0lww7A.s 			page 5
 
 
  204:Core/Src/main.c ****   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  258:Core/Src/main.c ****   * in the RCC_OscInitTypeDef structure.
  259:Core/Src/main.c ****   */
  260:Core/Src/main.c ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_LSI;
-ARM GAS  /tmp/cchqiea9.s 			page 6
+ARM GAS  /tmp/cc0lww7A.s 			page 6
 
 
  261:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  315:Core/Src/main.c ****   hcan1.Init.TransmitFifoPriority = DISABLE;
  316:Core/Src/main.c ****   if (HAL_CAN_Init(&hcan1) != HAL_OK)
  317:Core/Src/main.c ****   {
-ARM GAS  /tmp/cchqiea9.s 			page 7
+ARM GAS  /tmp/cc0lww7A.s 			page 7
 
 
  318:Core/Src/main.c ****     Error_Handler();
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  372:Core/Src/main.c **** 
  373:Core/Src/main.c ****   /* USER CODE BEGIN CAN3_Init 1 */
  374:Core/Src/main.c **** 
-ARM GAS  /tmp/cchqiea9.s 			page 8
+ARM GAS  /tmp/cc0lww7A.s 			page 8
 
 
  375:Core/Src/main.c ****   /* USER CODE END CAN3_Init 1 */
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  429:Core/Src/main.c **** static void MX_TIM2_Init(void)
  430:Core/Src/main.c **** {
  431:Core/Src/main.c **** 
-ARM GAS  /tmp/cchqiea9.s 			page 9
+ARM GAS  /tmp/cc0lww7A.s 			page 9
 
 
  432:Core/Src/main.c ****   /* USER CODE BEGIN TIM2_Init 0 */
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  486:Core/Src/main.c **** static void MX_TIM3_Init(void)
  487:Core/Src/main.c **** {
  488:Core/Src/main.c **** 
-ARM GAS  /tmp/cchqiea9.s 			page 10
+ARM GAS  /tmp/cc0lww7A.s 			page 10
 
 
  489:Core/Src/main.c ****   /* USER CODE BEGIN TIM3_Init 0 */
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  543:Core/Src/main.c ****   /* DMA1_Stream1_IRQn interrupt configuration */
  544:Core/Src/main.c ****   HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 5, 0);
  545:Core/Src/main.c ****   HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
-ARM GAS  /tmp/cchqiea9.s 			page 11
+ARM GAS  /tmp/cc0lww7A.s 			page 11
 
 
  546:Core/Src/main.c ****   /* DMA1_Stream5_IRQn interrupt configuration */
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
   61 002a 42F08002 		orr	r2, r2, #128
   62 002e 1A63     		str	r2, [r3, #48]
   63 0030 1A6B     		ldr	r2, [r3, #48]
-ARM GAS  /tmp/cchqiea9.s 			page 12
+ARM GAS  /tmp/cc0lww7A.s 			page 12
 
 
   64 0032 02F08002 		and	r2, r2, #128
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  577:Core/Src/main.c ****   HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
  107              		.loc 1 577 0
  108 007e 05A9     		add	r1, sp, #20
-ARM GAS  /tmp/cchqiea9.s 			page 13
+ARM GAS  /tmp/cc0lww7A.s 			page 13
 
 
  109 0080 2846     		mov	r0, r5
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  157              	.LBB8:
  540:Core/Src/main.c **** 
  158              		.loc 1 540 0
-ARM GAS  /tmp/cchqiea9.s 			page 14
+ARM GAS  /tmp/cc0lww7A.s 			page 14
 
 
  159 0004 0024     		movs	r4, #0
@@ -838,7 +838,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  206              		.align	2
  207              	.L7:
  208 0050 00380240 		.word	1073887232
-ARM GAS  /tmp/cchqiea9.s 			page 15
+ARM GAS  /tmp/cc0lww7A.s 			page 15
 
 
  209              		.cfi_endproc
@@ -898,7 +898,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  243 000e 04F1F600 		add	r0, r4, #246
  244 0012 FFF7FEFF 		bl	bmsStateHandler
  245              	.LVL13:
-ARM GAS  /tmp/cchqiea9.s 			page 16
+ARM GAS  /tmp/cc0lww7A.s 			page 16
 
 
  607:Core/Src/main.c ****     HAL_IWDG_Refresh(&hiwdg);
@@ -958,7 +958,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  636:Core/Src/main.c **** /**
  637:Core/Src/main.c **** * @brief Function implementing the balanceCommand thread.
  638:Core/Src/main.c **** * @param argument: Not used
-ARM GAS  /tmp/cchqiea9.s 			page 17
+ARM GAS  /tmp/cc0lww7A.s 			page 17
 
 
  639:Core/Src/main.c **** * @retval None
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  693:Core/Src/main.c **** */
  694:Core/Src/main.c **** /* USER CODE END Header_StartkickTheDog */
  695:Core/Src/main.c **** void StartkickTheDog(void *argument)
-ARM GAS  /tmp/cchqiea9.s 			page 18
+ARM GAS  /tmp/cc0lww7A.s 			page 18
 
 
  696:Core/Src/main.c **** {
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  714:Core/Src/main.c **** /* USER CODE END Header_StartcanTxTask */
  715:Core/Src/main.c **** void StartcanTxTask(void *argument)
  716:Core/Src/main.c **** {
-ARM GAS  /tmp/cchqiea9.s 			page 19
+ARM GAS  /tmp/cc0lww7A.s 			page 19
 
 
  311              		.loc 1 716 0
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  359              	.LVL26:
  360 000e F8E7     		b	.L23
  361              		.cfi_endproc
-ARM GAS  /tmp/cchqiea9.s 			page 20
+ARM GAS  /tmp/cc0lww7A.s 			page 20
 
 
  362              	.LFE146:
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  412              	.LVL33:
  413              	.L28:
  648:Core/Src/main.c ****     {
-ARM GAS  /tmp/cchqiea9.s 			page 21
+ARM GAS  /tmp/cc0lww7A.s 			page 21
 
 
  414              		.loc 1 648 0
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  465              		.loc 1 681 0 discriminator 1
  466 0006 FFF7FEFF 		bl	tx500kData
  467              	.LVL38:
-ARM GAS  /tmp/cchqiea9.s 			page 22
+ARM GAS  /tmp/cc0lww7A.s 			page 22
 
 
  682:Core/Src/main.c ****     osDelay(1000);
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  740:Core/Src/main.c ****     TIM1->CR1 = 0; // disable timer
  741:Core/Src/main.c **** 
  742:Core/Src/main.c ****     // disable the TIM2 Update IRQ
-ARM GAS  /tmp/cchqiea9.s 			page 23
+ARM GAS  /tmp/cc0lww7A.s 			page 23
 
 
  743:Core/Src/main.c ****     __HAL_TIM_DISABLE_IT(&TIM1_handle, TIM_IT_UPDATE);
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  753:Core/Src/main.c ****   }
  537              		.loc 1 753 0
  538 003a 2174     		strb	r1, [r4, #16]
-ARM GAS  /tmp/cchqiea9.s 			page 24
+ARM GAS  /tmp/cc0lww7A.s 			page 24
 
 
  539 003c E5E7     		b	.L37
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
    6:Drivers/CMSIS/Include/cmsis_gcc.h ****  ******************************************************************************/
    7:Drivers/CMSIS/Include/cmsis_gcc.h **** /*
    8:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Copyright (c) 2009-2018 Arm Limited. All rights reserved.
-ARM GAS  /tmp/cchqiea9.s 			page 25
+ARM GAS  /tmp/cc0lww7A.s 			page 25
 
 
    9:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
   63:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
   64:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_STRUCT
   65:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_STRUCT                        struct __attribute__((packed, aligned(1)))
-ARM GAS  /tmp/cchqiea9.s 			page 26
+ARM GAS  /tmp/cc0lww7A.s 			page 26
 
 
   66:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  120:Drivers/CMSIS/Include/cmsis_gcc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
  121:Drivers/CMSIS/Include/cmsis_gcc.h ****   @{
  122:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
-ARM GAS  /tmp/cchqiea9.s 			page 27
+ARM GAS  /tmp/cc0lww7A.s 			page 27
 
 
  123:Drivers/CMSIS/Include/cmsis_gcc.h **** 
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  610 0006 0360     		str	r3, [r0]
  305:Core/Src/main.c ****   hcan1.Init.Mode = CAN_MODE_NORMAL;
  611              		.loc 1 305 0
-ARM GAS  /tmp/cchqiea9.s 			page 28
+ARM GAS  /tmp/cc0lww7A.s 			page 28
 
 
  612 0008 3023     		movs	r3, #48
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  655              		.section	.text.MX_CAN2_Init,"ax",%progbits
  656              		.align	1
  657              		.syntax unified
-ARM GAS  /tmp/cchqiea9.s 			page 29
+ARM GAS  /tmp/cc0lww7A.s 			page 29
 
 
  658              		.thumb
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  351:Core/Src/main.c ****   if (HAL_CAN_Init(&hcan2) != HAL_OK)
  701              		.loc 1 351 0
  702 002a 4377     		strb	r3, [r0, #29]
-ARM GAS  /tmp/cchqiea9.s 			page 30
+ARM GAS  /tmp/cc0lww7A.s 			page 30
 
 
  352:Core/Src/main.c ****   {
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  751 0016 0261     		str	r2, [r0, #16]
  381:Core/Src/main.c ****   hcan3.Init.TimeTriggeredMode = DISABLE;
  752              		.loc 1 381 0
-ARM GAS  /tmp/cchqiea9.s 			page 31
+ARM GAS  /tmp/cc0lww7A.s 			page 31
 
 
  753 0018 4FF40012 		mov	r2, #2097152
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  800              		.cfi_offset 14, -4
  801 0002 8BB0     		sub	sp, sp, #44
  802              		.cfi_def_cfa_offset 48
-ARM GAS  /tmp/cchqiea9.s 			page 32
+ARM GAS  /tmp/cc0lww7A.s 			page 32
 
 
  436:Core/Src/main.c ****   TIM_OC_InitTypeDef sConfigOC = {0};
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  458:Core/Src/main.c ****   {
  845              		.loc 1 458 0
  846 0042 08A9     		add	r1, sp, #32
-ARM GAS  /tmp/cchqiea9.s 			page 33
+ARM GAS  /tmp/cc0lww7A.s 			page 33
 
 
  847 0044 1348     		ldr	r0, .L76
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  891              	.L72:
  454:Core/Src/main.c ****   }
  892              		.loc 1 454 0
-ARM GAS  /tmp/cchqiea9.s 			page 34
+ARM GAS  /tmp/cc0lww7A.s 			page 34
 
 
  893 0082 FFF7FEFF 		bl	Error_Handler
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  943 0016 0793     		str	r3, [sp, #28]
  499:Core/Src/main.c ****   htim3.Init.Prescaler = 0;
  944              		.loc 1 499 0
-ARM GAS  /tmp/cchqiea9.s 			page 35
+ARM GAS  /tmp/cc0lww7A.s 			page 35
 
 
  945 0018 1A48     		ldr	r0, .L88
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  985 004e 01A9     		add	r1, sp, #4
  986 0050 0C48     		ldr	r0, .L88
  987 0052 FFF7FEFF 		bl	HAL_TIM_PWM_ConfigChannel
-ARM GAS  /tmp/cchqiea9.s 			page 36
+ARM GAS  /tmp/cc0lww7A.s 			page 36
 
 
  988              	.LVL63:
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1036              		.thumb_func
  1037              		.fpu fpv4-sp-d16
  1039              	MX_IWDG_Init:
-ARM GAS  /tmp/cchqiea9.s 			page 37
+ARM GAS  /tmp/cc0lww7A.s 			page 37
 
 
  1040              	.LFB140:
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1089              		@ frame_needed = 0, uses_anonymous_args = 0
  1090 0000 00B5     		push	{lr}
  1091              		.cfi_def_cfa_offset 4
-ARM GAS  /tmp/cchqiea9.s 			page 38
+ARM GAS  /tmp/cc0lww7A.s 			page 38
 
 
  1092              		.cfi_offset 14, -4
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1139 004e 1021     		movs	r1, #16
  1140 0050 0B91     		str	r1, [sp, #44]
  263:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-ARM GAS  /tmp/cchqiea9.s 			page 39
+ARM GAS  /tmp/cc0lww7A.s 			page 39
 
 
  1141              		.loc 1 263 0
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1181 0086 FFF7FEFF 		bl	HAL_RCC_ClockConfig
  1182              	.LVL74:
  1183 008a 20B9     		cbnz	r0, .L101
-ARM GAS  /tmp/cchqiea9.s 			page 40
+ARM GAS  /tmp/cc0lww7A.s 			page 40
 
 
  287:Core/Src/main.c **** 
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1233 000a FFF7FEFF 		bl	MX_GPIO_Init
  1234              	.LVL79:
  166:Core/Src/main.c ****   MX_CAN1_Init();
-ARM GAS  /tmp/cchqiea9.s 			page 41
+ARM GAS  /tmp/cc0lww7A.s 			page 41
 
 
  1235              		.loc 1 166 0
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1277 0048 184A     		ldr	r2, .L107+8
  1278 004a 0021     		movs	r1, #0
  1279 004c 1848     		ldr	r0, .L107+12
-ARM GAS  /tmp/cchqiea9.s 			page 42
+ARM GAS  /tmp/cc0lww7A.s 			page 42
 
 
  1280 004e FFF7FEFF 		bl	osThreadNew
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1328 00a0 FEE7     		b	.L105
  1329              	.L108:
  1330 00a2 00BF     		.align	2
-ARM GAS  /tmp/cchqiea9.s 			page 43
+ARM GAS  /tmp/cc0lww7A.s 			page 43
 
 
  1331              	.L107:
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1386              		.comm	busFault,4,4
  1387              		.comm	txCycle3,4,4
  1388              		.comm	txCycle2,4,4
-ARM GAS  /tmp/cchqiea9.s 			page 44
+ARM GAS  /tmp/cc0lww7A.s 			page 44
 
 
  1389              		.comm	txCycle,4,4
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1443      00000000 
  1443      00000000 
  1444 0014 00020000 		.word	512
-ARM GAS  /tmp/cchqiea9.s 			page 45
+ARM GAS  /tmp/cc0lww7A.s 			page 45
 
 
  1445 0018 18000000 		.word	24
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1488              	.LC2:
  1489 0018 6B69636B 		.ascii	"kickTheDog\000"
  1489      54686544 
-ARM GAS  /tmp/cchqiea9.s 			page 46
+ARM GAS  /tmp/cc0lww7A.s 			page 46
 
 
  1489      6F6700
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1531              		.file 20 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h"
  1532              		.file 21 "/usr/include/newlib/sys/lock.h"
  1533              		.file 22 "/usr/include/newlib/sys/_types.h"
-ARM GAS  /tmp/cchqiea9.s 			page 47
+ARM GAS  /tmp/cc0lww7A.s 			page 47
 
 
  1534              		.file 23 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
@@ -2770,74 +2770,74 @@ ARM GAS  /tmp/cchqiea9.s 			page 1
  1540              		.file 29 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
  1541              		.file 30 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h"
  1542              		.file 31 "Core/Inc/main.h"
-ARM GAS  /tmp/cchqiea9.s 			page 48
+ARM GAS  /tmp/cc0lww7A.s 			page 48
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/cchqiea9.s:18     .text.MX_GPIO_Init:0000000000000000 $t
-     /tmp/cchqiea9.s:24     .text.MX_GPIO_Init:0000000000000000 MX_GPIO_Init
-     /tmp/cchqiea9.s:132    .text.MX_GPIO_Init:000000000000009c $d
-     /tmp/cchqiea9.s:139    .text.MX_DMA_Init:0000000000000000 $t
-     /tmp/cchqiea9.s:145    .text.MX_DMA_Init:0000000000000000 MX_DMA_Init
-     /tmp/cchqiea9.s:208    .text.MX_DMA_Init:0000000000000050 $d
-     /tmp/cchqiea9.s:213    .text.StartDefaultTask:0000000000000000 $t
-     /tmp/cchqiea9.s:220    .text.StartDefaultTask:0000000000000000 StartDefaultTask
-     /tmp/cchqiea9.s:258    .text.StartDefaultTask:0000000000000024 $d
+     /tmp/cc0lww7A.s:18     .text.MX_GPIO_Init:0000000000000000 $t
+     /tmp/cc0lww7A.s:24     .text.MX_GPIO_Init:0000000000000000 MX_GPIO_Init
+     /tmp/cc0lww7A.s:132    .text.MX_GPIO_Init:000000000000009c $d
+     /tmp/cc0lww7A.s:139    .text.MX_DMA_Init:0000000000000000 $t
+     /tmp/cc0lww7A.s:145    .text.MX_DMA_Init:0000000000000000 MX_DMA_Init
+     /tmp/cc0lww7A.s:208    .text.MX_DMA_Init:0000000000000050 $d
+     /tmp/cc0lww7A.s:213    .text.StartDefaultTask:0000000000000000 $t
+     /tmp/cc0lww7A.s:220    .text.StartDefaultTask:0000000000000000 StartDefaultTask
+     /tmp/cc0lww7A.s:258    .text.StartDefaultTask:0000000000000024 $d
                             *COM*:00000000000001ec BMS
                             *COM*:000000000000000c hiwdg
-     /tmp/cchqiea9.s:264    .text.StartkickTheDog:0000000000000000 $t
-     /tmp/cchqiea9.s:271    .text.StartkickTheDog:0000000000000000 StartkickTheDog
-     /tmp/cchqiea9.s:297    .text.StartkickTheDog:0000000000000014 $d
-     /tmp/cchqiea9.s:302    .text.StartcanTxTask:0000000000000000 $t
-     /tmp/cchqiea9.s:309    .text.StartcanTxTask:0000000000000000 StartcanTxTask
-     /tmp/cchqiea9.s:332    .text.StartsynchCommand:0000000000000000 $t
-     /tmp/cchqiea9.s:339    .text.StartsynchCommand:0000000000000000 StartsynchCommand
-     /tmp/cchqiea9.s:365    .text.StartbalanceCommand:0000000000000000 $t
-     /tmp/cchqiea9.s:372    .text.StartbalanceCommand:0000000000000000 StartbalanceCommand
-     /tmp/cchqiea9.s:434    .text.StartbalanceCommand:000000000000004c $d
-     /tmp/cchqiea9.s:441    .text.StartprocessData:0000000000000000 $t
-     /tmp/cchqiea9.s:448    .text.StartprocessData:0000000000000000 StartprocessData
-     /tmp/cchqiea9.s:480    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 $t
-     /tmp/cchqiea9.s:487    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 HAL_TIM_PeriodElapsedCallback
-     /tmp/cchqiea9.s:549    .text.HAL_TIM_PeriodElapsedCallback:0000000000000044 $d
+     /tmp/cc0lww7A.s:264    .text.StartkickTheDog:0000000000000000 $t
+     /tmp/cc0lww7A.s:271    .text.StartkickTheDog:0000000000000000 StartkickTheDog
+     /tmp/cc0lww7A.s:297    .text.StartkickTheDog:0000000000000014 $d
+     /tmp/cc0lww7A.s:302    .text.StartcanTxTask:0000000000000000 $t
+     /tmp/cc0lww7A.s:309    .text.StartcanTxTask:0000000000000000 StartcanTxTask
+     /tmp/cc0lww7A.s:332    .text.StartsynchCommand:0000000000000000 $t
+     /tmp/cc0lww7A.s:339    .text.StartsynchCommand:0000000000000000 StartsynchCommand
+     /tmp/cc0lww7A.s:365    .text.StartbalanceCommand:0000000000000000 $t
+     /tmp/cc0lww7A.s:372    .text.StartbalanceCommand:0000000000000000 StartbalanceCommand
+     /tmp/cc0lww7A.s:434    .text.StartbalanceCommand:000000000000004c $d
+     /tmp/cc0lww7A.s:441    .text.StartprocessData:0000000000000000 $t
+     /tmp/cc0lww7A.s:448    .text.StartprocessData:0000000000000000 StartprocessData
+     /tmp/cc0lww7A.s:480    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 $t
+     /tmp/cc0lww7A.s:487    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 HAL_TIM_PeriodElapsedCallback
+     /tmp/cc0lww7A.s:549    .text.HAL_TIM_PeriodElapsedCallback:0000000000000044 $d
                             *COM*:000000000000001c ws2812b
                             *COM*:0000000000000040 TIM1_handle
                             *COM*:0000000000000004 tim_period
-     /tmp/cchqiea9.s:558    .text.Error_Handler:0000000000000000 $t
-     /tmp/cchqiea9.s:565    .text.Error_Handler:0000000000000000 Error_Handler
-     /tmp/cchqiea9.s:591    .text.MX_CAN1_Init:0000000000000000 $t
-     /tmp/cchqiea9.s:597    .text.MX_CAN1_Init:0000000000000000 MX_CAN1_Init
-     /tmp/cchqiea9.s:650    .text.MX_CAN1_Init:0000000000000038 $d
+     /tmp/cc0lww7A.s:558    .text.Error_Handler:0000000000000000 $t
+     /tmp/cc0lww7A.s:565    .text.Error_Handler:0000000000000000 Error_Handler
+     /tmp/cc0lww7A.s:591    .text.MX_CAN1_Init:0000000000000000 $t
+     /tmp/cc0lww7A.s:597    .text.MX_CAN1_Init:0000000000000000 MX_CAN1_Init
+     /tmp/cc0lww7A.s:650    .text.MX_CAN1_Init:0000000000000038 $d
                             *COM*:0000000000000028 hcan1
-     /tmp/cchqiea9.s:656    .text.MX_CAN2_Init:0000000000000000 $t
-     /tmp/cchqiea9.s:662    .text.MX_CAN2_Init:0000000000000000 MX_CAN2_Init
-     /tmp/cchqiea9.s:715    .text.MX_CAN2_Init:0000000000000038 $d
+     /tmp/cc0lww7A.s:656    .text.MX_CAN2_Init:0000000000000000 $t
+     /tmp/cc0lww7A.s:662    .text.MX_CAN2_Init:0000000000000000 MX_CAN2_Init
+     /tmp/cc0lww7A.s:715    .text.MX_CAN2_Init:0000000000000038 $d
                             *COM*:0000000000000028 hcan2
-     /tmp/cchqiea9.s:721    .text.MX_CAN3_Init:0000000000000000 $t
-     /tmp/cchqiea9.s:727    .text.MX_CAN3_Init:0000000000000000 MX_CAN3_Init
-     /tmp/cchqiea9.s:780    .text.MX_CAN3_Init:0000000000000038 $d
+     /tmp/cc0lww7A.s:721    .text.MX_CAN3_Init:0000000000000000 $t
+     /tmp/cc0lww7A.s:727    .text.MX_CAN3_Init:0000000000000000 MX_CAN3_Init
+     /tmp/cc0lww7A.s:780    .text.MX_CAN3_Init:0000000000000038 $d
                             *COM*:0000000000000028 hcan3
-     /tmp/cchqiea9.s:786    .text.MX_TIM2_Init:0000000000000000 $t
-     /tmp/cchqiea9.s:792    .text.MX_TIM2_Init:0000000000000000 MX_TIM2_Init
-     /tmp/cchqiea9.s:910    .text.MX_TIM2_Init:0000000000000094 $d
+     /tmp/cc0lww7A.s:786    .text.MX_TIM2_Init:0000000000000000 $t
+     /tmp/cc0lww7A.s:792    .text.MX_TIM2_Init:0000000000000000 MX_TIM2_Init
+     /tmp/cc0lww7A.s:910    .text.MX_TIM2_Init:0000000000000094 $d
                             *COM*:0000000000000040 htim2
-     /tmp/cchqiea9.s:915    .text.MX_TIM3_Init:0000000000000000 $t
-     /tmp/cchqiea9.s:921    .text.MX_TIM3_Init:0000000000000000 MX_TIM3_Init
-     /tmp/cchqiea9.s:1027   .text.MX_TIM3_Init:0000000000000084 $d
+     /tmp/cc0lww7A.s:915    .text.MX_TIM3_Init:0000000000000000 $t
+     /tmp/cc0lww7A.s:921    .text.MX_TIM3_Init:0000000000000000 MX_TIM3_Init
+     /tmp/cc0lww7A.s:1027   .text.MX_TIM3_Init:0000000000000084 $d
                             *COM*:0000000000000040 htim3
-     /tmp/cchqiea9.s:1033   .text.MX_IWDG_Init:0000000000000000 $t
-     /tmp/cchqiea9.s:1039   .text.MX_IWDG_Init:0000000000000000 MX_IWDG_Init
-     /tmp/cchqiea9.s:1071   .text.MX_IWDG_Init:0000000000000020 $d
-     /tmp/cchqiea9.s:1077   .text.SystemClock_Config:0000000000000000 $t
-ARM GAS  /tmp/cchqiea9.s 			page 49
+     /tmp/cc0lww7A.s:1033   .text.MX_IWDG_Init:0000000000000000 $t
+     /tmp/cc0lww7A.s:1039   .text.MX_IWDG_Init:0000000000000000 MX_IWDG_Init
+     /tmp/cc0lww7A.s:1071   .text.MX_IWDG_Init:0000000000000020 $d
+     /tmp/cc0lww7A.s:1077   .text.SystemClock_Config:0000000000000000 $t
+ARM GAS  /tmp/cc0lww7A.s 			page 49
 
 
-     /tmp/cchqiea9.s:1084   .text.SystemClock_Config:0000000000000000 SystemClock_Config
-     /tmp/cchqiea9.s:1202   .text.SystemClock_Config:000000000000009c $d
-     /tmp/cchqiea9.s:1208   .text.main:0000000000000000 $t
-     /tmp/cchqiea9.s:1215   .text.main:0000000000000000 main
-     /tmp/cchqiea9.s:1332   .text.main:00000000000000a4 $d
+     /tmp/cc0lww7A.s:1084   .text.SystemClock_Config:0000000000000000 SystemClock_Config
+     /tmp/cc0lww7A.s:1202   .text.SystemClock_Config:000000000000009c $d
+     /tmp/cc0lww7A.s:1208   .text.main:0000000000000000 $t
+     /tmp/cc0lww7A.s:1215   .text.main:0000000000000000 main
+     /tmp/cc0lww7A.s:1332   .text.main:00000000000000a4 $d
                             *COM*:0000000000000004 canTxQueueHandle
                             *COM*:0000000000000004 defaultTaskHandle
                             *COM*:0000000000000004 synchCommandHandle
@@ -2845,15 +2845,15 @@ DEFINED SYMBOLS
                             *COM*:0000000000000004 processDataHandle
                             *COM*:0000000000000004 kickTheDogHandle
                             *COM*:0000000000000004 canTxTaskHandle
-     /tmp/cchqiea9.s:1429   .rodata.canTxQueue_attributes:0000000000000000 canTxQueue_attributes
+     /tmp/cc0lww7A.s:1429   .rodata.canTxQueue_attributes:0000000000000000 canTxQueue_attributes
                             *COM*:0000000000000050 canTxQueueControlBlock
                             *COM*:0000000000000020 canTxQueueBuffer
-     /tmp/cchqiea9.s:1441   .rodata.canTxTask_attributes:0000000000000000 canTxTask_attributes
-     /tmp/cchqiea9.s:1463   .rodata.kickTheDog_attributes:0000000000000000 kickTheDog_attributes
-     /tmp/cchqiea9.s:1474   .rodata.processData_attributes:0000000000000000 processData_attributes
-     /tmp/cchqiea9.s:1418   .rodata.balanceCommand_attributes:0000000000000000 balanceCommand_attributes
-     /tmp/cchqiea9.s:1506   .rodata.synchCommand_attributes:0000000000000000 synchCommand_attributes
-     /tmp/cchqiea9.s:1452   .rodata.defaultTask_attributes:0000000000000000 defaultTask_attributes
+     /tmp/cc0lww7A.s:1441   .rodata.canTxTask_attributes:0000000000000000 canTxTask_attributes
+     /tmp/cc0lww7A.s:1463   .rodata.kickTheDog_attributes:0000000000000000 kickTheDog_attributes
+     /tmp/cc0lww7A.s:1474   .rodata.processData_attributes:0000000000000000 processData_attributes
+     /tmp/cc0lww7A.s:1418   .rodata.balanceCommand_attributes:0000000000000000 balanceCommand_attributes
+     /tmp/cc0lww7A.s:1506   .rodata.synchCommand_attributes:0000000000000000 synchCommand_attributes
+     /tmp/cc0lww7A.s:1452   .rodata.defaultTask_attributes:0000000000000000 defaultTask_attributes
                             *COM*:0000000000000060 hdma_tim2_up_ch3
                             *COM*:0000000000000060 hdma_tim2_ch2_ch4
                             *COM*:0000000000000060 hdma_tim2_ch1
@@ -2886,17 +2886,17 @@ DEFINED SYMBOLS
                             *COM*:0000000000000028 sf3
                             *COM*:0000000000000028 sf2
                             *COM*:0000000000000028 sf
-     /tmp/cchqiea9.s:1414   .rodata.balanceCommand_attributes:0000000000000000 $d
-     /tmp/cchqiea9.s:1425   .rodata.canTxQueue_attributes:0000000000000000 $d
-     /tmp/cchqiea9.s:1437   .rodata.canTxTask_attributes:0000000000000000 $d
-     /tmp/cchqiea9.s:1448   .rodata.defaultTask_attributes:0000000000000000 $d
-ARM GAS  /tmp/cchqiea9.s 			page 50
+     /tmp/cc0lww7A.s:1414   .rodata.balanceCommand_attributes:0000000000000000 $d
+     /tmp/cc0lww7A.s:1425   .rodata.canTxQueue_attributes:0000000000000000 $d
+     /tmp/cc0lww7A.s:1437   .rodata.canTxTask_attributes:0000000000000000 $d
+     /tmp/cc0lww7A.s:1448   .rodata.defaultTask_attributes:0000000000000000 $d
+ARM GAS  /tmp/cc0lww7A.s 			page 50
 
 
-     /tmp/cchqiea9.s:1459   .rodata.kickTheDog_attributes:0000000000000000 $d
-     /tmp/cchqiea9.s:1470   .rodata.processData_attributes:0000000000000000 $d
-     /tmp/cchqiea9.s:1481   .rodata.str1.4:0000000000000000 $d
-     /tmp/cchqiea9.s:1502   .rodata.synchCommand_attributes:0000000000000000 $d
+     /tmp/cc0lww7A.s:1459   .rodata.kickTheDog_attributes:0000000000000000 $d
+     /tmp/cc0lww7A.s:1470   .rodata.processData_attributes:0000000000000000 $d
+     /tmp/cc0lww7A.s:1481   .rodata.str1.4:0000000000000000 $d
+     /tmp/cc0lww7A.s:1502   .rodata.synchCommand_attributes:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS

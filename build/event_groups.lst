@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccJshpHh.s 			page 1
+ARM GAS  /tmp/ccRKRluC.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
   30:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
   31:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
   32:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** all the API functions to use the MPU wrappers.  That should only be done when
-ARM GAS  /tmp/ccJshpHh.s 			page 2
+ARM GAS  /tmp/ccRKRluC.s 			page 2
 
 
   33:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** task.h is included from an application file. */
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
   87:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** static BaseType_t prvTestWaitCondition( const EventBits_t uxCurrentEventBits, const EventBits_t uxB
   88:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
   89:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** /*-----------------------------------------------------------*/
-ARM GAS  /tmp/ccJshpHh.s 			page 3
+ARM GAS  /tmp/ccRKRluC.s 			page 3
 
 
   90:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  144:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
  145:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 	EventGroupHandle_t xEventGroupCreate( void )
  146:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 	{
-ARM GAS  /tmp/ccJshpHh.s 			page 4
+ARM GAS  /tmp/ccRKRluC.s 			page 4
 
 
  147:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 	EventGroup_t *pxEventBits;
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  201:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 	{
  202:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 		configASSERT( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0 )
  203:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 	}
-ARM GAS  /tmp/ccJshpHh.s 			page 5
+ARM GAS  /tmp/ccRKRluC.s 			page 5
 
 
  204:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 	#endif
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  258:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 		{
  259:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 			mtCOVERAGE_TEST_MARKER();
  260:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 		}
-ARM GAS  /tmp/ccJshpHh.s 			page 6
+ARM GAS  /tmp/ccRKRluC.s 			page 6
 
 
  261:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  315:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** BaseType_t xWaitConditionMet, xAlreadyYielded;
  316:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** BaseType_t xTimeoutOccurred = pdFALSE;
  317:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
-ARM GAS  /tmp/ccJshpHh.s 			page 7
+ARM GAS  /tmp/ccRKRluC.s 			page 7
 
 
  318:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 	/* Check the user is not attempting to wait on the bits used by the kernel
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  372:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 				mtCOVERAGE_TEST_MARKER();
  373:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 			}
  374:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
-ARM GAS  /tmp/ccJshpHh.s 			page 8
+ARM GAS  /tmp/ccRKRluC.s 			page 8
 
 
  375:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 			if( xWaitForAllBits != pdFALSE )
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  429:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 						pxEventBits->uxEventBits &= ~uxBitsToWaitFor;
  430:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 					}
  431:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 					else
-ARM GAS  /tmp/ccJshpHh.s 			page 9
+ARM GAS  /tmp/ccRKRluC.s 			page 9
 
 
  432:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 					{
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  486:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** /*-----------------------------------------------------------*/
  487:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
  488:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** #if ( ( configUSE_TRACE_FACILITY == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_T
-ARM GAS  /tmp/ccJshpHh.s 			page 10
+ARM GAS  /tmp/ccRKRluC.s 			page 10
 
 
  489:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  543:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
  544:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 		/* See if the new bit value should unblock any tasks. */
  545:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 		while( pxListItem != pxListEnd )
-ARM GAS  /tmp/ccJshpHh.s 			page 11
+ARM GAS  /tmp/ccRKRluC.s 			page 11
 
 
  546:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 		{
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  600:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 			pxListItem = pxNext;
  601:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 		}
  602:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
-ARM GAS  /tmp/ccJshpHh.s 			page 12
+ARM GAS  /tmp/ccRKRluC.s 			page 12
 
 
  603:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 		/* Clear any bits that matched when the eventCLEAR_EVENTS_ON_EXIT_BIT
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  657:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** void vEventGroupSetBitsCallback( void *pvEventGroup, const uint32_t ulBitsToSet )
  658:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** {
  659:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 	( void ) xEventGroupSetBits( pvEventGroup, ( EventBits_t ) ulBitsToSet ); /*lint !e9079 Can't avoi
-ARM GAS  /tmp/ccJshpHh.s 			page 13
+ARM GAS  /tmp/ccRKRluC.s 			page 13
 
 
  660:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** }
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  673:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
   47              		.loc 1 673 0
   48 0010 0020     		movs	r0, #0
-ARM GAS  /tmp/ccJshpHh.s 			page 14
+ARM GAS  /tmp/ccRKRluC.s 			page 14
 
 
   49              	.LVL3:
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
   90              		.cfi_def_cfa_offset 16
   91 0006 0446     		mov	r4, r0
   92              	.LBB36:
-ARM GAS  /tmp/ccJshpHh.s 			page 15
+ARM GAS  /tmp/ccRKRluC.s 			page 15
 
 
  105:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 			configASSERT( xSize == sizeof( EventGroup_t ) );
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
   43:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h ****  *-----------------------------------------------------------
   44:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h ****  */
   45:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 
-ARM GAS  /tmp/ccJshpHh.s 			page 16
+ARM GAS  /tmp/ccRKRluC.s 			page 16
 
 
   46:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** /* Type definitions. */
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  100:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** #define portCLEAR_INTERRUPT_MASK_FROM_ISR(x)	vPortSetBASEPRI(x)
  101:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** #define portDISABLE_INTERRUPTS()				vPortRaiseBASEPRI()
  102:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** #define portENABLE_INTERRUPTS()					vPortSetBASEPRI(0)
-ARM GAS  /tmp/ccJshpHh.s 			page 17
+ARM GAS  /tmp/ccRKRluC.s 			page 17
 
 
  103:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** #define portENTER_CRITICAL()					vPortEnterCritical()
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  157:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	#define portASSERT_IF_INTERRUPT_PRIORITY_INVALID() 	vPortValidateInterruptPriority()
  158:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** #endif
  159:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 
-ARM GAS  /tmp/ccJshpHh.s 			page 18
+ARM GAS  /tmp/ccRKRluC.s 			page 18
 
 
  160:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** /* portNOP() is not required by this port. */
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  121              	.LBE38:
  122              	.LBE37:
  123              	.LBE36:
-ARM GAS  /tmp/ccJshpHh.s 			page 19
+ARM GAS  /tmp/ccRKRluC.s 			page 19
 
 
  124              	.LBB39:
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  175              		.loc 1 146 0
  176              		.cfi_startproc
  177              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /tmp/ccJshpHh.s 			page 20
+ARM GAS  /tmp/ccRKRluC.s 			page 20
 
 
  178              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  227              		.cfi_offset 6, -24
  228              		.cfi_offset 7, -20
  229              		.cfi_offset 8, -16
-ARM GAS  /tmp/ccJshpHh.s 			page 21
+ARM GAS  /tmp/ccRKRluC.s 			page 21
 
 
  230              		.cfi_offset 9, -12
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  281 0036 41B9     		cbnz	r1, .L22
  282              	.LBB45:
  283              	.LBB46:
-ARM GAS  /tmp/ccJshpHh.s 			page 22
+ARM GAS  /tmp/ccRKRluC.s 			page 22
 
 
  284              		.loc 2 195 0
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  334              	.LBE48:
  335              	.LBE47:
  325:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 	}
-ARM GAS  /tmp/ccJshpHh.s 			page 23
+ARM GAS  /tmp/ccRKRluC.s 			page 23
 
 
  336              		.loc 1 325 0
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  380              	@ 403 "Middlewares/Third_Party/FreeRTOS/Source/event_groups.c" 1
  381 00a8 BFF34F8F 		dsb
  382              	@ 0 "" 2
-ARM GAS  /tmp/ccJshpHh.s 			page 24
+ARM GAS  /tmp/ccRKRluC.s 			page 24
 
 
  383              	@ 403 "Middlewares/Third_Party/FreeRTOS/Source/event_groups.c" 1
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  427 00de 2046     		mov	r0, r4
  428 00e0 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
  429              	.LVL42:
-ARM GAS  /tmp/ccJshpHh.s 			page 25
+ARM GAS  /tmp/ccRKRluC.s 			page 25
 
 
  430              	.L27:
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  476              		.cfi_endproc
  477              	.LFE7:
  479              		.section	.text.xEventGroupClearBits,"ax",%progbits
-ARM GAS  /tmp/ccJshpHh.s 			page 26
+ARM GAS  /tmp/ccRKRluC.s 			page 26
 
 
  480              		.align	1
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  531              	.LBB54:
  532              	.LBB55:
  533              		.syntax unified
-ARM GAS  /tmp/ccJshpHh.s 			page 27
+ARM GAS  /tmp/ccRKRluC.s 			page 27
 
 
  534              	@ 195 "Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h" 1
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  584              		.loc 1 666 0
  585              		.cfi_startproc
  586              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /tmp/ccJshpHh.s 			page 28
+ARM GAS  /tmp/ccRKRluC.s 			page 28
 
 
  587              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  640              		.syntax unified
  641              		.thumb
  642              		.thumb_func
-ARM GAS  /tmp/ccJshpHh.s 			page 29
+ARM GAS  /tmp/ccRKRluC.s 			page 29
 
 
  643              		.fpu fpv4-sp-d16
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  218:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 		:"=r" (ulOriginalBASEPRI), "=r" (ulNewBASEPRI) : "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) : "
  219:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	);
  220:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 
-ARM GAS  /tmp/ccJshpHh.s 			page 30
+ARM GAS  /tmp/ccRKRluC.s 			page 30
 
 
  221:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	/* This return will not be reached but is necessary to prevent compiler
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  717 000a 11D0     		beq	.L62
  718              	.LBB60:
  719              	.LBB61:
-ARM GAS  /tmp/ccJshpHh.s 			page 31
+ARM GAS  /tmp/ccRKRluC.s 			page 31
 
 
  195:Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h **** 	(
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  769 0040 2360     		str	r3, [r4]
  524:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** EventGroup_t *pxEventBits = xEventGroup;
  770              		.loc 1 524 0
-ARM GAS  /tmp/ccJshpHh.s 			page 32
+ARM GAS  /tmp/ccRKRluC.s 			page 32
 
 
  771 0042 0025     		movs	r5, #0
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  814              		.loc 1 553 0
  815 006e 21F07F42 		bic	r2, r1, #-16777216
  816              	.LVL81:
-ARM GAS  /tmp/ccJshpHh.s 			page 33
+ARM GAS  /tmp/ccRKRluC.s 			page 33
 
 
  555:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 			{
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  863              		.loc 1 192 0
  864              		.cfi_startproc
  865              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /tmp/ccJshpHh.s 			page 34
+ARM GAS  /tmp/ccRKRluC.s 			page 34
 
 
  866              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  915              	
  916              	@ 0 "" 2
  917              	.LVL89:
-ARM GAS  /tmp/ccJshpHh.s 			page 35
+ARM GAS  /tmp/ccRKRluC.s 			page 35
 
 
  918              		.thumb
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  965              	.LVL93:
  208:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
  966              		.loc 1 208 0
-ARM GAS  /tmp/ccJshpHh.s 			page 36
+ARM GAS  /tmp/ccRKRluC.s 			page 36
 
 
  967 0062 3468     		ldr	r4, [r6]
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  1012              	.LVL101:
  1013 009c 0446     		mov	r4, r0
  1014              	.LVL102:
-ARM GAS  /tmp/ccJshpHh.s 			page 37
+ARM GAS  /tmp/ccRKRluC.s 			page 37
 
 
  268:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 		{
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  244:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 				xTimeoutOccurred = pdTRUE;
  1058              		.loc 1 244 0
  1059 00d6 3468     		ldr	r4, [r6]
-ARM GAS  /tmp/ccJshpHh.s 			page 38
+ARM GAS  /tmp/ccRKRluC.s 			page 38
 
 
  1060              	.LVL111:
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  1115              	.LVL115:
  618:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 	{
  1116              		.loc 1 618 0
-ARM GAS  /tmp/ccJshpHh.s 			page 39
+ARM GAS  /tmp/ccRKRluC.s 			page 39
 
 
  1117 0004 FFF7FEFF 		bl	vTaskSuspendAll
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  1164 003c 2046     		mov	r0, r4
  1165 003e FFF7FEFF 		bl	vPortFree
  1166              	.LVL121:
-ARM GAS  /tmp/ccJshpHh.s 			page 40
+ARM GAS  /tmp/ccRKRluC.s 			page 40
 
 
  1167 0042 F8E7     		b	.L103
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  1211              		.global	uxEventGroupGetNumber
  1212              		.syntax unified
  1213              		.thumb
-ARM GAS  /tmp/ccJshpHh.s 			page 41
+ARM GAS  /tmp/ccRKRluC.s 			page 41
 
 
  1214              		.thumb_func
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  1247              		.fpu fpv4-sp-d16
  1249              	vEventGroupSetNumber:
  1250              	.LFB18:
-ARM GAS  /tmp/ccJshpHh.s 			page 42
+ARM GAS  /tmp/ccRKRluC.s 			page 42
 
 
  739:Middlewares/Third_Party/FreeRTOS/Source/event_groups.c **** 
@@ -2497,45 +2497,45 @@ ARM GAS  /tmp/ccJshpHh.s 			page 1
  1276              		.file 14 "Middlewares/Third_Party/FreeRTOS/Source/include/timers.h"
  1277              		.file 15 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
  1278              		.file 16 "Middlewares/Third_Party/FreeRTOS/Source/include/portable.h"
-ARM GAS  /tmp/ccJshpHh.s 			page 43
+ARM GAS  /tmp/ccRKRluC.s 			page 43
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 event_groups.c
-     /tmp/ccJshpHh.s:18     .text.prvTestWaitCondition:0000000000000000 $t
-     /tmp/ccJshpHh.s:24     .text.prvTestWaitCondition:0000000000000000 prvTestWaitCondition
-     /tmp/ccJshpHh.s:68     .text.xEventGroupCreateStatic:0000000000000000 $t
-     /tmp/ccJshpHh.s:75     .text.xEventGroupCreateStatic:0000000000000000 xEventGroupCreateStatic
-     /tmp/ccJshpHh.s:166    .text.xEventGroupCreate:0000000000000000 $t
-     /tmp/ccJshpHh.s:173    .text.xEventGroupCreate:0000000000000000 xEventGroupCreate
-     /tmp/ccJshpHh.s:209    .text.xEventGroupWaitBits:0000000000000000 $t
-     /tmp/ccJshpHh.s:216    .text.xEventGroupWaitBits:0000000000000000 xEventGroupWaitBits
-     /tmp/ccJshpHh.s:474    .text.xEventGroupWaitBits:0000000000000114 $d
-     /tmp/ccJshpHh.s:480    .text.xEventGroupClearBits:0000000000000000 $t
-     /tmp/ccJshpHh.s:487    .text.xEventGroupClearBits:0000000000000000 xEventGroupClearBits
-     /tmp/ccJshpHh.s:575    .text.vEventGroupClearBitsCallback:0000000000000000 $t
-     /tmp/ccJshpHh.s:582    .text.vEventGroupClearBitsCallback:0000000000000000 vEventGroupClearBitsCallback
-     /tmp/ccJshpHh.s:601    .text.xEventGroupClearBitsFromISR:0000000000000000 $t
-     /tmp/ccJshpHh.s:608    .text.xEventGroupClearBitsFromISR:0000000000000000 xEventGroupClearBitsFromISR
-     /tmp/ccJshpHh.s:633    .text.xEventGroupClearBitsFromISR:0000000000000010 $d
-     /tmp/ccJshpHh.s:638    .text.xEventGroupGetBitsFromISR:0000000000000000 $t
-     /tmp/ccJshpHh.s:645    .text.xEventGroupGetBitsFromISR:0000000000000000 xEventGroupGetBitsFromISR
-     /tmp/ccJshpHh.s:689    .text.xEventGroupSetBits:0000000000000000 $t
-     /tmp/ccJshpHh.s:696    .text.xEventGroupSetBits:0000000000000000 xEventGroupSetBits
-     /tmp/ccJshpHh.s:854    .text.xEventGroupSync:0000000000000000 $t
-     /tmp/ccJshpHh.s:861    .text.xEventGroupSync:0000000000000000 xEventGroupSync
-     /tmp/ccJshpHh.s:1065   .text.xEventGroupSync:00000000000000dc $d
-     /tmp/ccJshpHh.s:1070   .text.vEventGroupSetBitsCallback:0000000000000000 $t
-     /tmp/ccJshpHh.s:1077   .text.vEventGroupSetBitsCallback:0000000000000000 vEventGroupSetBitsCallback
-     /tmp/ccJshpHh.s:1096   .text.vEventGroupDelete:0000000000000000 $t
-     /tmp/ccJshpHh.s:1103   .text.vEventGroupDelete:0000000000000000 vEventGroupDelete
-     /tmp/ccJshpHh.s:1172   .text.xEventGroupSetBitsFromISR:0000000000000000 $t
-     /tmp/ccJshpHh.s:1179   .text.xEventGroupSetBitsFromISR:0000000000000000 xEventGroupSetBitsFromISR
-     /tmp/ccJshpHh.s:1205   .text.xEventGroupSetBitsFromISR:0000000000000010 $d
-     /tmp/ccJshpHh.s:1210   .text.uxEventGroupGetNumber:0000000000000000 $t
-     /tmp/ccJshpHh.s:1217   .text.uxEventGroupGetNumber:0000000000000000 uxEventGroupGetNumber
-     /tmp/ccJshpHh.s:1242   .text.vEventGroupSetNumber:0000000000000000 $t
-     /tmp/ccJshpHh.s:1249   .text.vEventGroupSetNumber:0000000000000000 vEventGroupSetNumber
+     /tmp/ccRKRluC.s:18     .text.prvTestWaitCondition:0000000000000000 $t
+     /tmp/ccRKRluC.s:24     .text.prvTestWaitCondition:0000000000000000 prvTestWaitCondition
+     /tmp/ccRKRluC.s:68     .text.xEventGroupCreateStatic:0000000000000000 $t
+     /tmp/ccRKRluC.s:75     .text.xEventGroupCreateStatic:0000000000000000 xEventGroupCreateStatic
+     /tmp/ccRKRluC.s:166    .text.xEventGroupCreate:0000000000000000 $t
+     /tmp/ccRKRluC.s:173    .text.xEventGroupCreate:0000000000000000 xEventGroupCreate
+     /tmp/ccRKRluC.s:209    .text.xEventGroupWaitBits:0000000000000000 $t
+     /tmp/ccRKRluC.s:216    .text.xEventGroupWaitBits:0000000000000000 xEventGroupWaitBits
+     /tmp/ccRKRluC.s:474    .text.xEventGroupWaitBits:0000000000000114 $d
+     /tmp/ccRKRluC.s:480    .text.xEventGroupClearBits:0000000000000000 $t
+     /tmp/ccRKRluC.s:487    .text.xEventGroupClearBits:0000000000000000 xEventGroupClearBits
+     /tmp/ccRKRluC.s:575    .text.vEventGroupClearBitsCallback:0000000000000000 $t
+     /tmp/ccRKRluC.s:582    .text.vEventGroupClearBitsCallback:0000000000000000 vEventGroupClearBitsCallback
+     /tmp/ccRKRluC.s:601    .text.xEventGroupClearBitsFromISR:0000000000000000 $t
+     /tmp/ccRKRluC.s:608    .text.xEventGroupClearBitsFromISR:0000000000000000 xEventGroupClearBitsFromISR
+     /tmp/ccRKRluC.s:633    .text.xEventGroupClearBitsFromISR:0000000000000010 $d
+     /tmp/ccRKRluC.s:638    .text.xEventGroupGetBitsFromISR:0000000000000000 $t
+     /tmp/ccRKRluC.s:645    .text.xEventGroupGetBitsFromISR:0000000000000000 xEventGroupGetBitsFromISR
+     /tmp/ccRKRluC.s:689    .text.xEventGroupSetBits:0000000000000000 $t
+     /tmp/ccRKRluC.s:696    .text.xEventGroupSetBits:0000000000000000 xEventGroupSetBits
+     /tmp/ccRKRluC.s:854    .text.xEventGroupSync:0000000000000000 $t
+     /tmp/ccRKRluC.s:861    .text.xEventGroupSync:0000000000000000 xEventGroupSync
+     /tmp/ccRKRluC.s:1065   .text.xEventGroupSync:00000000000000dc $d
+     /tmp/ccRKRluC.s:1070   .text.vEventGroupSetBitsCallback:0000000000000000 $t
+     /tmp/ccRKRluC.s:1077   .text.vEventGroupSetBitsCallback:0000000000000000 vEventGroupSetBitsCallback
+     /tmp/ccRKRluC.s:1096   .text.vEventGroupDelete:0000000000000000 $t
+     /tmp/ccRKRluC.s:1103   .text.vEventGroupDelete:0000000000000000 vEventGroupDelete
+     /tmp/ccRKRluC.s:1172   .text.xEventGroupSetBitsFromISR:0000000000000000 $t
+     /tmp/ccRKRluC.s:1179   .text.xEventGroupSetBitsFromISR:0000000000000000 xEventGroupSetBitsFromISR
+     /tmp/ccRKRluC.s:1205   .text.xEventGroupSetBitsFromISR:0000000000000010 $d
+     /tmp/ccRKRluC.s:1210   .text.uxEventGroupGetNumber:0000000000000000 $t
+     /tmp/ccRKRluC.s:1217   .text.uxEventGroupGetNumber:0000000000000000 uxEventGroupGetNumber
+     /tmp/ccRKRluC.s:1242   .text.vEventGroupSetNumber:0000000000000000 $t
+     /tmp/ccRKRluC.s:1249   .text.vEventGroupSetNumber:0000000000000000 vEventGroupSetNumber
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS

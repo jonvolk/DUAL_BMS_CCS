@@ -169,7 +169,7 @@ CXXFLAGS += -g -gdwarf -ggdb
 endif
 
 # Add additional flags
-CFLAGS += 
+CFLAGS += -Wall -Wextra 
 ASFLAGS += -specs=nosys.specs 
 CXXFLAGS += 
 

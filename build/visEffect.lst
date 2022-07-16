@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cc3u14j9.s 			page 1
+ARM GAS  /tmp/ccTgKXPA.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
   29:Core/Src/visEffect.c **** #define Blue(c) ((uint8_t)(c & 0xFF))
   30:Core/Src/visEffect.c **** 
   31:Core/Src/visEffect.c **** 
-ARM GAS  /tmp/cc3u14j9.s 			page 2
+ARM GAS  /tmp/ccTgKXPA.s 			page 2
 
 
   32:Core/Src/visEffect.c **** uint32_t Wheel(uint8_t WheelPos) {
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
   38:Core/Src/visEffect.c ****     return newColor(0, WheelPos * 3, 255 - WheelPos * 3);
   69              		.loc 1 38 0
   70 0032 5538     		subs	r0, r0, #85
-ARM GAS  /tmp/cc3u14j9.s 			page 3
+ARM GAS  /tmp/ccTgKXPA.s 			page 3
 
 
   71              	.LVL8:
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
  116              	.LVL12:
   54:Core/Src/visEffect.c **** 
   55:Core/Src/visEffect.c **** 	if(x == 256*5)
-ARM GAS  /tmp/cc3u14j9.s 			page 4
+ARM GAS  /tmp/ccTgKXPA.s 			page 4
 
 
   56:Core/Src/visEffect.c **** 		x = 0;
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
  158 004c 00000000 		.word	.LANCHOR0
  159 0050 ABAAAAAA 		.word	-1431655765
  160              		.cfi_endproc
-ARM GAS  /tmp/cc3u14j9.s 			page 5
+ARM GAS  /tmp/ccTgKXPA.s 			page 5
 
 
  161              	.LFE131:
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
  196              		.loc 1 87 0
  197 0010 0022     		movs	r2, #0
  198 0012 E254     		strb	r2, [r4, r3]
-ARM GAS  /tmp/cc3u14j9.s 			page 6
+ARM GAS  /tmp/ccTgKXPA.s 			page 6
 
 
  199 0014 23E0     		b	.L17
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
  236              		.loc 1 84 0
  237 004c 05EB4503 		add	r3, r5, r5, lsl #1
  238 0050 E25C     		ldrb	r2, [r4, r3]	@ zero_extendqisi2
-ARM GAS  /tmp/cc3u14j9.s 			page 7
+ARM GAS  /tmp/ccTgKXPA.s 			page 7
 
 
  239 0052 B242     		cmp	r2, r6
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
  101:Core/Src/visEffect.c **** 
  102:Core/Src/visEffect.c **** // Animate effects
  103:Core/Src/visEffect.c **** void visHandle2()
-ARM GAS  /tmp/cc3u14j9.s 			page 8
+ARM GAS  /tmp/ccTgKXPA.s 			page 8
 
 
  104:Core/Src/visEffect.c **** {
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
  329 0034 00000000 		.word	.LANCHOR1
  330 0038 00000000 		.word	frameBuffer
  331 003c 00000000 		.word	frameBuffer2
-ARM GAS  /tmp/cc3u14j9.s 			page 9
+ARM GAS  /tmp/ccTgKXPA.s 			page 9
 
 
  332              		.cfi_endproc
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
  144:Core/Src/visEffect.c **** 		if(i % 2 == 0)
  145:Core/Src/visEffect.c **** 		{
  146:Core/Src/visEffect.c **** 			// Your RGB framebuffer
-ARM GAS  /tmp/cc3u14j9.s 			page 10
+ARM GAS  /tmp/ccTgKXPA.s 			page 10
 
 
  147:Core/Src/visEffect.c **** 			ws2812b.item[i].frameBufferPointer = frameBuffer;
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
  396 0038 8C50     		str	r4, [r1, r2]
  152:Core/Src/visEffect.c **** 		}
  397              		.loc 1 152 0
-ARM GAS  /tmp/cc3u14j9.s 			page 11
+ARM GAS  /tmp/ccTgKXPA.s 			page 11
 
 
  398 003a 3C22     		movs	r2, #60
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
  441 0012 5A74     		strb	r2, [r3, #17]
  172:Core/Src/visEffect.c **** 		ws2812b_handle();
  442              		.loc 1 172 0
-ARM GAS  /tmp/cc3u14j9.s 			page 12
+ARM GAS  /tmp/ccTgKXPA.s 			page 12
 
 
  443 0014 FFF7FEFF 		bl	ws2812b_handle
@@ -707,40 +707,40 @@ ARM GAS  /tmp/cc3u14j9.s 			page 1
  489              		.file 14 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
  490              		.file 15 "/usr/include/newlib/sys/reent.h"
  491              		.file 16 "/usr/include/newlib/stdlib.h"
-ARM GAS  /tmp/cc3u14j9.s 			page 13
+ARM GAS  /tmp/ccTgKXPA.s 			page 13
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 visEffect.c
-     /tmp/cc3u14j9.s:18     .text.Wheel:0000000000000000 $t
-     /tmp/cc3u14j9.s:25     .text.Wheel:0000000000000000 Wheel
-     /tmp/cc3u14j9.s:85     .text.visRainbow:0000000000000000 $t
-     /tmp/cc3u14j9.s:92     .text.visRainbow:0000000000000000 visRainbow
-     /tmp/cc3u14j9.s:158    .text.visRainbow:000000000000004c $d
-     /tmp/cc3u14j9.s:164    .text.visDots:0000000000000000 $t
-     /tmp/cc3u14j9.s:171    .text.visDots:0000000000000000 visDots
-     /tmp/cc3u14j9.s:273    .text.visDots:0000000000000084 $d
-     /tmp/cc3u14j9.s:278    .text.visHandle2:0000000000000000 $t
-     /tmp/cc3u14j9.s:285    .text.visHandle2:0000000000000000 visHandle2
-     /tmp/cc3u14j9.s:329    .text.visHandle2:0000000000000034 $d
+     /tmp/ccTgKXPA.s:18     .text.Wheel:0000000000000000 $t
+     /tmp/ccTgKXPA.s:25     .text.Wheel:0000000000000000 Wheel
+     /tmp/ccTgKXPA.s:85     .text.visRainbow:0000000000000000 $t
+     /tmp/ccTgKXPA.s:92     .text.visRainbow:0000000000000000 visRainbow
+     /tmp/ccTgKXPA.s:158    .text.visRainbow:000000000000004c $d
+     /tmp/ccTgKXPA.s:164    .text.visDots:0000000000000000 $t
+     /tmp/ccTgKXPA.s:171    .text.visDots:0000000000000000 visDots
+     /tmp/ccTgKXPA.s:273    .text.visDots:0000000000000084 $d
+     /tmp/ccTgKXPA.s:278    .text.visHandle2:0000000000000000 $t
+     /tmp/ccTgKXPA.s:285    .text.visHandle2:0000000000000000 visHandle2
+     /tmp/ccTgKXPA.s:329    .text.visHandle2:0000000000000034 $d
                             *COM*:00000000000000b4 frameBuffer
                             *COM*:000000000000003c frameBuffer2
-     /tmp/cc3u14j9.s:336    .text.visInit:0000000000000000 $t
-     /tmp/cc3u14j9.s:343    .text.visInit:0000000000000000 visInit
-     /tmp/cc3u14j9.s:404    .text.visInit:0000000000000040 $d
+     /tmp/ccTgKXPA.s:336    .text.visInit:0000000000000000 $t
+     /tmp/ccTgKXPA.s:343    .text.visInit:0000000000000000 visInit
+     /tmp/ccTgKXPA.s:404    .text.visInit:0000000000000040 $d
                             *COM*:000000000000001c ws2812b
-     /tmp/cc3u14j9.s:411    .text.visHandle:0000000000000000 $t
-     /tmp/cc3u14j9.s:418    .text.visHandle:0000000000000000 visHandle
-     /tmp/cc3u14j9.s:450    .text.visHandle:000000000000001c $d
+     /tmp/ccTgKXPA.s:411    .text.visHandle:0000000000000000 $t
+     /tmp/ccTgKXPA.s:418    .text.visHandle:0000000000000000 visHandle
+     /tmp/ccTgKXPA.s:450    .text.visHandle:000000000000001c $d
                             *COM*:0000000000000004 timer_reset_pulse_period
                             *COM*:0000000000000004 tim_period
                             *COM*:000000000000001c tim2OC2
                             *COM*:000000000000001c tim2OC1
                             *COM*:0000000000000040 TIM1_handle
-     /tmp/cc3u14j9.s:463    .bss.timestamp.8573:0000000000000000 $d
-     /tmp/cc3u14j9.s:467    .bss.timestamp.8573:0000000000000000 timestamp.8573
-     /tmp/cc3u14j9.s:473    .bss.x.8556:0000000000000000 x.8556
-     /tmp/cc3u14j9.s:474    .bss.x.8556:0000000000000000 $d
+     /tmp/ccTgKXPA.s:463    .bss.timestamp.8573:0000000000000000 $d
+     /tmp/ccTgKXPA.s:467    .bss.timestamp.8573:0000000000000000 timestamp.8573
+     /tmp/ccTgKXPA.s:473    .bss.x.8556:0000000000000000 x.8556
+     /tmp/ccTgKXPA.s:474    .bss.x.8556:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS

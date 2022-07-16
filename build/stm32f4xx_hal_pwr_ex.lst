@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccAzEre4.s 			page 1
+ARM GAS  /tmp/cchLMcOf.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
   29:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   */
   30:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c **** 
   31:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c **** /** @defgroup PWREx PWREx
-ARM GAS  /tmp/ccAzEre4.s 			page 2
+ARM GAS  /tmp/cchLMcOf.s 			page 2
 
 
   32:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   * @brief PWR HAL module driver
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
   86:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****           the Flash interface when a protection level change from level 1 to 
   87:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****           level 0 is requested. 
   88:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****       -@- Refer to the description of Read protection (RDP) in the Flash 
-ARM GAS  /tmp/ccAzEre4.s 			page 3
+ARM GAS  /tmp/cchLMcOf.s 			page 3
 
 
   89:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****           programming manual.
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  143:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c **** HAL_StatusTypeDef HAL_PWREx_EnableBkUpReg(void)
  144:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c **** {
   28              		.loc 1 144 0
-ARM GAS  /tmp/ccAzEre4.s 			page 4
+ARM GAS  /tmp/cchLMcOf.s 			page 4
 
 
   29              		.cfi_startproc
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
   65 0028 0020     		movs	r0, #0
   66 002a 10BD     		pop	{r4, pc}
   67              	.LVL5:
-ARM GAS  /tmp/ccAzEre4.s 			page 5
+ARM GAS  /tmp/cchLMcOf.s 			page 5
 
 
   68              	.L9:
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  108 0012 13F0080F 		tst	r3, #8
  109 0016 07D0     		beq	.L16
  178:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   {
-ARM GAS  /tmp/ccAzEre4.s 			page 6
+ARM GAS  /tmp/cchLMcOf.s 			page 6
 
 
  179:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****     if((HAL_GetTick() - tickstart ) > PWR_BKPREG_TIMEOUT_VALUE)
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  150 0000 0122     		movs	r2, #1
  151 0002 014B     		ldr	r3, .L20
  152 0004 1A60     		str	r2, [r3]
-ARM GAS  /tmp/ccAzEre4.s 			page 7
+ARM GAS  /tmp/cchLMcOf.s 			page 7
 
 
  153 0006 7047     		bx	lr
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  207:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   * @retval The configured scale for the regulator voltage(VOS bit field).
  208:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   *         The returned value can be one of the following:
  209:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   *            - @arg PWR_REGULATOR_VOLTAGE_SCALE1: Regulator voltage output Scale 1 mode
-ARM GAS  /tmp/ccAzEre4.s 			page 8
+ARM GAS  /tmp/cchLMcOf.s 			page 8
 
 
  210:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   *            - @arg PWR_REGULATOR_VOLTAGE_SCALE2: Regulator voltage output Scale 2 mode
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  238:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   assert_param(IS_PWR_VOLTAGE_SCALING_RANGE(VoltageScaling));
  239:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   
  240:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   /* Enable PWR RCC Clock Peripheral */
-ARM GAS  /tmp/ccAzEre4.s 			page 9
+ARM GAS  /tmp/cchLMcOf.s 			page 9
 
 
  241:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   __HAL_RCC_PWR_CLK_ENABLE();
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  229              		@ frame_needed = 0, uses_anonymous_args = 0
  230              	.LVL12:
  231 0000 30B5     		push	{r4, r5, lr}
-ARM GAS  /tmp/ccAzEre4.s 			page 10
+ARM GAS  /tmp/cchLMcOf.s 			page 10
 
 
  232              		.cfi_def_cfa_offset 12
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  269 0034 1F4B     		ldr	r3, .L44
  270 0036 1B68     		ldr	r3, [r3]
  271 0038 13F0007F 		tst	r3, #33554432
-ARM GAS  /tmp/ccAzEre4.s 			page 11
+ARM GAS  /tmp/cchLMcOf.s 			page 11
 
 
  272 003c 06D0     		beq	.L41
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  309 0074 1B68     		ldr	r3, [r3]
  310 0076 13F0007F 		tst	r3, #33554432
  311 007a 06D1     		bne	.L42
-ARM GAS  /tmp/ccAzEre4.s 			page 12
+ARM GAS  /tmp/cchLMcOf.s 			page 12
 
 
  326:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****     {
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  343              		.loc 1 348 0
  344 00aa 0020     		movs	r0, #0
  345 00ac 00E0     		b	.L29
-ARM GAS  /tmp/ccAzEre4.s 			page 13
+ARM GAS  /tmp/cchLMcOf.s 			page 13
 
 
  346              	.LVL23:
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  386              	.L48:
  387              		.align	2
  388              	.L47:
-ARM GAS  /tmp/ccAzEre4.s 			page 14
+ARM GAS  /tmp/cchLMcOf.s 			page 14
 
 
  389 0008 2C000E42 		.word	1108213804
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  381:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   * @retval None
  382:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c ****   */
  383:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c **** void HAL_PWREx_EnableLowRegulatorLowVoltage(void)
-ARM GAS  /tmp/ccAzEre4.s 			page 15
+ARM GAS  /tmp/cchLMcOf.s 			page 15
 
 
  384:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c **** {
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  474              		.text
  475              	.Letext0:
  476              		.file 2 "/usr/include/newlib/machine/_default_types.h"
-ARM GAS  /tmp/ccAzEre4.s 			page 16
+ARM GAS  /tmp/cchLMcOf.s 			page 16
 
 
  477              		.file 3 "/usr/include/newlib/sys/_stdint.h"
@@ -908,41 +908,41 @@ ARM GAS  /tmp/ccAzEre4.s 			page 1
  481              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
  482              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
  483              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
-ARM GAS  /tmp/ccAzEre4.s 			page 17
+ARM GAS  /tmp/cchLMcOf.s 			page 17
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f4xx_hal_pwr_ex.c
-     /tmp/ccAzEre4.s:18     .text.HAL_PWREx_EnableBkUpReg:0000000000000000 $t
-     /tmp/ccAzEre4.s:25     .text.HAL_PWREx_EnableBkUpReg:0000000000000000 HAL_PWREx_EnableBkUpReg
-     /tmp/ccAzEre4.s:71     .text.HAL_PWREx_EnableBkUpReg:000000000000002c $d
-     /tmp/ccAzEre4.s:77     .text.HAL_PWREx_DisableBkUpReg:0000000000000000 $t
-     /tmp/ccAzEre4.s:84     .text.HAL_PWREx_DisableBkUpReg:0000000000000000 HAL_PWREx_DisableBkUpReg
-     /tmp/ccAzEre4.s:129    .text.HAL_PWREx_DisableBkUpReg:000000000000002c $d
-     /tmp/ccAzEre4.s:135    .text.HAL_PWREx_EnableFlashPowerDown:0000000000000000 $t
-     /tmp/ccAzEre4.s:142    .text.HAL_PWREx_EnableFlashPowerDown:0000000000000000 HAL_PWREx_EnableFlashPowerDown
-     /tmp/ccAzEre4.s:157    .text.HAL_PWREx_EnableFlashPowerDown:0000000000000008 $d
-     /tmp/ccAzEre4.s:162    .text.HAL_PWREx_DisableFlashPowerDown:0000000000000000 $t
-     /tmp/ccAzEre4.s:169    .text.HAL_PWREx_DisableFlashPowerDown:0000000000000000 HAL_PWREx_DisableFlashPowerDown
-     /tmp/ccAzEre4.s:184    .text.HAL_PWREx_DisableFlashPowerDown:0000000000000008 $d
-     /tmp/ccAzEre4.s:189    .text.HAL_PWREx_GetVoltageRange:0000000000000000 $t
-     /tmp/ccAzEre4.s:196    .text.HAL_PWREx_GetVoltageRange:0000000000000000 HAL_PWREx_GetVoltageRange
-     /tmp/ccAzEre4.s:212    .text.HAL_PWREx_GetVoltageRange:000000000000000c $d
-     /tmp/ccAzEre4.s:217    .text.HAL_PWREx_ControlVoltageScaling:0000000000000000 $t
-     /tmp/ccAzEre4.s:224    .text.HAL_PWREx_ControlVoltageScaling:0000000000000000 HAL_PWREx_ControlVoltageScaling
-     /tmp/ccAzEre4.s:360    .text.HAL_PWREx_ControlVoltageScaling:00000000000000b4 $d
-     /tmp/ccAzEre4.s:367    .text.HAL_PWREx_EnableMainRegulatorLowVoltage:0000000000000000 $t
-     /tmp/ccAzEre4.s:374    .text.HAL_PWREx_EnableMainRegulatorLowVoltage:0000000000000000 HAL_PWREx_EnableMainRegulatorLowVoltage
-     /tmp/ccAzEre4.s:389    .text.HAL_PWREx_EnableMainRegulatorLowVoltage:0000000000000008 $d
-     /tmp/ccAzEre4.s:394    .text.HAL_PWREx_DisableMainRegulatorLowVoltage:0000000000000000 $t
-     /tmp/ccAzEre4.s:401    .text.HAL_PWREx_DisableMainRegulatorLowVoltage:0000000000000000 HAL_PWREx_DisableMainRegulatorLowVoltage
-     /tmp/ccAzEre4.s:416    .text.HAL_PWREx_DisableMainRegulatorLowVoltage:0000000000000008 $d
-     /tmp/ccAzEre4.s:421    .text.HAL_PWREx_EnableLowRegulatorLowVoltage:0000000000000000 $t
-     /tmp/ccAzEre4.s:428    .text.HAL_PWREx_EnableLowRegulatorLowVoltage:0000000000000000 HAL_PWREx_EnableLowRegulatorLowVoltage
-     /tmp/ccAzEre4.s:443    .text.HAL_PWREx_EnableLowRegulatorLowVoltage:0000000000000008 $d
-     /tmp/ccAzEre4.s:448    .text.HAL_PWREx_DisableLowRegulatorLowVoltage:0000000000000000 $t
-     /tmp/ccAzEre4.s:455    .text.HAL_PWREx_DisableLowRegulatorLowVoltage:0000000000000000 HAL_PWREx_DisableLowRegulatorLowVoltage
-     /tmp/ccAzEre4.s:470    .text.HAL_PWREx_DisableLowRegulatorLowVoltage:0000000000000008 $d
+     /tmp/cchLMcOf.s:18     .text.HAL_PWREx_EnableBkUpReg:0000000000000000 $t
+     /tmp/cchLMcOf.s:25     .text.HAL_PWREx_EnableBkUpReg:0000000000000000 HAL_PWREx_EnableBkUpReg
+     /tmp/cchLMcOf.s:71     .text.HAL_PWREx_EnableBkUpReg:000000000000002c $d
+     /tmp/cchLMcOf.s:77     .text.HAL_PWREx_DisableBkUpReg:0000000000000000 $t
+     /tmp/cchLMcOf.s:84     .text.HAL_PWREx_DisableBkUpReg:0000000000000000 HAL_PWREx_DisableBkUpReg
+     /tmp/cchLMcOf.s:129    .text.HAL_PWREx_DisableBkUpReg:000000000000002c $d
+     /tmp/cchLMcOf.s:135    .text.HAL_PWREx_EnableFlashPowerDown:0000000000000000 $t
+     /tmp/cchLMcOf.s:142    .text.HAL_PWREx_EnableFlashPowerDown:0000000000000000 HAL_PWREx_EnableFlashPowerDown
+     /tmp/cchLMcOf.s:157    .text.HAL_PWREx_EnableFlashPowerDown:0000000000000008 $d
+     /tmp/cchLMcOf.s:162    .text.HAL_PWREx_DisableFlashPowerDown:0000000000000000 $t
+     /tmp/cchLMcOf.s:169    .text.HAL_PWREx_DisableFlashPowerDown:0000000000000000 HAL_PWREx_DisableFlashPowerDown
+     /tmp/cchLMcOf.s:184    .text.HAL_PWREx_DisableFlashPowerDown:0000000000000008 $d
+     /tmp/cchLMcOf.s:189    .text.HAL_PWREx_GetVoltageRange:0000000000000000 $t
+     /tmp/cchLMcOf.s:196    .text.HAL_PWREx_GetVoltageRange:0000000000000000 HAL_PWREx_GetVoltageRange
+     /tmp/cchLMcOf.s:212    .text.HAL_PWREx_GetVoltageRange:000000000000000c $d
+     /tmp/cchLMcOf.s:217    .text.HAL_PWREx_ControlVoltageScaling:0000000000000000 $t
+     /tmp/cchLMcOf.s:224    .text.HAL_PWREx_ControlVoltageScaling:0000000000000000 HAL_PWREx_ControlVoltageScaling
+     /tmp/cchLMcOf.s:360    .text.HAL_PWREx_ControlVoltageScaling:00000000000000b4 $d
+     /tmp/cchLMcOf.s:367    .text.HAL_PWREx_EnableMainRegulatorLowVoltage:0000000000000000 $t
+     /tmp/cchLMcOf.s:374    .text.HAL_PWREx_EnableMainRegulatorLowVoltage:0000000000000000 HAL_PWREx_EnableMainRegulatorLowVoltage
+     /tmp/cchLMcOf.s:389    .text.HAL_PWREx_EnableMainRegulatorLowVoltage:0000000000000008 $d
+     /tmp/cchLMcOf.s:394    .text.HAL_PWREx_DisableMainRegulatorLowVoltage:0000000000000000 $t
+     /tmp/cchLMcOf.s:401    .text.HAL_PWREx_DisableMainRegulatorLowVoltage:0000000000000000 HAL_PWREx_DisableMainRegulatorLowVoltage
+     /tmp/cchLMcOf.s:416    .text.HAL_PWREx_DisableMainRegulatorLowVoltage:0000000000000008 $d
+     /tmp/cchLMcOf.s:421    .text.HAL_PWREx_EnableLowRegulatorLowVoltage:0000000000000000 $t
+     /tmp/cchLMcOf.s:428    .text.HAL_PWREx_EnableLowRegulatorLowVoltage:0000000000000000 HAL_PWREx_EnableLowRegulatorLowVoltage
+     /tmp/cchLMcOf.s:443    .text.HAL_PWREx_EnableLowRegulatorLowVoltage:0000000000000008 $d
+     /tmp/cchLMcOf.s:448    .text.HAL_PWREx_DisableLowRegulatorLowVoltage:0000000000000000 $t
+     /tmp/cchLMcOf.s:455    .text.HAL_PWREx_DisableLowRegulatorLowVoltage:0000000000000000 HAL_PWREx_DisableLowRegulatorLowVoltage
+     /tmp/cchLMcOf.s:470    .text.HAL_PWREx_DisableLowRegulatorLowVoltage:0000000000000008 $d
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
