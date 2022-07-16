@@ -13,7 +13,7 @@
 ######################################
 # target
 ######################################
-TARGET = BMS_ALT
+TARGET = DUAL_BMS_CCS
 
 
 ######################################
@@ -164,7 +164,8 @@ CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-
 CXXFLAGS = $(MCU) $(CXX_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -feliminate-unused-debug-types
 
 ifeq ($(DEBUG), 1)
-CFLAGS += -g -gdwarf-2
+CFLAGS += -g -gdwarf -ggdb
+CXXFLAGS += -g -gdwarf -ggdb
 endif
 
 # Add additional flags
@@ -252,6 +253,12 @@ erase: $(BUILD_DIR)/$(TARGET).elf
 #######################################
 clean:
 	-rm -fR $(BUILD_DIR)
+
+#######################################
+# custom makefile rules
+#######################################
+
+
 	
 #######################################
 # dependencies

@@ -13,6 +13,20 @@
             "configFiles": [
                 "openocd.cfg"
             ]
+        },
+        {
+            "showDevDebugOutput": "parsed",
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/BMS_ALT.elf",
+            "name": "Attach STM32",
+            "request": "attach",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "preLaunchTask": "Build STM",
+            "device": "stm32f413",
+            "configFiles": [
+                "openocd.cfg"
+            ]
         }
     ]
 }

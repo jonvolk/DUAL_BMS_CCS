@@ -6,7 +6,7 @@
 # - entry_2
 
 # The project name
-target: BMS_ALT
+target: DUAL_BMS_CCS
 # Can be C or C++
 language: C
 

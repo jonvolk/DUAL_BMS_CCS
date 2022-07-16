@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccprOLSa.s 			page 1
+ARM GAS  /tmp/ccIzLnX8.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
   29:Core/Src/lim.c **** static uint8_t lim_state = 0;
   30:Core/Src/lim.c **** static uint8_t lim_stateCnt = 0;
   31:Core/Src/lim.c **** static uint8_t ctr_1second = 0;
-ARM GAS  /tmp/ccprOLSa.s 			page 2
+ARM GAS  /tmp/ccIzLnX8.s 			page 2
 
 
   32:Core/Src/lim.c **** static uint8_t ctr_5second = 0;
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
   86:Core/Src/lim.c **** }
   87:Core/Src/lim.c **** 
   88:Core/Src/lim.c **** void handle29E(uint32_t data[2]) //Lim data. Available current and voltage from the ccs charger
-ARM GAS  /tmp/ccprOLSa.s 			page 3
+ARM GAS  /tmp/ccIzLnX8.s 			page 3
 
 
   89:Core/Src/lim.c **** {
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  143:Core/Src/lim.c ****     PARAM.CP_DOOR = drmodes; //Param::SetInt(Param::CP_DOOR, drmodes);
  144:Core/Src/lim.c **** }
  145:Core/Src/lim.c **** 
-ARM GAS  /tmp/ccprOLSa.s 			page 4
+ARM GAS  /tmp/ccIzLnX8.s 			page 4
 
 
  146:Core/Src/lim.c **** void Send10msMessages()
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  200:Core/Src/lim.c ****                                         //more investigation needed here...
  201:Core/Src/lim.c ****                                         //Lower nibble seems to be intended for two end charge comm
  202:Core/Src/lim.c **** 
-ARM GAS  /tmp/ccprOLSa.s 			page 5
+ARM GAS  /tmp/ccIzLnX8.s 			page 5
 
 
  203:Core/Src/lim.c ****     bytes[4] = 0xff;
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  257:Core/Src/lim.c ****     bytes[0] = 0x40; //network management zgw
  258:Core/Src/lim.c ****     bytes[1] = 0x10;
  259:Core/Src/lim.c ****     bytes[2] = 0x20;
-ARM GAS  /tmp/ccprOLSa.s 			page 6
+ARM GAS  /tmp/ccIzLnX8.s 			page 6
 
 
  260:Core/Src/lim.c ****     bytes[3] = 0x00;
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  314:Core/Src/lim.c ****             bytes[1] = 0x00;
  315:Core/Src/lim.c ****             bytes[2] = 0x04;
  316:Core/Src/lim.c ****             bytes[3] = 0xff;
-ARM GAS  /tmp/ccprOLSa.s 			page 7
+ARM GAS  /tmp/ccIzLnX8.s 			page 7
 
 
  317:Core/Src/lim.c ****             bytes[4] = 0xff;
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  371:Core/Src/lim.c **** Can::GetInterface(0)->Send(0x560, (uint32_t*)bytes,8); //Send on CAN1. not on is 2019 log
  372:Core/Src/lim.c **** 
  373:Core/Src/lim.c **** bytes[0] = 0xa8;//range info, milage display
-ARM GAS  /tmp/ccprOLSa.s 			page 8
+ARM GAS  /tmp/ccIzLnX8.s 			page 8
 
 
  374:Core/Src/lim.c **** bytes[1] = 0x86;
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  428:Core/Src/lim.c ****     bytes[3] = 0x02;
  429:Core/Src/lim.c ****     bytes[4] = 0x69;
  430:Core/Src/lim.c ****     bytes[5] = 0x26;
-ARM GAS  /tmp/ccprOLSa.s 			page 9
+ARM GAS  /tmp/ccIzLnX8.s 			page 9
 
 
  431:Core/Src/lim.c ****     bytes[6] = 0xf3;
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  485:Core/Src/lim.c ****     }
  486:Core/Src/lim.c **** }
  487:Core/Src/lim.c **** 
-ARM GAS  /tmp/ccprOLSa.s 			page 10
+ARM GAS  /tmp/ccIzLnX8.s 			page 10
 
 
  488:Core/Src/lim.c **** i3LIMChargingState Control_Charge(bool RunCh)
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  542:Core/Src/lim.c ****             switch (lim_state)
  543:Core/Src/lim.c ****             {
  544:Core/Src/lim.c **** 
-ARM GAS  /tmp/ccprOLSa.s 			page 11
+ARM GAS  /tmp/ccIzLnX8.s 			page 11
 
 
  545:Core/Src/lim.c ****             case 0:
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  599:Core/Src/lim.c ****                 Full_SOCt = 2400;                 //Set full SOC timer to 40 minutes.
  600:Core/Src/lim.c ****                 Timer_1Sec = 5;                   //Load the 1 second loop counter. 5 loops=1sec.
  601:Core/Src/lim.c ****                 Timer_60Sec = 60;                 //Load the 60 second loop counter. 5 loops=1sec.
-ARM GAS  /tmp/ccprOLSa.s 			page 12
+ARM GAS  /tmp/ccIzLnX8.s 			page 12
 
 
  602:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;     //ChargeStatus::Init;
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  656:Core/Src/lim.c ****                 }
  657:Core/Src/lim.c **** 
  658:Core/Src/lim.c ****                 // Wait for contactor voltage to be stable for 2 seconds
-ARM GAS  /tmp/ccprOLSa.s 			page 13
+ARM GAS  /tmp/ccIzLnX8.s 			page 13
 
 
  659:Core/Src/lim.c ****                 if (lim_stateCnt > 20)
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  713:Core/Src/lim.c ****                 CONT_Ctrl = 0x2;                //dc contactor to close mode
  714:Core/Src/lim.c ****                 FC_Cur = 0;                     //current command to 0
  715:Core/Src/lim.c ****                 EOC_Time = 0x1E;                //end of charge timer
-ARM GAS  /tmp/ccprOLSa.s 			page 14
+ARM GAS  /tmp/ccIzLnX8.s 			page 14
 
 
  716:Core/Src/lim.c ****                 CHG_Status = CCS_STATUS_INIT;
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  770:Core/Src/lim.c **** 
  771:Core/Src/lim.c ****         if (!PARAM.PlugDet) //(!Param::GetBool(Param::PlugDet)) //if we  plug remove shut down
  772:Core/Src/lim.c ****         {
-ARM GAS  /tmp/ccprOLSa.s 			page 15
+ARM GAS  /tmp/ccIzLnX8.s 			page 15
 
 
  773:Core/Src/lim.c ****             lim_state = 0;                //return to state 0
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  827:Core/Src/lim.c ****         if (Timer_60Sec == 0)
  828:Core/Src/lim.c ****         {
  829:Core/Src/lim.c ****             Timer_60Sec = 60;
-ARM GAS  /tmp/ccprOLSa.s 			page 16
+ARM GAS  /tmp/ccIzLnX8.s 			page 16
 
 
  830:Core/Src/lim.c ****             EOC_Time--; //decrement end of charge minutes timer
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
   76              		.comm	hcan2,40,4
   77              		.comm	hcan1,40,4
   78              		.section	.bss.CCS_Bmalf,"aw",%nobits
-ARM GAS  /tmp/ccprOLSa.s 			page 17
+ARM GAS  /tmp/ccIzLnX8.s 			page 17
 
 
   81              	CCS_Bmalf:
@@ -1007,23 +1007,23 @@ ARM GAS  /tmp/ccprOLSa.s 			page 1
  142              		.file 14 "Core/Inc/can_setup.h"
  143              		.file 15 "Core/Inc/bms.h"
  144              		.file 16 "Core/Inc/lim.h"
-ARM GAS  /tmp/ccprOLSa.s 			page 18
+ARM GAS  /tmp/ccIzLnX8.s 			page 18
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 lim.c
-     /tmp/ccprOLSa.s:18     .text.getLimData:0000000000000000 $t
-     /tmp/ccprOLSa.s:25     .text.getLimData:0000000000000000 getLimData
-     /tmp/ccprOLSa.s:91     .bss.CCS_IntStat:0000000000000000 CCS_IntStat
-     /tmp/ccprOLSa.s:96     .bss.CCS_Iso:0000000000000000 CCS_Iso
-     /tmp/ccprOLSa.s:116    .bss.CCS_Stop:0000000000000000 CCS_Stop
-     /tmp/ccprOLSa.s:81     .bss.CCS_Bmalf:0000000000000000 CCS_Bmalf
-     /tmp/ccprOLSa.s:101    .bss.CCS_Malf:0000000000000000 CCS_Malf
-     /tmp/ccprOLSa.s:111    .bss.CCS_Stat:0000000000000000 CCS_Stat
-     /tmp/ccprOLSa.s:121    .bss.CCS_Vlim:0000000000000000 CCS_Vlim
-     /tmp/ccprOLSa.s:86     .bss.CCS_Ilim:0000000000000000 CCS_Ilim
-     /tmp/ccprOLSa.s:106    .bss.CCS_Plim:0000000000000000 CCS_Plim
-     /tmp/ccprOLSa.s:126    .bss.ChargeType:0000000000000000 ChargeType
+     /tmp/ccIzLnX8.s:18     .text.getLimData:0000000000000000 $t
+     /tmp/ccIzLnX8.s:25     .text.getLimData:0000000000000000 getLimData
+     /tmp/ccIzLnX8.s:91     .bss.CCS_IntStat:0000000000000000 CCS_IntStat
+     /tmp/ccIzLnX8.s:96     .bss.CCS_Iso:0000000000000000 CCS_Iso
+     /tmp/ccIzLnX8.s:116    .bss.CCS_Stop:0000000000000000 CCS_Stop
+     /tmp/ccIzLnX8.s:81     .bss.CCS_Bmalf:0000000000000000 CCS_Bmalf
+     /tmp/ccIzLnX8.s:101    .bss.CCS_Malf:0000000000000000 CCS_Malf
+     /tmp/ccIzLnX8.s:111    .bss.CCS_Stat:0000000000000000 CCS_Stat
+     /tmp/ccIzLnX8.s:121    .bss.CCS_Vlim:0000000000000000 CCS_Vlim
+     /tmp/ccIzLnX8.s:86     .bss.CCS_Ilim:0000000000000000 CCS_Ilim
+     /tmp/ccIzLnX8.s:106    .bss.CCS_Plim:0000000000000000 CCS_Plim
+     /tmp/ccIzLnX8.s:126    .bss.ChargeType:0000000000000000 ChargeType
                             *COM*:000000000000001c PARAM
                             *COM*:0000000000000001 watchdogBits
                             *COM*:0000000000000001 chargerOn
@@ -1055,19 +1055,19 @@ DEFINED SYMBOLS
                             *COM*:0000000000000028 hcan3
                             *COM*:0000000000000028 hcan2
                             *COM*:0000000000000028 hcan1
-     /tmp/ccprOLSa.s:82     .bss.CCS_Bmalf:0000000000000000 $d
-     /tmp/ccprOLSa.s:87     .bss.CCS_Ilim:0000000000000000 $d
-     /tmp/ccprOLSa.s:92     .bss.CCS_IntStat:0000000000000000 $d
-     /tmp/ccprOLSa.s:97     .bss.CCS_Iso:0000000000000000 $d
-     /tmp/ccprOLSa.s:102    .bss.CCS_Malf:0000000000000000 $d
-     /tmp/ccprOLSa.s:107    .bss.CCS_Plim:0000000000000000 $d
-     /tmp/ccprOLSa.s:112    .bss.CCS_Stat:0000000000000000 $d
-     /tmp/ccprOLSa.s:117    .bss.CCS_Stop:0000000000000000 $d
-     /tmp/ccprOLSa.s:122    .bss.CCS_Vlim:0000000000000000 $d
-     /tmp/ccprOLSa.s:127    .bss.ChargeType:0000000000000000 $d
+     /tmp/ccIzLnX8.s:82     .bss.CCS_Bmalf:0000000000000000 $d
+     /tmp/ccIzLnX8.s:87     .bss.CCS_Ilim:0000000000000000 $d
+     /tmp/ccIzLnX8.s:92     .bss.CCS_IntStat:0000000000000000 $d
+     /tmp/ccIzLnX8.s:97     .bss.CCS_Iso:0000000000000000 $d
+     /tmp/ccIzLnX8.s:102    .bss.CCS_Malf:0000000000000000 $d
+     /tmp/ccIzLnX8.s:107    .bss.CCS_Plim:0000000000000000 $d
+     /tmp/ccIzLnX8.s:112    .bss.CCS_Stat:0000000000000000 $d
+     /tmp/ccIzLnX8.s:117    .bss.CCS_Stop:0000000000000000 $d
+     /tmp/ccIzLnX8.s:122    .bss.CCS_Vlim:0000000000000000 $d
+     /tmp/ccIzLnX8.s:127    .bss.ChargeType:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
 
-ARM GAS  /tmp/ccprOLSa.s 			page 19
+ARM GAS  /tmp/ccIzLnX8.s 			page 19
 
 
 NO UNDEFINED SYMBOLS
