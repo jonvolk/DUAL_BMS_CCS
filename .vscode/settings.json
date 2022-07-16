@@ -1,5 +1,8 @@
 {
     "cortex-debug.armToolchainPath": "/usr/bin/",
     "cortex-debug.openocdPath": "/usr/local/bin/openocd",
-    "cortex-debug.variableUseNaturalFormat": true
+    "cortex-debug.variableUseNaturalFormat": true,
+    "files.associations": {
+        "cmsis_os2.h": "c"
+    }
 }

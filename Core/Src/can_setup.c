@@ -1,4 +1,5 @@
 #include <can_setup.h>
+#include <cmsis_os2.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -10,7 +11,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
         {
             Error_Handler();
         }
-        //do stuff
+        // do stuff
         decodeVolt(&BMS[0], &rxMsg, canRx);
         decodeTemp(&BMS[0], &rxMsg, canRx);
     }
@@ -21,7 +22,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
         {
             Error_Handler();
         }
-        //do stuff
+        // do stuff
         decodeVolt(&BMS[1], &rxMsg3, canRx3);
         decodeTemp(&BMS[1], &rxMsg3, canRx3);
     }
@@ -47,15 +48,25 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
         {
             Error_Handler();
         }
-        //do stuff
+        // do stuff
         decodeVolt(&BMS[1], &rxMsg3, canRx3);
         decodeTemp(&BMS[1], &rxMsg3, canRx3);
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan)
+{
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void can2queue(void)
+{
+    // osMessageQueueGet()
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void canSettings(void)
 {
+    busFault = 0;
 
     txMsg.IDE = CAN_ID_STD;
     txMsg.RTR = CAN_RTR_DATA;
@@ -91,10 +102,11 @@ void canSettings(void)
     HAL_NVIC_SetPriority(CAN1_TX_IRQn, 3, 0);
     HAL_NVIC_EnableIRQ(CAN1_TX_IRQn);
 
-    //hcan2
+    // hcan2
     txMsg2.IDE = CAN_ID_STD;
     txMsg2.RTR = CAN_RTR_DATA;
     txMsg2.TransmitGlobalTime = DISABLE;
+
 
     txMsgExt2.IDE = CAN_ID_EXT;
     txMsgExt2.RTR = CAN_RTR_DATA;
@@ -127,7 +139,7 @@ void canSettings(void)
     HAL_NVIC_SetPriority(CAN2_TX_IRQn, 3, 0);
     HAL_NVIC_EnableIRQ(CAN2_TX_IRQn);
 
-    //hcan3
+    // hcan3
     txMsg3.IDE = CAN_ID_STD;
     txMsg3.RTR = CAN_RTR_DATA;
     txMsg3.TransmitGlobalTime = DISABLE;
@@ -208,14 +220,23 @@ void c2tx(CAN_TxHeaderTypeDef *txMsg2, uint8_t *canTx2)
 */
 void can2tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx2)
 {
+
     txMsg2.StdId = msgId;
     txMsg2.DLC = DLC;
-    HAL_CAN_AddTxMessage(&hcan2, &txMsg2, canTx2, &canMailbox2);
-    txCycle2++;
-    if (txCycle2 >= 3)
+    if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan2))
     {
-        HAL_Delay(1);
-        txCycle2 = 0;
+        if (HAL_CAN_AddTxMessage(&hcan2, &txMsg2, canTx2, &canMailbox2) != HAL_OK)
+        {
+            HAL_Delay(1);
+            // HAL_NVIC_SystemReset();
+        }
+    }
+    else
+    {
+        HAL_CAN_AbortTxRequest(&hcan2, CAN_TX_MAILBOX0);
+        HAL_CAN_AbortTxRequest(&hcan2, CAN_TX_MAILBOX1);
+        HAL_CAN_AbortTxRequest(&hcan2, CAN_TX_MAILBOX2);
+        // HAL_CAN_AddTxMessage(&hcan2, &txMsg2, canTx2, &canMailbox2);
     }
 }
 
@@ -275,10 +296,10 @@ void c2txExt(CAN_TxHeaderTypeDef *txMsg2Ext, uint8_t *canTx2)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /***************** Filter Config ID mask: Allow All *******************
-    sf.FilterBank = 0; // CAN1 Filter bank starts at 0 
+    sf.FilterBank = 0; // CAN1 Filter bank starts at 0
     sf.FilterMode = CAN_FILTERMODE_IDMASK;
     sf.FilterScale = CAN_FILTERSCALE_32BIT;
-    sf.FilterIdLow = 0xffff;  
+    sf.FilterIdLow = 0xffff;
     sf.FilterIdHigh = 0x1fff;
     sf.FilterMaskIdLow = 0x0000;
     sf.FilterMaskIdHigh = 0x0000;
@@ -289,9 +310,9 @@ void c2txExt(CAN_TxHeaderTypeDef *txMsg2Ext, uint8_t *canTx2)
 
 /***************** Filter Config ID list: Allow 4 discreet ID *******************
     sf1.FilterBank = 1;
-    sf1.FilterMode = CAN_FILTERMODE_IDLIST; 
+    sf1.FilterMode = CAN_FILTERMODE_IDLIST;
     sf1.FilterScale = CAN_FILTERSCALE_16BIT;
-    sf1.FilterIdLow = 0xFD3<<5; 
+    sf1.FilterIdLow = 0xFD3<<5;
     sf1.FilterIdHigh = 0X120<<5;
     sf1.FilterMaskIdLow = 0x184<<5;//X120<<5;
     sf1.FilterMaskIdHigh = 0x084<<5;//X120<<5;
@@ -304,10 +325,10 @@ void c2txExt(CAN_TxHeaderTypeDef *txMsg2Ext, uint8_t *canTx2)
     sf.FilterBank = 0;
     sf.FilterMode = CAN_FILTERMODE_IDLIST;
     sf.FilterScale = CAN_FILTERSCALE_32BIT;
-    sf.FilterIdLow = ((0x18FF11F2 << 3) & 0xFFF8) | 4;   
-    sf.FilterIdHigh = (0x18FF11F2 >> 13) & 0xFFFF;         
-    sf.FilterMaskIdLow = ((0x18FF0FF2 << 3) & 0xFFF8) | 4; 
-    sf.FilterMaskIdHigh = (0x18FF0FF2 >> 13) & 0xFFFF;     
+    sf.FilterIdLow = ((0x18FF11F2 << 3) & 0xFFF8) | 4;
+    sf.FilterIdHigh = (0x18FF11F2 >> 13) & 0xFFFF;
+    sf.FilterMaskIdLow = ((0x18FF0FF2 << 3) & 0xFFF8) | 4;
+    sf.FilterMaskIdHigh = (0x18FF0FF2 >> 13) & 0xFFFF;
     sf.FilterFIFOAssignment = CAN_RX_FIFO0;
     sf.SlaveStartFilterBank = 14;
     sf.FilterActivation = ENABLE;

@@ -43,9 +43,11 @@ uint32_t canMailbox3;
 //uint8_t canTx3[8];
 
 
-int txCycle; //CAN TX fill level counter
-int txCycle2;
-int txCycle3;
+volatile int txCycle; //CAN TX fill level counter
+volatile int txCycle2;
+volatile int txCycle3;
+int busFault;
+
 
 
 void canSettings(void);
@@ -55,6 +57,7 @@ void can1tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx);
 void can2tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx2);
 //void c3tx(CAN_TxHeaderTypeDef *txMsg3, uint8_t *canTx3);
 void can3tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx3);
+void can2queue(void);
 void c1txExt(CAN_TxHeaderTypeDef *txMsgExt, uint8_t *canTx);
 void c2txExt(CAN_TxHeaderTypeDef *txMsg2Ext, uint8_t *canTx2);
 void c3txExt(CAN_TxHeaderTypeDef *txMsg3Ext, uint8_t *canTx3);

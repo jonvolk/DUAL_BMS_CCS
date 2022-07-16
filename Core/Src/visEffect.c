@@ -73,9 +73,9 @@ void visDots(uint8_t *frameBuffer, uint32_t frameBufferSize, uint32_t random, ui
 	for( i = 0; i < frameBufferSize / 3; i++)
 	{
 
-		if(rand() % random == 0)
+		if(rand() % random == 0)   //BRIGHTNESS
 		{
-			frameBuffer[i*3 + 0] = 255;
+			frameBuffer[i*3 + 0] = 255;  
 			frameBuffer[i*3 + 1] = 255;
 			frameBuffer[i*3 + 2] = 255;
 		}

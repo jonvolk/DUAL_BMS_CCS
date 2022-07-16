@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cckBSU8x.s 			page 1
+ARM GAS  /tmp/ccb3q7QO.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
   29:Core/Src/stm32f4xx_it.c **** /* Private typedef -----------------------------------------------------------*/
   30:Core/Src/stm32f4xx_it.c **** /* USER CODE BEGIN TD */
   31:Core/Src/stm32f4xx_it.c **** 
-ARM GAS  /tmp/cckBSU8x.s 			page 2
+ARM GAS  /tmp/ccb3q7QO.s 			page 2
 
 
   32:Core/Src/stm32f4xx_it.c **** /* USER CODE END TD */
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
   33              		@ link register save eliminated.
   34              	.L2:
   35 0000 FEE7     		b	.L2
-ARM GAS  /tmp/cckBSU8x.s 			page 3
+ARM GAS  /tmp/ccb3q7QO.s 			page 3
 
 
   36              		.cfi_endproc
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
  105:Core/Src/stm32f4xx_it.c **** 
  106:Core/Src/stm32f4xx_it.c **** /**
  107:Core/Src/stm32f4xx_it.c ****   * @brief This function handles Memory management fault.
-ARM GAS  /tmp/cckBSU8x.s 			page 4
+ARM GAS  /tmp/ccb3q7QO.s 			page 4
 
 
  108:Core/Src/stm32f4xx_it.c ****   */
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
  110              	UsageFault_Handler:
  111              	.LFB135:
  126:Core/Src/stm32f4xx_it.c ****   /* USER CODE BEGIN BusFault_IRQn 0 */
-ARM GAS  /tmp/cckBSU8x.s 			page 5
+ARM GAS  /tmp/ccb3q7QO.s 			page 5
 
 
  127:Core/Src/stm32f4xx_it.c **** 
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
  139              		.cfi_endproc
  140              	.LFE136:
  142              		.section	.text.DMA1_Stream1_IRQHandler,"ax",%progbits
-ARM GAS  /tmp/cckBSU8x.s 			page 6
+ARM GAS  /tmp/ccb3q7QO.s 			page 6
 
 
  143              		.align	1
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
  175              		.align	1
  176              		.global	DMA1_Stream5_IRQHandler
  177              		.syntax unified
-ARM GAS  /tmp/cckBSU8x.s 			page 7
+ARM GAS  /tmp/ccb3q7QO.s 			page 7
 
 
  178              		.thumb
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
  200:Core/Src/stm32f4xx_it.c ****   * @brief This function handles DMA1 stream6 global interrupt.
  201:Core/Src/stm32f4xx_it.c ****   */
  202:Core/Src/stm32f4xx_it.c **** void DMA1_Stream6_IRQHandler(void)
-ARM GAS  /tmp/cckBSU8x.s 			page 8
+ARM GAS  /tmp/ccb3q7QO.s 			page 8
 
 
  203:Core/Src/stm32f4xx_it.c **** {
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
  219:Core/Src/stm32f4xx_it.c **** 
  220:Core/Src/stm32f4xx_it.c ****   /* USER CODE END CAN1_RX0_IRQn 0 */
  221:Core/Src/stm32f4xx_it.c ****   HAL_CAN_IRQHandler(&hcan1);
-ARM GAS  /tmp/cckBSU8x.s 			page 9
+ARM GAS  /tmp/ccb3q7QO.s 			page 9
 
 
  255              		.loc 1 221 0
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
  298              		.section	.text.TIM7_IRQHandler,"ax",%progbits
  299              		.align	1
  300              		.global	TIM7_IRQHandler
-ARM GAS  /tmp/cckBSU8x.s 			page 10
+ARM GAS  /tmp/ccb3q7QO.s 			page 10
 
 
  301              		.syntax unified
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
  255:Core/Src/stm32f4xx_it.c **** /**
  256:Core/Src/stm32f4xx_it.c ****   * @brief This function handles CAN2 RX1 interrupt.
  257:Core/Src/stm32f4xx_it.c ****   */
-ARM GAS  /tmp/cckBSU8x.s 			page 11
+ARM GAS  /tmp/ccb3q7QO.s 			page 11
 
 
  258:Core/Src/stm32f4xx_it.c **** void CAN2_RX1_IRQHandler(void)
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
  274:Core/Src/stm32f4xx_it.c ****   /* USER CODE BEGIN CAN3_RX0_IRQn 0 */
  275:Core/Src/stm32f4xx_it.c **** 
  276:Core/Src/stm32f4xx_it.c ****   /* USER CODE END CAN3_RX0_IRQn 0 */
-ARM GAS  /tmp/cckBSU8x.s 			page 12
+ARM GAS  /tmp/ccb3q7QO.s 			page 12
 
 
  277:Core/Src/stm32f4xx_it.c ****   HAL_CAN_IRQHandler(&hcan3);
@@ -676,101 +676,103 @@ ARM GAS  /tmp/cckBSU8x.s 			page 1
  391              		.comm	watchdogBits,1,1
  392              		.comm	chargerOn,1,1
  393              		.comm	BMS,492,4
- 394              		.comm	txCycle3,4,4
- 395              		.comm	txCycle2,4,4
- 396              		.comm	txCycle,4,4
- 397              		.comm	canMailbox3,4,4
- 398              		.comm	canMailbox2,4,4
- 399              		.comm	canMailbox,4,4
- 400              		.comm	canRx3,8,4
- 401              		.comm	canRx2,8,4
- 402              		.comm	canRx,8,4
- 403              		.comm	txMsgExt3,24,4
- 404              		.comm	txMsg3,24,4
- 405              		.comm	rxMsg3,28,4
- 406              		.comm	txMsgExt2,24,4
- 407              		.comm	txMsg2,24,4
- 408              		.comm	rxMsg2,28,4
- 409              		.comm	txMsgExt,24,4
- 410              		.comm	txMsg,24,4
- 411              		.comm	rxMsg,28,4
- 412              		.comm	sf5,40,4
- 413              		.comm	sf4,40,4
- 414              		.comm	sf3,40,4
- 415              		.comm	sf2,40,4
- 416              		.comm	sf,40,4
- 417              		.comm	hcan3,40,4
- 418              		.comm	hcan2,40,4
- 419              		.comm	hcan1,40,4
- 420              		.text
- 421              	.Letext0:
- 422              		.file 2 "/usr/include/newlib/machine/_default_types.h"
- 423              		.file 3 "/usr/include/newlib/sys/_stdint.h"
- 424              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
- 425              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
- 426              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
- 427              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
- 428              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
- 429              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
- 430              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
- 431              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
- 432              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
- 433              		.file 13 "/usr/include/newlib/sys/lock.h"
- 434              		.file 14 "/usr/include/newlib/sys/_types.h"
- 435              		.file 15 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
-ARM GAS  /tmp/cckBSU8x.s 			page 13
+ 394              		.comm	busFault,4,4
+ 395              		.comm	txCycle3,4,4
+ 396              		.comm	txCycle2,4,4
+ 397              		.comm	txCycle,4,4
+ 398              		.comm	canMailbox3,4,4
+ 399              		.comm	canMailbox2,4,4
+ 400              		.comm	canMailbox,4,4
+ 401              		.comm	canRx3,8,4
+ 402              		.comm	canRx2,8,4
+ 403              		.comm	canRx,8,4
+ 404              		.comm	txMsgExt3,24,4
+ 405              		.comm	txMsg3,24,4
+ 406              		.comm	rxMsg3,28,4
+ 407              		.comm	txMsgExt2,24,4
+ 408              		.comm	txMsg2,24,4
+ 409              		.comm	rxMsg2,28,4
+ 410              		.comm	txMsgExt,24,4
+ 411              		.comm	txMsg,24,4
+ 412              		.comm	rxMsg,28,4
+ 413              		.comm	sf5,40,4
+ 414              		.comm	sf4,40,4
+ 415              		.comm	sf3,40,4
+ 416              		.comm	sf2,40,4
+ 417              		.comm	sf,40,4
+ 418              		.comm	hcan3,40,4
+ 419              		.comm	hcan2,40,4
+ 420              		.comm	hcan1,40,4
+ 421              		.text
+ 422              	.Letext0:
+ 423              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 424              		.file 3 "/usr/include/newlib/sys/_stdint.h"
+ 425              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 426              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 427              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
+ 428              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 429              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 430              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 431              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 432              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 433              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 434              		.file 13 "/usr/include/newlib/sys/lock.h"
+ 435              		.file 14 "/usr/include/newlib/sys/_types.h"
+ARM GAS  /tmp/ccb3q7QO.s 			page 13
 
 
- 436              		.file 16 "/usr/include/newlib/sys/reent.h"
- 437              		.file 17 "Core/Inc/can_setup.h"
- 438              		.file 18 "Core/Inc/bms.h"
-ARM GAS  /tmp/cckBSU8x.s 			page 14
+ 436              		.file 15 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
+ 437              		.file 16 "/usr/include/newlib/sys/reent.h"
+ 438              		.file 17 "Core/Inc/can_setup.h"
+ 439              		.file 18 "Core/Inc/bms.h"
+ARM GAS  /tmp/ccb3q7QO.s 			page 14
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f4xx_it.c
-     /tmp/cckBSU8x.s:18     .text.NMI_Handler:0000000000000000 $t
-     /tmp/cckBSU8x.s:25     .text.NMI_Handler:0000000000000000 NMI_Handler
-     /tmp/cckBSU8x.s:40     .text.HardFault_Handler:0000000000000000 $t
-     /tmp/cckBSU8x.s:47     .text.HardFault_Handler:0000000000000000 HardFault_Handler
-     /tmp/cckBSU8x.s:61     .text.MemManage_Handler:0000000000000000 $t
-     /tmp/cckBSU8x.s:68     .text.MemManage_Handler:0000000000000000 MemManage_Handler
-     /tmp/cckBSU8x.s:82     .text.BusFault_Handler:0000000000000000 $t
-     /tmp/cckBSU8x.s:89     .text.BusFault_Handler:0000000000000000 BusFault_Handler
-     /tmp/cckBSU8x.s:103    .text.UsageFault_Handler:0000000000000000 $t
-     /tmp/cckBSU8x.s:110    .text.UsageFault_Handler:0000000000000000 UsageFault_Handler
-     /tmp/cckBSU8x.s:124    .text.DebugMon_Handler:0000000000000000 $t
-     /tmp/cckBSU8x.s:131    .text.DebugMon_Handler:0000000000000000 DebugMon_Handler
-     /tmp/cckBSU8x.s:143    .text.DMA1_Stream1_IRQHandler:0000000000000000 $t
-     /tmp/cckBSU8x.s:150    .text.DMA1_Stream1_IRQHandler:0000000000000000 DMA1_Stream1_IRQHandler
-     /tmp/cckBSU8x.s:170    .text.DMA1_Stream1_IRQHandler:000000000000000c $d
-     /tmp/cckBSU8x.s:175    .text.DMA1_Stream5_IRQHandler:0000000000000000 $t
-     /tmp/cckBSU8x.s:182    .text.DMA1_Stream5_IRQHandler:0000000000000000 DMA1_Stream5_IRQHandler
-     /tmp/cckBSU8x.s:201    .text.DMA1_Stream5_IRQHandler:000000000000000c $d
-     /tmp/cckBSU8x.s:206    .text.DMA1_Stream6_IRQHandler:0000000000000000 $t
-     /tmp/cckBSU8x.s:213    .text.DMA1_Stream6_IRQHandler:0000000000000000 DMA1_Stream6_IRQHandler
-     /tmp/cckBSU8x.s:232    .text.DMA1_Stream6_IRQHandler:000000000000000c $d
-     /tmp/cckBSU8x.s:237    .text.CAN1_RX0_IRQHandler:0000000000000000 $t
-     /tmp/cckBSU8x.s:244    .text.CAN1_RX0_IRQHandler:0000000000000000 CAN1_RX0_IRQHandler
-     /tmp/cckBSU8x.s:263    .text.CAN1_RX0_IRQHandler:000000000000000c $d
+     /tmp/ccb3q7QO.s:18     .text.NMI_Handler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:25     .text.NMI_Handler:0000000000000000 NMI_Handler
+     /tmp/ccb3q7QO.s:40     .text.HardFault_Handler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:47     .text.HardFault_Handler:0000000000000000 HardFault_Handler
+     /tmp/ccb3q7QO.s:61     .text.MemManage_Handler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:68     .text.MemManage_Handler:0000000000000000 MemManage_Handler
+     /tmp/ccb3q7QO.s:82     .text.BusFault_Handler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:89     .text.BusFault_Handler:0000000000000000 BusFault_Handler
+     /tmp/ccb3q7QO.s:103    .text.UsageFault_Handler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:110    .text.UsageFault_Handler:0000000000000000 UsageFault_Handler
+     /tmp/ccb3q7QO.s:124    .text.DebugMon_Handler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:131    .text.DebugMon_Handler:0000000000000000 DebugMon_Handler
+     /tmp/ccb3q7QO.s:143    .text.DMA1_Stream1_IRQHandler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:150    .text.DMA1_Stream1_IRQHandler:0000000000000000 DMA1_Stream1_IRQHandler
+     /tmp/ccb3q7QO.s:170    .text.DMA1_Stream1_IRQHandler:000000000000000c $d
+     /tmp/ccb3q7QO.s:175    .text.DMA1_Stream5_IRQHandler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:182    .text.DMA1_Stream5_IRQHandler:0000000000000000 DMA1_Stream5_IRQHandler
+     /tmp/ccb3q7QO.s:201    .text.DMA1_Stream5_IRQHandler:000000000000000c $d
+     /tmp/ccb3q7QO.s:206    .text.DMA1_Stream6_IRQHandler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:213    .text.DMA1_Stream6_IRQHandler:0000000000000000 DMA1_Stream6_IRQHandler
+     /tmp/ccb3q7QO.s:232    .text.DMA1_Stream6_IRQHandler:000000000000000c $d
+     /tmp/ccb3q7QO.s:237    .text.CAN1_RX0_IRQHandler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:244    .text.CAN1_RX0_IRQHandler:0000000000000000 CAN1_RX0_IRQHandler
+     /tmp/ccb3q7QO.s:263    .text.CAN1_RX0_IRQHandler:000000000000000c $d
                             *COM*:0000000000000028 hcan1
-     /tmp/cckBSU8x.s:268    .text.TIM2_IRQHandler:0000000000000000 $t
-     /tmp/cckBSU8x.s:275    .text.TIM2_IRQHandler:0000000000000000 TIM2_IRQHandler
-     /tmp/cckBSU8x.s:294    .text.TIM2_IRQHandler:000000000000000c $d
-     /tmp/cckBSU8x.s:299    .text.TIM7_IRQHandler:0000000000000000 $t
-     /tmp/cckBSU8x.s:306    .text.TIM7_IRQHandler:0000000000000000 TIM7_IRQHandler
-     /tmp/cckBSU8x.s:325    .text.TIM7_IRQHandler:000000000000000c $d
-     /tmp/cckBSU8x.s:330    .text.CAN2_RX1_IRQHandler:0000000000000000 $t
-     /tmp/cckBSU8x.s:337    .text.CAN2_RX1_IRQHandler:0000000000000000 CAN2_RX1_IRQHandler
-     /tmp/cckBSU8x.s:356    .text.CAN2_RX1_IRQHandler:000000000000000c $d
+     /tmp/ccb3q7QO.s:268    .text.TIM2_IRQHandler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:275    .text.TIM2_IRQHandler:0000000000000000 TIM2_IRQHandler
+     /tmp/ccb3q7QO.s:294    .text.TIM2_IRQHandler:000000000000000c $d
+     /tmp/ccb3q7QO.s:299    .text.TIM7_IRQHandler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:306    .text.TIM7_IRQHandler:0000000000000000 TIM7_IRQHandler
+     /tmp/ccb3q7QO.s:325    .text.TIM7_IRQHandler:000000000000000c $d
+     /tmp/ccb3q7QO.s:330    .text.CAN2_RX1_IRQHandler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:337    .text.CAN2_RX1_IRQHandler:0000000000000000 CAN2_RX1_IRQHandler
+     /tmp/ccb3q7QO.s:356    .text.CAN2_RX1_IRQHandler:000000000000000c $d
                             *COM*:0000000000000028 hcan2
-     /tmp/cckBSU8x.s:361    .text.CAN3_RX0_IRQHandler:0000000000000000 $t
-     /tmp/cckBSU8x.s:368    .text.CAN3_RX0_IRQHandler:0000000000000000 CAN3_RX0_IRQHandler
-     /tmp/cckBSU8x.s:387    .text.CAN3_RX0_IRQHandler:000000000000000c $d
+     /tmp/ccb3q7QO.s:361    .text.CAN3_RX0_IRQHandler:0000000000000000 $t
+     /tmp/ccb3q7QO.s:368    .text.CAN3_RX0_IRQHandler:0000000000000000 CAN3_RX0_IRQHandler
+     /tmp/ccb3q7QO.s:387    .text.CAN3_RX0_IRQHandler:000000000000000c $d
                             *COM*:0000000000000028 hcan3
                             *COM*:0000000000000001 watchdogBits
                             *COM*:0000000000000001 chargerOn
                             *COM*:00000000000001ec BMS
+                            *COM*:0000000000000004 busFault
                             *COM*:0000000000000004 txCycle3
                             *COM*:0000000000000004 txCycle2
                             *COM*:0000000000000004 txCycle
@@ -783,10 +785,10 @@ DEFINED SYMBOLS
                             *COM*:0000000000000018 txMsgExt3
                             *COM*:0000000000000018 txMsg3
                             *COM*:000000000000001c rxMsg3
+ARM GAS  /tmp/ccb3q7QO.s 			page 15
+
+
                             *COM*:0000000000000018 txMsgExt2
-ARM GAS  /tmp/cckBSU8x.s 			page 15
-
-
                             *COM*:0000000000000018 txMsg2
                             *COM*:000000000000001c rxMsg2
                             *COM*:0000000000000018 txMsgExt

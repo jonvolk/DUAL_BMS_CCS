@@ -122,12 +122,12 @@ void bmsStateHandler(bms_t *bms)
         bms->chargeRequest = 0;
         if (bms->avgCellVolt > BALANCE_VOLTAGE)
         {
-            if ((bms->highCellVolt - bms->lowCellVolt) > (BALANCE_HYS))
+            if ((bms->highCellVolt - bms->lowCellVolt) > (BALANCE_HYS << 2))
             {
                 bms->balancecells = true;
             }
 
-            else if ((bms->highCellVolt - bms->lowCellVolt) <= BALANCE_HYS)
+            else if ((bms->highCellVolt - bms->lowCellVolt) <= BALANCE_HYS )
             {
                 bms->balancecells = false;
             }
@@ -137,7 +137,7 @@ void bmsStateHandler(bms_t *bms)
             bms->balancecells = false;
         }
 
-        if (bms->highCellVolt < (CHARGE_V_SETPOINT - CHARGE_HYS))
+        if ((bms->highCellVolt < (CHARGE_V_SETPOINT - CHARGE_HYS)) && (bms->lowCellVolt > UNDER_V_SETPOINT))
         {
             bms->state = Charge;
         }
@@ -147,7 +147,7 @@ void bmsStateHandler(bms_t *bms)
         bms->balancecells = false;
         bms->chargeRequest = 1;        
 
-        if (bms->highCellVolt > CHARGE_V_SETPOINT || bms->highCellTemp > OVER_T_SETPOINT)
+        if (bms->highCellVolt > CHARGE_V_SETPOINT)// || bms->highCellTemp > OVER_T_SETPOINT)
         {
             bms->state = Ready;
         }
@@ -174,7 +174,7 @@ void acChargeCommand(void)
         canTx2[2] = 0x20;
         canTx2[3] = 9;
         canTx2[4] = val & 0xFF;
-        canTx2[5] = (val >> 8) & 0xFF;
+        canTx2[5] = (val >> 8) & 0xFF; 
         canTx2[6] = (val >> 16) & 0xFF;
         canTx2[7] = (val >> 24) & 0xFF;
         can2tx(0x605, 8, canTx2); 
@@ -193,6 +193,7 @@ void acChargeCommand(void)
         can2tx(0x605, 8, canTx2);
 
     }
+    HAL_Delay(1);
 }
 // Send CAN Data /////////////////////////////////////////////////////////////////////
 void tx500kData(void)
@@ -206,8 +207,9 @@ void tx500kData(void)
     bms0[4] = BMS[0].cellDelta & 0XFF;
     bms0[5] = (BMS[0].cellDelta >> 8) & 0XFF;
     bms0[6] = (BMS[0].SOC);
-    bms0[7] = 0;
+    bms0[7] = (BMS[0].balancecells);//0;
     can2tx(0x138, 8, bms0);
+
 
     uint8_t bms1[8];
     bms1[0] = BMS[1].packVolt & 0xFF;
@@ -217,8 +219,9 @@ void tx500kData(void)
     bms1[4] = BMS[1].cellDelta & 0XFF;
     bms1[5] = (BMS[1].cellDelta >> 8) & 0XFF;
     bms1[6] = (BMS[1].SOC);
-    bms1[7] = 0;
+    bms1[7] = (BMS[1].balancecells);//0;
     can2tx(0x139, 8, bms1);
+
 }
 
 void refreshData(void)

@@ -1,0 +1,68 @@
+halted: PC: 0x08003eba
+1297                                                               pHeader->RTR);
+(gdb) 
+halted: PC: 0x08003ebc
+1296            hcan->Instance->sTxMailBox[transmitmailbox].TIR = ((pHeader->StdId << CAN_TI0R_STID_Pos) |
+(gdb) 
+halted: PC: 0x08003ec0
+halted: PC: 0x08003ec4
+halted: PC: 0x08003ec6
+halted: PC: 0x08003ec8
+1307          hcan->Instance->sTxMailBox[transmitmailbox].TDTR = (pHeader->DLC);
+(gdb) 
+halted: PC: 0x08003eca
+halted: PC: 0x08003ecc
+halted: PC: 0x08003ed0
+halted: PC: 0x08003ed4
+halted: PC: 0x08003ed6
+1310          if (pHeader->TransmitGlobalTime == ENABLE)
+(gdb) 
+halted: PC: 0x08003ed8
+halted: PC: 0x08003eda
+halted: PC: 0x08003edc
+1316          WRITE_REG(hcan->Instance->sTxMailBox[transmitmailbox].TDHR,
+(gdb) 
+halted: PC: 0x08003ede
+halted: PC: 0x08003ee0
+halted: PC: 0x08003ee2
+halted: PC: 0x08003ee4
+halted: PC: 0x08003ee8
+halted: PC: 0x08003eea
+halted: PC: 0x08003eee
+halted: PC: 0x08003ef0
+halted: PC: 0x08003ef2
+halted: PC: 0x08003ef4
+halted: PC: 0x08003ef6
+halted: PC: 0x08003efa
+1321          WRITE_REG(hcan->Instance->sTxMailBox[transmitmailbox].TDLR,
+(gdb) 
+halted: PC: 0x08003efc
+halted: PC: 0x08003efe
+halted: PC: 0x08003f00
+halted: PC: 0x08003f02
+halted: PC: 0x08003f06
+halted: PC: 0x08003f08
+halted: PC: 0x08003f0c
+halted: PC: 0x08003f0e
+halted: PC: 0x08003f10
+halted: PC: 0x08003f12
+halted: PC: 0x08003f16
+1328          SET_BIT(hcan->Instance->sTxMailBox[transmitmailbox].TIR, CAN_TI0R_TXRQ);
+(gdb) 
+halted: PC: 0x08003f18
+halted: PC: 0x08003f1a
+halted: PC: 0x08003f1c
+halted: PC: 0x08003f1e
+halted: PC: 0x08003f22
+halted: PC: 0x08003f24
+1331          return HAL_OK;
+(gdb) 
+
+
+if (((tsr & CAN_TSR_TME0) != 0U) ||
+
+2097152 Error code  |= HAL_CAN_ERROR_PARAM;
+
+file Core/Src/can_setup.c, line 212.
+
+file Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c, line 1336.

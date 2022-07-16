@@ -30,8 +30,9 @@
 
 //#include "visEffect.h"
 /* USER CODE END Includes */
- 
+
 /* Private typedef -----------------------------------------------------------*/
+typedef StaticQueue_t osStaticMessageQDef_t;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -61,38 +62,49 @@ DMA_HandleTypeDef hdma_tim2_up_ch3;
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .priority = (osPriority_t) osPriorityNormal1,
-  .stack_size = 128 * 4
-};
+    .name = "defaultTask",
+    .priority = (osPriority_t)osPriorityNormal,
+    .stack_size = 128 * 4};
 /* Definitions for synchCommand */
 osThreadId_t synchCommandHandle;
 const osThreadAttr_t synchCommand_attributes = {
-  .name = "synchCommand",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
+    .name = "synchCommand",
+    .priority = (osPriority_t)osPriorityNormal,
+    .stack_size = 128 * 4};
 /* Definitions for balanceCommand */
 osThreadId_t balanceCommandHandle;
 const osThreadAttr_t balanceCommand_attributes = {
-  .name = "balanceCommand",
-  .priority = (osPriority_t) osPriorityNormal2,
-  .stack_size = 128 * 4
-};
+    .name = "balanceCommand",
+    .priority = (osPriority_t)osPriorityNormal,
+    .stack_size = 128 * 4};
 /* Definitions for processData */
 osThreadId_t processDataHandle;
 const osThreadAttr_t processData_attributes = {
-  .name = "processData",
-  .priority = (osPriority_t) osPriorityNormal3,
-  .stack_size = 128 * 4
-};
+    .name = "processData",
+    .priority = (osPriority_t)osPriorityNormal,
+    .stack_size = 128 * 4};
 /* Definitions for kickTheDog */
 osThreadId_t kickTheDogHandle;
 const osThreadAttr_t kickTheDog_attributes = {
-  .name = "kickTheDog",
-  .priority = (osPriority_t) osPriorityRealtime,
-  .stack_size = 128 * 4
-};
+    .name = "kickTheDog",
+    .priority = (osPriority_t)osPriorityRealtime,
+    .stack_size = 128 * 4};
+/* Definitions for canTxTask */
+osThreadId_t canTxTaskHandle;
+const osThreadAttr_t canTxTask_attributes = {
+    .name = "canTxTask",
+    .priority = (osPriority_t)osPriorityNormal,
+    .stack_size = 128 * 4};
+/* Definitions for canTxQueue */
+osMessageQueueId_t canTxQueueHandle;
+uint8_t canTxQueueBuffer[16 * sizeof(uint16_t)];
+osStaticMessageQDef_t canTxQueueControlBlock;
+const osMessageQueueAttr_t canTxQueue_attributes = {
+    .name = "canTxQueue",
+    .cb_mem = &canTxQueueControlBlock,
+    .cb_size = sizeof(canTxQueueControlBlock),
+    .mq_mem = &canTxQueueBuffer,
+    .mq_size = sizeof(canTxQueueBuffer)};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -112,6 +124,7 @@ void StartsynchCommand(void *argument);
 void StartbalanceCommand(void *argument);
 void StartprocessData(void *argument);
 void StartkickTheDog(void *argument);
+void StartcanTxTask(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -178,6 +191,10 @@ int main(void)
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
+  /* Create the queue(s) */
+  /* creation of canTxQueue */
+  canTxQueueHandle = osMessageQueueNew(16, sizeof(uint16_t), &canTxQueue_attributes);
+
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
@@ -197,6 +214,9 @@ int main(void)
 
   /* creation of kickTheDog */
   kickTheDogHandle = osThreadNew(StartkickTheDog, NULL, &kickTheDog_attributes);
+
+  /* creation of canTxTask */
+  canTxTaskHandle = osThreadNew(StartcanTxTask, NULL, &canTxTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -237,7 +257,7 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_LSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
@@ -254,8 +274,7 @@ void SystemClock_Config(void)
   }
   /** Initializes the CPU, AHB and APB buses clocks
   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -289,7 +308,7 @@ static void MX_CAN1_Init(void)
   hcan1.Init.TimeSeg1 = CAN_BS1_2TQ;
   hcan1.Init.TimeSeg2 = CAN_BS2_3TQ;
   hcan1.Init.TimeTriggeredMode = DISABLE;
-  hcan1.Init.AutoBusOff = DISABLE;
+  hcan1.Init.AutoBusOff = ENABLE;
   hcan1.Init.AutoWakeUp = DISABLE;
   hcan1.Init.AutoRetransmission = DISABLE;
   hcan1.Init.ReceiveFifoLocked = DISABLE;
@@ -301,7 +320,6 @@ static void MX_CAN1_Init(void)
   /* USER CODE BEGIN CAN1_Init 2 */
 
   /* USER CODE END CAN1_Init 2 */
-
 }
 
 /**
@@ -317,16 +335,16 @@ static void MX_CAN2_Init(void)
   /* USER CODE END CAN2_Init 0 */
 
   /* USER CODE BEGIN CAN2_Init 1 */
-
+   //{ CAN_BTR_TS1_4TQ, CAN_BTR_TS2_3TQ, 9 }, //500kbps
   /* USER CODE END CAN2_Init 1 */
   hcan2.Instance = CAN2;
-  hcan2.Init.Prescaler = 12;
+  hcan2.Init.Prescaler = 9;//12;
   hcan2.Init.Mode = CAN_MODE_NORMAL;
   hcan2.Init.SyncJumpWidth = CAN_SJW_1TQ;
-  hcan2.Init.TimeSeg1 = CAN_BS1_2TQ;
-  hcan2.Init.TimeSeg2 = CAN_BS2_3TQ;
+  hcan2.Init.TimeSeg1 = CAN_BS1_4TQ;//CAN_BS1_2TQ;
+  hcan2.Init.TimeSeg2 = CAN_BS2_3TQ;//CAN_BS2_3TQ;
   hcan2.Init.TimeTriggeredMode = DISABLE;
-  hcan2.Init.AutoBusOff = DISABLE;
+  hcan2.Init.AutoBusOff = ENABLE;
   hcan2.Init.AutoWakeUp = DISABLE;
   hcan2.Init.AutoRetransmission = DISABLE;
   hcan2.Init.ReceiveFifoLocked = DISABLE;
@@ -338,7 +356,6 @@ static void MX_CAN2_Init(void)
   /* USER CODE BEGIN CAN2_Init 2 */
 
   /* USER CODE END CAN2_Init 2 */
-
 }
 
 /**
@@ -363,7 +380,7 @@ static void MX_CAN3_Init(void)
   hcan3.Init.TimeSeg1 = CAN_BS1_2TQ;
   hcan3.Init.TimeSeg2 = CAN_BS2_3TQ;
   hcan3.Init.TimeTriggeredMode = DISABLE;
-  hcan3.Init.AutoBusOff = DISABLE;
+  hcan3.Init.AutoBusOff = ENABLE;
   hcan3.Init.AutoWakeUp = DISABLE;
   hcan3.Init.AutoRetransmission = DISABLE;
   hcan3.Init.ReceiveFifoLocked = DISABLE;
@@ -375,7 +392,6 @@ static void MX_CAN3_Init(void)
   /* USER CODE BEGIN CAN3_Init 2 */
 
   /* USER CODE END CAN3_Init 2 */
-
 }
 
 /**
@@ -395,7 +411,7 @@ static void MX_IWDG_Init(void)
   /* USER CODE END IWDG_Init 1 */
   hiwdg.Instance = IWDG;
   hiwdg.Init.Prescaler = IWDG_PRESCALER_8;
-  hiwdg.Init.Reload = 1999;
+  hiwdg.Init.Reload = 2000;
   if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
   {
     Error_Handler();
@@ -403,7 +419,6 @@ static void MX_IWDG_Init(void)
   /* USER CODE BEGIN IWDG_Init 2 */
 
   /* USER CODE END IWDG_Init 2 */
-
 }
 
 /**
@@ -425,7 +440,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 3-1;
+  htim2.Init.Prescaler = 3 - 1;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 29;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -461,7 +476,6 @@ static void MX_TIM2_Init(void)
   /* USER CODE BEGIN TIM2_Init 2 */
 
   /* USER CODE END TIM2_Init 2 */
-
 }
 
 /**
@@ -514,7 +528,6 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 2 */
   HAL_TIM_MspPostInit(&htim3);
-
 }
 
 /**
@@ -536,7 +549,6 @@ static void MX_DMA_Init(void)
   /* DMA1_Stream6_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream6_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream6_IRQn);
-
 }
 
 /**
@@ -565,11 +577,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PA0 PA1 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+  GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
 }
 
 /* USER CODE BEGIN 4 */
@@ -593,9 +604,10 @@ void StartDefaultTask(void *argument)
     visHandle();
     bmsStateHandler(&BMS[0]);
     bmsStateHandler(&BMS[1]);
-    acChargeCommand();
+    HAL_IWDG_Refresh(&hiwdg);
+    //acChargeCommand();
 
-    osDelay(1);
+    osDelay(10);
   }
   /* USER CODE END 5 */
 }
@@ -614,6 +626,7 @@ void StartsynchCommand(void *argument)
   for (;;)
   {
     synchChargers();
+    
     osDelay(5000);
   }
   /* USER CODE END StartsynchCommand */
@@ -644,7 +657,8 @@ void StartbalanceCommand(void *argument)
 
     requestBICMdata(&BMS[0], 0);
     requestBICMdata(&BMS[1], 1);
-    
+    HAL_IWDG_Refresh(&hiwdg);
+
     osDelay(200);
   }
   /* USER CODE END StartbalanceCommand */
@@ -665,6 +679,7 @@ void StartprocessData(void *argument)
   {
     refreshData();
     tx500kData();
+    acChargeCommand();
     osDelay(1000);
   }
   /* USER CODE END StartprocessData */
@@ -683,13 +698,32 @@ void StartkickTheDog(void *argument)
   /* Infinite loop */
   for (;;)
   {
-    HAL_IWDG_Refresh(&hiwdg); 
+    HAL_IWDG_Refresh(&hiwdg);
     osDelay(450);
   }
+
   /* USER CODE END StartkickTheDog */
 }
 
- /**
+/* USER CODE BEGIN Header_StartcanTxTask */
+/**
+* @brief Function implementing the canTxTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartcanTxTask */
+void StartcanTxTask(void *argument)
+{
+  /* USER CODE BEGIN StartcanTxTask */
+  /* Infinite loop */
+  for (;;)
+  {
+    osDelay(5);
+  }
+  /* USER CODE END StartcanTxTask */
+}
+
+/**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM7 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
@@ -720,7 +754,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM7) {
+  if (htim->Instance == TIM7)
+  {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
@@ -743,7 +778,7 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.

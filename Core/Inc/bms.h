@@ -8,21 +8,21 @@
 
 typedef struct bms
 {
-    uint16_t cellVolt[96]; //all cell calcs in millivolts
-    uint16_t tempSensor[16];
-    uint16_t packVolt; // pack volt x 10
-    uint16_t lowCellVolt;
-    uint16_t highCellVolt;
-    uint16_t avgCellVolt;
-    uint16_t cellDelta;
-    uint16_t highCellTemp;
-    uint16_t lowCellTemp;
-    uint16_t avgCellTemp;
-    uint16_t tempDelta;
-    uint8_t state;
-    uint8_t SOC;
-    uint8_t chargeRequest; // conditions met for pack to request charging
-    bool balancecells; //conditions met for pack to request balancing
+    volatile uint16_t cellVolt[96]; //all cell calcs in millivolts
+    volatile uint16_t tempSensor[16];
+    volatile uint16_t packVolt; // pack volt x 10
+    volatile uint16_t lowCellVolt;
+    volatile uint16_t highCellVolt;
+    volatile uint16_t avgCellVolt;
+    volatile uint16_t cellDelta;
+    volatile uint16_t highCellTemp;
+    volatile uint16_t lowCellTemp;
+    volatile uint16_t avgCellTemp;
+    volatile uint16_t tempDelta;
+    volatile uint8_t state;
+    volatile uint8_t SOC;
+    volatile uint8_t chargeRequest; // conditions met for pack to request charging
+    volatile bool balancecells; //conditions met for pack to request balancing
 } bms_t;
 bms_t BMS[2];
 

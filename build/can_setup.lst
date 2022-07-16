@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccvikT4w.s 			page 1
+ARM GAS  /tmp/ccBPui5M.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -28,12 +28,13 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
   26              	.LFB131:
   27              		.file 1 "Core/Src/can_setup.c"
    1:Core/Src/can_setup.c **** #include <can_setup.h>
-   2:Core/Src/can_setup.c **** 
-   3:Core/Src/can_setup.c **** ///////////////////////////////////////////////////////////////////////////////////////////////////
-   4:Core/Src/can_setup.c **** 
-   5:Core/Src/can_setup.c **** void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
-   6:Core/Src/can_setup.c **** {
-  28              		.loc 1 6 0
+   2:Core/Src/can_setup.c **** #include <cmsis_os2.h>
+   3:Core/Src/can_setup.c **** 
+   4:Core/Src/can_setup.c **** ///////////////////////////////////////////////////////////////////////////////////////////////////
+   5:Core/Src/can_setup.c **** 
+   6:Core/Src/can_setup.c **** void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
+   7:Core/Src/can_setup.c **** {
+  28              		.loc 1 7 0
   29              		.cfi_startproc
   30              		@ args = 0, pretend = 0, frame = 0
   31              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -48,29 +49,29 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
   40              		.cfi_offset 7, -8
   41              		.cfi_offset 14, -4
   42 0002 0446     		mov	r4, r0
-   7:Core/Src/can_setup.c ****     if (hcan->Instance == CAN1)
-  43              		.loc 1 7 0
+   8:Core/Src/can_setup.c ****     if (hcan->Instance == CAN1)
+  43              		.loc 1 8 0
   44 0004 0268     		ldr	r2, [r0]
   45 0006 1C4B     		ldr	r3, .L11
   46 0008 9A42     		cmp	r2, r3
   47 000a 04D0     		beq	.L7
   48              	.LVL1:
   49              	.L2:
-   8:Core/Src/can_setup.c ****     {
-   9:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg, canRx) != HAL_OK)
-ARM GAS  /tmp/ccvikT4w.s 			page 2
+   9:Core/Src/can_setup.c ****     {
+ARM GAS  /tmp/ccBPui5M.s 			page 2
 
 
-  10:Core/Src/can_setup.c ****         {
-  11:Core/Src/can_setup.c ****             Error_Handler();
-  12:Core/Src/can_setup.c ****         }
-  13:Core/Src/can_setup.c ****         //do stuff
-  14:Core/Src/can_setup.c ****         decodeVolt(&BMS[0], &rxMsg, canRx);
-  15:Core/Src/can_setup.c ****         decodeTemp(&BMS[0], &rxMsg, canRx);
-  16:Core/Src/can_setup.c ****     }
-  17:Core/Src/can_setup.c **** 
-  18:Core/Src/can_setup.c ****     if (hcan->Instance == CAN3)
-  50              		.loc 1 18 0
+  10:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rxMsg, canRx) != HAL_OK)
+  11:Core/Src/can_setup.c ****         {
+  12:Core/Src/can_setup.c ****             Error_Handler();
+  13:Core/Src/can_setup.c ****         }
+  14:Core/Src/can_setup.c ****         // do stuff
+  15:Core/Src/can_setup.c ****         decodeVolt(&BMS[0], &rxMsg, canRx);
+  16:Core/Src/can_setup.c ****         decodeTemp(&BMS[0], &rxMsg, canRx);
+  17:Core/Src/can_setup.c ****     }
+  18:Core/Src/can_setup.c **** 
+  19:Core/Src/can_setup.c ****     if (hcan->Instance == CAN3)
+  50              		.loc 1 19 0
   51 000c 2268     		ldr	r2, [r4]
   52 000e 1B4B     		ldr	r3, .L11+4
   53 0010 9A42     		cmp	r2, r3
@@ -80,8 +81,8 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
   57 0014 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
   58              	.LVL3:
   59              	.L7:
-   9:Core/Src/can_setup.c ****         {
-  60              		.loc 1 9 0
+  10:Core/Src/can_setup.c ****         {
+  60              		.loc 1 10 0
   61 0016 1A4B     		ldr	r3, .L11+8
   62 0018 1A4A     		ldr	r2, .L11+12
   63 001a 0021     		movs	r1, #0
@@ -91,8 +92,8 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
   67              	.LVL5:
   68 0022 68B9     		cbnz	r0, .L9
   69              	.L3:
-  14:Core/Src/can_setup.c ****         decodeTemp(&BMS[0], &rxMsg, canRx);
-  70              		.loc 1 14 0
+  15:Core/Src/can_setup.c ****         decodeTemp(&BMS[0], &rxMsg, canRx);
+  70              		.loc 1 15 0
   71 0024 164F     		ldr	r7, .L11+8
   72 0026 174E     		ldr	r6, .L11+12
   73 0028 184D     		ldr	r5, .L11+20
@@ -101,8 +102,8 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
   76 002e 2846     		mov	r0, r5
   77 0030 FFF7FEFF 		bl	decodeVolt
   78              	.LVL6:
-  15:Core/Src/can_setup.c ****     }
-  79              		.loc 1 15 0
+  16:Core/Src/can_setup.c ****     }
+  79              		.loc 1 16 0
   80 0034 3A46     		mov	r2, r7
   81 0036 3146     		mov	r1, r6
   82 0038 2846     		mov	r0, r5
@@ -110,18 +111,18 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
   84              	.LVL7:
   85 003e E5E7     		b	.L2
   86              	.L9:
-  11:Core/Src/can_setup.c ****         }
-  87              		.loc 1 11 0
+  12:Core/Src/can_setup.c ****         }
+  87              		.loc 1 12 0
   88 0040 FFF7FEFF 		bl	Error_Handler
   89              	.LVL8:
   90 0044 EEE7     		b	.L3
   91              	.L8:
-  19:Core/Src/can_setup.c ****     {
-  20:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan3, CAN_RX_FIFO0, &rxMsg3, canRx3) != HAL_OK)
-ARM GAS  /tmp/ccvikT4w.s 			page 3
+  20:Core/Src/can_setup.c ****     {
+ARM GAS  /tmp/ccBPui5M.s 			page 3
 
 
-  92              		.loc 1 20 0
+  21:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan3, CAN_RX_FIFO0, &rxMsg3, canRx3) != HAL_OK)
+  92              		.loc 1 21 0
   93 0046 124B     		ldr	r3, .L11+24
   94 0048 124A     		ldr	r2, .L11+28
   95 004a 0021     		movs	r1, #0
@@ -130,12 +131,12 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
   98              	.LVL9:
   99 0052 68B9     		cbnz	r0, .L10
  100              	.L5:
-  21:Core/Src/can_setup.c ****         {
-  22:Core/Src/can_setup.c ****             Error_Handler();
-  23:Core/Src/can_setup.c ****         }
-  24:Core/Src/can_setup.c ****         //do stuff
-  25:Core/Src/can_setup.c ****         decodeVolt(&BMS[1], &rxMsg3, canRx3);
- 101              		.loc 1 25 0
+  22:Core/Src/can_setup.c ****         {
+  23:Core/Src/can_setup.c ****             Error_Handler();
+  24:Core/Src/can_setup.c ****         }
+  25:Core/Src/can_setup.c ****         // do stuff
+  26:Core/Src/can_setup.c ****         decodeVolt(&BMS[1], &rxMsg3, canRx3);
+ 101              		.loc 1 26 0
  102 0054 0E4E     		ldr	r6, .L11+24
  103 0056 0F4D     		ldr	r5, .L11+28
  104 0058 104C     		ldr	r4, .L11+36
@@ -145,21 +146,21 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
  108 005e 2046     		mov	r0, r4
  109 0060 FFF7FEFF 		bl	decodeVolt
  110              	.LVL11:
-  26:Core/Src/can_setup.c ****         decodeTemp(&BMS[1], &rxMsg3, canRx3);
- 111              		.loc 1 26 0
+  27:Core/Src/can_setup.c ****         decodeTemp(&BMS[1], &rxMsg3, canRx3);
+ 111              		.loc 1 27 0
  112 0064 3246     		mov	r2, r6
  113 0066 2946     		mov	r1, r5
  114 0068 2046     		mov	r0, r4
  115 006a FFF7FEFF 		bl	decodeTemp
  116              	.LVL12:
-  27:Core/Src/can_setup.c ****     }
-  28:Core/Src/can_setup.c **** }
- 117              		.loc 1 28 0
+  28:Core/Src/can_setup.c ****     }
+  29:Core/Src/can_setup.c **** }
+ 117              		.loc 1 29 0
  118 006e D1E7     		b	.L1
  119              	.LVL13:
  120              	.L10:
-  22:Core/Src/can_setup.c ****         }
- 121              		.loc 1 22 0
+  23:Core/Src/can_setup.c ****         }
+ 121              		.loc 1 23 0
  122 0070 FFF7FEFF 		bl	Error_Handler
  123              	.LVL14:
  124 0074 EEE7     		b	.L5
@@ -177,10 +178,10 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
  136 0098 00000000 		.word	hcan3
  137 009c F6000000 		.word	BMS+246
  138              		.cfi_endproc
+ARM GAS  /tmp/ccBPui5M.s 			page 4
+
+
  139              	.LFE131:
-ARM GAS  /tmp/ccvikT4w.s 			page 4
-
-
  141              		.section	.text.HAL_CAN_RxFifo1MsgPendingCallback,"ax",%progbits
  142              		.align	1
  143              		.global	HAL_CAN_RxFifo1MsgPendingCallback
@@ -190,12 +191,12 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
  147              		.fpu fpv4-sp-d16
  149              	HAL_CAN_RxFifo1MsgPendingCallback:
  150              	.LFB132:
-  29:Core/Src/can_setup.c **** 
-  30:Core/Src/can_setup.c **** ///////////////////////////////////////////////////////////////////////////////////////////////////
-  31:Core/Src/can_setup.c **** 
-  32:Core/Src/can_setup.c **** void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
-  33:Core/Src/can_setup.c **** {
- 151              		.loc 1 33 0
+  30:Core/Src/can_setup.c **** 
+  31:Core/Src/can_setup.c **** ///////////////////////////////////////////////////////////////////////////////////////////////////
+  32:Core/Src/can_setup.c **** 
+  33:Core/Src/can_setup.c **** void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
+  34:Core/Src/can_setup.c **** {
+ 151              		.loc 1 34 0
  152              		.cfi_startproc
  153              		@ args = 0, pretend = 0, frame = 0
  154              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -208,25 +209,25 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
  161              		.cfi_offset 6, -8
  162              		.cfi_offset 14, -4
  163 0002 0446     		mov	r4, r0
-  34:Core/Src/can_setup.c **** 
-  35:Core/Src/can_setup.c ****     if (hcan->Instance == CAN2)
- 164              		.loc 1 35 0
+  35:Core/Src/can_setup.c **** 
+  36:Core/Src/can_setup.c ****     if (hcan->Instance == CAN2)
+ 164              		.loc 1 36 0
  165 0004 0268     		ldr	r2, [r0]
  166 0006 174B     		ldr	r3, .L23
  167 0008 9A42     		cmp	r2, r3
  168 000a 04D0     		beq	.L19
  169              	.LVL16:
  170              	.L14:
-  36:Core/Src/can_setup.c ****     {
-  37:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO1, &rxMsg2, canRx2) != HAL_OK)
-  38:Core/Src/can_setup.c ****         {
-  39:Core/Src/can_setup.c ****             Error_Handler();
-  40:Core/Src/can_setup.c ****         }
-  41:Core/Src/can_setup.c ****         vehicleComms(&rxMsg2, canRx2);
-  42:Core/Src/can_setup.c ****     }
-  43:Core/Src/can_setup.c **** 
-  44:Core/Src/can_setup.c ****     if (hcan->Instance == CAN3)
- 171              		.loc 1 44 0
+  37:Core/Src/can_setup.c ****     {
+  38:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO1, &rxMsg2, canRx2) != HAL_OK)
+  39:Core/Src/can_setup.c ****         {
+  40:Core/Src/can_setup.c ****             Error_Handler();
+  41:Core/Src/can_setup.c ****         }
+  42:Core/Src/can_setup.c ****         vehicleComms(&rxMsg2, canRx2);
+  43:Core/Src/can_setup.c ****     }
+  44:Core/Src/can_setup.c **** 
+  45:Core/Src/can_setup.c ****     if (hcan->Instance == CAN3)
+ 171              		.loc 1 45 0
  172 000c 2268     		ldr	r2, [r4]
  173 000e 164B     		ldr	r3, .L23+4
  174 0010 9A42     		cmp	r2, r3
@@ -236,11 +237,11 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
  178 0014 70BD     		pop	{r4, r5, r6, pc}
  179              	.LVL18:
  180              	.L19:
-  37:Core/Src/can_setup.c ****         {
- 181              		.loc 1 37 0
-ARM GAS  /tmp/ccvikT4w.s 			page 5
+  38:Core/Src/can_setup.c ****         {
+ARM GAS  /tmp/ccBPui5M.s 			page 5
 
 
+ 181              		.loc 1 38 0
  182 0016 154B     		ldr	r3, .L23+8
  183 0018 154A     		ldr	r2, .L23+12
  184 001a 0121     		movs	r1, #1
@@ -250,23 +251,23 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
  188              	.LVL20:
  189 0022 20B9     		cbnz	r0, .L21
  190              	.L15:
-  41:Core/Src/can_setup.c ****     }
- 191              		.loc 1 41 0
+  42:Core/Src/can_setup.c ****     }
+ 191              		.loc 1 42 0
  192 0024 1149     		ldr	r1, .L23+8
  193 0026 1248     		ldr	r0, .L23+12
  194 0028 FFF7FEFF 		bl	vehicleComms
  195              	.LVL21:
  196 002c EEE7     		b	.L14
  197              	.L21:
-  39:Core/Src/can_setup.c ****         }
- 198              		.loc 1 39 0
+  40:Core/Src/can_setup.c ****         }
+ 198              		.loc 1 40 0
  199 002e FFF7FEFF 		bl	Error_Handler
  200              	.LVL22:
  201 0032 F7E7     		b	.L15
  202              	.L20:
-  45:Core/Src/can_setup.c ****     {
-  46:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan3, CAN_RX_FIFO1, &rxMsg3, canRx3) != HAL_OK)
- 203              		.loc 1 46 0
+  46:Core/Src/can_setup.c ****     {
+  47:Core/Src/can_setup.c ****         if (HAL_CAN_GetRxMessage(&hcan3, CAN_RX_FIFO1, &rxMsg3, canRx3) != HAL_OK)
+ 203              		.loc 1 47 0
  204 0034 104B     		ldr	r3, .L23+20
  205 0036 114A     		ldr	r2, .L23+24
  206 0038 0121     		movs	r1, #1
@@ -275,12 +276,12 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
  209              	.LVL23:
  210 0040 68B9     		cbnz	r0, .L22
  211              	.L17:
-  47:Core/Src/can_setup.c ****         {
-  48:Core/Src/can_setup.c ****             Error_Handler();
-  49:Core/Src/can_setup.c ****         }
-  50:Core/Src/can_setup.c ****         //do stuff
-  51:Core/Src/can_setup.c ****         decodeVolt(&BMS[1], &rxMsg3, canRx3);
- 212              		.loc 1 51 0
+  48:Core/Src/can_setup.c ****         {
+  49:Core/Src/can_setup.c ****             Error_Handler();
+  50:Core/Src/can_setup.c ****         }
+  51:Core/Src/can_setup.c ****         // do stuff
+  52:Core/Src/can_setup.c ****         decodeVolt(&BMS[1], &rxMsg3, canRx3);
+ 212              		.loc 1 52 0
  213 0042 0D4E     		ldr	r6, .L23+20
  214 0044 0D4D     		ldr	r5, .L23+24
  215 0046 0F4C     		ldr	r4, .L23+32
@@ -290,24 +291,24 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
  219 004c 2046     		mov	r0, r4
  220 004e FFF7FEFF 		bl	decodeVolt
  221              	.LVL25:
-  52:Core/Src/can_setup.c ****         decodeTemp(&BMS[1], &rxMsg3, canRx3);
- 222              		.loc 1 52 0
+  53:Core/Src/can_setup.c ****         decodeTemp(&BMS[1], &rxMsg3, canRx3);
+ 222              		.loc 1 53 0
  223 0052 3246     		mov	r2, r6
  224 0054 2946     		mov	r1, r5
  225 0056 2046     		mov	r0, r4
  226 0058 FFF7FEFF 		bl	decodeTemp
  227              	.LVL26:
-  53:Core/Src/can_setup.c ****     }
-ARM GAS  /tmp/ccvikT4w.s 			page 6
+ARM GAS  /tmp/ccBPui5M.s 			page 6
 
 
-  54:Core/Src/can_setup.c **** }
- 228              		.loc 1 54 0
+  54:Core/Src/can_setup.c ****     }
+  55:Core/Src/can_setup.c **** }
+ 228              		.loc 1 55 0
  229 005c DAE7     		b	.L13
  230              	.LVL27:
  231              	.L22:
-  48:Core/Src/can_setup.c ****         }
- 232              		.loc 1 48 0
+  49:Core/Src/can_setup.c ****         }
+ 232              		.loc 1 49 0
  233 005e FFF7FEFF 		bl	Error_Handler
  234              	.LVL28:
  235 0062 EEE7     		b	.L17
@@ -325,785 +326,862 @@ ARM GAS  /tmp/ccvikT4w.s 			page 1
  247 0084 F6000000 		.word	BMS+246
  248              		.cfi_endproc
  249              	.LFE132:
- 251              		.section	.text.canSettings,"ax",%progbits
+ 251              		.section	.text.HAL_CAN_ErrorCallback,"ax",%progbits
  252              		.align	1
- 253              		.global	canSettings
+ 253              		.global	HAL_CAN_ErrorCallback
  254              		.syntax unified
  255              		.thumb
  256              		.thumb_func
  257              		.fpu fpv4-sp-d16
- 259              	canSettings:
+ 259              	HAL_CAN_ErrorCallback:
  260              	.LFB133:
-  55:Core/Src/can_setup.c **** 
-  56:Core/Src/can_setup.c **** ///////////////////////////////////////////////////////////////////////////////////////////////////
-  57:Core/Src/can_setup.c **** void canSettings(void)
-  58:Core/Src/can_setup.c **** {
- 261              		.loc 1 58 0
+  56:Core/Src/can_setup.c **** 
+  57:Core/Src/can_setup.c **** ///////////////////////////////////////////////////////////////////////////////////////////////////
+  58:Core/Src/can_setup.c **** void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan)
+  59:Core/Src/can_setup.c **** {
+ 261              		.loc 1 59 0
  262              		.cfi_startproc
  263              		@ args = 0, pretend = 0, frame = 0
  264              		@ frame_needed = 0, uses_anonymous_args = 0
- 265 0000 08B5     		push	{r3, lr}
- 266              	.LCFI2:
- 267              		.cfi_def_cfa_offset 8
- 268              		.cfi_offset 3, -8
- 269              		.cfi_offset 14, -4
-  59:Core/Src/can_setup.c **** 
-  60:Core/Src/can_setup.c ****     txMsg.IDE = CAN_ID_STD;
- 270              		.loc 1 60 0
- 271 0002 574A     		ldr	r2, .L45
- 272 0004 0023     		movs	r3, #0
- 273 0006 9360     		str	r3, [r2, #8]
-  61:Core/Src/can_setup.c ****     txMsg.RTR = CAN_RTR_DATA;
- 274              		.loc 1 61 0
- 275 0008 D360     		str	r3, [r2, #12]
-  62:Core/Src/can_setup.c ****     txMsg.TransmitGlobalTime = DISABLE;
- 276              		.loc 1 62 0
-ARM GAS  /tmp/ccvikT4w.s 			page 7
+ 265              		@ link register save eliminated.
+ 266              	.LVL29:
+ 267 0000 7047     		bx	lr
+ 268              		.cfi_endproc
+ 269              	.LFE133:
+ 271              		.section	.text.can2queue,"ax",%progbits
+ 272              		.align	1
+ 273              		.global	can2queue
+ 274              		.syntax unified
+ 275              		.thumb
+ 276              		.thumb_func
+ 277              		.fpu fpv4-sp-d16
+ 279              	can2queue:
+ 280              	.LFB134:
+  60:Core/Src/can_setup.c **** }
+ARM GAS  /tmp/ccBPui5M.s 			page 7
 
 
- 277 000a 1375     		strb	r3, [r2, #20]
-  63:Core/Src/can_setup.c **** 
-  64:Core/Src/can_setup.c ****     txMsgExt.IDE = CAN_ID_EXT;
- 278              		.loc 1 64 0
- 279 000c 554A     		ldr	r2, .L45+4
- 280 000e 0421     		movs	r1, #4
- 281 0010 9160     		str	r1, [r2, #8]
-  65:Core/Src/can_setup.c ****     txMsgExt.RTR = CAN_RTR_DATA;
- 282              		.loc 1 65 0
- 283 0012 D360     		str	r3, [r2, #12]
-  66:Core/Src/can_setup.c ****     txMsgExt.TransmitGlobalTime = DISABLE;
- 284              		.loc 1 66 0
- 285 0014 1375     		strb	r3, [r2, #20]
-  67:Core/Src/can_setup.c **** 
-  68:Core/Src/can_setup.c ****     sf.FilterBank = 0; // CAN1 Filter bank starts at 0
- 286              		.loc 1 68 0
- 287 0016 5449     		ldr	r1, .L45+8
- 288 0018 4B61     		str	r3, [r1, #20]
-  69:Core/Src/can_setup.c ****     sf.FilterMode = CAN_FILTERMODE_IDMASK;
- 289              		.loc 1 69 0
- 290 001a 8B61     		str	r3, [r1, #24]
-  70:Core/Src/can_setup.c ****     sf.FilterScale = CAN_FILTERSCALE_16BIT;
- 291              		.loc 1 70 0
- 292 001c CB61     		str	r3, [r1, #28]
-  71:Core/Src/can_setup.c ****     sf.FilterIdLow = 0xffff;
- 293              		.loc 1 71 0
- 294 001e 4FF6FF72 		movw	r2, #65535
- 295 0022 4A60     		str	r2, [r1, #4]
-  72:Core/Src/can_setup.c ****     sf.FilterIdHigh = 0x1fff;
- 296              		.loc 1 72 0
- 297 0024 41F6FF72 		movw	r2, #8191
- 298 0028 0A60     		str	r2, [r1]
-  73:Core/Src/can_setup.c ****     sf.FilterMaskIdLow = 0x0000;
- 299              		.loc 1 73 0
- 300 002a CB60     		str	r3, [r1, #12]
-  74:Core/Src/can_setup.c ****     sf.FilterMaskIdHigh = 0x0000;
- 301              		.loc 1 74 0
- 302 002c 8B60     		str	r3, [r1, #8]
-  75:Core/Src/can_setup.c ****     sf.FilterFIFOAssignment = CAN_RX_FIFO0;
- 303              		.loc 1 75 0
- 304 002e 0B61     		str	r3, [r1, #16]
-  76:Core/Src/can_setup.c ****     sf.SlaveStartFilterBank = 14;
- 305              		.loc 1 76 0
- 306 0030 0E23     		movs	r3, #14
- 307 0032 4B62     		str	r3, [r1, #36]
-  77:Core/Src/can_setup.c ****     sf.FilterActivation = ENABLE;
- 308              		.loc 1 77 0
- 309 0034 0123     		movs	r3, #1
- 310 0036 0B62     		str	r3, [r1, #32]
-  78:Core/Src/can_setup.c ****     if (HAL_CAN_ConfigFilter(&hcan1, &sf) != HAL_OK)
- 311              		.loc 1 78 0
- 312 0038 4C48     		ldr	r0, .L45+12
- 313 003a FFF7FEFF 		bl	HAL_CAN_ConfigFilter
- 314              	.LVL29:
- 315 003e 0028     		cmp	r0, #0
- 316 0040 72D1     		bne	.L36
- 317              	.L26:
-ARM GAS  /tmp/ccvikT4w.s 			page 8
+  61:Core/Src/can_setup.c **** ///////////////////////////////////////////////////////////////////////////////////////////////////
+  62:Core/Src/can_setup.c **** void can2queue(void)
+  63:Core/Src/can_setup.c **** {
+ 281              		.loc 1 63 0
+ 282              		.cfi_startproc
+ 283              		@ args = 0, pretend = 0, frame = 0
+ 284              		@ frame_needed = 0, uses_anonymous_args = 0
+ 285              		@ link register save eliminated.
+ 286 0000 7047     		bx	lr
+ 287              		.cfi_endproc
+ 288              	.LFE134:
+ 290              		.section	.text.canSettings,"ax",%progbits
+ 291              		.align	1
+ 292              		.global	canSettings
+ 293              		.syntax unified
+ 294              		.thumb
+ 295              		.thumb_func
+ 296              		.fpu fpv4-sp-d16
+ 298              	canSettings:
+ 299              	.LFB135:
+  64:Core/Src/can_setup.c ****     // osMessageQueueGet()
+  65:Core/Src/can_setup.c **** }
+  66:Core/Src/can_setup.c **** ///////////////////////////////////////////////////////////////////////////////////////////////////
+  67:Core/Src/can_setup.c **** void canSettings(void)
+  68:Core/Src/can_setup.c **** {
+ 300              		.loc 1 68 0
+ 301              		.cfi_startproc
+ 302              		@ args = 0, pretend = 0, frame = 0
+ 303              		@ frame_needed = 0, uses_anonymous_args = 0
+ 304              		.loc 1 68 0
+ 305 0000 08B5     		push	{r3, lr}
+ 306              	.LCFI2:
+ 307              		.cfi_def_cfa_offset 8
+ 308              		.cfi_offset 3, -8
+ 309              		.cfi_offset 14, -4
+  69:Core/Src/can_setup.c ****     busFault = 0;
+ 310              		.loc 1 69 0
+ 311 0002 0023     		movs	r3, #0
+ 312 0004 574A     		ldr	r2, .L47
+ 313 0006 1360     		str	r3, [r2]
+  70:Core/Src/can_setup.c **** 
+  71:Core/Src/can_setup.c ****     txMsg.IDE = CAN_ID_STD;
+ 314              		.loc 1 71 0
+ 315 0008 574A     		ldr	r2, .L47+4
+ 316 000a 9360     		str	r3, [r2, #8]
+  72:Core/Src/can_setup.c ****     txMsg.RTR = CAN_RTR_DATA;
+ 317              		.loc 1 72 0
+ 318 000c D360     		str	r3, [r2, #12]
+  73:Core/Src/can_setup.c ****     txMsg.TransmitGlobalTime = DISABLE;
+ 319              		.loc 1 73 0
+ 320 000e 1375     		strb	r3, [r2, #20]
+  74:Core/Src/can_setup.c **** 
+  75:Core/Src/can_setup.c ****     txMsgExt.IDE = CAN_ID_EXT;
+ 321              		.loc 1 75 0
+ 322 0010 564A     		ldr	r2, .L47+8
+ 323 0012 0421     		movs	r1, #4
+ 324 0014 9160     		str	r1, [r2, #8]
+ARM GAS  /tmp/ccBPui5M.s 			page 8
 
 
-  79:Core/Src/can_setup.c ****     {
-  80:Core/Src/can_setup.c ****         Error_Handler();
-  81:Core/Src/can_setup.c ****     }
-  82:Core/Src/can_setup.c ****     if (HAL_CAN_Start(&hcan1) != HAL_OK)
- 318              		.loc 1 82 0
- 319 0042 4A48     		ldr	r0, .L45+12
- 320 0044 FFF7FEFF 		bl	HAL_CAN_Start
- 321              	.LVL30:
- 322 0048 0028     		cmp	r0, #0
- 323 004a 70D1     		bne	.L37
- 324              	.L27:
-  83:Core/Src/can_setup.c ****     {
-  84:Core/Src/can_setup.c ****         Error_Handler();
-  85:Core/Src/can_setup.c ****     }
-  86:Core/Src/can_setup.c **** 
-  87:Core/Src/can_setup.c ****     if (HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)
- 325              		.loc 1 87 0
- 326 004c 0221     		movs	r1, #2
- 327 004e 4748     		ldr	r0, .L45+12
- 328 0050 FFF7FEFF 		bl	HAL_CAN_ActivateNotification
- 329              	.LVL31:
- 330 0054 0028     		cmp	r0, #0
- 331 0056 6DD1     		bne	.L38
- 332              	.L28:
-  88:Core/Src/can_setup.c ****     {
-  89:Core/Src/can_setup.c ****         Error_Handler();
-  90:Core/Src/can_setup.c ****     }
-  91:Core/Src/can_setup.c ****     HAL_NVIC_SetPriority(CAN1_TX_IRQn, 3, 0);
- 333              		.loc 1 91 0
- 334 0058 0022     		movs	r2, #0
- 335 005a 0321     		movs	r1, #3
- 336 005c 1320     		movs	r0, #19
- 337 005e FFF7FEFF 		bl	HAL_NVIC_SetPriority
- 338              	.LVL32:
-  92:Core/Src/can_setup.c ****     HAL_NVIC_EnableIRQ(CAN1_TX_IRQn);
- 339              		.loc 1 92 0
- 340 0062 1320     		movs	r0, #19
- 341 0064 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
- 342              	.LVL33:
-  93:Core/Src/can_setup.c **** 
-  94:Core/Src/can_setup.c ****     //hcan2
-  95:Core/Src/can_setup.c ****     txMsg2.IDE = CAN_ID_STD;
- 343              		.loc 1 95 0
- 344 0068 414A     		ldr	r2, .L45+16
- 345 006a 0023     		movs	r3, #0
- 346 006c 9360     		str	r3, [r2, #8]
-  96:Core/Src/can_setup.c ****     txMsg2.RTR = CAN_RTR_DATA;
- 347              		.loc 1 96 0
- 348 006e D360     		str	r3, [r2, #12]
-  97:Core/Src/can_setup.c ****     txMsg2.TransmitGlobalTime = DISABLE;
- 349              		.loc 1 97 0
- 350 0070 1375     		strb	r3, [r2, #20]
-  98:Core/Src/can_setup.c **** 
-  99:Core/Src/can_setup.c ****     txMsgExt2.IDE = CAN_ID_EXT;
- 351              		.loc 1 99 0
- 352 0072 404A     		ldr	r2, .L45+20
- 353 0074 0421     		movs	r1, #4
-ARM GAS  /tmp/ccvikT4w.s 			page 9
+  76:Core/Src/can_setup.c ****     txMsgExt.RTR = CAN_RTR_DATA;
+ 325              		.loc 1 76 0
+ 326 0016 D360     		str	r3, [r2, #12]
+  77:Core/Src/can_setup.c ****     txMsgExt.TransmitGlobalTime = DISABLE;
+ 327              		.loc 1 77 0
+ 328 0018 1375     		strb	r3, [r2, #20]
+  78:Core/Src/can_setup.c **** 
+  79:Core/Src/can_setup.c ****     sf.FilterBank = 0; // CAN1 Filter bank starts at 0
+ 329              		.loc 1 79 0
+ 330 001a 5549     		ldr	r1, .L47+12
+ 331 001c 4B61     		str	r3, [r1, #20]
+  80:Core/Src/can_setup.c ****     sf.FilterMode = CAN_FILTERMODE_IDMASK;
+ 332              		.loc 1 80 0
+ 333 001e 8B61     		str	r3, [r1, #24]
+  81:Core/Src/can_setup.c ****     sf.FilterScale = CAN_FILTERSCALE_16BIT;
+ 334              		.loc 1 81 0
+ 335 0020 CB61     		str	r3, [r1, #28]
+  82:Core/Src/can_setup.c ****     sf.FilterIdLow = 0xffff;
+ 336              		.loc 1 82 0
+ 337 0022 4FF6FF72 		movw	r2, #65535
+ 338 0026 4A60     		str	r2, [r1, #4]
+  83:Core/Src/can_setup.c ****     sf.FilterIdHigh = 0x1fff;
+ 339              		.loc 1 83 0
+ 340 0028 41F6FF72 		movw	r2, #8191
+ 341 002c 0A60     		str	r2, [r1]
+  84:Core/Src/can_setup.c ****     sf.FilterMaskIdLow = 0x0000;
+ 342              		.loc 1 84 0
+ 343 002e CB60     		str	r3, [r1, #12]
+  85:Core/Src/can_setup.c ****     sf.FilterMaskIdHigh = 0x0000;
+ 344              		.loc 1 85 0
+ 345 0030 8B60     		str	r3, [r1, #8]
+  86:Core/Src/can_setup.c ****     sf.FilterFIFOAssignment = CAN_RX_FIFO0;
+ 346              		.loc 1 86 0
+ 347 0032 0B61     		str	r3, [r1, #16]
+  87:Core/Src/can_setup.c ****     sf.SlaveStartFilterBank = 14;
+ 348              		.loc 1 87 0
+ 349 0034 0E23     		movs	r3, #14
+ 350 0036 4B62     		str	r3, [r1, #36]
+  88:Core/Src/can_setup.c ****     sf.FilterActivation = ENABLE;
+ 351              		.loc 1 88 0
+ 352 0038 0123     		movs	r3, #1
+ 353 003a 0B62     		str	r3, [r1, #32]
+  89:Core/Src/can_setup.c ****     if (HAL_CAN_ConfigFilter(&hcan1, &sf) != HAL_OK)
+ 354              		.loc 1 89 0
+ 355 003c 4D48     		ldr	r0, .L47+16
+ 356 003e FFF7FEFF 		bl	HAL_CAN_ConfigFilter
+ 357              	.LVL30:
+ 358 0042 0028     		cmp	r0, #0
+ 359 0044 72D1     		bne	.L38
+ 360              	.L28:
+  90:Core/Src/can_setup.c ****     {
+  91:Core/Src/can_setup.c ****         Error_Handler();
+  92:Core/Src/can_setup.c ****     }
+  93:Core/Src/can_setup.c ****     if (HAL_CAN_Start(&hcan1) != HAL_OK)
+ 361              		.loc 1 93 0
+ 362 0046 4B48     		ldr	r0, .L47+16
+ 363 0048 FFF7FEFF 		bl	HAL_CAN_Start
+ARM GAS  /tmp/ccBPui5M.s 			page 9
 
 
- 354 0076 9160     		str	r1, [r2, #8]
- 100:Core/Src/can_setup.c ****     txMsgExt2.RTR = CAN_RTR_DATA;
- 355              		.loc 1 100 0
- 356 0078 D360     		str	r3, [r2, #12]
- 101:Core/Src/can_setup.c ****     txMsgExt2.TransmitGlobalTime = DISABLE;
- 357              		.loc 1 101 0
- 358 007a 1375     		strb	r3, [r2, #20]
- 102:Core/Src/can_setup.c **** 
- 103:Core/Src/can_setup.c ****     sf2.FilterBank = 14; // CAN2 Filter bank starts at 14
- 359              		.loc 1 103 0
- 360 007c 3E49     		ldr	r1, .L45+24
- 361 007e 0E22     		movs	r2, #14
- 362 0080 4A61     		str	r2, [r1, #20]
- 104:Core/Src/can_setup.c ****     sf2.FilterMode = CAN_FILTERMODE_IDMASK;
- 363              		.loc 1 104 0
- 364 0082 8B61     		str	r3, [r1, #24]
- 105:Core/Src/can_setup.c ****     sf2.FilterScale = CAN_FILTERSCALE_16BIT;
- 365              		.loc 1 105 0
- 366 0084 CB61     		str	r3, [r1, #28]
- 106:Core/Src/can_setup.c ****     sf2.FilterIdLow = 0xffff;
- 367              		.loc 1 106 0
- 368 0086 4FF6FF70 		movw	r0, #65535
- 369 008a 4860     		str	r0, [r1, #4]
- 107:Core/Src/can_setup.c ****     sf2.FilterIdHigh = 0x1fff;
- 370              		.loc 1 107 0
- 371 008c 41F6FF70 		movw	r0, #8191
- 372 0090 0860     		str	r0, [r1]
- 108:Core/Src/can_setup.c ****     sf2.FilterMaskIdLow = 0x0000;
- 373              		.loc 1 108 0
- 374 0092 CB60     		str	r3, [r1, #12]
- 109:Core/Src/can_setup.c ****     sf2.FilterMaskIdHigh = 0x0000;
- 375              		.loc 1 109 0
- 376 0094 8B60     		str	r3, [r1, #8]
- 110:Core/Src/can_setup.c ****     sf2.FilterFIFOAssignment = CAN_RX_FIFO1;
- 377              		.loc 1 110 0
- 378 0096 0123     		movs	r3, #1
- 379 0098 0B61     		str	r3, [r1, #16]
- 111:Core/Src/can_setup.c ****     sf2.SlaveStartFilterBank = 14;
- 380              		.loc 1 111 0
- 381 009a 4A62     		str	r2, [r1, #36]
- 112:Core/Src/can_setup.c ****     sf2.FilterActivation = ENABLE;
- 382              		.loc 1 112 0
- 383 009c 0B62     		str	r3, [r1, #32]
- 113:Core/Src/can_setup.c ****     if (HAL_CAN_ConfigFilter(&hcan2, &sf2) != HAL_OK)
- 384              		.loc 1 113 0
- 385 009e 3748     		ldr	r0, .L45+28
- 386 00a0 FFF7FEFF 		bl	HAL_CAN_ConfigFilter
- 387              	.LVL34:
- 388 00a4 0028     		cmp	r0, #0
- 389 00a6 48D1     		bne	.L39
- 390              	.L29:
- 114:Core/Src/can_setup.c ****     {
- 115:Core/Src/can_setup.c ****         Error_Handler();
- 116:Core/Src/can_setup.c ****     }
- 117:Core/Src/can_setup.c **** 
- 118:Core/Src/can_setup.c ****     if (HAL_CAN_Start(&hcan2) != HAL_OK)
- 391              		.loc 1 118 0
-ARM GAS  /tmp/ccvikT4w.s 			page 10
+ 364              	.LVL31:
+ 365 004c 0028     		cmp	r0, #0
+ 366 004e 70D1     		bne	.L39
+ 367              	.L29:
+  94:Core/Src/can_setup.c ****     {
+  95:Core/Src/can_setup.c ****         Error_Handler();
+  96:Core/Src/can_setup.c ****     }
+  97:Core/Src/can_setup.c **** 
+  98:Core/Src/can_setup.c ****     if (HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)
+ 368              		.loc 1 98 0
+ 369 0050 0221     		movs	r1, #2
+ 370 0052 4848     		ldr	r0, .L47+16
+ 371 0054 FFF7FEFF 		bl	HAL_CAN_ActivateNotification
+ 372              	.LVL32:
+ 373 0058 0028     		cmp	r0, #0
+ 374 005a 6DD1     		bne	.L40
+ 375              	.L30:
+  99:Core/Src/can_setup.c ****     {
+ 100:Core/Src/can_setup.c ****         Error_Handler();
+ 101:Core/Src/can_setup.c ****     }
+ 102:Core/Src/can_setup.c ****     HAL_NVIC_SetPriority(CAN1_TX_IRQn, 3, 0);
+ 376              		.loc 1 102 0
+ 377 005c 0022     		movs	r2, #0
+ 378 005e 0321     		movs	r1, #3
+ 379 0060 1320     		movs	r0, #19
+ 380 0062 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 381              	.LVL33:
+ 103:Core/Src/can_setup.c ****     HAL_NVIC_EnableIRQ(CAN1_TX_IRQn);
+ 382              		.loc 1 103 0
+ 383 0066 1320     		movs	r0, #19
+ 384 0068 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 385              	.LVL34:
+ 104:Core/Src/can_setup.c **** 
+ 105:Core/Src/can_setup.c ****     // hcan2
+ 106:Core/Src/can_setup.c ****     txMsg2.IDE = CAN_ID_STD;
+ 386              		.loc 1 106 0
+ 387 006c 424A     		ldr	r2, .L47+20
+ 388 006e 0023     		movs	r3, #0
+ 389 0070 9360     		str	r3, [r2, #8]
+ 107:Core/Src/can_setup.c ****     txMsg2.RTR = CAN_RTR_DATA;
+ 390              		.loc 1 107 0
+ 391 0072 D360     		str	r3, [r2, #12]
+ 108:Core/Src/can_setup.c ****     txMsg2.TransmitGlobalTime = DISABLE;
+ 392              		.loc 1 108 0
+ 393 0074 1375     		strb	r3, [r2, #20]
+ 109:Core/Src/can_setup.c **** 
+ 110:Core/Src/can_setup.c **** 
+ 111:Core/Src/can_setup.c ****     txMsgExt2.IDE = CAN_ID_EXT;
+ 394              		.loc 1 111 0
+ 395 0076 414A     		ldr	r2, .L47+24
+ 396 0078 0421     		movs	r1, #4
+ 397 007a 9160     		str	r1, [r2, #8]
+ 112:Core/Src/can_setup.c ****     txMsgExt2.RTR = CAN_RTR_DATA;
+ 398              		.loc 1 112 0
+ 399 007c D360     		str	r3, [r2, #12]
+ 113:Core/Src/can_setup.c ****     txMsgExt2.TransmitGlobalTime = DISABLE;
+ 400              		.loc 1 113 0
+ARM GAS  /tmp/ccBPui5M.s 			page 10
 
 
- 392 00a8 3448     		ldr	r0, .L45+28
- 393 00aa FFF7FEFF 		bl	HAL_CAN_Start
- 394              	.LVL35:
- 395 00ae 0028     		cmp	r0, #0
- 396 00b0 46D1     		bne	.L40
- 397              	.L30:
- 119:Core/Src/can_setup.c ****     {
- 120:Core/Src/can_setup.c ****         Error_Handler();
- 121:Core/Src/can_setup.c ****     }
- 122:Core/Src/can_setup.c **** 
- 123:Core/Src/can_setup.c ****     if (HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO1_MSG_PENDING) != HAL_OK)
- 398              		.loc 1 123 0
- 399 00b2 1021     		movs	r1, #16
- 400 00b4 3148     		ldr	r0, .L45+28
- 401 00b6 FFF7FEFF 		bl	HAL_CAN_ActivateNotification
- 402              	.LVL36:
- 403 00ba 0028     		cmp	r0, #0
- 404 00bc 43D1     		bne	.L41
- 405              	.L31:
- 124:Core/Src/can_setup.c ****     {
- 125:Core/Src/can_setup.c ****         Error_Handler();
- 126:Core/Src/can_setup.c ****     }
- 127:Core/Src/can_setup.c ****     HAL_NVIC_SetPriority(CAN2_TX_IRQn, 3, 0);
- 406              		.loc 1 127 0
- 407 00be 0022     		movs	r2, #0
- 408 00c0 0321     		movs	r1, #3
- 409 00c2 3F20     		movs	r0, #63
- 410 00c4 FFF7FEFF 		bl	HAL_NVIC_SetPriority
- 411              	.LVL37:
- 128:Core/Src/can_setup.c ****     HAL_NVIC_EnableIRQ(CAN2_TX_IRQn);
- 412              		.loc 1 128 0
- 413 00c8 3F20     		movs	r0, #63
- 414 00ca FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
- 415              	.LVL38:
+ 401 007e 1375     		strb	r3, [r2, #20]
+ 114:Core/Src/can_setup.c **** 
+ 115:Core/Src/can_setup.c ****     sf2.FilterBank = 14; // CAN2 Filter bank starts at 14
+ 402              		.loc 1 115 0
+ 403 0080 3F49     		ldr	r1, .L47+28
+ 404 0082 0E22     		movs	r2, #14
+ 405 0084 4A61     		str	r2, [r1, #20]
+ 116:Core/Src/can_setup.c ****     sf2.FilterMode = CAN_FILTERMODE_IDMASK;
+ 406              		.loc 1 116 0
+ 407 0086 8B61     		str	r3, [r1, #24]
+ 117:Core/Src/can_setup.c ****     sf2.FilterScale = CAN_FILTERSCALE_16BIT;
+ 408              		.loc 1 117 0
+ 409 0088 CB61     		str	r3, [r1, #28]
+ 118:Core/Src/can_setup.c ****     sf2.FilterIdLow = 0xffff;
+ 410              		.loc 1 118 0
+ 411 008a 4FF6FF70 		movw	r0, #65535
+ 412 008e 4860     		str	r0, [r1, #4]
+ 119:Core/Src/can_setup.c ****     sf2.FilterIdHigh = 0x1fff;
+ 413              		.loc 1 119 0
+ 414 0090 41F6FF70 		movw	r0, #8191
+ 415 0094 0860     		str	r0, [r1]
+ 120:Core/Src/can_setup.c ****     sf2.FilterMaskIdLow = 0x0000;
+ 416              		.loc 1 120 0
+ 417 0096 CB60     		str	r3, [r1, #12]
+ 121:Core/Src/can_setup.c ****     sf2.FilterMaskIdHigh = 0x0000;
+ 418              		.loc 1 121 0
+ 419 0098 8B60     		str	r3, [r1, #8]
+ 122:Core/Src/can_setup.c ****     sf2.FilterFIFOAssignment = CAN_RX_FIFO1;
+ 420              		.loc 1 122 0
+ 421 009a 0123     		movs	r3, #1
+ 422 009c 0B61     		str	r3, [r1, #16]
+ 123:Core/Src/can_setup.c ****     sf2.SlaveStartFilterBank = 14;
+ 423              		.loc 1 123 0
+ 424 009e 4A62     		str	r2, [r1, #36]
+ 124:Core/Src/can_setup.c ****     sf2.FilterActivation = ENABLE;
+ 425              		.loc 1 124 0
+ 426 00a0 0B62     		str	r3, [r1, #32]
+ 125:Core/Src/can_setup.c ****     if (HAL_CAN_ConfigFilter(&hcan2, &sf2) != HAL_OK)
+ 427              		.loc 1 125 0
+ 428 00a2 3848     		ldr	r0, .L47+32
+ 429 00a4 FFF7FEFF 		bl	HAL_CAN_ConfigFilter
+ 430              	.LVL35:
+ 431 00a8 0028     		cmp	r0, #0
+ 432 00aa 48D1     		bne	.L41
+ 433              	.L31:
+ 126:Core/Src/can_setup.c ****     {
+ 127:Core/Src/can_setup.c ****         Error_Handler();
+ 128:Core/Src/can_setup.c ****     }
  129:Core/Src/can_setup.c **** 
- 130:Core/Src/can_setup.c ****     //hcan3
- 131:Core/Src/can_setup.c ****     txMsg3.IDE = CAN_ID_STD;
- 416              		.loc 1 131 0
- 417 00ce 2C4A     		ldr	r2, .L45+32
- 418 00d0 0023     		movs	r3, #0
- 419 00d2 9360     		str	r3, [r2, #8]
- 132:Core/Src/can_setup.c ****     txMsg3.RTR = CAN_RTR_DATA;
- 420              		.loc 1 132 0
- 421 00d4 D360     		str	r3, [r2, #12]
- 133:Core/Src/can_setup.c ****     txMsg3.TransmitGlobalTime = DISABLE;
- 422              		.loc 1 133 0
- 423 00d6 1375     		strb	r3, [r2, #20]
+ 130:Core/Src/can_setup.c ****     if (HAL_CAN_Start(&hcan2) != HAL_OK)
+ 434              		.loc 1 130 0
+ 435 00ac 3548     		ldr	r0, .L47+32
+ 436 00ae FFF7FEFF 		bl	HAL_CAN_Start
+ 437              	.LVL36:
+ 438 00b2 0028     		cmp	r0, #0
+ 439 00b4 46D1     		bne	.L42
+ 440              	.L32:
+ARM GAS  /tmp/ccBPui5M.s 			page 11
+
+
+ 131:Core/Src/can_setup.c ****     {
+ 132:Core/Src/can_setup.c ****         Error_Handler();
+ 133:Core/Src/can_setup.c ****     }
  134:Core/Src/can_setup.c **** 
- 135:Core/Src/can_setup.c ****     txMsgExt3.IDE = CAN_ID_EXT;
- 424              		.loc 1 135 0
- 425 00d8 2A4A     		ldr	r2, .L45+36
- 426 00da 0421     		movs	r1, #4
- 427 00dc 9160     		str	r1, [r2, #8]
- 136:Core/Src/can_setup.c ****     txMsgExt3.RTR = CAN_RTR_DATA;
- 428              		.loc 1 136 0
- 429 00de D360     		str	r3, [r2, #12]
- 137:Core/Src/can_setup.c ****     txMsgExt3.TransmitGlobalTime = DISABLE;
-ARM GAS  /tmp/ccvikT4w.s 			page 11
-
-
- 430              		.loc 1 137 0
- 431 00e0 1375     		strb	r3, [r2, #20]
- 138:Core/Src/can_setup.c **** 
- 139:Core/Src/can_setup.c ****     sf3.FilterBank = 1; // CAN1 Filter bank starts at 0
- 432              		.loc 1 139 0
- 433 00e2 2949     		ldr	r1, .L45+40
- 434 00e4 0122     		movs	r2, #1
- 435 00e6 4A61     		str	r2, [r1, #20]
- 140:Core/Src/can_setup.c ****     sf3.FilterMode = CAN_FILTERMODE_IDMASK;
- 436              		.loc 1 140 0
- 437 00e8 8B61     		str	r3, [r1, #24]
- 141:Core/Src/can_setup.c ****     sf3.FilterScale = CAN_FILTERSCALE_32BIT;
- 438              		.loc 1 141 0
- 439 00ea CA61     		str	r2, [r1, #28]
- 142:Core/Src/can_setup.c ****     sf3.FilterIdLow = 0x0000;
- 440              		.loc 1 142 0
- 441 00ec 4B60     		str	r3, [r1, #4]
- 143:Core/Src/can_setup.c ****     sf3.FilterIdHigh = 0x0000;
- 442              		.loc 1 143 0
- 443 00ee 0B60     		str	r3, [r1]
- 144:Core/Src/can_setup.c ****     sf3.FilterMaskIdLow = 0x0000;
- 444              		.loc 1 144 0
- 445 00f0 CB60     		str	r3, [r1, #12]
- 145:Core/Src/can_setup.c ****     sf3.FilterMaskIdHigh = 0x0000;
- 446              		.loc 1 145 0
- 447 00f2 8B60     		str	r3, [r1, #8]
- 146:Core/Src/can_setup.c ****     sf3.FilterFIFOAssignment = CAN_RX_FIFO0;
- 448              		.loc 1 146 0
- 449 00f4 0B61     		str	r3, [r1, #16]
- 147:Core/Src/can_setup.c ****     sf3.SlaveStartFilterBank = 14;
- 450              		.loc 1 147 0
- 451 00f6 0E23     		movs	r3, #14
- 452 00f8 4B62     		str	r3, [r1, #36]
- 148:Core/Src/can_setup.c ****     sf3.FilterActivation = ENABLE;
- 453              		.loc 1 148 0
- 454 00fa 0A62     		str	r2, [r1, #32]
- 149:Core/Src/can_setup.c **** 
- 150:Core/Src/can_setup.c ****     if (HAL_CAN_ConfigFilter(&hcan3, &sf3) != HAL_OK)
- 455              		.loc 1 150 0
- 456 00fc 2348     		ldr	r0, .L45+44
- 457 00fe FFF7FEFF 		bl	HAL_CAN_ConfigFilter
+ 135:Core/Src/can_setup.c ****     if (HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO1_MSG_PENDING) != HAL_OK)
+ 441              		.loc 1 135 0
+ 442 00b6 1021     		movs	r1, #16
+ 443 00b8 3248     		ldr	r0, .L47+32
+ 444 00ba FFF7FEFF 		bl	HAL_CAN_ActivateNotification
+ 445              	.LVL37:
+ 446 00be 0028     		cmp	r0, #0
+ 447 00c0 43D1     		bne	.L43
+ 448              	.L33:
+ 136:Core/Src/can_setup.c ****     {
+ 137:Core/Src/can_setup.c ****         Error_Handler();
+ 138:Core/Src/can_setup.c ****     }
+ 139:Core/Src/can_setup.c ****     HAL_NVIC_SetPriority(CAN2_TX_IRQn, 3, 0);
+ 449              		.loc 1 139 0
+ 450 00c2 0022     		movs	r2, #0
+ 451 00c4 0321     		movs	r1, #3
+ 452 00c6 3F20     		movs	r0, #63
+ 453 00c8 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 454              	.LVL38:
+ 140:Core/Src/can_setup.c ****     HAL_NVIC_EnableIRQ(CAN2_TX_IRQn);
+ 455              		.loc 1 140 0
+ 456 00cc 3F20     		movs	r0, #63
+ 457 00ce FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
  458              	.LVL39:
- 459 0102 18BB     		cbnz	r0, .L42
- 460              	.L32:
- 151:Core/Src/can_setup.c ****     {
- 152:Core/Src/can_setup.c ****         Error_Handler();
- 153:Core/Src/can_setup.c ****     }
- 154:Core/Src/can_setup.c **** 
- 155:Core/Src/can_setup.c ****     if (HAL_CAN_Start(&hcan3) != HAL_OK)
- 461              		.loc 1 155 0
- 462 0104 2148     		ldr	r0, .L45+44
- 463 0106 FFF7FEFF 		bl	HAL_CAN_Start
- 464              	.LVL40:
- 465 010a 10BB     		cbnz	r0, .L43
- 466              	.L33:
- 156:Core/Src/can_setup.c ****     {
- 157:Core/Src/can_setup.c ****         Error_Handler();
-ARM GAS  /tmp/ccvikT4w.s 			page 12
+ 141:Core/Src/can_setup.c **** 
+ 142:Core/Src/can_setup.c ****     // hcan3
+ 143:Core/Src/can_setup.c ****     txMsg3.IDE = CAN_ID_STD;
+ 459              		.loc 1 143 0
+ 460 00d2 2D4A     		ldr	r2, .L47+36
+ 461 00d4 0023     		movs	r3, #0
+ 462 00d6 9360     		str	r3, [r2, #8]
+ 144:Core/Src/can_setup.c ****     txMsg3.RTR = CAN_RTR_DATA;
+ 463              		.loc 1 144 0
+ 464 00d8 D360     		str	r3, [r2, #12]
+ 145:Core/Src/can_setup.c ****     txMsg3.TransmitGlobalTime = DISABLE;
+ 465              		.loc 1 145 0
+ 466 00da 1375     		strb	r3, [r2, #20]
+ 146:Core/Src/can_setup.c **** 
+ 147:Core/Src/can_setup.c ****     txMsgExt3.IDE = CAN_ID_EXT;
+ 467              		.loc 1 147 0
+ 468 00dc 2B4A     		ldr	r2, .L47+40
+ 469 00de 0421     		movs	r1, #4
+ 470 00e0 9160     		str	r1, [r2, #8]
+ 148:Core/Src/can_setup.c ****     txMsgExt3.RTR = CAN_RTR_DATA;
+ 471              		.loc 1 148 0
+ 472 00e2 D360     		str	r3, [r2, #12]
+ 149:Core/Src/can_setup.c ****     txMsgExt3.TransmitGlobalTime = DISABLE;
+ 473              		.loc 1 149 0
+ 474 00e4 1375     		strb	r3, [r2, #20]
+ 150:Core/Src/can_setup.c **** 
+ 151:Core/Src/can_setup.c ****     sf3.FilterBank = 1; // CAN1 Filter bank starts at 0
+ 475              		.loc 1 151 0
+ 476 00e6 2A49     		ldr	r1, .L47+44
+ARM GAS  /tmp/ccBPui5M.s 			page 12
 
 
- 158:Core/Src/can_setup.c ****     }
- 159:Core/Src/can_setup.c **** 
- 160:Core/Src/can_setup.c ****     if (HAL_CAN_ActivateNotification(&hcan3, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)
- 467              		.loc 1 160 0
- 468 010c 0221     		movs	r1, #2
- 469 010e 1F48     		ldr	r0, .L45+44
- 470 0110 FFF7FEFF 		bl	HAL_CAN_ActivateNotification
- 471              	.LVL41:
- 472 0114 00BB     		cbnz	r0, .L44
- 473              	.L34:
- 161:Core/Src/can_setup.c ****     {
- 162:Core/Src/can_setup.c ****         Error_Handler();
- 163:Core/Src/can_setup.c ****     }
- 164:Core/Src/can_setup.c ****     HAL_NVIC_SetPriority(CAN3_TX_IRQn, 3, 0);
- 474              		.loc 1 164 0
- 475 0116 0022     		movs	r2, #0
- 476 0118 0321     		movs	r1, #3
- 477 011a 4A20     		movs	r0, #74
- 478 011c FFF7FEFF 		bl	HAL_NVIC_SetPriority
- 479              	.LVL42:
- 165:Core/Src/can_setup.c ****     HAL_NVIC_EnableIRQ(CAN3_TX_IRQn);
- 480              		.loc 1 165 0
- 481 0120 4A20     		movs	r0, #74
- 482 0122 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
- 483              	.LVL43:
- 484 0126 08BD     		pop	{r3, pc}
- 485              	.L36:
-  80:Core/Src/can_setup.c ****     }
- 486              		.loc 1 80 0
- 487 0128 FFF7FEFF 		bl	Error_Handler
- 488              	.LVL44:
- 489 012c 89E7     		b	.L26
- 490              	.L37:
-  84:Core/Src/can_setup.c ****     }
- 491              		.loc 1 84 0
- 492 012e FFF7FEFF 		bl	Error_Handler
- 493              	.LVL45:
- 494 0132 8BE7     		b	.L27
- 495              	.L38:
-  89:Core/Src/can_setup.c ****     }
- 496              		.loc 1 89 0
- 497 0134 FFF7FEFF 		bl	Error_Handler
- 498              	.LVL46:
- 499 0138 8EE7     		b	.L28
- 500              	.L39:
- 115:Core/Src/can_setup.c ****     }
- 501              		.loc 1 115 0
- 502 013a FFF7FEFF 		bl	Error_Handler
- 503              	.LVL47:
- 504 013e B3E7     		b	.L29
- 505              	.L40:
- 120:Core/Src/can_setup.c ****     }
- 506              		.loc 1 120 0
- 507 0140 FFF7FEFF 		bl	Error_Handler
- 508              	.LVL48:
- 509 0144 B5E7     		b	.L30
- 510              	.L41:
-ARM GAS  /tmp/ccvikT4w.s 			page 13
+ 477 00e8 0122     		movs	r2, #1
+ 478 00ea 4A61     		str	r2, [r1, #20]
+ 152:Core/Src/can_setup.c ****     sf3.FilterMode = CAN_FILTERMODE_IDMASK;
+ 479              		.loc 1 152 0
+ 480 00ec 8B61     		str	r3, [r1, #24]
+ 153:Core/Src/can_setup.c ****     sf3.FilterScale = CAN_FILTERSCALE_32BIT;
+ 481              		.loc 1 153 0
+ 482 00ee CA61     		str	r2, [r1, #28]
+ 154:Core/Src/can_setup.c ****     sf3.FilterIdLow = 0x0000;
+ 483              		.loc 1 154 0
+ 484 00f0 4B60     		str	r3, [r1, #4]
+ 155:Core/Src/can_setup.c ****     sf3.FilterIdHigh = 0x0000;
+ 485              		.loc 1 155 0
+ 486 00f2 0B60     		str	r3, [r1]
+ 156:Core/Src/can_setup.c ****     sf3.FilterMaskIdLow = 0x0000;
+ 487              		.loc 1 156 0
+ 488 00f4 CB60     		str	r3, [r1, #12]
+ 157:Core/Src/can_setup.c ****     sf3.FilterMaskIdHigh = 0x0000;
+ 489              		.loc 1 157 0
+ 490 00f6 8B60     		str	r3, [r1, #8]
+ 158:Core/Src/can_setup.c ****     sf3.FilterFIFOAssignment = CAN_RX_FIFO0;
+ 491              		.loc 1 158 0
+ 492 00f8 0B61     		str	r3, [r1, #16]
+ 159:Core/Src/can_setup.c ****     sf3.SlaveStartFilterBank = 14;
+ 493              		.loc 1 159 0
+ 494 00fa 0E23     		movs	r3, #14
+ 495 00fc 4B62     		str	r3, [r1, #36]
+ 160:Core/Src/can_setup.c ****     sf3.FilterActivation = ENABLE;
+ 496              		.loc 1 160 0
+ 497 00fe 0A62     		str	r2, [r1, #32]
+ 161:Core/Src/can_setup.c **** 
+ 162:Core/Src/can_setup.c ****     if (HAL_CAN_ConfigFilter(&hcan3, &sf3) != HAL_OK)
+ 498              		.loc 1 162 0
+ 499 0100 2448     		ldr	r0, .L47+48
+ 500 0102 FFF7FEFF 		bl	HAL_CAN_ConfigFilter
+ 501              	.LVL40:
+ 502 0106 18BB     		cbnz	r0, .L44
+ 503              	.L34:
+ 163:Core/Src/can_setup.c ****     {
+ 164:Core/Src/can_setup.c ****         Error_Handler();
+ 165:Core/Src/can_setup.c ****     }
+ 166:Core/Src/can_setup.c **** 
+ 167:Core/Src/can_setup.c ****     if (HAL_CAN_Start(&hcan3) != HAL_OK)
+ 504              		.loc 1 167 0
+ 505 0108 2248     		ldr	r0, .L47+48
+ 506 010a FFF7FEFF 		bl	HAL_CAN_Start
+ 507              	.LVL41:
+ 508 010e 10BB     		cbnz	r0, .L45
+ 509              	.L35:
+ 168:Core/Src/can_setup.c ****     {
+ 169:Core/Src/can_setup.c ****         Error_Handler();
+ 170:Core/Src/can_setup.c ****     }
+ 171:Core/Src/can_setup.c **** 
+ 172:Core/Src/can_setup.c ****     if (HAL_CAN_ActivateNotification(&hcan3, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)
+ 510              		.loc 1 172 0
+ 511 0110 0221     		movs	r1, #2
+ 512 0112 2048     		ldr	r0, .L47+48
+ARM GAS  /tmp/ccBPui5M.s 			page 13
 
 
- 125:Core/Src/can_setup.c ****     }
- 511              		.loc 1 125 0
- 512 0146 FFF7FEFF 		bl	Error_Handler
- 513              	.LVL49:
- 514 014a B8E7     		b	.L31
- 515              	.L42:
- 152:Core/Src/can_setup.c ****     }
- 516              		.loc 1 152 0
- 517 014c FFF7FEFF 		bl	Error_Handler
- 518              	.LVL50:
- 519 0150 D8E7     		b	.L32
- 520              	.L43:
- 157:Core/Src/can_setup.c ****     }
- 521              		.loc 1 157 0
- 522 0152 FFF7FEFF 		bl	Error_Handler
- 523              	.LVL51:
- 524 0156 D9E7     		b	.L33
- 525              	.L44:
- 162:Core/Src/can_setup.c ****     }
- 526              		.loc 1 162 0
- 527 0158 FFF7FEFF 		bl	Error_Handler
- 528              	.LVL52:
- 529 015c DBE7     		b	.L34
- 530              	.L46:
- 531 015e 00BF     		.align	2
- 532              	.L45:
- 533 0160 00000000 		.word	txMsg
- 534 0164 00000000 		.word	txMsgExt
- 535 0168 00000000 		.word	sf
- 536 016c 00000000 		.word	hcan1
- 537 0170 00000000 		.word	txMsg2
- 538 0174 00000000 		.word	txMsgExt2
- 539 0178 00000000 		.word	sf2
- 540 017c 00000000 		.word	hcan2
- 541 0180 00000000 		.word	txMsg3
- 542 0184 00000000 		.word	txMsgExt3
- 543 0188 00000000 		.word	sf3
- 544 018c 00000000 		.word	hcan3
- 545              		.cfi_endproc
- 546              	.LFE133:
- 548              		.section	.text.can1tx,"ax",%progbits
- 549              		.align	1
- 550              		.global	can1tx
- 551              		.syntax unified
- 552              		.thumb
- 553              		.thumb_func
- 554              		.fpu fpv4-sp-d16
- 556              	can1tx:
- 557              	.LFB134:
- 166:Core/Src/can_setup.c **** }
- 167:Core/Src/can_setup.c **** 
- 168:Core/Src/can_setup.c **** ///////////////////////////////////////////////////////////////////////////////////////////////////
- 169:Core/Src/can_setup.c **** /*
- 170:Core/Src/can_setup.c **** void c1tx(CAN_TxHeaderTypeDef *txMsg, uint8_t *canTx)
- 171:Core/Src/can_setup.c **** {
- 172:Core/Src/can_setup.c **** 
- 173:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan1, txMsg, canTx, &canMailbox);
-ARM GAS  /tmp/ccvikT4w.s 			page 14
+ 513 0114 FFF7FEFF 		bl	HAL_CAN_ActivateNotification
+ 514              	.LVL42:
+ 515 0118 00BB     		cbnz	r0, .L46
+ 516              	.L36:
+ 173:Core/Src/can_setup.c ****     {
+ 174:Core/Src/can_setup.c ****         Error_Handler();
+ 175:Core/Src/can_setup.c ****     }
+ 176:Core/Src/can_setup.c ****     HAL_NVIC_SetPriority(CAN3_TX_IRQn, 3, 0);
+ 517              		.loc 1 176 0
+ 518 011a 0022     		movs	r2, #0
+ 519 011c 0321     		movs	r1, #3
+ 520 011e 4A20     		movs	r0, #74
+ 521 0120 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 522              	.LVL43:
+ 177:Core/Src/can_setup.c ****     HAL_NVIC_EnableIRQ(CAN3_TX_IRQn);
+ 523              		.loc 1 177 0
+ 524 0124 4A20     		movs	r0, #74
+ 525 0126 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 526              	.LVL44:
+ 527 012a 08BD     		pop	{r3, pc}
+ 528              	.L38:
+  91:Core/Src/can_setup.c ****     }
+ 529              		.loc 1 91 0
+ 530 012c FFF7FEFF 		bl	Error_Handler
+ 531              	.LVL45:
+ 532 0130 89E7     		b	.L28
+ 533              	.L39:
+  95:Core/Src/can_setup.c ****     }
+ 534              		.loc 1 95 0
+ 535 0132 FFF7FEFF 		bl	Error_Handler
+ 536              	.LVL46:
+ 537 0136 8BE7     		b	.L29
+ 538              	.L40:
+ 100:Core/Src/can_setup.c ****     }
+ 539              		.loc 1 100 0
+ 540 0138 FFF7FEFF 		bl	Error_Handler
+ 541              	.LVL47:
+ 542 013c 8EE7     		b	.L30
+ 543              	.L41:
+ 127:Core/Src/can_setup.c ****     }
+ 544              		.loc 1 127 0
+ 545 013e FFF7FEFF 		bl	Error_Handler
+ 546              	.LVL48:
+ 547 0142 B3E7     		b	.L31
+ 548              	.L42:
+ 132:Core/Src/can_setup.c ****     }
+ 549              		.loc 1 132 0
+ 550 0144 FFF7FEFF 		bl	Error_Handler
+ 551              	.LVL49:
+ 552 0148 B5E7     		b	.L32
+ 553              	.L43:
+ 137:Core/Src/can_setup.c ****     }
+ 554              		.loc 1 137 0
+ 555 014a FFF7FEFF 		bl	Error_Handler
+ 556              	.LVL50:
+ 557 014e B8E7     		b	.L33
+ 558              	.L44:
+ARM GAS  /tmp/ccBPui5M.s 			page 14
 
 
- 174:Core/Src/can_setup.c ****     txCycle++;
- 175:Core/Src/can_setup.c ****     if (txCycle >= 3)
- 176:Core/Src/can_setup.c ****     {
- 177:Core/Src/can_setup.c ****         HAL_Delay(1);
- 178:Core/Src/can_setup.c ****         txCycle = 0;
- 179:Core/Src/can_setup.c ****     }
- 180:Core/Src/can_setup.c **** }
- 181:Core/Src/can_setup.c **** */
- 182:Core/Src/can_setup.c **** 
- 183:Core/Src/can_setup.c **** void can1tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx)
- 184:Core/Src/can_setup.c **** {
- 558              		.loc 1 184 0
- 559              		.cfi_startproc
- 560              		@ args = 0, pretend = 0, frame = 0
- 561              		@ frame_needed = 0, uses_anonymous_args = 0
- 562              	.LVL53:
- 563 0000 10B5     		push	{r4, lr}
- 564              	.LCFI3:
- 565              		.cfi_def_cfa_offset 8
- 566              		.cfi_offset 4, -8
- 567              		.cfi_offset 14, -4
- 185:Core/Src/can_setup.c ****     txMsg.StdId = msgId;
- 568              		.loc 1 185 0
- 569 0002 0B4C     		ldr	r4, .L51
- 570 0004 2060     		str	r0, [r4]
- 186:Core/Src/can_setup.c ****     txMsg.DLC = DLC;
- 571              		.loc 1 186 0
- 572 0006 2161     		str	r1, [r4, #16]
- 187:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan1, &txMsg, canTx, &canMailbox);
- 573              		.loc 1 187 0
- 574 0008 0A4B     		ldr	r3, .L51+4
- 575 000a 2146     		mov	r1, r4
- 576              	.LVL54:
- 577 000c 0A48     		ldr	r0, .L51+8
- 578              	.LVL55:
- 579 000e FFF7FEFF 		bl	HAL_CAN_AddTxMessage
- 580              	.LVL56:
- 188:Core/Src/can_setup.c ****     txCycle++;
- 581              		.loc 1 188 0
- 582 0012 0A4A     		ldr	r2, .L51+12
- 583 0014 1368     		ldr	r3, [r2]
- 584 0016 0133     		adds	r3, r3, #1
- 585 0018 1360     		str	r3, [r2]
- 189:Core/Src/can_setup.c ****     if (txCycle >= 3)
- 586              		.loc 1 189 0
- 587 001a 022B     		cmp	r3, #2
- 588 001c 00DC     		bgt	.L50
- 589              	.L47:
- 590 001e 10BD     		pop	{r4, pc}
- 591              	.L50:
- 190:Core/Src/can_setup.c ****     {
- 191:Core/Src/can_setup.c ****         HAL_Delay(1);
- 592              		.loc 1 191 0
- 593 0020 0120     		movs	r0, #1
- 594 0022 FFF7FEFF 		bl	HAL_Delay
- 595              	.LVL57:
- 192:Core/Src/can_setup.c ****         txCycle = 0;
-ARM GAS  /tmp/ccvikT4w.s 			page 15
+ 164:Core/Src/can_setup.c ****     }
+ 559              		.loc 1 164 0
+ 560 0150 FFF7FEFF 		bl	Error_Handler
+ 561              	.LVL51:
+ 562 0154 D8E7     		b	.L34
+ 563              	.L45:
+ 169:Core/Src/can_setup.c ****     }
+ 564              		.loc 1 169 0
+ 565 0156 FFF7FEFF 		bl	Error_Handler
+ 566              	.LVL52:
+ 567 015a D9E7     		b	.L35
+ 568              	.L46:
+ 174:Core/Src/can_setup.c ****     }
+ 569              		.loc 1 174 0
+ 570 015c FFF7FEFF 		bl	Error_Handler
+ 571              	.LVL53:
+ 572 0160 DBE7     		b	.L36
+ 573              	.L48:
+ 574 0162 00BF     		.align	2
+ 575              	.L47:
+ 576 0164 00000000 		.word	busFault
+ 577 0168 00000000 		.word	txMsg
+ 578 016c 00000000 		.word	txMsgExt
+ 579 0170 00000000 		.word	sf
+ 580 0174 00000000 		.word	hcan1
+ 581 0178 00000000 		.word	txMsg2
+ 582 017c 00000000 		.word	txMsgExt2
+ 583 0180 00000000 		.word	sf2
+ 584 0184 00000000 		.word	hcan2
+ 585 0188 00000000 		.word	txMsg3
+ 586 018c 00000000 		.word	txMsgExt3
+ 587 0190 00000000 		.word	sf3
+ 588 0194 00000000 		.word	hcan3
+ 589              		.cfi_endproc
+ 590              	.LFE135:
+ 592              		.section	.text.can1tx,"ax",%progbits
+ 593              		.align	1
+ 594              		.global	can1tx
+ 595              		.syntax unified
+ 596              		.thumb
+ 597              		.thumb_func
+ 598              		.fpu fpv4-sp-d16
+ 600              	can1tx:
+ 601              	.LFB136:
+ 178:Core/Src/can_setup.c **** }
+ 179:Core/Src/can_setup.c **** 
+ 180:Core/Src/can_setup.c **** ///////////////////////////////////////////////////////////////////////////////////////////////////
+ 181:Core/Src/can_setup.c **** /*
+ 182:Core/Src/can_setup.c **** void c1tx(CAN_TxHeaderTypeDef *txMsg, uint8_t *canTx)
+ 183:Core/Src/can_setup.c **** {
+ 184:Core/Src/can_setup.c **** 
+ 185:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan1, txMsg, canTx, &canMailbox);
+ 186:Core/Src/can_setup.c ****     txCycle++;
+ 187:Core/Src/can_setup.c ****     if (txCycle >= 3)
+ 188:Core/Src/can_setup.c ****     {
+ 189:Core/Src/can_setup.c ****         HAL_Delay(1);
+ 190:Core/Src/can_setup.c ****         txCycle = 0;
+ARM GAS  /tmp/ccBPui5M.s 			page 15
 
 
- 596              		.loc 1 192 0
- 597 0026 0022     		movs	r2, #0
- 598 0028 044B     		ldr	r3, .L51+12
- 599 002a 1A60     		str	r2, [r3]
- 193:Core/Src/can_setup.c ****     }
- 194:Core/Src/can_setup.c **** }
- 600              		.loc 1 194 0
- 601 002c F7E7     		b	.L47
- 602              	.L52:
- 603 002e 00BF     		.align	2
- 604              	.L51:
- 605 0030 00000000 		.word	txMsg
- 606 0034 00000000 		.word	canMailbox
- 607 0038 00000000 		.word	hcan1
- 608 003c 00000000 		.word	txCycle
- 609              		.cfi_endproc
- 610              	.LFE134:
- 612              		.section	.text.can2tx,"ax",%progbits
- 613              		.align	1
- 614              		.global	can2tx
- 615              		.syntax unified
- 616              		.thumb
- 617              		.thumb_func
- 618              		.fpu fpv4-sp-d16
- 620              	can2tx:
- 621              	.LFB135:
- 195:Core/Src/can_setup.c **** 
- 196:Core/Src/can_setup.c **** /*
- 197:Core/Src/can_setup.c **** void c2tx(CAN_TxHeaderTypeDef *txMsg2, uint8_t *canTx2)
- 198:Core/Src/can_setup.c **** {
- 199:Core/Src/can_setup.c **** 
- 200:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan2, txMsg2, canTx2, &canMailbox2);
- 201:Core/Src/can_setup.c ****     txCycle2++;
- 202:Core/Src/can_setup.c ****     if (txCycle2 >= 3)
- 203:Core/Src/can_setup.c ****     {
- 204:Core/Src/can_setup.c ****         HAL_Delay(1);
- 205:Core/Src/can_setup.c ****         txCycle2 = 0;
- 206:Core/Src/can_setup.c ****     }
- 207:Core/Src/can_setup.c **** }
- 208:Core/Src/can_setup.c **** */
- 209:Core/Src/can_setup.c **** void can2tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx2)
+ 191:Core/Src/can_setup.c ****     }
+ 192:Core/Src/can_setup.c **** }
+ 193:Core/Src/can_setup.c **** */
+ 194:Core/Src/can_setup.c **** 
+ 195:Core/Src/can_setup.c **** void can1tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx)
+ 196:Core/Src/can_setup.c **** {
+ 602              		.loc 1 196 0
+ 603              		.cfi_startproc
+ 604              		@ args = 0, pretend = 0, frame = 0
+ 605              		@ frame_needed = 0, uses_anonymous_args = 0
+ 606              	.LVL54:
+ 607 0000 10B5     		push	{r4, lr}
+ 608              	.LCFI3:
+ 609              		.cfi_def_cfa_offset 8
+ 610              		.cfi_offset 4, -8
+ 611              		.cfi_offset 14, -4
+ 197:Core/Src/can_setup.c ****     txMsg.StdId = msgId;
+ 612              		.loc 1 197 0
+ 613 0002 0B4C     		ldr	r4, .L53
+ 614 0004 2060     		str	r0, [r4]
+ 198:Core/Src/can_setup.c ****     txMsg.DLC = DLC;
+ 615              		.loc 1 198 0
+ 616 0006 2161     		str	r1, [r4, #16]
+ 199:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan1, &txMsg, canTx, &canMailbox);
+ 617              		.loc 1 199 0
+ 618 0008 0A4B     		ldr	r3, .L53+4
+ 619 000a 2146     		mov	r1, r4
+ 620              	.LVL55:
+ 621 000c 0A48     		ldr	r0, .L53+8
+ 622              	.LVL56:
+ 623 000e FFF7FEFF 		bl	HAL_CAN_AddTxMessage
+ 624              	.LVL57:
+ 200:Core/Src/can_setup.c ****     txCycle++;
+ 625              		.loc 1 200 0
+ 626 0012 0A4B     		ldr	r3, .L53+12
+ 627 0014 1A68     		ldr	r2, [r3]
+ 628 0016 0132     		adds	r2, r2, #1
+ 629 0018 1A60     		str	r2, [r3]
+ 201:Core/Src/can_setup.c ****     if (txCycle >= 3)
+ 630              		.loc 1 201 0
+ 631 001a 1B68     		ldr	r3, [r3]
+ 632 001c 022B     		cmp	r3, #2
+ 633 001e 00DC     		bgt	.L52
+ 634              	.L49:
+ 635 0020 10BD     		pop	{r4, pc}
+ 636              	.L52:
+ 202:Core/Src/can_setup.c ****     {
+ 203:Core/Src/can_setup.c ****         HAL_Delay(1);
+ 637              		.loc 1 203 0
+ 638 0022 0120     		movs	r0, #1
+ 639 0024 FFF7FEFF 		bl	HAL_Delay
+ 640              	.LVL58:
+ 204:Core/Src/can_setup.c ****         txCycle = 0;
+ 641              		.loc 1 204 0
+ 642 0028 0022     		movs	r2, #0
+ 643 002a 044B     		ldr	r3, .L53+12
+ 644 002c 1A60     		str	r2, [r3]
+ARM GAS  /tmp/ccBPui5M.s 			page 16
+
+
+ 205:Core/Src/can_setup.c ****     }
+ 206:Core/Src/can_setup.c **** }
+ 645              		.loc 1 206 0
+ 646 002e F7E7     		b	.L49
+ 647              	.L54:
+ 648              		.align	2
+ 649              	.L53:
+ 650 0030 00000000 		.word	txMsg
+ 651 0034 00000000 		.word	canMailbox
+ 652 0038 00000000 		.word	hcan1
+ 653 003c 00000000 		.word	txCycle
+ 654              		.cfi_endproc
+ 655              	.LFE136:
+ 657              		.section	.text.can2tx,"ax",%progbits
+ 658              		.align	1
+ 659              		.global	can2tx
+ 660              		.syntax unified
+ 661              		.thumb
+ 662              		.thumb_func
+ 663              		.fpu fpv4-sp-d16
+ 665              	can2tx:
+ 666              	.LFB137:
+ 207:Core/Src/can_setup.c **** 
+ 208:Core/Src/can_setup.c **** /*
+ 209:Core/Src/can_setup.c **** void c2tx(CAN_TxHeaderTypeDef *txMsg2, uint8_t *canTx2)
  210:Core/Src/can_setup.c **** {
- 622              		.loc 1 210 0
- 623              		.cfi_startproc
- 624              		@ args = 0, pretend = 0, frame = 0
- 625              		@ frame_needed = 0, uses_anonymous_args = 0
- 626              	.LVL58:
- 627 0000 10B5     		push	{r4, lr}
- 628              	.LCFI4:
- 629              		.cfi_def_cfa_offset 8
- 630              		.cfi_offset 4, -8
- 631              		.cfi_offset 14, -4
- 211:Core/Src/can_setup.c ****     txMsg2.StdId = msgId;
- 632              		.loc 1 211 0
- 633 0002 0B4C     		ldr	r4, .L57
- 634 0004 2060     		str	r0, [r4]
- 212:Core/Src/can_setup.c ****     txMsg2.DLC = DLC;
-ARM GAS  /tmp/ccvikT4w.s 			page 16
+ 211:Core/Src/can_setup.c **** 
+ 212:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan2, txMsg2, canTx2, &canMailbox2);
+ 213:Core/Src/can_setup.c ****     txCycle2++;
+ 214:Core/Src/can_setup.c ****     if (txCycle2 >= 3)
+ 215:Core/Src/can_setup.c ****     {
+ 216:Core/Src/can_setup.c ****         HAL_Delay(1);
+ 217:Core/Src/can_setup.c ****         txCycle2 = 0;
+ 218:Core/Src/can_setup.c ****     }
+ 219:Core/Src/can_setup.c **** }
+ 220:Core/Src/can_setup.c **** */
+ 221:Core/Src/can_setup.c **** void can2tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx2)
+ 222:Core/Src/can_setup.c **** {
+ 667              		.loc 1 222 0
+ 668              		.cfi_startproc
+ 669              		@ args = 0, pretend = 0, frame = 0
+ 670              		@ frame_needed = 0, uses_anonymous_args = 0
+ 671              	.LVL59:
+ 672 0000 10B5     		push	{r4, lr}
+ 673              	.LCFI4:
+ 674              		.cfi_def_cfa_offset 8
+ 675              		.cfi_offset 4, -8
+ 676              		.cfi_offset 14, -4
+ 677 0002 1446     		mov	r4, r2
+ 223:Core/Src/can_setup.c **** 
+ 224:Core/Src/can_setup.c ****     txMsg2.StdId = msgId;
+ 678              		.loc 1 224 0
+ 679 0004 0F4B     		ldr	r3, .L59
+ 680 0006 1860     		str	r0, [r3]
+ 225:Core/Src/can_setup.c ****     txMsg2.DLC = DLC;
+ 681              		.loc 1 225 0
+ 682 0008 1961     		str	r1, [r3, #16]
+ARM GAS  /tmp/ccBPui5M.s 			page 17
 
 
- 635              		.loc 1 212 0
- 636 0006 2161     		str	r1, [r4, #16]
- 213:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan2, &txMsg2, canTx2, &canMailbox2);
- 637              		.loc 1 213 0
- 638 0008 0A4B     		ldr	r3, .L57+4
- 639 000a 2146     		mov	r1, r4
- 640              	.LVL59:
- 641 000c 0A48     		ldr	r0, .L57+8
- 642              	.LVL60:
- 643 000e FFF7FEFF 		bl	HAL_CAN_AddTxMessage
- 644              	.LVL61:
- 214:Core/Src/can_setup.c ****     txCycle2++;
- 645              		.loc 1 214 0
- 646 0012 0A4A     		ldr	r2, .L57+12
- 647 0014 1368     		ldr	r3, [r2]
- 648 0016 0133     		adds	r3, r3, #1
- 649 0018 1360     		str	r3, [r2]
- 215:Core/Src/can_setup.c ****     if (txCycle2 >= 3)
- 650              		.loc 1 215 0
- 651 001a 022B     		cmp	r3, #2
- 652 001c 00DC     		bgt	.L56
- 653              	.L53:
- 654 001e 10BD     		pop	{r4, pc}
- 655              	.L56:
- 216:Core/Src/can_setup.c ****     {
- 217:Core/Src/can_setup.c ****         HAL_Delay(1);
- 656              		.loc 1 217 0
- 657 0020 0120     		movs	r0, #1
- 658 0022 FFF7FEFF 		bl	HAL_Delay
- 659              	.LVL62:
- 218:Core/Src/can_setup.c ****         txCycle2 = 0;
- 660              		.loc 1 218 0
- 661 0026 0022     		movs	r2, #0
- 662 0028 044B     		ldr	r3, .L57+12
- 663 002a 1A60     		str	r2, [r3]
- 219:Core/Src/can_setup.c ****     }
- 220:Core/Src/can_setup.c **** }
- 664              		.loc 1 220 0
- 665 002c F7E7     		b	.L53
- 666              	.L58:
- 667 002e 00BF     		.align	2
- 668              	.L57:
- 669 0030 00000000 		.word	txMsg2
- 670 0034 00000000 		.word	canMailbox2
- 671 0038 00000000 		.word	hcan2
- 672 003c 00000000 		.word	txCycle2
- 673              		.cfi_endproc
- 674              	.LFE135:
- 676              		.section	.text.can3tx,"ax",%progbits
- 677              		.align	1
- 678              		.global	can3tx
- 679              		.syntax unified
- 680              		.thumb
- 681              		.thumb_func
- 682              		.fpu fpv4-sp-d16
- 684              	can3tx:
- 685              	.LFB136:
-ARM GAS  /tmp/ccvikT4w.s 			page 17
-
-
- 221:Core/Src/can_setup.c **** 
- 222:Core/Src/can_setup.c **** /*
- 223:Core/Src/can_setup.c **** void c3tx(CAN_TxHeaderTypeDef *txMsg3, uint8_t *canTx3)
- 224:Core/Src/can_setup.c **** {
- 225:Core/Src/can_setup.c **** 
- 226:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan3, txMsg3, canTx3, &canMailbox3);
- 227:Core/Src/can_setup.c ****     txCycle3++;
- 228:Core/Src/can_setup.c ****     if (txCycle3 >= 3)
- 229:Core/Src/can_setup.c ****     {
- 230:Core/Src/can_setup.c ****         HAL_Delay(1);
- 231:Core/Src/can_setup.c ****         txCycle3 = 0;
- 232:Core/Src/can_setup.c ****     }
- 233:Core/Src/can_setup.c **** }
- 234:Core/Src/can_setup.c **** */
- 235:Core/Src/can_setup.c **** 
- 236:Core/Src/can_setup.c **** void can3tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx3)
- 237:Core/Src/can_setup.c **** {
- 686              		.loc 1 237 0
- 687              		.cfi_startproc
- 688              		@ args = 0, pretend = 0, frame = 0
- 689              		@ frame_needed = 0, uses_anonymous_args = 0
- 690              	.LVL63:
- 691 0000 10B5     		push	{r4, lr}
- 692              	.LCFI5:
- 693              		.cfi_def_cfa_offset 8
- 694              		.cfi_offset 4, -8
- 695              		.cfi_offset 14, -4
- 238:Core/Src/can_setup.c **** 
- 239:Core/Src/can_setup.c ****     txMsg3.StdId = msgId;
- 696              		.loc 1 239 0
- 697 0002 0B4C     		ldr	r4, .L63
- 698 0004 2060     		str	r0, [r4]
- 240:Core/Src/can_setup.c ****     txMsg3.DLC = DLC;
- 699              		.loc 1 240 0
- 700 0006 2161     		str	r1, [r4, #16]
- 241:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan3, &txMsg3, canTx3, &canMailbox3);
- 701              		.loc 1 241 0
- 702 0008 0A4B     		ldr	r3, .L63+4
- 703 000a 2146     		mov	r1, r4
- 704              	.LVL64:
- 705 000c 0A48     		ldr	r0, .L63+8
+ 226:Core/Src/can_setup.c ****     if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan2))
+ 683              		.loc 1 226 0
+ 684 000a 0F48     		ldr	r0, .L59+4
+ 685              	.LVL60:
+ 686 000c FFF7FEFF 		bl	HAL_CAN_GetTxMailboxesFreeLevel
+ 687              	.LVL61:
+ 688 0010 50B1     		cbz	r0, .L56
+ 227:Core/Src/can_setup.c ****     {
+ 228:Core/Src/can_setup.c ****         if (HAL_CAN_AddTxMessage(&hcan2, &txMsg2, canTx2, &canMailbox2) != HAL_OK)
+ 689              		.loc 1 228 0
+ 690 0012 0E4B     		ldr	r3, .L59+8
+ 691 0014 2246     		mov	r2, r4
+ 692 0016 0B49     		ldr	r1, .L59
+ 693 0018 0B48     		ldr	r0, .L59+4
+ 694 001a FFF7FEFF 		bl	HAL_CAN_AddTxMessage
+ 695              	.LVL62:
+ 696 001e 80B1     		cbz	r0, .L55
+ 229:Core/Src/can_setup.c ****         {
+ 230:Core/Src/can_setup.c ****             HAL_Delay(1);
+ 697              		.loc 1 230 0
+ 698 0020 0120     		movs	r0, #1
+ 699 0022 FFF7FEFF 		bl	HAL_Delay
+ 700              	.LVL63:
+ 701 0026 10BD     		pop	{r4, pc}
+ 702              	.LVL64:
+ 703              	.L56:
+ 231:Core/Src/can_setup.c ****             // HAL_NVIC_SystemReset();
+ 232:Core/Src/can_setup.c ****         }
+ 233:Core/Src/can_setup.c ****     }
+ 234:Core/Src/can_setup.c ****     else
+ 235:Core/Src/can_setup.c ****     {
+ 236:Core/Src/can_setup.c ****         HAL_CAN_AbortTxRequest(&hcan2, CAN_TX_MAILBOX0);
+ 704              		.loc 1 236 0
+ 705 0028 074C     		ldr	r4, .L59+4
  706              	.LVL65:
- 707 000e FFF7FEFF 		bl	HAL_CAN_AddTxMessage
- 708              	.LVL66:
- 242:Core/Src/can_setup.c ****     txCycle3++;
- 709              		.loc 1 242 0
- 710 0012 0A4A     		ldr	r2, .L63+12
- 711 0014 1368     		ldr	r3, [r2]
- 712 0016 0133     		adds	r3, r3, #1
- 713 0018 1360     		str	r3, [r2]
- 243:Core/Src/can_setup.c ****     if (txCycle3 >= 3)
- 714              		.loc 1 243 0
- 715 001a 022B     		cmp	r3, #2
- 716 001c 00DC     		bgt	.L62
- 717              	.L59:
- 718 001e 10BD     		pop	{r4, pc}
- 719              	.L62:
-ARM GAS  /tmp/ccvikT4w.s 			page 18
+ 707 002a 0121     		movs	r1, #1
+ 708 002c 2046     		mov	r0, r4
+ 709 002e FFF7FEFF 		bl	HAL_CAN_AbortTxRequest
+ 710              	.LVL66:
+ 237:Core/Src/can_setup.c ****         HAL_CAN_AbortTxRequest(&hcan2, CAN_TX_MAILBOX1);
+ 711              		.loc 1 237 0
+ 712 0032 0221     		movs	r1, #2
+ 713 0034 2046     		mov	r0, r4
+ 714 0036 FFF7FEFF 		bl	HAL_CAN_AbortTxRequest
+ 715              	.LVL67:
+ 238:Core/Src/can_setup.c ****         HAL_CAN_AbortTxRequest(&hcan2, CAN_TX_MAILBOX2);
+ 716              		.loc 1 238 0
+ 717 003a 0421     		movs	r1, #4
+ 718 003c 2046     		mov	r0, r4
+ 719 003e FFF7FEFF 		bl	HAL_CAN_AbortTxRequest
+ 720              	.LVL68:
+ 721              	.L55:
+ 722 0042 10BD     		pop	{r4, pc}
+ 723              	.L60:
+ 724              		.align	2
+ 725              	.L59:
+ 726 0044 00000000 		.word	txMsg2
+ARM GAS  /tmp/ccBPui5M.s 			page 18
 
 
- 244:Core/Src/can_setup.c ****     {
- 245:Core/Src/can_setup.c ****         HAL_Delay(1);
- 720              		.loc 1 245 0
- 721 0020 0120     		movs	r0, #1
- 722 0022 FFF7FEFF 		bl	HAL_Delay
- 723              	.LVL67:
- 246:Core/Src/can_setup.c ****         txCycle3 = 0;
- 724              		.loc 1 246 0
- 725 0026 0022     		movs	r2, #0
- 726 0028 044B     		ldr	r3, .L63+12
- 727 002a 1A60     		str	r2, [r3]
- 247:Core/Src/can_setup.c ****     }
- 248:Core/Src/can_setup.c **** }
- 728              		.loc 1 248 0
- 729 002c F7E7     		b	.L59
- 730              	.L64:
- 731 002e 00BF     		.align	2
- 732              	.L63:
- 733 0030 00000000 		.word	txMsg3
- 734 0034 00000000 		.word	canMailbox3
- 735 0038 00000000 		.word	hcan3
- 736 003c 00000000 		.word	txCycle3
- 737              		.cfi_endproc
- 738              	.LFE136:
- 740              		.comm	txCycle3,4,4
- 741              		.comm	txCycle2,4,4
- 742              		.comm	txCycle,4,4
- 743              		.comm	canMailbox3,4,4
- 744              		.comm	canMailbox2,4,4
- 745              		.comm	canMailbox,4,4
- 746              		.comm	canRx3,8,4
- 747              		.comm	canRx2,8,4
- 748              		.comm	canRx,8,4
- 749              		.comm	txMsgExt3,24,4
- 750              		.comm	txMsg3,24,4
- 751              		.comm	rxMsg3,28,4
- 752              		.comm	txMsgExt2,24,4
- 753              		.comm	txMsg2,24,4
- 754              		.comm	rxMsg2,28,4
- 755              		.comm	txMsgExt,24,4
- 756              		.comm	txMsg,24,4
- 757              		.comm	rxMsg,28,4
- 758              		.comm	sf5,40,4
- 759              		.comm	sf4,40,4
- 760              		.comm	sf3,40,4
- 761              		.comm	sf2,40,4
- 762              		.comm	sf,40,4
- 763              		.comm	hcan3,40,4
- 764              		.comm	hcan2,40,4
- 765              		.comm	hcan1,40,4
- 766              		.comm	watchdogBits,1,1
- 767              		.comm	chargerOn,1,1
- 768              		.comm	BMS,492,4
- 769              		.text
- 770              	.Letext0:
- 771              		.file 2 "/usr/include/newlib/machine/_default_types.h"
- 772              		.file 3 "/usr/include/newlib/sys/_stdint.h"
-ARM GAS  /tmp/ccvikT4w.s 			page 19
+ 727 0048 00000000 		.word	hcan2
+ 728 004c 00000000 		.word	canMailbox2
+ 729              		.cfi_endproc
+ 730              	.LFE137:
+ 732              		.section	.text.can3tx,"ax",%progbits
+ 733              		.align	1
+ 734              		.global	can3tx
+ 735              		.syntax unified
+ 736              		.thumb
+ 737              		.thumb_func
+ 738              		.fpu fpv4-sp-d16
+ 740              	can3tx:
+ 741              	.LFB138:
+ 239:Core/Src/can_setup.c ****         // HAL_CAN_AddTxMessage(&hcan2, &txMsg2, canTx2, &canMailbox2);
+ 240:Core/Src/can_setup.c ****     }
+ 241:Core/Src/can_setup.c **** }
+ 242:Core/Src/can_setup.c **** 
+ 243:Core/Src/can_setup.c **** /*
+ 244:Core/Src/can_setup.c **** void c3tx(CAN_TxHeaderTypeDef *txMsg3, uint8_t *canTx3)
+ 245:Core/Src/can_setup.c **** {
+ 246:Core/Src/can_setup.c **** 
+ 247:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan3, txMsg3, canTx3, &canMailbox3);
+ 248:Core/Src/can_setup.c ****     txCycle3++;
+ 249:Core/Src/can_setup.c ****     if (txCycle3 >= 3)
+ 250:Core/Src/can_setup.c ****     {
+ 251:Core/Src/can_setup.c ****         HAL_Delay(1);
+ 252:Core/Src/can_setup.c ****         txCycle3 = 0;
+ 253:Core/Src/can_setup.c ****     }
+ 254:Core/Src/can_setup.c **** }
+ 255:Core/Src/can_setup.c **** */
+ 256:Core/Src/can_setup.c **** 
+ 257:Core/Src/can_setup.c **** void can3tx(uint16_t msgId, uint8_t DLC, uint8_t *canTx3)
+ 258:Core/Src/can_setup.c **** {
+ 742              		.loc 1 258 0
+ 743              		.cfi_startproc
+ 744              		@ args = 0, pretend = 0, frame = 0
+ 745              		@ frame_needed = 0, uses_anonymous_args = 0
+ 746              	.LVL69:
+ 747 0000 10B5     		push	{r4, lr}
+ 748              	.LCFI5:
+ 749              		.cfi_def_cfa_offset 8
+ 750              		.cfi_offset 4, -8
+ 751              		.cfi_offset 14, -4
+ 259:Core/Src/can_setup.c **** 
+ 260:Core/Src/can_setup.c ****     txMsg3.StdId = msgId;
+ 752              		.loc 1 260 0
+ 753 0002 0B4C     		ldr	r4, .L65
+ 754 0004 2060     		str	r0, [r4]
+ 261:Core/Src/can_setup.c ****     txMsg3.DLC = DLC;
+ 755              		.loc 1 261 0
+ 756 0006 2161     		str	r1, [r4, #16]
+ 262:Core/Src/can_setup.c ****     HAL_CAN_AddTxMessage(&hcan3, &txMsg3, canTx3, &canMailbox3);
+ 757              		.loc 1 262 0
+ 758 0008 0A4B     		ldr	r3, .L65+4
+ 759 000a 2146     		mov	r1, r4
+ 760              	.LVL70:
+ 761 000c 0A48     		ldr	r0, .L65+8
+ARM GAS  /tmp/ccBPui5M.s 			page 19
 
 
- 773              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
- 774              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
- 775              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
- 776              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
- 777              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
- 778              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
- 779              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
- 780              		.file 11 "/usr/include/newlib/sys/lock.h"
- 781              		.file 12 "/usr/include/newlib/sys/_types.h"
- 782              		.file 13 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
- 783              		.file 14 "/usr/include/newlib/sys/reent.h"
- 784              		.file 15 "Core/Inc/bms.h"
- 785              		.file 16 "Core/Inc/can_setup.h"
- 786              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
- 787              		.file 18 "Core/Inc/main.h"
-ARM GAS  /tmp/ccvikT4w.s 			page 20
+ 762              	.LVL71:
+ 763 000e FFF7FEFF 		bl	HAL_CAN_AddTxMessage
+ 764              	.LVL72:
+ 263:Core/Src/can_setup.c ****     txCycle3++;
+ 765              		.loc 1 263 0
+ 766 0012 0A4B     		ldr	r3, .L65+12
+ 767 0014 1A68     		ldr	r2, [r3]
+ 768 0016 0132     		adds	r2, r2, #1
+ 769 0018 1A60     		str	r2, [r3]
+ 264:Core/Src/can_setup.c ****     if (txCycle3 >= 3)
+ 770              		.loc 1 264 0
+ 771 001a 1B68     		ldr	r3, [r3]
+ 772 001c 022B     		cmp	r3, #2
+ 773 001e 00DC     		bgt	.L64
+ 774              	.L61:
+ 775 0020 10BD     		pop	{r4, pc}
+ 776              	.L64:
+ 265:Core/Src/can_setup.c ****     {
+ 266:Core/Src/can_setup.c ****         HAL_Delay(1);
+ 777              		.loc 1 266 0
+ 778 0022 0120     		movs	r0, #1
+ 779 0024 FFF7FEFF 		bl	HAL_Delay
+ 780              	.LVL73:
+ 267:Core/Src/can_setup.c ****         txCycle3 = 0;
+ 781              		.loc 1 267 0
+ 782 0028 0022     		movs	r2, #0
+ 783 002a 044B     		ldr	r3, .L65+12
+ 784 002c 1A60     		str	r2, [r3]
+ 268:Core/Src/can_setup.c ****     }
+ 269:Core/Src/can_setup.c **** }
+ 785              		.loc 1 269 0
+ 786 002e F7E7     		b	.L61
+ 787              	.L66:
+ 788              		.align	2
+ 789              	.L65:
+ 790 0030 00000000 		.word	txMsg3
+ 791 0034 00000000 		.word	canMailbox3
+ 792 0038 00000000 		.word	hcan3
+ 793 003c 00000000 		.word	txCycle3
+ 794              		.cfi_endproc
+ 795              	.LFE138:
+ 797              		.comm	busFault,4,4
+ 798              		.comm	txCycle3,4,4
+ 799              		.comm	txCycle2,4,4
+ 800              		.comm	txCycle,4,4
+ 801              		.comm	canMailbox3,4,4
+ 802              		.comm	canMailbox2,4,4
+ 803              		.comm	canMailbox,4,4
+ 804              		.comm	canRx3,8,4
+ 805              		.comm	canRx2,8,4
+ 806              		.comm	canRx,8,4
+ 807              		.comm	txMsgExt3,24,4
+ 808              		.comm	txMsg3,24,4
+ 809              		.comm	rxMsg3,28,4
+ 810              		.comm	txMsgExt2,24,4
+ 811              		.comm	txMsg2,24,4
+ 812              		.comm	rxMsg2,28,4
+ARM GAS  /tmp/ccBPui5M.s 			page 20
+
+
+ 813              		.comm	txMsgExt,24,4
+ 814              		.comm	txMsg,24,4
+ 815              		.comm	rxMsg,28,4
+ 816              		.comm	sf5,40,4
+ 817              		.comm	sf4,40,4
+ 818              		.comm	sf3,40,4
+ 819              		.comm	sf2,40,4
+ 820              		.comm	sf,40,4
+ 821              		.comm	hcan3,40,4
+ 822              		.comm	hcan2,40,4
+ 823              		.comm	hcan1,40,4
+ 824              		.comm	watchdogBits,1,1
+ 825              		.comm	chargerOn,1,1
+ 826              		.comm	BMS,492,4
+ 827              		.text
+ 828              	.Letext0:
+ 829              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 830              		.file 3 "/usr/include/newlib/sys/_stdint.h"
+ 831              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 832              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 833              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f413xx.h"
+ 834              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 835              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 836              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 837              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 838              		.file 11 "/usr/include/newlib/sys/lock.h"
+ 839              		.file 12 "/usr/include/newlib/sys/_types.h"
+ 840              		.file 13 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
+ 841              		.file 14 "/usr/include/newlib/sys/reent.h"
+ 842              		.file 15 "Core/Inc/bms.h"
+ 843              		.file 16 "Core/Inc/can_setup.h"
+ 844              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
+ 845              		.file 18 "Core/Inc/main.h"
+ARM GAS  /tmp/ccBPui5M.s 			page 21
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 can_setup.c
-     /tmp/ccvikT4w.s:18     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 $t
-     /tmp/ccvikT4w.s:25     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo0MsgPendingCallback
-     /tmp/ccvikT4w.s:128    .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000078 $d
+     /tmp/ccBPui5M.s:18     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 $t
+     /tmp/ccBPui5M.s:25     .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo0MsgPendingCallback
+     /tmp/ccBPui5M.s:128    .text.HAL_CAN_RxFifo0MsgPendingCallback:0000000000000078 $d
                             *COM*:0000000000000008 canRx
                             *COM*:000000000000001c rxMsg
                             *COM*:0000000000000028 hcan1
@@ -1111,15 +1189,20 @@ DEFINED SYMBOLS
                             *COM*:0000000000000008 canRx3
                             *COM*:000000000000001c rxMsg3
                             *COM*:0000000000000028 hcan3
-     /tmp/ccvikT4w.s:142    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 $t
-     /tmp/ccvikT4w.s:149    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo1MsgPendingCallback
-     /tmp/ccvikT4w.s:239    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000064 $d
+     /tmp/ccBPui5M.s:142    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 $t
+     /tmp/ccBPui5M.s:149    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000000 HAL_CAN_RxFifo1MsgPendingCallback
+     /tmp/ccBPui5M.s:239    .text.HAL_CAN_RxFifo1MsgPendingCallback:0000000000000064 $d
                             *COM*:0000000000000008 canRx2
                             *COM*:000000000000001c rxMsg2
                             *COM*:0000000000000028 hcan2
-     /tmp/ccvikT4w.s:252    .text.canSettings:0000000000000000 $t
-     /tmp/ccvikT4w.s:259    .text.canSettings:0000000000000000 canSettings
-     /tmp/ccvikT4w.s:533    .text.canSettings:0000000000000160 $d
+     /tmp/ccBPui5M.s:252    .text.HAL_CAN_ErrorCallback:0000000000000000 $t
+     /tmp/ccBPui5M.s:259    .text.HAL_CAN_ErrorCallback:0000000000000000 HAL_CAN_ErrorCallback
+     /tmp/ccBPui5M.s:272    .text.can2queue:0000000000000000 $t
+     /tmp/ccBPui5M.s:279    .text.can2queue:0000000000000000 can2queue
+     /tmp/ccBPui5M.s:291    .text.canSettings:0000000000000000 $t
+     /tmp/ccBPui5M.s:298    .text.canSettings:0000000000000000 canSettings
+     /tmp/ccBPui5M.s:576    .text.canSettings:0000000000000164 $d
+                            *COM*:0000000000000004 busFault
                             *COM*:0000000000000018 txMsg
                             *COM*:0000000000000018 txMsgExt
                             *COM*:0000000000000028 sf
@@ -1129,21 +1212,21 @@ DEFINED SYMBOLS
                             *COM*:0000000000000018 txMsg3
                             *COM*:0000000000000018 txMsgExt3
                             *COM*:0000000000000028 sf3
-     /tmp/ccvikT4w.s:549    .text.can1tx:0000000000000000 $t
-     /tmp/ccvikT4w.s:556    .text.can1tx:0000000000000000 can1tx
-     /tmp/ccvikT4w.s:605    .text.can1tx:0000000000000030 $d
+     /tmp/ccBPui5M.s:593    .text.can1tx:0000000000000000 $t
+     /tmp/ccBPui5M.s:600    .text.can1tx:0000000000000000 can1tx
+     /tmp/ccBPui5M.s:650    .text.can1tx:0000000000000030 $d
                             *COM*:0000000000000004 canMailbox
                             *COM*:0000000000000004 txCycle
-     /tmp/ccvikT4w.s:613    .text.can2tx:0000000000000000 $t
-     /tmp/ccvikT4w.s:620    .text.can2tx:0000000000000000 can2tx
-     /tmp/ccvikT4w.s:669    .text.can2tx:0000000000000030 $d
+     /tmp/ccBPui5M.s:658    .text.can2tx:0000000000000000 $t
+     /tmp/ccBPui5M.s:665    .text.can2tx:0000000000000000 can2tx
+     /tmp/ccBPui5M.s:726    .text.can2tx:0000000000000044 $d
                             *COM*:0000000000000004 canMailbox2
-                            *COM*:0000000000000004 txCycle2
-     /tmp/ccvikT4w.s:677    .text.can3tx:0000000000000000 $t
-     /tmp/ccvikT4w.s:684    .text.can3tx:0000000000000000 can3tx
-     /tmp/ccvikT4w.s:733    .text.can3tx:0000000000000030 $d
+     /tmp/ccBPui5M.s:733    .text.can3tx:0000000000000000 $t
+     /tmp/ccBPui5M.s:740    .text.can3tx:0000000000000000 can3tx
+     /tmp/ccBPui5M.s:790    .text.can3tx:0000000000000030 $d
                             *COM*:0000000000000004 canMailbox3
                             *COM*:0000000000000004 txCycle3
+                            *COM*:0000000000000004 txCycle2
                             *COM*:0000000000000028 sf5
                             *COM*:0000000000000028 sf4
                             *COM*:0000000000000001 watchdogBits
@@ -1151,14 +1234,14 @@ DEFINED SYMBOLS
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
+ARM GAS  /tmp/ccBPui5M.s 			page 22
+
+
 HAL_CAN_GetRxMessage
 decodeVolt
 decodeTemp
 Error_Handler
 vehicleComms
-ARM GAS  /tmp/ccvikT4w.s 			page 21
-
-
 HAL_CAN_ConfigFilter
 HAL_CAN_Start
 HAL_CAN_ActivateNotification
@@ -1166,3 +1249,5 @@ HAL_NVIC_SetPriority
 HAL_NVIC_EnableIRQ
 HAL_CAN_AddTxMessage
 HAL_Delay
+HAL_CAN_GetTxMailboxesFreeLevel
+HAL_CAN_AbortTxRequest
